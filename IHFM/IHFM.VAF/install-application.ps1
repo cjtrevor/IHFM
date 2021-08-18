@@ -17,8 +17,8 @@ $vaultName = "IHFM"
 
 # Connection details 
 $authType = [MFilesAPI.MFAuthType]::MFAuthTypeSpecificMFilesUser
-$userName = "demo"
-$password = "demo"
+$userName = "rcadmin"
+$password = "Atalsl69210!2#4%6"
 $domain = ""
 $spn = ""
 $protocolSequence = "ncacn_ip_tcp"
