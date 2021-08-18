@@ -24,5 +24,8 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site = "MFiles.Property.Site";
 
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Transfer = "MFiles.Property.Transfer";
+
     }
 }
