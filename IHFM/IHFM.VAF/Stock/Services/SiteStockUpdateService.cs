@@ -34,7 +34,7 @@ namespace IHFM.VAF
             double updatedStock = currentStock + quantity;
 
             if (updatedStock < 0)
-                throw new Exception("Insufficient stock. You cannot issue more stock than what is on hand.");
+                throw new Exception($"Insufficient stock. You cannot issue more stock than what is on hand. Current stock - {currentStock}");
 
             siteStockObjVer.SetProperty(_configuration.StockOnHand, MFDataType.MFDatatypeFloating, updatedStock);
         }
