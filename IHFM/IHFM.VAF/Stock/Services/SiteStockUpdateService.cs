@@ -14,27 +14,31 @@ namespace IHFM.VAF
             _configuration = configuration;
         }
 
-        public void UpdateSiteStock(int siteID, int stockID, double quantity)
+        public void UpdateSiteStock(int siteID, int stockID, double quantity, string itemName)
         {
             ObjVerEx siteStockObjVer = FindSiteStock(siteID, stockID);
 
             if(siteStockObjVer == null)
             {
+                if (quantity < 0)
+                    throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - 0");
+
                 CreateNewSiteStockObject(siteID,stockID,quantity);
                 return;
             }
 
-            UpdateStockOnHand(quantity, siteStockObjVer);
+            UpdateStockOnHand(quantity, siteStockObjVer,itemName);
             siteStockObjVer.SaveProperties();
         }
 
-        private void UpdateStockOnHand(double quantity, ObjVerEx siteStockObjVer)
+        private void UpdateStockOnHand(double quantity, ObjVerEx siteStockObjVer, string itemName)
         {
+
             double currentStock = siteStockObjVer.GetProperty(_configuration.StockOnHand).GetValue<double>();
             double updatedStock = currentStock + quantity;
 
             if (updatedStock < 0)
-                throw new Exception($"Insufficient stock. You cannot issue more stock than what is on hand. Current stock - {currentStock}");
+                throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - {currentStock}");
 
             siteStockObjVer.SetProperty(_configuration.StockOnHand, MFDataType.MFDatatypeFloating, updatedStock);
         }

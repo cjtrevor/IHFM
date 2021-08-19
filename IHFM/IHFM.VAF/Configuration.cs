@@ -6,12 +6,18 @@ namespace IHFM.VAF
     [DataContract]
     public class Configuration
     {
+        //Object Aliases
         [MFObjType(Required = true)]
         public MFIdentifier SiteStockObject = "MFiles.Object.SiteStock";
 
+        //Class Aliases
         [MFClass(Required = true)]
         public MFIdentifier SiteStock = "MFiles.Class.SiteStock";
 
+        [MFClass(Required = true)]
+        public MFIdentifier Staff = "MFiles.Class.Staff";
+
+        //Property Aliases
         [MFPropertyDef(Required = true)]
         public MFIdentifier Stock = "MFiles.Property.Stock";
 
@@ -58,6 +64,12 @@ namespace IHFM.VAF
         public MFIdentifier SiteList = "MFiles.Properties.SiteList";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier BaseSiteID = "MFiles.Property.BaseSiteId";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier BaseSite = "MFiles.Property.BaseSite";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier TranspharmStockSite = "MFiles.Properties.TranspharmStockSite";
 
         [MFPropertyDef(Required = true)]
@@ -66,5 +78,7 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Transfer = "MFiles.Property.StockInOrOut";
 
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Login = "MFiles.Property.Login";
     }
 }

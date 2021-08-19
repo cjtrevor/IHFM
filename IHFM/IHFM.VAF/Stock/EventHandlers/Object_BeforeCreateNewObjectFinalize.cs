@@ -11,48 +11,51 @@ namespace IHFM.VAF
         public void CreateNewStockIssue(EventHandlerEnvironment env)
 
         {
+            SetStockIssueSite(env);
             SiteStockUpdateService siteStockUpdateService = new SiteStockUpdateService(env.Vault, Configuration);
 
-            int siteID = env.ObjVerEx.GetLookupID(Configuration.SiteList);
+            int siteID = env.ObjVerEx.GetLookupID(Configuration.TranspharmStockSite);
             string transfer = env.ObjVerEx.GetPropertyText(Configuration.Transfer);
 
             int item1StockID = env.ObjVerEx.GetLookupID(Configuration.Item1Stock);
             if (item1StockID > -1)
             {
+                string itemName = env.ObjVerEx.GetPropertyText(Configuration.Item1Stock);
                 double item1Quantity = env.ObjVerEx.GetProperty(Configuration.Item1StockQuantityIssued).GetValue<double>();
-                siteStockUpdateService.UpdateSiteStock(siteID, item1StockID, transfer.ToLower() == "in" ? item1Quantity : -item1Quantity);
+                siteStockUpdateService.UpdateSiteStock(siteID, item1StockID, transfer.ToLower() == "in" ? item1Quantity : -item1Quantity, itemName);
             }
 
             int item2StockID = env.ObjVerEx.GetLookupID(Configuration.Item2Stock);
             if (item2StockID > -1) 
-            { 
+            {
+                string itemName = env.ObjVerEx.GetPropertyText(Configuration.Item2Stock);
                 double item2Quantity = env.ObjVerEx.GetProperty(Configuration.Item2StockQuantityIssued).GetValue<double>();
-                siteStockUpdateService.UpdateSiteStock(siteID, item2StockID, transfer.ToLower() == "in" ? item2Quantity : -item2Quantity);
+                siteStockUpdateService.UpdateSiteStock(siteID, item2StockID, transfer.ToLower() == "in" ? item2Quantity : -item2Quantity, itemName);
             }
 
             int item3StockID = env.ObjVerEx.GetLookupID(Configuration.Item3Stock);           
             if (item3StockID > -1)
             {
+                string itemName = env.ObjVerEx.GetPropertyText(Configuration.Item3Stock);
                 double item3Quantity = env.ObjVerEx.GetProperty(Configuration.Item3StockQuantityIssued).GetValue<double>();
-                siteStockUpdateService.UpdateSiteStock(siteID, item3StockID, transfer.ToLower() == "in" ? item3Quantity : -item3Quantity);
+                siteStockUpdateService.UpdateSiteStock(siteID, item3StockID, transfer.ToLower() == "in" ? item3Quantity : -item3Quantity, itemName);
             }
 
             int item4StockID = env.ObjVerEx.GetLookupID(Configuration.Item4Stock);
             if (item4StockID > -1)
             {
+                string itemName = env.ObjVerEx.GetPropertyText(Configuration.Item4Stock);
                 double item4Quantity = env.ObjVerEx.GetProperty(Configuration.Item4StockQuantityIssued).GetValue<double>();
-                siteStockUpdateService.UpdateSiteStock(siteID, item4StockID, transfer.ToLower() == "in" ? item4Quantity : -item4Quantity);
+                siteStockUpdateService.UpdateSiteStock(siteID, item4StockID, transfer.ToLower() == "in" ? item4Quantity : -item4Quantity, itemName);
             }
 
             int item5StockID = env.ObjVerEx.GetLookupID(Configuration.Item5Stock);
             if (item5StockID > -1)
             {
+                string itemName = env.ObjVerEx.GetPropertyText(Configuration.Item5Stock);
                 double item5Quantity = env.ObjVerEx.GetProperty(Configuration.Item5StockQuantityIssued).GetValue<double>();
-                siteStockUpdateService.UpdateSiteStock(siteID, item5StockID, transfer.ToLower() == "in" ? item5Quantity : -item5Quantity);
+                siteStockUpdateService.UpdateSiteStock(siteID, item5StockID, transfer.ToLower() == "in" ? item5Quantity : -item5Quantity, itemName);
             }
-
-
-
         }
     }
 }

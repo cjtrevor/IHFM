@@ -75,6 +75,8 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Site\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="Site\Services\SitePermissionService.cs" />
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Stock\Services\SiteStockUpdateService.cs" />
     <Compile Include="VaultApplication.cs" />
@@ -88,6 +90,7 @@
     <None Include="install-application.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="RunWhenBuildChanges" AfterTargets="CoreBuild">
     <Message Importance="High" Text="Cleaning old .mfappx file (if available)..." />
