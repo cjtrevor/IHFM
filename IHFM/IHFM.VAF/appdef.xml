@@ -4,9 +4,9 @@
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xsi:noNamespaceSchemaLocation="http://www.m-files.com/schemas/appdef-server-v3.xsd">
   <guid>a496496c-90c7-4ca5-a191-266c1e2c79d9</guid>
-  <name>IHFM.VAF</name>
-  <description></description>
-  <publisher></publisher>
+  <name>IHFM Customizer</name>
+  <description>This containes custom logic</description>
+  <publisher>Renda Consulting</publisher>
   <version>0.1</version>
   <copyright></copyright>
   <required-mfiles-version>20.5.0.0</required-mfiles-version>

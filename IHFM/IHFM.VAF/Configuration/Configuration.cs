@@ -1,4 +1,5 @@
 using MFiles.VAF.Configuration;
+using System;
 using System.Runtime.Serialization;
 
 namespace IHFM.VAF
@@ -7,17 +8,24 @@ namespace IHFM.VAF
     public class Configuration
     {
         //Object Aliases
+        #region Site
         [MFObjType(Required = true)]
         public MFIdentifier SiteStockObject = "MFiles.Object.SiteStock";
+        #endregion
 
         //Class Aliases
+        #region Stock
         [MFClass(Required = true)]
         public MFIdentifier SiteStock = "MFiles.Class.SiteStock";
+        #endregion
 
+        #region Site
         [MFClass(Required = true)]
         public MFIdentifier Staff = "MFiles.Class.Staff";
+        #endregion
 
         //Property Aliases
+        #region Stock
         [MFPropertyDef(Required = true)]
         public MFIdentifier Stock = "MFiles.Property.Stock";
 
@@ -58,6 +66,14 @@ namespace IHFM.VAF
         public MFIdentifier StockOnHand = "MFiles.Property.StockOnHand";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier TranspharmStock = "MFiles.Property.TranspharmStock";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Transfer = "MFiles.Property.StockInOrOut";
+        #endregion
+
+        #region Site
+        [MFPropertyDef(Required = true)]
         public MFIdentifier Site = "MFiles.Property.Site";
 
         [MFPropertyDef(Required = true)]
@@ -73,12 +89,16 @@ namespace IHFM.VAF
         public MFIdentifier TranspharmStockSite = "MFiles.Properties.TranspharmStockSite";
 
         [MFPropertyDef(Required = true)]
-        public MFIdentifier TranspharmStock = "MFiles.Property.TranspharmStock";
-
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier Transfer = "MFiles.Property.StockInOrOut";
-
-        [MFPropertyDef(Required = true)]
         public MFIdentifier Login = "MFiles.Property.Login";
+        #endregion
+
+        //Custom Properties
+        #region
+        [DataMember]
+        [JsonConfEditor(Label = "Assignment Creation Watermark", 
+                        HelpText = "This indicates the next time auto assignment creation will be triggered",
+                        TypeEditor = "timestamp")]
+        public DateTime AssignmentCreationWatermark { get; set; } 
+        #endregion
     }
 }
