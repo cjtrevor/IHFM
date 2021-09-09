@@ -14,7 +14,15 @@ namespace IHFM.VAF
         public void SetStockIssueSite(EventHandlerEnvironment env)
         {
             SitePermissionService sitePermissionService = new SitePermissionService(env.Vault, Configuration);
-            sitePermissionService.SetSiteFromStaffByUserID(env.ObjVerEx);
+            sitePermissionService.SetSiteFromStaffByUserID(env.ObjVerEx, Configuration.VAFSite);
+        }
+
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.OtherDocument")]
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.Document")]
+        public void SetSiteIDForOtherDocuments(EventHandlerEnvironment env)
+        {
+            SitePermissionService sitePermissionService = new SitePermissionService(env.Vault, Configuration);
+            sitePermissionService.SetSiteFromStaffByUserID(env.ObjVerEx, Configuration.VAFSite);
         }
     }
 }

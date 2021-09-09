@@ -74,11 +74,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Core\CalculatedValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Site\Services\SitePermissionService.cs" />
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Stock\Services\SiteStockUpdateService.cs" />
+    <Compile Include="Utilities\IdNumberParser.cs" />
     <Compile Include="VaultApplication.cs" />
   </ItemGroup>
   <ItemGroup>

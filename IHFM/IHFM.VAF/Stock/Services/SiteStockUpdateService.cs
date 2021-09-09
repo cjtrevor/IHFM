@@ -46,7 +46,7 @@ namespace IHFM.VAF
         {
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(_vault);
             mFSearchBuilder.Class(_configuration.SiteStock);
-            mFSearchBuilder.Property(_configuration.TranspharmStockSite, MFDataType.MFDatatypeLookup, siteID);
+            mFSearchBuilder.Property(_configuration.VAFSite, MFDataType.MFDatatypeLookup, siteID);
             mFSearchBuilder.Property(_configuration.TranspharmStock, MFDataType.MFDatatypeLookup, stockID);
             ObjectSearchResults objectSearchResults = mFSearchBuilder.Find();
 
@@ -66,7 +66,7 @@ namespace IHFM.VAF
             propertyValues.Add(1, classProperty);
 
             PropertyValue siteProperty = new PropertyValue();
-            siteProperty.PropertyDef = _configuration.TranspharmStockSite.ID;
+            siteProperty.PropertyDef = _configuration.VAFSite.ID;
             siteProperty.TypedValue.SetValue(MFDataType.MFDatatypeLookup, siteID);
             propertyValues.Add(2, siteProperty);
 

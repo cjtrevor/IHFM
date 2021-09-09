@@ -14,7 +14,7 @@ namespace IHFM.VAF
             SetStockIssueSite(env);
             SiteStockUpdateService siteStockUpdateService = new SiteStockUpdateService(env.Vault, Configuration);
 
-            int siteID = env.ObjVerEx.GetLookupID(Configuration.TranspharmStockSite);
+            int siteID = env.ObjVerEx.GetLookupID(Configuration.VAFSite);
             string transfer = env.ObjVerEx.GetPropertyText(Configuration.Transfer);
 
             int item1StockID = env.ObjVerEx.GetLookupID(Configuration.Item1Stock);

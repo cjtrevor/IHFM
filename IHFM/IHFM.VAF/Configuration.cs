@@ -70,7 +70,7 @@ namespace IHFM.VAF
         public MFIdentifier BaseSite = "MFiles.Property.BaseSite";
 
         [MFPropertyDef(Required = true)]
-        public MFIdentifier TranspharmStockSite = "MFiles.Properties.TranspharmStockSite";
+        public MFIdentifier VAFSite = "MFiles.Properties.VAFSite";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier TranspharmStock = "MFiles.Property.TranspharmStock";
@@ -80,5 +80,9 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Login = "MFiles.Property.Login";
+
+        //Core
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier IDNumber = "MFiles.Property.IDNumber";
     }
 }

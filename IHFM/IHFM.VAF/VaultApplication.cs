@@ -1,3 +1,4 @@
+using IHFM.VAF.Utilities;
 using MFiles.VAF;
 using MFiles.VAF.Common;
 using MFiles.VAF.Configuration;
@@ -15,6 +16,6 @@ namespace IHFM.VAF
     public partial class VaultApplication
         : ConfigurableVaultApplicationBase<Configuration>
     {
-       
-    }
+		
+	}
 }

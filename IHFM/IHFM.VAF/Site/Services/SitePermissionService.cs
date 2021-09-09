@@ -1,4 +1,5 @@
 ﻿using MFiles.VAF.Common;
+using MFiles.VAF.Configuration;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,12 @@ namespace IHFM.VAF
             _configuration = configuration;
         }
 
-        public void SetSiteFromStaffByUserID(ObjVerEx objVerEx)
+        public void SetSiteFromStaffByUserID(ObjVerEx objVerEx, MFIdentifier siteProperty)
         {
             int createdByID = objVerEx.Properties.SearchForProperty((int)MFBuiltInPropertyDef.MFBuiltInPropertyDefCreatedBy).TypedValue.GetLookupID();
             int siteID = GetSiteIDFromStaffByUserID(createdByID);
 
-            objVerEx.SetProperty(_configuration.TranspharmStockSite, MFDataType.MFDatatypeLookup, siteID);
+            objVerEx.SetProperty(siteProperty, MFDataType.MFDatatypeLookup, siteID);
             objVerEx.SaveProperties();
         }
 
