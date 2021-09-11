@@ -1,10 +1,13 @@
-using MFiles.VAF.Configuration;
-using System.Runtime.Serialization;
+﻿using MFiles.VAF.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace IHFM.VAF
 {
-    [DataContract]
-    public class Configuration
+    public partial class Configuration
     {
         //Object Aliases
         [MFObjType(Required = true)]
@@ -13,9 +16,6 @@ namespace IHFM.VAF
         //Class Aliases
         [MFClass(Required = true)]
         public MFIdentifier SiteStock = "MFiles.Class.SiteStock";
-
-        [MFClass(Required = true)]
-        public MFIdentifier Staff = "MFiles.Class.Staff";
 
         //Property Aliases
         [MFPropertyDef(Required = true)]
@@ -58,31 +58,9 @@ namespace IHFM.VAF
         public MFIdentifier StockOnHand = "MFiles.Property.StockOnHand";
 
         [MFPropertyDef(Required = true)]
-        public MFIdentifier Site = "MFiles.Property.Site";
-
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier SiteList = "MFiles.Properties.SiteList";
-
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier BaseSiteID = "MFiles.Property.BaseSiteId";
-
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier BaseSite = "MFiles.Property.BaseSite";
-
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier VAFSite = "MFiles.Properties.VAFSite";
-
-        [MFPropertyDef(Required = true)]
         public MFIdentifier TranspharmStock = "MFiles.Property.TranspharmStock";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Transfer = "MFiles.Property.StockInOrOut";
-
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier Login = "MFiles.Property.Login";
-
-        //Core
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier IDNumber = "MFiles.Property.IDNumber";
     }
 }

@@ -73,15 +73,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration.cs" />
-    <Compile Include="Core\CalculatedValues.cs" />
+    <Compile Include="Age\Configuration\Configuration.cs" />
+    <Compile Include="Age\Services\AgeCalculationService.cs" />
+    <Compile Include="Age\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="Base\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Site\Configuration\Configuration.cs" />
     <Compile Include="Site\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Site\Services\SitePermissionService.cs" />
+    <Compile Include="Stock\Configuration\Configuration.cs" />
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Stock\Services\SiteStockUpdateService.cs" />
     <Compile Include="Utilities\IdNumberParser.cs" />
-    <Compile Include="VaultApplication.cs" />
+    <Compile Include="Base\VaultApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appdef.xml">

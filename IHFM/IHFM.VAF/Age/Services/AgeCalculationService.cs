@@ -1,25 +1,15 @@
 ﻿using IHFM.VAF.Utilities;
-using MFiles.VAF.Common;
-using MFilesAPI;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace IHFM.VAF
 {
-    public partial class VaultApplication
+    public class AgeCalculationService
     {
-		[PropertyCustomValue("MFiles.Property.Age")]
-		public TypedValue ResidentAgeCustomValue(PropertyEnvironment env)
-
-		{
-			var ageValue = new TypedValue();
-
-			string idNumber = env.ObjVerEx.Properties.SearchForProperty(Configuration.IDNumber.ID).GetValueAsLocalizedText();
-
-			ageValue.SetValue(MFDataType.MFDatatypeText, CalculateAge(idNumber));
-			return ageValue;
-		}
-
-		private string CalculateAge(string idNumber)
+		public string CalculateAge(string idNumber)
 		{
 			int yearPart = IdNumberParser.GetYearPartFromIDNumber(idNumber);
 			int monthPart = IdNumberParser.GetMonthPartFromIDNumber(idNumber);
