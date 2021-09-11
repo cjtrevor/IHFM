@@ -14,8 +14,25 @@ namespace IHFM.VAF
     /// </summary>
     /// <remarks>Examples and further information available on the developer portal: http://developer.m-files.com/. </remarks>
     public partial class VaultApplication
-        : ConfigurableVaultApplicationBase<Configuration>
+        : MFiles.VAF.Extensions.ConfigurableVaultApplicationBase<Configuration>
     {
-		
-	}
+        protected override void StartApplication()
+        {
+            try
+            {
+                TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Resident Age Refresh",
+                TimeSpan.FromHours(Configuration.AgeRunCheckInterval), (job) =>
+                {
+                    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("RefreshResidentAges", "");
+                                                
+                    SysUtils.ReportInfoToEventLog(
+                        $"IHFM: ResidentAgeRefresh completed. Next run: {DateTime.Now.AddHours(Configuration.AgeRunCheckInterval)}");
+                });
+            }
+            catch (Exception e)
+            {
+                SysUtils.ReportErrorToEventLog("Exception starting background operations", e);
+            }
+        }
+    }
 }

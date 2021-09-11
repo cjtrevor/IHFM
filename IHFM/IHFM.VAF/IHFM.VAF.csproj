@@ -41,27 +41,29 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.MFilesAPI, Version=7.0.0.0, Culture=neutral, PublicKeyToken=f1b4733f444f7ad0, processorArchitecture=MSIL">
-      <HintPath>..\packages\MFiles.VAF.2.2.0.10\lib\net45\Interop.MFilesAPI.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\MFiles.VAF.2.2.0.11\lib\net45\Interop.MFilesAPI.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="MFiles.Crypto, Version=2.2.0.10, Culture=neutral, PublicKeyToken=fa007b370d17fe5e, processorArchitecture=MSIL">
-      <HintPath>..\packages\MFiles.VAF.2.2.0.10\lib\net45\MFiles.Crypto.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MFiles.Crypto, Version=2.2.0.11, Culture=neutral, PublicKeyToken=fa007b370d17fe5e, processorArchitecture=MSIL">
+      <HintPath>..\packages\MFiles.VAF.2.2.0.11\lib\net45\MFiles.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="MFiles.VAF, Version=2.2.0.10, Culture=neutral, PublicKeyToken=fa007b370d17fe5e, processorArchitecture=MSIL">
-      <HintPath>..\packages\MFiles.VAF.2.2.0.10\lib\net45\MFiles.VAF.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MFiles.VAF, Version=2.2.0.11, Culture=neutral, PublicKeyToken=fa007b370d17fe5e, processorArchitecture=MSIL">
+      <HintPath>..\packages\MFiles.VAF.2.2.0.11\lib\net45\MFiles.VAF.dll</HintPath>
     </Reference>
-    <Reference Include="MFiles.VAF.Configuration, Version=2.2.0.10, Culture=neutral, PublicKeyToken=fa007b370d17fe5e, processorArchitecture=MSIL">
-      <HintPath>..\packages\MFiles.VAF.2.2.0.10\lib\net45\MFiles.VAF.Configuration.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MFiles.VAF.Configuration, Version=2.2.0.11, Culture=neutral, PublicKeyToken=fa007b370d17fe5e, processorArchitecture=MSIL">
+      <HintPath>..\packages\MFiles.VAF.2.2.0.11\lib\net45\MFiles.VAF.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="MFiles.VAF.Configuration.Interfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fa007b370d17fe5e, processorArchitecture=MSIL">
-      <HintPath>..\packages\MFiles.VAF.2.2.0.10\lib\net45\MFiles.VAF.Configuration.Interfaces.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\MFiles.VAF.2.2.0.11\lib\net45\MFiles.VAF.Configuration.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="MFiles.VAF.Extensions, Version=1.2.11.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MFiles.VAF.Extensions.1.2.11.5\lib\net45\MFiles.VAF.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="MFilesAPI.Extensions, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MFilesAPI.Extensions.1.0.3\lib\net45\MFilesAPI.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\MFiles.VAF.2.2.0.11\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -73,11 +75,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Age\BackgroundOperations\BackgroundOperations.cs" />
     <Compile Include="Age\Configuration\Configuration.cs" />
+    <Compile Include="Age\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Age\Services\AgeCalculationService.cs" />
     <Compile Include="Age\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="Age\VaultExtensionMethods\VaultExtensionMethods.cs" />
     <Compile Include="Base\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resident\Configuration\Configuration.cs" />
+    <Compile Include="Resident\Services\ResidentSearchService.cs" />
     <Compile Include="Site\Configuration\Configuration.cs" />
     <Compile Include="Site\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Site\Services\SitePermissionService.cs" />

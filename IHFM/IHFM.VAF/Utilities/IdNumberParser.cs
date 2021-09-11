@@ -25,12 +25,12 @@ namespace IHFM.VAF.Utilities
 
          public static int GetCurrentDayPart()
         {
-            return Int32.Parse(DateTime.Now.Day.ToString().PadLeft(2, '0'));
+            return int.Parse(DateTime.Now.Day.ToString().PadLeft(2, '0'));
         }
 
         public static int GetCurrentMonthPart()
         {
-            return Int32.Parse(DateTime.Now.Month.ToString().PadLeft(2, '0'));
+            return int.Parse(DateTime.Now.Month.ToString().PadLeft(2, '0'));
         }
 
         public static int GetCurrentYearPart()
