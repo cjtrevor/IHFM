@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="Age\BackgroundOperations\BackgroundOperations.cs" />
     <Compile Include="Age\Configuration\Configuration.cs" />
+    <Compile Include="Age\EventHandlers\Object_BeforeCheckInChange.cs" />
     <Compile Include="Age\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Age\Services\AgeCalculationService.cs" />
     <Compile Include="Age\AutomaticValues\CalculatedValues.cs" />
