@@ -23,6 +23,15 @@ namespace IHFM.VAF
                 env.ObjVerEx.AddLookup(Configuration.TBCADLLookup, x);
             });
 
+            env.ObjVerEx.SaveProperties();
+        }
+
+        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, ObjectType = "MFiles.Object.TBCClinic")]
+        public void SetTBCClinicDefaults(EventHandlerEnvironment env)
+        {
+            ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
+            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+
             //TBC Clinic Items
             List<ObjVer> TBCClinic = residentPropertyService.GetResidentTBCClinicItems(residentLookup);
 
