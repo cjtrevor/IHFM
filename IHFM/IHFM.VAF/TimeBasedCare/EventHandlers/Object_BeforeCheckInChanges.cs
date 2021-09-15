@@ -21,8 +21,6 @@ namespace IHFM.VAF
 
             int timeSpent = (int)(endDate - startDate).TotalMinutes;
 
-            env.ObjVerEx.SetProperty(Configuration.TimeSpent, MFDataType.MFDatatypeText, timeSpent.ToString());
-
             int averageTime = 0;
             //Calculate average time
             Lookups items = env.ObjVerEx.GetLookups(Configuration.TBCADLLookup);
@@ -39,6 +37,7 @@ namespace IHFM.VAF
                                         ? timeSpent * averageCost
                                         : averageTime * averageCost;
 
+            env.ObjVerEx.SetProperty(Configuration.TimeSpent, MFDataType.MFDatatypeText, timeSpent > averageTime ? timeSpent.ToString() : averageTime.ToString());
             env.ObjVerEx.SetProperty(Configuration.CostForService, MFDataType.MFDatatypeText, costForService.ToString("N2"));
             env.ObjVerEx.SaveProperties();
         }
