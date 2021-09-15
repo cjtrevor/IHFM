@@ -81,6 +81,7 @@
     <Compile Include="Age\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Age\Services\AgeCalculationService.cs" />
     <Compile Include="Age\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="Age\Validation\PropertyValidation.cs" />
     <Compile Include="Age\VaultExtensionMethods\VaultExtensionMethods.cs" />
     <Compile Include="Base\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
