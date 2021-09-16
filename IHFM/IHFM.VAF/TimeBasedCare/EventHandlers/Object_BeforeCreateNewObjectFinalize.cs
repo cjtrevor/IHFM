@@ -32,6 +32,9 @@ namespace IHFM.VAF
             ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
             Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
 
+            //Start Time
+            env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
+
             //TBC Clinic Items
             List<ObjVer> TBCClinic = residentPropertyService.GetResidentTBCClinicItems(residentLookup);
 
