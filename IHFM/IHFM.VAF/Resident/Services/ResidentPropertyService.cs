@@ -96,7 +96,6 @@ namespace IHFM.VAF
             return objVers;
         }
 
-
         public List<ObjVer> GetResidentTBCClinicItems(Lookup residentLookup)
         {
             List<ObjVer> objVers = new List<ObjVer>();
