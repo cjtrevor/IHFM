@@ -9,7 +9,14 @@ namespace IHFM.VAF
 {
     public partial class Configuration
     {
+        //Object Aliases
+        [MFObjType(Required = true)]
+        public MFIdentifier TranspharmStockObject = "MFiles.Object.TranspharmStock";
+
         //Property Aliases
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier TranspharmStockIssueQty = "MFiles.Property.Qty";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier StartTimeTBC = "Mfiles.Property.StartTimeTbc";
 

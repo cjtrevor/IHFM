@@ -18,7 +18,13 @@ namespace IHFM.VAF
         {
             ObjVerEx siteStockObjVer = FindSiteStock(siteID, stockID);
 
-            if(siteStockObjVer == null)
+            if (quantity > 0)
+            {
+                //Transfer In so calculate the individual doses to be added.
+                quantity = GetConvertedQuantity(stockID, quantity);
+            }
+
+            if (siteStockObjVer == null)
             {
                 if (quantity < 0)
                     throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - 0");
@@ -31,10 +37,28 @@ namespace IHFM.VAF
             siteStockObjVer.SaveProperties();
         }
 
+        private double GetConvertedQuantity(int stockID, double quantity)
+        {
+            ObjVerEx objVerEx = new ObjVerEx(_vault, _configuration.TranspharmStockObject.ID, stockID, -1);
+            string qty = objVerEx.GetPropertyText(_configuration.TranspharmStockIssueQty);
+
+            double issuingQuantity = 0;
+
+            if(!double.TryParse(qty,out issuingQuantity))
+            {
+                throw new Exception($"Invalid issue quantity on stock id - {stockID} | Issueing Quantity: {qty}");
+            }
+
+            double convertedQuantity = quantity / issuingQuantity;
+
+            return convertedQuantity;
+        }
+
         private void UpdateStockOnHand(double quantity, ObjVerEx siteStockObjVer, string itemName)
         {
 
             double currentStock = siteStockObjVer.GetProperty(_configuration.StockOnHand).GetValue<double>();
+
             double updatedStock = currentStock + quantity;
 
             if (updatedStock < 0)

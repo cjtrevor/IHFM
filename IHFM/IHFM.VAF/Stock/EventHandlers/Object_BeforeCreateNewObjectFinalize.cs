@@ -56,6 +56,12 @@ namespace IHFM.VAF
                 double item5Quantity = env.ObjVerEx.GetProperty(Configuration.Item5StockQuantityIssued).GetValue<double>();
                 siteStockUpdateService.UpdateSiteStock(siteID, item5StockID, transfer.ToLower() == "in" ? item5Quantity : -item5Quantity, itemName);
             }
+
+            if(transfer.ToLower() == "in")
+            {
+                env.ObjVerEx.RemoveProperty(Configuration.ResidentLookup);
+                env.ObjVerEx.SaveProperties();
+            }
         }
     }
 }
