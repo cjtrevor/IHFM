@@ -5,15 +5,16 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
-        //[PropertyCustomValue("MFiles.Property.ShiftXX")]
-        //public TypedValue SetShiftValue(EventHandlerEnvironment env)
-        //{
-        //    ShiftCalculationService shiftCalculationService = new ShiftCalculationService();
+        [PropertyCustomValue("MFiles.Property.Shift",Priority = 1)]
+        public TypedValue SetShiftValue(PropertyEnvironment env)
+        {
+            SysUtils.ReportInfoToEventLog("Custom Value - Shift");
+            ShiftCalculationService shiftCalculationService = new ShiftCalculationService(Configuration,env.Vault);
 
-        //    TypedValue calculated = new TypedValue();
-        //    calculated.SetValue(MFDataType.MFDatatypeText, shiftCalculationService.CalculateShiftNumber(env.ObjVerEx));
+            TypedValue calculated = new TypedValue();
+            calculated.SetValue(MFDataType.MFDatatypeText, shiftCalculationService.CalculateShiftNumber(env.ObjVerEx));
 
-        //    return calculated;
-        //}
+            return calculated;
+        }
     }
 }

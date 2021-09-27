@@ -15,6 +15,9 @@ namespace IHFM.VAF
 
         public double CalculateActualAmountOutstanding(ObjVerEx objVerEx)
         {
+            if (!objVerEx.HasValue(_configuration.RoomTariff))
+                return 0;
+
             double amount = 0;
             double tariff = double.Parse(objVerEx.GetProperty(_configuration.RoomTariff).GetValueAsLocalizedText());
             double discountPercentage = objVerEx.HasValue(_configuration.DiscountPercentage) ?

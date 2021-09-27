@@ -91,10 +91,12 @@
     <Compile Include="Resident\Services\ResidentPropertyService.cs" />
     <Compile Include="Resident\Services\ResidentSearchService.cs" />
     <Compile Include="Shift\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="Shift\Configuration\Configuration.cs" />
     <Compile Include="Shift\Services\ShiftCalculationService.cs" />
     <Compile Include="Site\Configuration\Configuration.cs" />
     <Compile Include="Site\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Site\Services\SitePermissionService.cs" />
+    <Compile Include="Site\Services\SiteSearchService.cs" />
     <Compile Include="Stock\Configuration\Configuration.cs" />
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Stock\Services\SiteStockUpdateService.cs" />

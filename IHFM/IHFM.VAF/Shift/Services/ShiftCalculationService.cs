@@ -1,4 +1,5 @@
 ﻿using MFiles.VAF.Common;
+using MFiles.VAF.Configuration;
 using MFilesAPI;
 using System;
 
@@ -6,18 +7,53 @@ namespace IHFM.VAF
 {
     public class ShiftCalculationService
     {
+        private Configuration _configuration;
+        private Vault _vault;
+        public ShiftCalculationService(Configuration configuration, Vault vault)
+        {
+            _configuration = configuration;
+            _vault = vault;
+        }
+
+        private string GetShiftStartTimeFromSite(ObjVerEx objVerEx)
+        {
+            SiteSearchService siteSearchService = new SiteSearchService(_vault, _configuration);
+            SitePermissionService sitePermissionService = new SitePermissionService(_vault, _configuration);
+
+            //string siteNum;
+
+            //if (objVerEx.HasProperty(_configuration.BaseSite))
+            //{
+            //    siteNum = objVerEx.GetProperty(_configuration.BaseSite).TypedValue.GetValueAsLocalizedText();
+            //}
+            //else if (objVerEx.HasProperty(_configuration.SiteList))
+            //{
+            //    siteNum = objVerEx.GetProperty(_configuration.SiteList).TypedValue.GetValueAsLocalizedText();
+            //}
+            //else
+            //    return "";
+
+            int createdByID = objVerEx.Properties.SearchForProperty((int)MFBuiltInPropertyDef.MFBuiltInPropertyDefCreatedBy).TypedValue.GetLookupID();
+            string siteNum = sitePermissionService.GetSiteNumByUserID(createdByID);
+
+            ObjVerEx siteObj = siteSearchService.GetSiteByNumber(siteNum);
+            return siteObj.GetProperty(_configuration.ShiftStartTime).TypedValue.GetValueAsLocalizedText();
+        }
         public string CalculateShiftNumber(ObjVerEx objVerEx)
         {
             string dateNow = objVerEx.GetPropertyText(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated);
-            DateTime shiftStartTime = DateTime.Now; //Lookup from site object
+
+            string shiftStartString = GetShiftStartTimeFromSite(objVerEx);
+
+            DateTime shiftStartTime = DateTime.Parse($"01/01/2000 {shiftStartString}"); //Lookup from site object
             DateTime created = DateTime.Parse(dateNow);
 
             int shiftStartHour = shiftStartTime.Hour;
-            int createdHour = created.Hour + 2; //Created is in UTC time
+            int createdHour = created.Hour; //Created is in UTC time
 
             string yearPart = created.Year.ToString().Substring(2, 2);
-            string monthPart = "";
-            string dayPart = "";
+            string monthPart;
+            string dayPart;
             string ShiftIndicator = "";
 
             if (createdHour < shiftStartHour)
