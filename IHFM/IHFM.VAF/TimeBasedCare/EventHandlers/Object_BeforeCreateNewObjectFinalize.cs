@@ -10,20 +10,27 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize,Class = "MFiles.Class.TBC")]
         public void SetDefaults(EventHandlerEnvironment env)
         {
-            ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
+            try
+            {          
+                ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
 
-            //Start Time
-            env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
+                //Start Time
+                env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
             
-            //TBC Items
-            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
-            List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCItems(residentLookup);
+                //TBC Items
+                Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+                List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCItems(residentLookup);
 
-            TBCADL.ForEach(x => {
-                env.ObjVerEx.AddLookup(Configuration.TBCADLLookup, x);
-            });
+                TBCADL.ForEach(x => {
+                    env.ObjVerEx.AddLookup(Configuration.TBCADLLookup, x);
+                });
 
-            env.ObjVerEx.SaveProperties();
+                env.ObjVerEx.SaveProperties();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("TBC - Set Defaults - " + ex.Message);
+            }
         }
 
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, ObjectType = "MFiles.Object.TBCClinic")]
