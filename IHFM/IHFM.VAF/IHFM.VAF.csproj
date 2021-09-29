@@ -84,6 +84,11 @@
     <Compile Include="Age\Validation\PropertyValidation.cs" />
     <Compile Include="Age\VaultExtensionMethods\VaultExtensionMethods.cs" />
     <Compile Include="Base\Configuration.cs" />
+    <Compile Include="DailyCare\Configuration\Configuration.cs" />
+    <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="GCS\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="GCS\Configuration\Configuration.cs" />
+    <Compile Include="GCS\Services\GcsCalculationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resident\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Resident\Configuration\Configuration.cs" />
