@@ -77,7 +77,8 @@ namespace IHFM.VAF
                 dayPart = (created.Day).ToString().PadLeft(2, '0');
             }
 
-            if(createdHour >= shiftStartHour && createdHour <= shiftStartHour + 12 && createdMinutes >= shiftStartMinutes)
+            if((createdHour > shiftStartHour && createdHour < shiftStartHour + 12) || (createdHour == shiftStartHour && createdMinutes >= shiftStartMinutes)
+                || (createdHour == shiftStartHour + 12 && createdMinutes < shiftStartMinutes))
             {
                 ShiftIndicator = "Day";
             }
