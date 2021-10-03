@@ -12,5 +12,8 @@ namespace IHFM.VAF
         //Property Aliases
         [MFPropertyDef(Required = true)]
         public MFIdentifier ShiftStartTime = "MFiles.Property.ShiftStartTime";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Shift = "MFiles.Property.Shift";
     }
 }
