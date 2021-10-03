@@ -51,12 +51,15 @@ namespace IHFM.VAF
             int shiftStartHour = shiftStartTime.Hour;
             int createdHour = created.Hour; //Created is in UTC time
 
+            int shiftStartMinutes = shiftStartTime.Minute;
+            int createdMinutes = created.Minute;
+
             string yearPart = created.Year.ToString().Substring(2, 2);
             string monthPart;
             string dayPart;
             string ShiftIndicator = "";
 
-            if (createdHour < shiftStartHour)
+            if (createdHour < shiftStartHour || (createdHour == shiftStartHour && createdMinutes < shiftStartMinutes))
             {
                 monthPart = (created.AddDays(-1).Month).ToString().PadLeft(2, '0');
             }
@@ -65,7 +68,7 @@ namespace IHFM.VAF
                 monthPart = (created.Month).ToString().PadLeft(2, '0');
             }
 
-            if (createdHour < shiftStartHour)
+            if (createdHour < shiftStartHour || (createdHour == shiftStartHour && createdMinutes < shiftStartMinutes))
             {
                 dayPart = (created.AddDays(-1).Day).ToString().PadLeft(2, '0');
             }
@@ -74,11 +77,12 @@ namespace IHFM.VAF
                 dayPart = (created.Day).ToString().PadLeft(2, '0');
             }
 
-            if(createdHour >= shiftStartHour && createdHour < shiftStartHour + 12)
+            if(createdHour >= shiftStartHour && createdHour <= shiftStartHour + 12 && createdMinutes >= shiftStartMinutes)
             {
                 ShiftIndicator = "Day";
             }
-            else if(createdHour >= shiftStartHour + 12 || createdHour < shiftStartHour)
+            else if((createdHour > shiftStartHour + 12) || (createdHour == shiftStartHour + 12 && createdMinutes > shiftStartMinutes) || 
+                (createdHour < shiftStartHour) || (createdHour == shiftStartHour && (createdMinutes < shiftStartMinutes)))
             {
                 ShiftIndicator = "Night";
             }
