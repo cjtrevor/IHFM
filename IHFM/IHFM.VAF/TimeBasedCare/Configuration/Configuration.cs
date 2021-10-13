@@ -18,6 +18,9 @@ namespace IHFM.VAF
         public MFIdentifier TranspharmStockIssueQty = "MFiles.Property.Qty";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier OverrideStartTime = "MFiles.Property.OverrideStartTime";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier StartTimeTBC = "Mfiles.Property.StartTimeTbc";
 
         [MFPropertyDef(Required = true)]

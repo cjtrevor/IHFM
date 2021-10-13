@@ -7,6 +7,17 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
+        private bool ShouldAddStartTime(EventHandlerEnvironment env)
+        {
+            if (env.ObjVerEx.HasValue(Configuration.OverrideStartTime) &&
+                env.ObjVerEx.GetProperty(Configuration.OverrideStartTime).GetValue<bool>())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize,Class = "MFiles.Class.TBC")]
         public void SetDefaults(EventHandlerEnvironment env)
         {
@@ -15,8 +26,11 @@ namespace IHFM.VAF
                 ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
 
                 //Start Time
-                env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
-            
+                if(ShouldAddStartTime(env))
+                { 
+                    env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
+                }
+
                 //TBC Items
                 Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
                 List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCItems(residentLookup);
