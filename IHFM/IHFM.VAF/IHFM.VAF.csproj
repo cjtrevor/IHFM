@@ -83,6 +83,8 @@
     <Compile Include="Age\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Age\Validation\PropertyValidation.cs" />
     <Compile Include="Age\VaultExtensionMethods\VaultExtensionMethods.cs" />
+    <Compile Include="Assignments\Configuration\Configuration.cs" />
+    <Compile Include="Assignments\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Base\Configuration.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Site\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Site\Services\SitePermissionService.cs" />
     <Compile Include="Site\Services\SiteSearchService.cs" />
+    <Compile Include="Staff\Services\StaffPropertyService.cs" />
     <Compile Include="Stock\Configuration\Configuration.cs" />
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Stock\Services\SiteStockUpdateService.cs" />
