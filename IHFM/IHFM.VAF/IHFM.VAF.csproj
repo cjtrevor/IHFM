@@ -98,9 +98,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resident\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Resident\Configuration\Configuration.cs" />
+    <Compile Include="Resident\EventHandlers\Object_BeforeCheckInChanges.cs" />
+    <Compile Include="Resident\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Resident\Services\ResidentAutomaticValueService.cs" />
     <Compile Include="Resident\Services\ResidentPropertyService.cs" />
     <Compile Include="Resident\Services\ResidentSearchService.cs" />
+    <Compile Include="Room\Configuration\Configuration.cs" />
+    <Compile Include="Room\Services\RoomPropertyService.cs" />
     <Compile Include="Shift\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Shift\Configuration\Configuration.cs" />
     <Compile Include="Shift\Services\ShiftCalculationService.cs" />
