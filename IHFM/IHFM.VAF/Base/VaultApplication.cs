@@ -20,6 +20,7 @@ namespace IHFM.VAF
         {
             try
             {
+                //Refresh Resident Ages
                 TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Resident Age Refresh",
                 TimeSpan.FromHours(Configuration.AgeRunCheckInterval), (job) =>
                 {
@@ -27,6 +28,16 @@ namespace IHFM.VAF
                                                 
                     SysUtils.ReportInfoToEventLog(
                         $"IHFM: ResidentAgeRefresh completed. Next run: {DateTime.Now.AddHours(Configuration.AgeRunCheckInterval)}");
+                });
+
+                //Refresh Average Site Age
+                TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Site Average Age Refresh",
+                TimeSpan.FromHours(Configuration.SiteAverageAgeRunCheckInterval), (job) =>
+                {
+                    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("RefreshSiteAverageAge", "");
+
+                    SysUtils.ReportInfoToEventLog(
+                        $"IHFM: RefreshSiteAverageAge completed. Next run: {DateTime.Now.AddHours(Configuration.SiteAverageAgeRunCheckInterval)}");
                 });
             }
             catch (Exception e)

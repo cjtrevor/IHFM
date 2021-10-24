@@ -20,5 +20,55 @@ namespace IHFM.VAF
                 ageCalculationService.RefreshAge(x, configuration);
             });
         }
+
+        public void SetAverageSiteAges(Vault vault, Configuration configuration)
+        {
+            ResidentSearchService residentSearchService = new ResidentSearchService();
+            SiteSearchService siteSearchService = new SiteSearchService(vault,configuration);
+
+            List<ObjVerEx> sites = siteSearchService.GetAllSites();
+            List<ObjVerEx> residents = residentSearchService.GetAllActiveResidents(vault, configuration);
+
+            foreach (ObjVerEx site in sites)
+            {
+                int baseSiteID = site.GetLookupID(configuration.BaseSiteID);
+
+                List<ObjVerEx> siteResidents = residents.Where(x => x.GetLookupID(configuration.BaseSiteID) == baseSiteID).ToList();
+                int noOfResidents = siteResidents.Count;
+                int totalResidentAge = 0;
+
+                foreach (ObjVerEx resident in siteResidents)
+                {
+                    int age = GetResidentAge(resident, configuration);
+
+                    if(age == -1)
+                    {
+                        noOfResidents--;
+                        continue;
+                    }
+
+                    totalResidentAge += age;
+                }
+
+                if(noOfResidents > 0)
+                {
+                    int averageAge = totalResidentAge / noOfResidents;
+                    site.SaveProperty(configuration.AverageSiteAge, MFDataType.MFDatatypeInteger, averageAge);
+                }
+            }
+        }
+
+        private int GetResidentAge(ObjVerEx resident, Configuration configuration)
+        {
+            string age = resident.GetPropertyText(configuration.Age);
+            int ageInt;
+
+            if(!Int32.TryParse(age,out ageInt))
+            {
+                return -1;
+            }
+
+            return ageInt;
+        }
     }
 }

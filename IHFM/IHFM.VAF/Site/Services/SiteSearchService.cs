@@ -27,5 +27,14 @@ namespace IHFM.VAF
 
             return mFSearch.FindOneEx();
         }
+
+        public List<ObjVerEx> GetAllSites()
+        {
+            MFSearchBuilder mFSearch = new MFSearchBuilder(_vault);
+            mFSearch.ObjType(_configuration.SiteObject);
+            mFSearch.Deleted(false);
+
+            return mFSearch.FindEx();
+        }
     }
 }

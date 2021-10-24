@@ -16,5 +16,12 @@ namespace IHFM.VAF
 			new AgeBackgroundOperations().RefreshResidentAge(env.Vault, Configuration);
 			return "Completed";
 		}
+
+		[VaultExtensionMethod("RefreshSiteAverageAge",RequiredVaultAccess = MFVaultAccess.MFVaultAccessNone)]
+		public string RefreshSiteAverageAge(EventHandlerEnvironment env)
+        {
+			new AgeBackgroundOperations().SetAverageSiteAges(env.Vault, Configuration);
+			return "Completed";
+        }
 	}
 }
