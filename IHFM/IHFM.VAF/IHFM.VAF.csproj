@@ -89,6 +89,7 @@
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Export\Services\TBCExportService.cs" />
+    <Compile Include="Export\Services\WardStockExportService.cs" />
     <Compile Include="GCS\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="GCS\Configuration\Configuration.cs" />
     <Compile Include="GCS\Services\GcsCalculationService.cs" />

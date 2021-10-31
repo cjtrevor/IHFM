@@ -19,6 +19,14 @@ namespace IHFM.VAF
                 }
             }
 
+            if (obj.HasProperty(configuration.VAFSite))
+            {
+                if (obj.GetProperty(configuration.VAFSite).GetValueAsLocalizedText() == "999")
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
     }

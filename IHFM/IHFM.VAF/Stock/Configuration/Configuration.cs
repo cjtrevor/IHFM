@@ -62,5 +62,11 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Transfer = "MFiles.Property.StockInOrOut";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier SellingPrice = "MFiles.Property.Price";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier CostPrice = "MFiles.Property.Cost";
     }
 }

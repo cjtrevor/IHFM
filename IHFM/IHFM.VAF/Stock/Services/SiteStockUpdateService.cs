@@ -37,7 +37,7 @@ namespace IHFM.VAF
             siteStockObjVer.SaveProperties();
         }
 
-        private double GetConvertedQuantity(int stockID, double quantity)
+        public double GetConvertedQuantity(int stockID, double quantity)
         {
             ObjVerEx objVerEx = new ObjVerEx(_vault, _configuration.TranspharmStockObject.ID, stockID, -1);
             string qty = objVerEx.GetPropertyText(_configuration.TranspharmStockIssueQty);
