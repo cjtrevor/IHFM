@@ -18,7 +18,7 @@ namespace IHFM.VAF
                 }
 
                 TimeBasedCarePropertyService timeBasedCarePropertyService = new TimeBasedCarePropertyService(env.Vault, Configuration);
-                TBCExportService exportService = new TBCExportService(Configuration);
+                TBCExportService exportService = new TBCExportService(env.Vault, Configuration);
 
                 //Calculate time spent
                 string startTime = env.ObjVerEx.GetProperty(Configuration.StartTimeTBC).TypedValue.GetValueAsLocalizedText();
@@ -67,7 +67,7 @@ namespace IHFM.VAF
             }
 
             TimeBasedCarePropertyService timeBasedCarePropertyService = new TimeBasedCarePropertyService(env.Vault, Configuration);
-            TBCExportService exportService = new TBCExportService(Configuration);
+            TBCExportService exportService = new TBCExportService(env.Vault, Configuration);
 
             //Calculate time spent
             string startTime = env.ObjVerEx.GetProperty(Configuration.StartTimeTBC).TypedValue.GetValueAsLocalizedText();

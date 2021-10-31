@@ -31,8 +31,12 @@ namespace IHFM.VAF
 
         public void ExportRecord(WardStockExport item)
         {
+            SiteSearchService searchService = new SiteSearchService(_vault, _configuration);
             DatabaseConnector connector = new DatabaseConnector();
+            
             ObjVerEx stockItem = new ObjVerEx(_vault, item.stockId);
+            //ObjVerEx site = searchService.GetSiteByNumber(item.siteId.ToString());
+            string siteName = "";//site.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle).GetValueAsLocalizedText();
 
             decimal costPrice = (decimal) stockItem.GetProperty(_configuration.CostPrice).GetValue<double>();
             
@@ -64,6 +68,7 @@ namespace IHFM.VAF
             storedProc.storedProcParams = new Dictionary<string, object>();
             storedProc.storedProcParams.Add("@ObjectID", item.objectId);
             storedProc.storedProcParams.Add("@SiteID", item.siteId);
+            storedProc.storedProcParams.Add("@SiteName", siteName);
             storedProc.storedProcParams.Add("@Direction", item.isTransferIn ? "IN" : "OUT");
             storedProc.storedProcParams.Add("@Month", item.created.ToString("MMMM", CultureInfo.InvariantCulture));
             storedProc.storedProcParams.Add("@Year", item.created.Year);

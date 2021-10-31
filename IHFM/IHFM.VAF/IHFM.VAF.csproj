@@ -131,6 +131,9 @@
     <Content Include="appdef.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="SQL\StoredProcedures.sql" />
+    <Content Include="SQL\Tables.sql" />
+    <Content Include="SQL\Views.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="install-application.ps1" />
