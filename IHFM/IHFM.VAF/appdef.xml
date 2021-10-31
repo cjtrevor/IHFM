@@ -7,7 +7,7 @@
   <name>IHFM Customizer</name>
   <description>This containes custom logic</description>
   <publisher>Renda Consulting</publisher>
-  <version>1.26</version>
+  <version>1.27</version>
   <copyright></copyright>
   <required-mfiles-version>20.5.0.0</required-mfiles-version>
   <multi-server-compatible>false</multi-server-compatible>

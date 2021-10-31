@@ -88,6 +88,7 @@
     <Compile Include="Base\Configuration.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="Export\Services\TBCExportService.cs" />
     <Compile Include="GCS\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="GCS\Configuration\Configuration.cs" />
     <Compile Include="GCS\Services\GcsCalculationService.cs" />
@@ -120,6 +121,8 @@
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCheckInChanges.cs" />
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="TimeBasedCare\Services\TimeBasedCarePropertyService.cs" />
+    <Compile Include="Utilities\DatabaseConnector.cs" />
+    <Compile Include="Utilities\DevelopmentUtility.cs" />
     <Compile Include="Utilities\IdNumberParser.cs" />
     <Compile Include="Base\VaultApplication.cs" />
   </ItemGroup>

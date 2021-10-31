@@ -12,7 +12,13 @@ namespace IHFM.VAF
         {
             try
             {
+                if(!env.ObjVerEx.HasValue(Configuration.EndTime))
+                {
+                    return;
+                }
+
                 TimeBasedCarePropertyService timeBasedCarePropertyService = new TimeBasedCarePropertyService(env.Vault, Configuration);
+                TBCExportService exportService = new TBCExportService(Configuration);
 
                 //Calculate time spent
                 string startTime = env.ObjVerEx.GetProperty(Configuration.StartTimeTBC).TypedValue.GetValueAsLocalizedText();
@@ -42,6 +48,8 @@ namespace IHFM.VAF
                 env.ObjVerEx.SetProperty(Configuration.TimeSpent, MFDataType.MFDatatypeText, timeSpent > averageTime ? timeSpent.ToString() : averageTime.ToString());
                 env.ObjVerEx.SetProperty(Configuration.CostForService, MFDataType.MFDatatypeText, costForService.ToString("N2"));
                 env.ObjVerEx.SaveProperties();
+
+                exportService.ExportRecord(env.ObjVerEx, TBCExportService.TbcType.TBC);
             }
             catch (Exception ex)
             {
@@ -53,7 +61,13 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, ObjectType = "MFiles.Object.TBCClinic")]
         public void SetClinicCostForService(EventHandlerEnvironment env)
         {
+            if (!env.ObjVerEx.HasValue(Configuration.EndTime))
+            {
+                return;
+            }
+
             TimeBasedCarePropertyService timeBasedCarePropertyService = new TimeBasedCarePropertyService(env.Vault, Configuration);
+            TBCExportService exportService = new TBCExportService(Configuration);
 
             //Calculate time spent
             string startTime = env.ObjVerEx.GetProperty(Configuration.StartTimeTBC).TypedValue.GetValueAsLocalizedText();
@@ -83,6 +97,8 @@ namespace IHFM.VAF
             env.ObjVerEx.SetProperty(Configuration.TimeSpent, MFDataType.MFDatatypeText, timeSpent > averageTime ? timeSpent.ToString() : averageTime.ToString());
             env.ObjVerEx.SetProperty(Configuration.CostForService, MFDataType.MFDatatypeText, costForService.ToString("N2"));
             env.ObjVerEx.SaveProperties();
+
+            exportService.ExportRecord(env.ObjVerEx, TBCExportService.TbcType.Clinic);
         }
     }
 }
