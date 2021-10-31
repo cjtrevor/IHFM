@@ -53,7 +53,9 @@ namespace IHFM.VAF
                 if(noOfResidents > 0)
                 {
                     int averageAge = totalResidentAge / noOfResidents;
-                    site.SaveProperty(configuration.AverageSiteAge, MFDataType.MFDatatypeInteger, averageAge);
+                    site.SetProperty(configuration.AverageSiteAge, MFDataType.MFDatatypeInteger, averageAge);
+                    site.SetProperty(configuration.NumOfResidents, MFDataType.MFDatatypeInteger, noOfResidents);
+                    site.SaveProperties();
                 }
             }
         }

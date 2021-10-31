@@ -26,6 +26,8 @@ namespace IHFM.VAF
         public MFIdentifier VAFSite = "MFiles.Properties.VAFSite";
         [MFPropertyDef(Required = true)]
         public MFIdentifier Login = "MFiles.Property.Login";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier NumOfResidents = "MFiles.Property.NumOfResidents";
 
         //Object Aliases
         [MFObjType(Required = true)]
