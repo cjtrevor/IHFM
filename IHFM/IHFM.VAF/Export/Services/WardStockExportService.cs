@@ -35,8 +35,8 @@ namespace IHFM.VAF
             DatabaseConnector connector = new DatabaseConnector();
             
             ObjVerEx stockItem = new ObjVerEx(_vault, item.stockId);
-            //ObjVerEx site = searchService.GetSiteByNumber(item.siteId.ToString());
-            string siteName = "";//site.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle).GetValueAsLocalizedText();
+            ObjVerEx site = searchService.GetSiteByNumber(item.siteId.ToString());
+            string siteName = site.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle).GetValueAsLocalizedText();
 
             decimal costPrice = (decimal) stockItem.GetProperty(_configuration.CostPrice).GetValue<double>();
             

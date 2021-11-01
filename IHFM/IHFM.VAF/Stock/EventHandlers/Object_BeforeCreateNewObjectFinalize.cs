@@ -16,6 +16,8 @@ namespace IHFM.VAF
             WardStockExportService exportService = new WardStockExportService(env.Vault, Configuration);
 
             int siteID = env.ObjVerEx.GetLookupID(Configuration.VAFSite);
+            int siteNumber = Int32.Parse(env.ObjVerEx.GetProperty(Configuration.VAFSite).GetValueAsLocalizedText());
+
             string transfer = env.ObjVerEx.GetPropertyText(Configuration.Transfer);
 
             string createdText = env.ObjVerEx.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated).GetValueAsLocalizedText();
@@ -32,7 +34,7 @@ namespace IHFM.VAF
                 exportService.ExportRecord(new WardStockExport
                 {
                     objectId = env.ObjVerEx.ObjID.ID,
-                    siteId = siteID,
+                    siteId = siteNumber,
                     isTransferIn = transfer.ToLower() == "in",
                     stockId = itemLookup,
                     created = created,
@@ -50,7 +52,7 @@ namespace IHFM.VAF
                 exportService.ExportRecord(new WardStockExport
                 {
                     objectId = env.ObjVerEx.ObjID.ID,
-                    siteId = siteID,
+                    siteId = siteNumber,
                     isTransferIn = transfer.ToLower() == "in",
                     stockId = itemLookup,
                     created = created,
@@ -68,7 +70,7 @@ namespace IHFM.VAF
                 exportService.ExportRecord(new WardStockExport
                 {
                     objectId = env.ObjVerEx.ObjID.ID,
-                    siteId = siteID,
+                    siteId = siteNumber,
                     isTransferIn = transfer.ToLower() == "in",
                     stockId = itemLookup,
                     created = created,
@@ -86,7 +88,7 @@ namespace IHFM.VAF
                 exportService.ExportRecord(new WardStockExport
                 {
                     objectId = env.ObjVerEx.ObjID.ID,
-                    siteId = siteID,
+                    siteId = siteNumber,
                     isTransferIn = transfer.ToLower() == "in",
                     stockId = itemLookup,
                     created = created,
@@ -104,7 +106,7 @@ namespace IHFM.VAF
                 exportService.ExportRecord(new WardStockExport
                 {
                     objectId = env.ObjVerEx.ObjID.ID,
-                    siteId = siteID,
+                    siteId = siteNumber,
                     isTransferIn = transfer.ToLower() == "in",
                     stockId = itemLookup,
                     created = created,
