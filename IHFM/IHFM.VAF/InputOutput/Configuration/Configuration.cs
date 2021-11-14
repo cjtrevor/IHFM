@@ -36,6 +36,8 @@ namespace IHFM.VAF
         public MFIdentifier VolumeOut = "MFiles.Property.VolumeOut";
         [MFPropertyDef(Required = true)]
         public MFIdentifier TypeOfIntake = "MFiles.Property.TypeOfIntake";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier OutputML = "MFiles.Property.OutputML";
 
         //ValueListItems
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.IoOutputTypes")]

@@ -29,6 +29,7 @@ namespace IHFM.VAF
             double outputUrine = 0;
             double outputDiarrhea = 0;
             double outputOther = 0;
+            int outputML = 0;
 
             if (io.HasValue(_configuration.TypeOfIntake))
             {
@@ -51,18 +52,23 @@ namespace IHFM.VAF
                 }
             }
 
+            if(io.HasValue(_configuration.OutputML))
+            {
+                outputML = io.GetProperty(_configuration.OutputML).GetValue<int>();
+            }
+
             //Find object
             ObjVerEx ioTotal = inputOutputSearchService.FindInputOutputTotalByShiftResident(shiftNumber, residentLookupId);
 
             //Not exist create new one
             if (ioTotal == null)
             { 
-                CreateNewInputOutputTotal(shiftNumber, residentLookupId, intake,outputUrine,outputDiarrhea,outputOther);
+                CreateNewInputOutputTotal(shiftNumber, residentLookupId, intake,outputUrine,outputDiarrhea,outputOther,outputML);
                 return;
             }
 
             //Update values
-            UpdateInputOutputTotal(ioTotal, intake, outputUrine, outputDiarrhea, outputOther);
+            UpdateInputOutputTotal(ioTotal, intake, outputUrine, outputDiarrhea, outputOther, outputML);
         }
 
         private int GetNumericOutput(string volumeOut)
@@ -74,7 +80,7 @@ namespace IHFM.VAF
 
             return volume;
         }
-        public void CreateNewInputOutputTotal(string shiftNumber, int residentLookupId, double intake, double outputUrine, double outputDiarrhea, double outputOther)
+        public void CreateNewInputOutputTotal(string shiftNumber, int residentLookupId, double intake, double outputUrine, double outputDiarrhea, double outputOther, int outputML)
         {
             int ioObjectID = _vault.ObjectTypeOperations.GetObjectTypeIDByAlias(_configuration.IntakeOutputTotal.Alias);
 
@@ -85,22 +91,25 @@ namespace IHFM.VAF
                 .Add(_configuration.IntakeTotal, MFDataType.MFDatatypeFloating, intake)
                 .Add(_configuration.OutputUrine, MFDataType.MFDatatypeFloating, outputUrine)
                 .Add(_configuration.OutputDiarrhea, MFDataType.MFDatatypeFloating, outputDiarrhea)
-                .Add(_configuration.OutputOther, MFDataType.MFDatatypeFloating, outputOther);
+                .Add(_configuration.OutputOther, MFDataType.MFDatatypeFloating, outputOther)
+                .Add(_configuration.OutputML, MFDataType.MFDatatypeInteger, outputML);
 
             _vault.ObjectOperations.CreateNewObjectExQuick(ioObjectID, mfProperties.Values);
         }
-        public void UpdateInputOutputTotal(ObjVerEx ioTotal, double intake, double outputUrine, double outputDiarrhea, double outputOther)
+        public void UpdateInputOutputTotal(ObjVerEx ioTotal, double intake, double outputUrine, double outputDiarrhea, double outputOther, int outputML)
         {
             double currentIntake = ioTotal.GetProperty(_configuration.IntakeTotal).GetValue<double>();
             double currentOutputUrine = ioTotal.GetProperty(_configuration.OutputUrine).GetValue<double>();
             double currentOutputDiarrhea = ioTotal.GetProperty(_configuration.OutputDiarrhea).GetValue<double>();
             double currentOutputOther = ioTotal.GetProperty(_configuration.OutputOther).GetValue<double>();
+            int currentOutputML = ioTotal.GetProperty(_configuration.OutputML).GetValue<int>();
 
             bool start = ioTotal.StartRequireCheckedOut();
             ioTotal.SetProperty(_configuration.IntakeTotal, MFDataType.MFDatatypeFloating, currentIntake + intake);
             ioTotal.SetProperty(_configuration.OutputUrine, MFDataType.MFDatatypeFloating, currentOutputUrine + outputUrine);
             ioTotal.SetProperty(_configuration.OutputDiarrhea, MFDataType.MFDatatypeFloating, currentOutputDiarrhea + outputDiarrhea);
             ioTotal.SetProperty(_configuration.OutputOther, MFDataType.MFDatatypeFloating, currentOutputOther + outputOther);
+            ioTotal.SetProperty(_configuration.OutputML, MFDataType.MFDatatypeInteger, currentOutputML + outputML);
             ioTotal.SaveProperties();
             ioTotal.EndRequireCheckedOut(start);
         }
