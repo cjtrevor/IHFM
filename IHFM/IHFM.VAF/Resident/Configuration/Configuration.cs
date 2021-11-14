@@ -23,5 +23,8 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Active = "MFiles.Property.ResidentActive";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier HasCarePlan = "MFiles.Property.HasCarePlan";
     }
 }

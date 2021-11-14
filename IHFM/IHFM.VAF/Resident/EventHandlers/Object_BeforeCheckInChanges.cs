@@ -21,7 +21,7 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.Resident")]
         public void SetDiscountValueIfPercentage(EventHandlerEnvironment env)
         {
-            if(env.ObjVerEx.HasValue(Configuration.DiscountPercentage))
+            if(env.ObjVerEx.HasValue(Configuration.DiscountPercentage) && env.ObjVerEx.HasValue(Configuration.RoomTariff))
             {
                 double tariff = double.Parse(env.ObjVerEx.GetProperty(Configuration.RoomTariff).GetValueAsLocalizedText());
                 double discountPerc = env.ObjVerEx.GetProperty(Configuration.DiscountPercentage).GetValue<double>();

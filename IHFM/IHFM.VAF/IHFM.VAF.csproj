@@ -86,6 +86,9 @@
     <Compile Include="Assignments\Configuration\Configuration.cs" />
     <Compile Include="Assignments\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Base\Configuration.cs" />
+    <Compile Include="CarePlan\Configuration\Configuration.cs" />
+    <Compile Include="CarePlan\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="CarePlan\Services\CarePlanSearchService.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Export\Services\TBCExportService.cs" />

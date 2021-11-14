@@ -112,5 +112,11 @@ namespace IHFM.VAF
 
             return objVers;
         }
+
+        public void SetCarePlanFlag(Lookup residentLookup)
+        {
+            ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
+            resident.SaveProperty(_configuration.HasCarePlan, MFDataType.MFDatatypeBoolean, true);
+        }
     }
 }
