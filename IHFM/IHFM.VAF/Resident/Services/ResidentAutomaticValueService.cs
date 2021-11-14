@@ -27,10 +27,10 @@ namespace IHFM.VAF
                                             objVerEx.GetProperty(_configuration.DiscountRandValue).GetValue<double>() :
                                             0 ;
 
-            if (discountPercentage > 0 && discountRandValue > 0)
-            {
-                throw new Exception("You should only specify a discount percentage or a discount amount. Both are currently specified.");
-            }
+            //if (discountPercentage > 0 && discountRandValue > 0)
+            //{
+            //    throw new Exception("You should only specify a discount percentage or a discount amount. Both are currently specified.");
+            //}
 
             if (discountPercentage > 0)
                 amount = tariff * (100 - discountPercentage) / 100;

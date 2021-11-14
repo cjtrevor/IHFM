@@ -17,5 +17,19 @@ namespace IHFM.VAF
             ObjVerEx currentRoomObjVerEx = new ObjVerEx(env.Vault, currentRoom);
             roomPropertyService.SetRoomVacantStatus(!active, currentRoomObjVerEx);
         }
+
+        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.Resident")]
+        public void SetDiscountValueIfPercentage(EventHandlerEnvironment env)
+        {
+            if(env.ObjVerEx.HasValue(Configuration.DiscountPercentage))
+            {
+                double tariff = double.Parse(env.ObjVerEx.GetProperty(Configuration.RoomTariff).GetValueAsLocalizedText());
+                double discountPerc = env.ObjVerEx.GetProperty(Configuration.DiscountPercentage).GetValue<double>();
+
+                double discountValue = tariff * discountPerc / 100;
+
+                env.ObjVerEx.SaveProperty(Configuration.DiscountRandValue, MFDataType.MFDatatypeFloating, discountValue);
+            }
+        }
     }
 }
