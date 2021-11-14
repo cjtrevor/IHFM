@@ -15,5 +15,16 @@ namespace IHFM.VAF
 
             return calculated;
         }
+
+        [PropertyCustomValue("MFiles.Property.TariffVariance")]
+        public TypedValue SetTariffVariance(PropertyEnvironment env)
+        {
+            ResidentAutomaticValueService residentAutomaticValueService = new ResidentAutomaticValueService(Configuration);
+
+            TypedValue calculated = new TypedValue();
+            calculated.SetValue(MFDataType.MFDatatypeFloating, residentAutomaticValueService.GetTariffVariance(env.ObjVerEx));
+
+            return calculated;
+        }
     }
 }

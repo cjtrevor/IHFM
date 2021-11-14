@@ -19,6 +19,9 @@ namespace IHFM.VAF
         public MFIdentifier RoomTariff = "MFiles.Property.RoomTariff";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier TariffVariance = "MFiles.Property.TariffVariance";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier CurrentRoom = "MFiles.Property.CurrentRoom";
 
         [MFPropertyDef(Required = true)]

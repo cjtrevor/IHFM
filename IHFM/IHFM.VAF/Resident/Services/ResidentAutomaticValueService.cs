@@ -41,5 +41,16 @@ namespace IHFM.VAF
 
             return amount;
         }
+
+        public double GetTariffVariance(ObjVerEx objVerEx)
+        {
+            if (!objVerEx.HasValue(_configuration.RoomTariff))
+                return 0;
+
+            double tariff = double.Parse(objVerEx.GetProperty(_configuration.RoomTariff).GetValueAsLocalizedText());
+            double actualAmount = CalculateActualAmountOutstanding(objVerEx);
+
+            return tariff - actualAmount;
+        }
     }
 }
