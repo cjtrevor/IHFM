@@ -75,6 +75,11 @@ namespace IHFM.VAF
         {
             int volume;
 
+            if(string.IsNullOrEmpty(volumeOut))
+            {
+                return 0;
+            }
+
             if (!Int32.TryParse(volumeOut.Substring(volumeOut.IndexOf('(') + 1, 1), out volume))
                 volume = 1;
 
