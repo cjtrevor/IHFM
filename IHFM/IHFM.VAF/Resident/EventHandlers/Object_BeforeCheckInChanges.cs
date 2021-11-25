@@ -21,9 +21,15 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.Resident")]
         public void SetDiscountValueIfPercentage(EventHandlerEnvironment env)
         {
-            if(env.ObjVerEx.HasValue(Configuration.DiscountPercentage) && env.ObjVerEx.HasValue(Configuration.RoomTariff))
+            double tariff;
+            if(!double.TryParse(env.ObjVerEx.GetProperty(Configuration.RoomTariff).GetValueAsLocalizedText(),out tariff))
             {
-                double tariff = double.Parse(env.ObjVerEx.GetProperty(Configuration.RoomTariff).GetValueAsLocalizedText());
+                throw new Exception("The currently selected tariff value is not in a valid format. Please remove any characters from the value (R,spaces, etc), This value may only contain numeric digits");
+            }
+
+            if(env.ObjVerEx.HasValue(Configuration.DiscountPercentage) && env.ObjVerEx.HasValue(Configuration.RoomTariff)
+                && env.ObjVerEx.GetProperty(Configuration.DiscountPercentage).GetValue<double>() != 0)
+            {
                 double discountPerc = env.ObjVerEx.GetProperty(Configuration.DiscountPercentage).GetValue<double>();
 
                 double discountValue = tariff * discountPerc / 100;

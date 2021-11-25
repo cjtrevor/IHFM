@@ -19,7 +19,13 @@ namespace IHFM.VAF
                 return 0;
 
             double amount = 0;
-            double tariff = double.Parse(objVerEx.GetProperty(_configuration.RoomTariff).GetValueAsLocalizedText());
+            double tariff;
+
+            if (!double.TryParse(objVerEx.GetProperty(_configuration.RoomTariff).GetValueAsLocalizedText(), out tariff))
+            {
+                throw new Exception("The currently selected tariff value is not in a valid format. Please remove any characters from the value (R,spaces, etc), This value may only contain numeric digits");
+            }
+
             double discountPercentage = objVerEx.HasValue(_configuration.DiscountPercentage) ?
                                             objVerEx.GetProperty(_configuration.DiscountPercentage).GetValue<double>() :
                                             0 ;
@@ -47,7 +53,12 @@ namespace IHFM.VAF
             if (!objVerEx.HasValue(_configuration.RoomTariff))
                 return 0;
 
-            double tariff = double.Parse(objVerEx.GetProperty(_configuration.RoomTariff).GetValueAsLocalizedText());
+            double tariff;
+            if (!double.TryParse(objVerEx.GetProperty(_configuration.RoomTariff).GetValueAsLocalizedText(), out tariff))
+            {
+                throw new Exception("The currently selected tariff value is not in a valid format. Please remove any characters from the value (R,spaces, etc), This value may only contain numeric digits");
+            }
+
             double actualAmount = CalculateActualAmountOutstanding(objVerEx);
 
             return tariff - actualAmount;
