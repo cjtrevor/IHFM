@@ -19,6 +19,18 @@ namespace IHFM.VAF
             _configuration = configuration;
         }
 
+        public bool GetResidentOnCarePackage(Lookup residentLookup)
+        {
+            ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
+            
+            if(!resident.HasValue(_configuration.OnCarePlan))
+            {
+                return false;
+            }
+
+            return resident.GetProperty(_configuration.OnCarePlan).GetValue<bool>();
+        }
+
         public List<ObjVer> GetResidentTBCItems(Lookup residentLookup)
         {
             List<ObjVer> objVers = new List<ObjVer>();

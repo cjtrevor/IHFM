@@ -39,6 +39,9 @@ namespace IHFM.VAF
                     env.ObjVerEx.AddLookup(Configuration.TBCADLLookup, x);
                 });
 
+                //On Care Package
+                env.ObjVerEx.SetProperty(Configuration.OnCarePlan, MFDataType.MFDatatypeBoolean, residentPropertyService.GetResidentOnCarePackage(residentLookup));
+
                 env.ObjVerEx.SaveProperties();
             }
             catch(Exception ex)
@@ -62,6 +65,9 @@ namespace IHFM.VAF
             TBCClinic.ForEach(x => {
                 env.ObjVerEx.AddLookup(Configuration.TBCClinicLookup, x);
             });
+
+            //On Care Package
+            env.ObjVerEx.SetProperty(Configuration.OnCarePlan, MFDataType.MFDatatypeBoolean, residentPropertyService.GetResidentOnCarePackage(residentLookup));
 
             env.ObjVerEx.SaveProperties();
         }

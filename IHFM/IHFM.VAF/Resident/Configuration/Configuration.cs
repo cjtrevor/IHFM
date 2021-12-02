@@ -29,5 +29,8 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier HasCarePlan = "MFiles.Property.HasCarePlan";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier OnCarePlan = "MFiles.Property.OnCarePackage";
     }
 }

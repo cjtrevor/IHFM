@@ -17,6 +17,11 @@ namespace IHFM.VAF
                     return;
                 }
 
+                if(!env.ObjVerEx.HasValue(Configuration.TBCADLLookup))
+                {
+                    throw new Exception("You cannot save the record without having any ADL(TBC) items selected.");
+                }
+
                 TimeBasedCarePropertyService timeBasedCarePropertyService = new TimeBasedCarePropertyService(env.Vault, Configuration);
                 TBCExportService exportService = new TBCExportService(env.Vault, Configuration);
 
@@ -64,6 +69,11 @@ namespace IHFM.VAF
             if (!env.ObjVerEx.HasValue(Configuration.EndTime))
             {
                 return;
+            }
+
+            if (!env.ObjVerEx.HasValue(Configuration.TBCClinicLookup))
+            {
+                throw new Exception("You cannot save the record without having any ADL(Clinic) items selected.");
             }
 
             TimeBasedCarePropertyService timeBasedCarePropertyService = new TimeBasedCarePropertyService(env.Vault, Configuration);
