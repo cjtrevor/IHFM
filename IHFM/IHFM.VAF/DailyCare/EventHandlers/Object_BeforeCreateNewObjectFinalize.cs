@@ -26,7 +26,7 @@ namespace IHFM.VAF
 
             if(dailyCare != null)
             {
-                throw new Exception("A daily care for this resident record for this shift already exists. A second record on the same shift is not allowed.");
+                throw new Exception("A daily care for this resident record for this shift already exists. Please refer to report 1.5 under the browse section for the existing records.");
             }
         }
 
