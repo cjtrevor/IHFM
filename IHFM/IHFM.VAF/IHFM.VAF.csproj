@@ -91,6 +91,7 @@
     <Compile Include="CarePlan\Services\CarePlanSearchService.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
     <Compile Include="Export\Services\TBCExportService.cs" />
     <Compile Include="Export\Services\WardStockExportService.cs" />
     <Compile Include="GCS\AutomaticValues\CalculatedValues.cs" />
@@ -110,6 +111,10 @@
     <Compile Include="Resident\Services\ResidentSearchService.cs" />
     <Compile Include="Room\Configuration\Configuration.cs" />
     <Compile Include="Room\Services\RoomPropertyService.cs" />
+    <Compile Include="ScriptManagement\Configuration\Configuration.cs" />
+    <Compile Include="ScriptManagement\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="ScriptManagement\Services\ScriptManagementSearchService.cs" />
+    <Compile Include="ScriptManagement\Services\ScriptManagementUtilityService.cs" />
     <Compile Include="Shift\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Shift\Configuration\Configuration.cs" />
     <Compile Include="Shift\Services\ShiftCalculationService.cs" />

@@ -12,5 +12,10 @@ namespace IHFM.VAF
         //Property Aliases
         [MFPropertyDef(Required = true)]
         public MFIdentifier CareDoneForShift = "MFiles.Property.CareDoneForShift";
+
+        //Class Aliases
+        [MFClass(Required = true)]
+        public MFIdentifier DailyCareClass = "MFiles.Class.DailyCare";
+
     }
 }
