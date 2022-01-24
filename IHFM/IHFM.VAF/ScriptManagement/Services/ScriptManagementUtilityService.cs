@@ -19,20 +19,20 @@ namespace IHFM.VAF
         {
             int threshold = configuration.ScriptControlTimeThreshold;
             
-            DateTime start0600 = DateTime.Today + new TimeSpan(5, 60 - threshold, 0);
-            DateTime end0600 = DateTime.Today + new TimeSpan(6, 59, 0);
+            DateTime start0600 = DateTime.Today + new TimeSpan(5, 0, 0);
+            DateTime end0600 = DateTime.Today + new TimeSpan(7, 0, 0);
 
-            DateTime start0900 = DateTime.Today + new TimeSpan(8, 60 - threshold, 0);
-            DateTime end0900 = DateTime.Today + new TimeSpan(9, 59, 0);
+            DateTime start0900 = DateTime.Today + new TimeSpan(7, 0, 0);
+            DateTime end0900 = DateTime.Today + new TimeSpan(10, 0, 0);
 
-            DateTime start1200 = DateTime.Today + new TimeSpan(11, 60 - threshold, 0);
-            DateTime end1200 = DateTime.Today + new TimeSpan(12, 59, 0);
+            DateTime start1200 = DateTime.Today + new TimeSpan(11, 0, 0);
+            DateTime end1200 = DateTime.Today + new TimeSpan(14, 0, 0);
 
-            DateTime start1700 = DateTime.Today + new TimeSpan(16, 60 - threshold, 0);
-            DateTime end1700 = DateTime.Today + new TimeSpan(17, 59, 0);
+            DateTime start1700 = DateTime.Today + new TimeSpan(17, 0, 0);
+            DateTime end1700 = DateTime.Today + new TimeSpan(19, 00, 0);
 
-            DateTime start2000 = DateTime.Today + new TimeSpan(19, 60 - threshold, 0);
-            DateTime end2000 = DateTime.Today + new TimeSpan(20, 59, 0);
+            DateTime start2000 = DateTime.Today + new TimeSpan(20, 0, 0);
+            DateTime end2000 = DateTime.Today + new TimeSpan(22, 0, 0);
 
             if (current > start0600 && current < end0600)
                 return configuration.GiveMeds0600;

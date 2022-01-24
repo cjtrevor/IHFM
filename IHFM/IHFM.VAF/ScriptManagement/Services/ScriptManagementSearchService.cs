@@ -39,7 +39,28 @@ namespace IHFM.VAF
             return null;
         }
 
-        public List<Lookup> GetMedsScheduledForTimeSlot(MFIdentifier slotConfig, ObjVerEx script)
+        public List<ObjVerEx> GetAllScriptManagementObject(int residentId)
+        {
+            List<ObjVerEx> activeScripts = new List<ObjVerEx>();
+
+            MFSearchBuilder scriptSearch = new MFSearchBuilder(vault);
+            scriptSearch.Class(configuration.ScriptManagementClass);
+            scriptSearch.Property(configuration.ResidentLookup, MFDataType.MFDatatypeLookup, residentId);
+
+            List<ObjVerEx> scripts = scriptSearch.FindEx();
+
+            foreach (ObjVerEx item in scripts)
+            {
+                DateTime EndDate = DateTime.Parse(item.GetProperty(configuration.ScriptManagementEndDate).GetValueAsLocalizedText());
+
+                if (EndDate > DateTime.Now)
+                    activeScripts.Add(item);
+            }
+
+            return activeScripts;
+        }
+
+        public List<Lookup> GetMedsScheduledForTimeSlot(MFIdentifier slotConfig, ObjVerEx script, bool isPRN)
         {
             List<Lookup> medsToGive = new List<Lookup>();
             Lookups meds = script.GetLookups(configuration.MedsOnScript);
@@ -47,7 +68,8 @@ namespace IHFM.VAF
             foreach  (Lookup lookup in meds)
             {
                 ObjVerEx med = new ObjVerEx(vault, lookup);
-                if(med.HasValue(slotConfig) && med.GetProperty(slotConfig).GetValue<bool>())
+                if(med.HasValue(slotConfig) && med.GetProperty(slotConfig).GetValue<bool>()
+                   && med.HasValue(configuration.PRNMedication) && med.GetProperty(configuration.PRNMedication).GetValue<bool>() == isPRN)
                 {
                     medsToGive.Add(lookup);
                 }

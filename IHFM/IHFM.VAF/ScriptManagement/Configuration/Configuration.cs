@@ -34,10 +34,13 @@ namespace IHFM.VAF
         public MFIdentifier ScriptManagementEndDate = "MFiles.Property.ScriptManagementEndDate";
 
         [MFPropertyDef(Required = true)]
-        public MFIdentifier TestHour = "MFiles.Property.Testhour";
+        public MFIdentifier PRNMedication = "MFiles.Property.PrnMedication";
 
         [MFPropertyDef(Required = true)]
-        public MFIdentifier TestMinute = "MFiles.Property.Testminute";
+        public MFIdentifier MedicineList = "MFiles.Property.MedicineList";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier MedsDosageProperty = "MFiles.Property.MedsDosageProperty";
 
         //Class Definitions
         [MFClass(Required = true)]
