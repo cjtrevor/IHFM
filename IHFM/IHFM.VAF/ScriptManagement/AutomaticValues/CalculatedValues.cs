@@ -16,6 +16,7 @@ namespace IHFM.VAF
             string objId = env.ObjVerEx.ObjID.ID.ToString();
             string medicineList = env.ObjVerEx.GetProperty(Configuration.MedicineList).GetValueAsLocalizedText();
             string medsDosage = env.ObjVerEx.GetProperty(Configuration.MedsDosageProperty).GetValueAsLocalizedText();
+            string qtyDispensed = env.ObjVerEx.GetProperty(Configuration.QtyDispensed).GetValueAsLocalizedText();
             string PRN = "";
 
             string timeslots = "";
@@ -34,7 +35,7 @@ namespace IHFM.VAF
             if (env.ObjVerEx.HasValue(Configuration.PRNMedication) && env.ObjVerEx.GetProperty(Configuration.PRNMedication).GetValue<bool>())
                 PRN = "_PRN";
 
-                string name = $"MDD{objId}_{medicineList}_{medsDosage}{PRN}: {timeslots.Trim('|')}";
+                string name = $"MDD{objId}_{medicineList}_{medsDosage}{PRN} x {qtyDispensed} times: {timeslots.Substring(0,timeslots.Length - 2)}";
 
             TypedValue calculated = new TypedValue();
             calculated.SetValue(MFDataType.MFDatatypeText, name);

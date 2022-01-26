@@ -42,6 +42,9 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier MedsDosageProperty = "MFiles.Property.MedsDosageProperty";
 
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier QtyDispensed = "MFiles.Property.QtyDispensed";
+
         //Class Definitions
         [MFClass(Required = true)]
         public MFIdentifier ScriptManagementClass = "MFiles.Class.ScriptManagement";
