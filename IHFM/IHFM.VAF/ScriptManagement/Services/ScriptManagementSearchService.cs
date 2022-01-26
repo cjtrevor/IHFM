@@ -68,10 +68,19 @@ namespace IHFM.VAF
             foreach  (Lookup lookup in meds)
             {
                 ObjVerEx med = new ObjVerEx(vault, lookup);
-                if(med.HasValue(slotConfig) && med.GetProperty(slotConfig).GetValue<bool>()
-                   && med.HasValue(configuration.PRNMedication) && med.GetProperty(configuration.PRNMedication).GetValue<bool>() == isPRN)
+
+                if (isPRN)
                 {
-                    medsToGive.Add(lookup);
+                    if (med.HasValue(configuration.PRNMedication) && med.GetProperty(configuration.PRNMedication).GetValue<bool>())
+                        medsToGive.Add(lookup);
+                }
+                else
+                {
+
+                    if (med.HasValue(slotConfig) && med.GetProperty(slotConfig).GetValue<bool>())
+                    {
+                        medsToGive.Add(lookup);
+                    }
                 }
             }
 
