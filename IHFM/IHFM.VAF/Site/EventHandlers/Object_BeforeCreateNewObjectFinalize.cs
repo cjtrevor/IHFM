@@ -19,6 +19,8 @@ namespace IHFM.VAF
 
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.OtherDocument")]
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.Document")]
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.MenuWeekly")]
+        
         public void SetSiteIDForOtherDocuments(EventHandlerEnvironment env)
         {
             SitePermissionService sitePermissionService = new SitePermissionService(env.Vault, Configuration);
