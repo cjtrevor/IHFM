@@ -45,6 +45,12 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier QtyDispensed = "MFiles.Property.QtyDispensed";
 
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier SpecificDays = "MFiles.Property.SpecificDays";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier DaysOfWeek = "MFiles.Property.DaysOfWeek";
+
         //Class Definitions
         [MFClass(Required = true)]
         public MFIdentifier ScriptManagementClass = "MFiles.Class.ScriptManagement";

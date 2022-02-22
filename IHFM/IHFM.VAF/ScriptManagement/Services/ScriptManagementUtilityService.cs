@@ -28,8 +28,8 @@ namespace IHFM.VAF
             DateTime start1200 = DateTime.Today + new TimeSpan(11, 0, 0);
             DateTime end1200 = DateTime.Today + new TimeSpan(14, 0, 0);
 
-            DateTime start1700 = DateTime.Today + new TimeSpan(17, 0, 0);
-            DateTime end1700 = DateTime.Today + new TimeSpan(19, 00, 0);
+            DateTime start1700 = DateTime.Today + new TimeSpan(16, 30, 0);
+            DateTime end1700 = DateTime.Today + new TimeSpan(18, 30, 0);
 
             DateTime start2000 = DateTime.Today + new TimeSpan(20, 0, 0);
             DateTime end2000 = DateTime.Today + new TimeSpan(22, 0, 0);

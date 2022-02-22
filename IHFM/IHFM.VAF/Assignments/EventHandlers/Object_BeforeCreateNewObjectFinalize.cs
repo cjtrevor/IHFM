@@ -31,6 +31,8 @@ namespace IHFM.VAF
 
             //Site Team Leaders
             SetAssignmentUsers(staffPropertyService, Configuration.SiteTeamLeaders, env.ObjVerEx, createdByID);
+
+            env.ObjVerEx.SaveProperties();
         }
 
         private void SetAssignmentUsers(StaffPropertyService staffPropertyService, MFIdentifier type, ObjVerEx objVerEx, int createdByID)

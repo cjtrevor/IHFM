@@ -69,6 +69,11 @@ namespace IHFM.VAF
             {
                 ObjVerEx med = new ObjVerEx(vault, lookup);
 
+                if(med.HasValue(configuration.SpecificDays) && med.GetProperty(configuration.SpecificDays).GetValue<bool>() && !ShouldGiveToday(med))
+                {
+                    continue;
+                }
+
                 if (isPRN)
                 {
                     if (med.HasValue(configuration.PRNMedication) && med.GetProperty(configuration.PRNMedication).GetValue<bool>())
@@ -76,8 +81,8 @@ namespace IHFM.VAF
                 }
                 else
                 {
-
-                    if (med.HasValue(slotConfig) && med.GetProperty(slotConfig).GetValue<bool>())
+                    if (med.HasValue(slotConfig) && med.GetProperty(slotConfig).GetValue<bool>() && 
+                        !(med.HasValue(configuration.PRNMedication) && med.GetProperty(configuration.PRNMedication).GetValue<bool>()))
                     {
                         medsToGive.Add(lookup);
                     }
@@ -85,6 +90,19 @@ namespace IHFM.VAF
             }
 
             return medsToGive;
+        }
+
+        private bool ShouldGiveToday(ObjVerEx med)
+        {
+            foreach (Lookup day in med.GetLookups(configuration.DaysOfWeek))
+            {
+                if(DayOfWeekParser.isToday(day.DisplayValue))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

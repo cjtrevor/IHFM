@@ -135,6 +135,7 @@
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="TimeBasedCare\Services\TimeBasedCarePropertyService.cs" />
     <Compile Include="Utilities\DatabaseConnector.cs" />
+    <Compile Include="Utilities\DayOfWeekParser.cs" />
     <Compile Include="Utilities\DevelopmentUtility.cs" />
     <Compile Include="Utilities\IdNumberParser.cs" />
     <Compile Include="Base\VaultApplication.cs" />
