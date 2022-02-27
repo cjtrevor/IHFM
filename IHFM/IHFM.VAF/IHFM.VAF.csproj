@@ -94,6 +94,7 @@
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
     <Compile Include="Export\Services\MenuExportService.cs" />
     <Compile Include="Export\Services\TBCExportService.cs" />
+    <Compile Include="Export\Services\VitalsRecordExportService.cs" />
     <Compile Include="Export\Services\WardStockExportService.cs" />
     <Compile Include="GCS\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="GCS\Configuration\Configuration.cs" />
@@ -139,6 +140,8 @@
     <Compile Include="Utilities\DevelopmentUtility.cs" />
     <Compile Include="Utilities\IdNumberParser.cs" />
     <Compile Include="Base\VaultApplication.cs" />
+    <Compile Include="VitalsRecord\Configuration\Configuration.cs" />
+    <Compile Include="VitalsRecord\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appdef.xml">

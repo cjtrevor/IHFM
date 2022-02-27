@@ -17,7 +17,7 @@ namespace IHFM.VAF
     {
         private SqlConnection sqlConnection;
         private SqlCommand sqlCommand;
-        private const string connectionString = @"Server=WIN-L5VS4AH5TL5;Database=MFILESVAF;User Id=MFilesVAF;Password=MFilesVAF;";
+        private const string connectionString = @"Server=WIN-L5VS4AH5TL5\MSSQLSERVER01;Database=MFILESVAF;User Id=MFilesVAF;Password=MFilesVAF;";
 
         public DatabaseConnector()
         {

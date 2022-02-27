@@ -41,3 +41,54 @@ INSERT INTO [dbo].[WardStockExport]
 		   @Year,
 		   @CostPrice,
 		   @SellingPrice)
+
+create procedure sp_ExportVitalsRecord
+@Shift varchar(15),
+@ObjectID int,
+@SiteID	int,
+@SiteName varchar(50),
+@Resident varchar(70),
+@DateTaken smalldatetime,
+@Temperature decimal(6,2),
+@SystolicBP int,
+@DiastolicBP int,
+@HeartRate int,
+@Weight decimal(6,2),
+@HGT decimal (10,2),
+@Saturation int,
+@HB decimal (10,2)
+
+as
+
+INSERT INTO [dbo].[VitalsRecordExport]
+           ([Shift]
+           ,[ObjectID]
+           ,[SiteID]
+           ,[SiteName]
+           ,[Resident]
+           ,[DateTaken]
+           ,[Temperature]
+           ,[SystolicBP]
+           ,[DiastolicBP]
+           ,[HeartRate]
+           ,[Weight]
+           ,[HGT]
+           ,[Saturation]
+           ,[HB])
+     VALUES
+	 (
+	 @Shift
+    ,@ObjectID
+    ,@SiteID
+    ,@SiteName
+    ,@Resident
+    ,@DateTaken
+    ,@Temperature
+    ,@SystolicBP
+    ,@DiastolicBP
+    ,@HeartRate
+    ,@Weight
+    ,@HGT
+    ,@Saturation
+    ,@HB
+	)

@@ -16,3 +16,10 @@ select SiteID,SiteName, [Month],[Year],
 from WardStockExport
 group by SiteID,SiteName,[Month],[Year]
 GO
+
+Create view vw_VitalsRecordsSummary
+as
+select [Shift], SiteName, Resident, DateTaken, Temperature, SystolicBP, DiastolicBP, HeartRate, Weight,
+		HGT,Saturation,HB 
+from VitalsRecordExport
+GO
