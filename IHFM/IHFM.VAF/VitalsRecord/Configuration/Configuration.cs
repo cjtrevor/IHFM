@@ -32,5 +32,8 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Vitals_HB = "MFiles.Property.HB";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Vitals_Monthly = "MFiles.Property.Monthly";
     }
 }

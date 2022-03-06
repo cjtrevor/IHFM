@@ -20,6 +20,6 @@ GO
 Create view vw_VitalsRecordsSummary
 as
 select [Shift], SiteName, Resident, DateTaken, Temperature, SystolicBP, DiastolicBP, HeartRate, Weight,
-		HGT,Saturation,HB 
+		HGT,Saturation,HB, Monthly
 from VitalsRecordExport
 GO

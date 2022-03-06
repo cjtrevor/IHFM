@@ -42,7 +42,7 @@ INSERT INTO [dbo].[WardStockExport]
 		   @CostPrice,
 		   @SellingPrice)
 
-create procedure sp_ExportVitalsRecord
+create procedure [dbo].[sp_ExportVitalsRecord]
 @Shift varchar(15),
 @ObjectID int,
 @SiteID	int,
@@ -56,7 +56,8 @@ create procedure sp_ExportVitalsRecord
 @Weight decimal(6,2),
 @HGT decimal (10,2),
 @Saturation int,
-@HB decimal (10,2)
+@HB decimal (10,2),
+@Monthly bit
 
 as
 
@@ -74,7 +75,8 @@ INSERT INTO [dbo].[VitalsRecordExport]
            ,[Weight]
            ,[HGT]
            ,[Saturation]
-           ,[HB])
+           ,[HB],
+		   [Monthly])
      VALUES
 	 (
 	 @Shift
@@ -90,5 +92,7 @@ INSERT INTO [dbo].[VitalsRecordExport]
     ,@Weight
     ,@HGT
     ,@Saturation
-    ,@HB
+    ,@HB,
+	@Monthly
 	)
+GO

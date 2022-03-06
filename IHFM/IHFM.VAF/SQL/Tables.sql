@@ -43,6 +43,7 @@ CREATE TABLE [dbo].[VitalsRecordExport](
 	[HGT] [decimal](10, 2) NULL,
 	[Saturation] [int] NULL,
 	[HB] [decimal](10, 2) NULL,
+	[Monthly] [bit] NULL,
  CONSTRAINT [PK_VitalsRecordExport] PRIMARY KEY CLUSTERED 
 (
 	[Identifier] ASC

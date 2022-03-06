@@ -49,6 +49,10 @@ namespace IHFM.VAF
                 ? GetDecimalValue(vitalsRecord.GetPropertyText(_configuration.Vitals_HB))
                 : 0;
 
+            bool monthly = vitalsRecord.HasValue(_configuration.Vitals_Monthly)
+                ? vitalsRecord.GetProperty(+_configuration.Vitals_Monthly).GetValue<bool>()
+                : false;
+
             StoredProc storedProc = new StoredProc();
 
             storedProc.procedureName = "sp_ExportVitalsRecord";
@@ -68,6 +72,7 @@ namespace IHFM.VAF
             storedProc.storedProcParams.Add("@HGT", hgt);
             storedProc.storedProcParams.Add("@Saturation", saturation);
             storedProc.storedProcParams.Add("@HB", hb);
+            storedProc.storedProcParams.Add("@Monthly", monthly);
 
             connector.ExecuteStoredProc(storedProc);
         }
