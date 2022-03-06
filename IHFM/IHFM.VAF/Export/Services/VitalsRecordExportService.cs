@@ -7,21 +7,27 @@ namespace IHFM.VAF
 {
     public class VitalsRecordExportService
     {
+        private readonly Vault _vault;
         private readonly Configuration _configuration;
 
-        public VitalsRecordExportService(Configuration configuration)
+        public VitalsRecordExportService(Vault vault, Configuration configuration)
         {
+            _vault = vault;
             _configuration = configuration;
         }
 
         public void ExportRecord(ObjVerEx vitalsRecord)
         {
             DatabaseConnector connector = new DatabaseConnector();
+            SiteSearchService searchService = new SiteSearchService(_vault, _configuration);
 
             string shift = vitalsRecord.GetPropertyText(_configuration.Shift);
             int objectId = vitalsRecord.ObjID.ID;
-            int siteId = vitalsRecord.GetLookupID(_configuration.SiteList);
-            string siteName = vitalsRecord.GetProperty(_configuration.SiteList).GetValueAsLocalizedText();
+            int siteId = Int32.Parse(vitalsRecord.GetProperty(_configuration.SiteList).GetValueAsLocalizedText());
+
+            ObjVerEx site = searchService.GetSiteByNumber(siteId.ToString());
+            string siteName = site.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle).GetValueAsLocalizedText();
+
             string resident = vitalsRecord.GetProperty(_configuration.ResidentLookup).GetValueAsLocalizedText();
             DateTime dateTaken = DateTime.Now;
             decimal temperature = vitalsRecord.HasValue(_configuration.Vitals_Temperature) 

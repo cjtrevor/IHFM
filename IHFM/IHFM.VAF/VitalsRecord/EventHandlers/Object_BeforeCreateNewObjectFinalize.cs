@@ -10,7 +10,7 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, ObjectType = "MFiles.Object.VitalsRecord")]
         public void BeforeCreateNewVitalsRecord(EventHandlerEnvironment env)
         {
-            VitalsRecordExportService exportService = new VitalsRecordExportService(Configuration);
+            VitalsRecordExportService exportService = new VitalsRecordExportService(env.Vault, Configuration);
 
             exportService.ExportRecord(env.ObjVerEx);
         }
