@@ -92,6 +92,9 @@
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
+    <Compile Include="Export\Classes\SageTransactionHeader.cs" />
+    <Compile Include="Export\Classes\SageTransactionInvoice.cs" />
+    <Compile Include="Export\Classes\SageTransactionItem.cs" />
     <Compile Include="Export\Services\MenuExportService.cs" />
     <Compile Include="Export\Services\TBCExportService.cs" />
     <Compile Include="Export\Services\VitalsRecordExportService.cs" />
