@@ -32,5 +32,11 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier OnCarePlan = "MFiles.Property.OnCarePackage";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_CPOARef = "MFiles.Property.CPOARef";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_ActualAmountPayable = "MFiles.Property.ActualAmountPaying";
     }
 }

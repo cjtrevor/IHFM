@@ -13,6 +13,7 @@ namespace IHFM.VAF
     {
         public int objectId;
         public int siteId;
+        public int residentId;
         public Lookup stockId;
         public double quantity;
         public bool isTransferIn;
@@ -69,7 +70,9 @@ namespace IHFM.VAF
             storedProc.storedProcParams.Add("@ObjectID", item.objectId);
             storedProc.storedProcParams.Add("@SiteID", item.siteId);
             storedProc.storedProcParams.Add("@SiteName", siteName);
+            storedProc.storedProcParams.Add("@ResidentID", item.residentId);
             storedProc.storedProcParams.Add("@Direction", item.isTransferIn ? "IN" : "OUT");
+            storedProc.storedProcParams.Add("@TransactionDate", item.created);
             storedProc.storedProcParams.Add("@Month", item.created.ToString("MMMM", CultureInfo.InvariantCulture));
             storedProc.storedProcParams.Add("@Year", item.created.Year);
             storedProc.storedProcParams.Add("@CostPrice", costParam);

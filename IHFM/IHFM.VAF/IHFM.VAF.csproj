@@ -96,6 +96,7 @@
     <Compile Include="Export\Classes\SageTransactionInvoice.cs" />
     <Compile Include="Export\Classes\SageTransactionItem.cs" />
     <Compile Include="Export\Services\MenuExportService.cs" />
+    <Compile Include="Export\Services\SageExportService.cs" />
     <Compile Include="Export\Services\TBCExportService.cs" />
     <Compile Include="Export\Services\VitalsRecordExportService.cs" />
     <Compile Include="Export\Services\WardStockExportService.cs" />

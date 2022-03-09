@@ -50,5 +50,31 @@ namespace IHFM.VAF
                 sqlConnection.Close();
             }
         }
+
+        public string ExecuteStoredProcScalar(StoredProc storedProc)
+        {
+            string returnValue = "";
+
+            sqlCommand = new SqlCommand(storedProc.procedureName, sqlConnection);
+            sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+            foreach (KeyValuePair<string, object> kvp in storedProc.storedProcParams)
+            {
+                sqlCommand.Parameters.Add(new SqlParameter(kvp.Key, kvp.Value));
+            }
+
+            try
+            {
+                sqlConnection.Open();
+                returnValue = sqlCommand.ExecuteScalar().ToString();
+            }
+            catch (Exception ex) { }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+            return returnValue;
+        }
     }
 }

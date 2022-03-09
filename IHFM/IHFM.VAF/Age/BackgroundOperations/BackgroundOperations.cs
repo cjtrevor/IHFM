@@ -12,10 +12,10 @@ namespace IHFM.VAF
     {
         public void RefreshResidentAge(Vault vault, Configuration configuration)
         {
-            ResidentSearchService residentSearchService = new ResidentSearchService();
+            ResidentSearchService residentSearchService = new ResidentSearchService(vault,configuration);
             AgeCalculationService ageCalculationService = new AgeCalculationService();
 
-            List<ObjVerEx> residents = residentSearchService.GetAllResidents(vault, configuration);
+            List<ObjVerEx> residents = residentSearchService.GetAllResidents();
             residents.ForEach(x => {
                 ageCalculationService.RefreshAge(x, configuration);
             });
@@ -23,11 +23,11 @@ namespace IHFM.VAF
 
         public void SetAverageSiteAges(Vault vault, Configuration configuration)
         {
-            ResidentSearchService residentSearchService = new ResidentSearchService();
+            ResidentSearchService residentSearchService = new ResidentSearchService(vault, configuration);
             SiteSearchService siteSearchService = new SiteSearchService(vault,configuration);
 
             List<ObjVerEx> sites = siteSearchService.GetAllSites();
-            List<ObjVerEx> residents = residentSearchService.GetAllActiveResidents(vault, configuration);
+            List<ObjVerEx> residents = residentSearchService.GetAllActiveResidents();
 
             foreach (ObjVerEx site in sites)
             {

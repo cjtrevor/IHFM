@@ -6,19 +6,36 @@ namespace IHFM.VAF
 {
     public class ResidentSearchService
     {
-        public List<ObjVerEx> GetAllResidents(Vault vault, Configuration configuration)
+        private readonly Vault _vault;
+        private readonly Configuration _configuration;
+
+        public ResidentSearchService(Vault vault, Configuration configuration)
         {
-            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(vault);
-            mFSearchBuilder.ObjType(configuration.ResidentObject);
+            _vault = vault;
+            _configuration = configuration;
+        }
+        public List<ObjVerEx> GetAllResidents()
+        {
+            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(_vault);
+            mFSearchBuilder.ObjType(_configuration.ResidentObject);
             mFSearchBuilder.Deleted(false);
             return mFSearchBuilder.FindEx();
         }
 
-        public List<ObjVerEx> GetAllActiveResidents(Vault vault, Configuration configuration)
+        public List<ObjVerEx> GetAllActiveResidents()
         {
-            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(vault);
-            mFSearchBuilder.ObjType(configuration.ResidentObject);
-            mFSearchBuilder.Property(configuration.Active, MFDataType.MFDatatypeBoolean, true);
+            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(_vault);
+            mFSearchBuilder.ObjType(_configuration.ResidentObject);
+            mFSearchBuilder.Property(_configuration.Active, MFDataType.MFDatatypeBoolean, true);
+            mFSearchBuilder.Deleted(false);
+            return mFSearchBuilder.FindEx();
+        }
+
+        public List<ObjVerEx> GetAllResidentsForSite(string siteNumber)
+        {
+            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(_vault);
+            mFSearchBuilder.ObjType(_configuration.ResidentObject);
+            mFSearchBuilder.Property(_configuration.SiteList, MFDataType.MFDatatypeText, siteNumber);
             mFSearchBuilder.Deleted(false);
             return mFSearchBuilder.FindEx();
         }

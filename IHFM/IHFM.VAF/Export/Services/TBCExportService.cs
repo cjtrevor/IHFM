@@ -49,6 +49,7 @@ namespace IHFM.VAF
             string monthName = DateTime.Parse(startDate).ToString("MMMM", CultureInfo.InvariantCulture);
             int year = DateTime.Parse(startDate).Year;
 
+            int residentId = tbc.GetLookupID(_configuration.ResidentLookup);
 
             string costForService = tbc.GetPropertyText(_configuration.CostForService);
             decimal cost;
@@ -67,6 +68,8 @@ namespace IHFM.VAF
             storedProc.storedProcParams.Add("@ObjectID", objectId);
             storedProc.storedProcParams.Add("@SiteId", siteId);
             storedProc.storedProcParams.Add("@SiteName", siteName);
+            storedProc.storedProcParams.Add("@ResidentID", residentId);
+            storedProc.storedProcParams.Add("@TransactionDate", DateTime.Parse(startDate));
             storedProc.storedProcParams.Add("@Month", monthName);
             storedProc.storedProcParams.Add("@Year", year);
             storedProc.storedProcParams.Add("@Cost", cost);

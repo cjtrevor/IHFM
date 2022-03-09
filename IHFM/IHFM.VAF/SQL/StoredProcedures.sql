@@ -2,21 +2,25 @@
 @ObjectID int,
 @SiteID int,
 @SiteName varchar(50),
+@ResidentID int,
+@TransactionDate smalldatetime,
 @Month varchar(15),
 @Year int,
 @Cost decimal(10,2),
 @TBCType varchar(5)
 AS
 
-insert into TimeBasedCareExport (ObjectID,SiteId,SiteName,[Month],[Year],Cost,TBCType)
+insert into TimeBasedCareExport (ObjectID,SiteId,SiteName,ResidentID, TransactionDate,[Month],[Year],Cost,TBCType)
 VALUES
-(@ObjectID,@SiteID,@SiteName,@Month,@Year,@Cost,@TBCType)
+(@ObjectID,@SiteID,@SiteName,@ResidentID, @TransactionDate,@Month,@Year,@Cost,@TBCType)
 
 CREATE PROCEDURE [dbo].[sp_ExportWardStockRecord]
 @ObjectID int,
 @SiteId int,
 @SiteName varchar(50),
+@ResidentID int,
 @Direction varchar(5),
+@TransactionDate smalldatetime,
 @Month varchar(15),
 @Year int,
 @CostPrice decimal(10,2),
@@ -27,7 +31,9 @@ INSERT INTO [dbo].[WardStockExport]
            ([ObjectID]
            ,[SiteID]
 		   ,SiteName
+           ,ResidentID
 		   ,[Direction]
+           ,TransactionDate,
            ,[Month]
            ,[Year]
            ,[CostPrice]
@@ -36,7 +42,9 @@ INSERT INTO [dbo].[WardStockExport]
            (@ObjectID,
 		   @SiteId,
 		   @SiteName,
+           @ResidentID,
 		   @Direction,
+           @TransactionDate,
 		   @Month,
 		   @Year,
 		   @CostPrice,
@@ -96,3 +104,39 @@ INSERT INTO [dbo].[VitalsRecordExport]
 	@Monthly
 	)
 GO
+
+create procedure sp_SetSageExportLastRun
+@SiteId int,
+@LastRun smalldatetime
+
+as
+update ExportLastRun set SageExportLastRun = @LastRun where SiteId = @SiteId
+GO
+
+create procedure sp_GetSageExportLastRun
+@SiteId int
+
+as
+select SageExportLastRun from ExportLastRun where SiteId = @SiteId
+
+Create proc sp_GetTimeBasedCareRecordsForResidentPeriod
+@ResidentID int,
+@StartDate smalldatetime,
+@EndDate smalldatetime,
+@Type varchar(4)
+as
+select SUM(Cost) 
+	from TimeBasedCareExport 
+where ResidentID = @ResidentID
+	and TBCType = @Type
+	and TransactionDate between @StartDate and @EndDate
+
+Create proc sp_GetWardStockRecordsForResidentPeriod
+@ResidentID int,
+@StartDate smalldatetime,
+@EndDate smalldatetime
+as
+select SUM(SellingPrice) 
+	from WardStockExport 
+where ResidentID = @ResidentID
+	and TransactionDate between @StartDate and @EndDate
