@@ -28,5 +28,15 @@ namespace IHFM.VAF.Export.Classes
         public string SWTAXINCL1 { get => ""; }
         public string RATETAX1 { get => ""; }
         public string AMTTAX1 { get => ""; }
+
+        public string GetHeaders()
+        {
+            return "RECTYPE, CNTBTCH,CNTITEM,CNTLINE,IDITEM,IDDIST,TEXTDESC,UNITMEAS,QTYINVC,AMTCOST,AMTPRIC,AMTEXTN,AMTCOGS,AMTTXBL,TOTTAX,BASETAX1,TAXSTTS1,SWTAXINCL1,RATETAX1,AMTTAX1";
+        }
+
+        public string GetDetails()
+        {
+            return $"{RECTYPE}, {CNTBTCH},{CNTITEM},{CNTLINE},{IDITEM},{IDDIST},{TEXTDESC},{UNITMEAS},{QTYINVC},{AMTCOST},{AMTPRIC},{AMTEXTN},{AMTCOGS},{AMTTXBL},{TOTTAX},{BASETAX1},{TAXSTTS1},{SWTAXINCL1},{RATETAX1},{AMTTAX1}";
+        }
     }
 }

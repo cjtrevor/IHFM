@@ -3,6 +3,7 @@ using MFiles.VAF.Common;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,36 +31,24 @@ namespace IHFM.VAF
             exportEnd = DateTime.Now;
         }
 
-        public void ExportBilling(string siteNumber)
-        {
-            DatabaseConnector connector = new DatabaseConnector();
-
-            StoredProc proc = new StoredProc
-            {
-                procedureName = "sp_GetSageExportLastRun",
-                storedProcParams = new Dictionary<string, object>()               
-            };
-
-            proc.storedProcParams.Add("@SiteId", siteNumber);
-            string date = connector.ExecuteStoredProcScalar(proc);
-            
-            if(string.IsNullOrEmpty(date))
-            {
-                exportStart = DateTime.Now;
-                exportEnd = DateTime.Now.AddMonths(1);
-            }
-            else
-            {
-                exportStart = DateTime.Parse(date);
-                exportEnd = DateTime.Now;
-            }    
+        public void ExportBilling(string siteNumber, DateTime startDate, DateTime endDate)
+        {  
+            exportStart = startDate;
+            exportEnd = endDate;
 
             ResidentSearchService searchService = new ResidentSearchService(_vault, _configuration);
             List<ObjVerEx> residents = searchService.GetAllResidentsForSite(siteNumber);
 
             List<SageExport> exports = new List<SageExport>();
 
-            foreach(ObjVerEx res in residents)
+            string expFile = $"C:\\IHFM\\SageExport\\Export_{siteNumber}_{startDate.ToString("yyMMdd")}-{endDate.ToString("yyMMdd")}";
+            StreamWriter writer = new StreamWriter(expFile);
+
+            writer.WriteLine(new SageTransactionHeader().GetHeaders());
+            writer.WriteLine(new SageTransactionItem().GetHeaders());
+            writer.WriteLine(new SageTransactionInvoice().GetHeaders());
+
+            foreach (ObjVerEx res in residents)
             {
                 SageExport exp = new SageExport
                 {
@@ -68,7 +57,20 @@ namespace IHFM.VAF
                 };
 
                 exp.invoiceLine = GetTransactionInvoice(exp.lineItems);
+
+                exports.Add(exp);
             }
+
+            foreach (SageExport exp in exports)
+            {
+                writer.WriteLine(exp.header.GetDetails());
+
+                exp.lineItems.ForEach(x => { writer.WriteLine(x.GetDetails()); });
+
+                writer.WriteLine(exp.invoiceLine.GetDetails());
+            }
+
+            writer.Close();
 
         }
 
@@ -100,38 +102,50 @@ namespace IHFM.VAF
 
             //Ward Stock
             decimal wardStockCost = Decimal.Parse(GetWardStockCost(resident.ObjID.ID));
-            items.Add(new SageTransactionItem
-            {
-                CNTLINE = "40",
-                IDDIST = "8446-295-02",
-                TEXTDESC = $"Ward Stock {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
-                AMTEXTN = wardStockCost.ToString(),
-                AMTTXBL = (wardStockCost * 85 / 100).ToString(),
-                TOTTAX = (wardStockCost * 15 / 100).ToString()
-            });
+
+            if(wardStockCost > 0)
+            { 
+                items.Add(new SageTransactionItem
+                {
+                    CNTLINE = "40",
+                    IDDIST = "8446-295-02",
+                    TEXTDESC = $"Ward Stock {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
+                    AMTEXTN = wardStockCost.ToString(),
+                    AMTTXBL = (wardStockCost * 85 / 100).ToString(),
+                    TOTTAX = (wardStockCost * 15 / 100).ToString()
+                });
+            }
 
             //Time based care
             decimal tbcCost = Decimal.Parse(GetTimeBasedCareCost(resident.ObjID.ID,"ADL"));
-            items.Add(new SageTransactionItem
-            {
-                CNTLINE = "60",
-                IDDIST = "8446-295-02",
-                TEXTDESC = $"Time Based Care {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
-                AMTEXTN = tbcCost.ToString(),
-                AMTTXBL = (tbcCost * 85 / 100).ToString(),
-                TOTTAX = (tbcCost * 15 / 100).ToString()
-            });
+
+            if(tbcCost > 0)
+            { 
+                items.Add(new SageTransactionItem
+                {
+                    CNTLINE = "60",
+                    IDDIST = "8446-295-02",
+                    TEXTDESC = $"Time Based Care {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
+                    AMTEXTN = tbcCost.ToString(),
+                    AMTTXBL = (tbcCost * 85 / 100).ToString(),
+                    TOTTAX = (tbcCost * 15 / 100).ToString()
+                });
+            }
 
             decimal tbcClinicCost = Decimal.Parse(GetTimeBasedCareCost(resident.ObjID.ID, "CLNC"));
-            items.Add(new SageTransactionItem
+
+            if (tbcClinicCost > 0)
             {
-                CNTLINE = "60",
-                IDDIST = "8446-295-02",
-                TEXTDESC = $"Time Based Care {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
-                AMTEXTN = tbcClinicCost.ToString(),
-                AMTTXBL = (tbcClinicCost * 85 / 100).ToString(),
-                TOTTAX = (tbcClinicCost * 15 / 100).ToString()
-            });
+                items.Add(new SageTransactionItem
+                {
+                    CNTLINE = "60",
+                    IDDIST = "8446-295-02",
+                    TEXTDESC = $"Time Based Care {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
+                    AMTEXTN = tbcClinicCost.ToString(),
+                    AMTTXBL = (tbcClinicCost * 85 / 100).ToString(),
+                    TOTTAX = (tbcClinicCost * 15 / 100).ToString()
+                });
+            }
 
             return items;
         }

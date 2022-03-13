@@ -28,5 +28,15 @@ namespace IHFM.VAF.Export.Classes
         public string CODECURN { get => ""; }
         public string RATETYPE { get => ""; }
         public string DATEDUE { get => ""; }
+
+        public string GetHeaders()
+        {
+            return "RECTYPE,CNTBTCH,CNTITEM,IDCUST,IDINVC,IDSHPT,SPECINST,TEXTTRX,IDTRX,ORDRNBR,CUSTPO,INVCDESC,SWPRTINVC,INVCAPPLTO,IDACCTSET,DATEINVC,DATEASOF,CODECURN,RATETYPE,DATEDUE";
+        }
+
+        public string GetDetails()
+        {
+            return $"{RECTYPE},{CNTBTCH},{CNTITEM},{IDCUST},{IDINVC},{IDSHPT},{SPECINST},{TEXTTRX},{IDTRX},{ORDRNBR},{CUSTPO},{INVCDESC},{SWPRTINVC},{INVCAPPLTO},{IDACCTSET},{DATEINVC},{DATEASOF},{CODECURN},{RATETYPE},{DATEDUE}";
+        }
     }
 }

@@ -18,5 +18,15 @@ namespace IHFM.VAF.Export.Classes
         public string AMTDISC { get => ""; }
         public string AMTDUEHC { get; set; }
         public string AMTDISCHC { get => "0"; }
+
+        public string GetHeaders()
+        {
+            return "RECTYPE,CNTBTCH,CNTITEM,CNTPAYM,DATEDUE,AMTDUE,DATEDISC,AMTDISC,AMTDUEHC,AMTDISCHC";
+        }
+
+        public string GetDetails()
+        {
+            return $"{RECTYPE},{CNTBTCH},{CNTITEM},{CNTPAYM},{DATEDUE},{AMTDUE},{DATEDISC},{AMTDISC},{AMTDUEHC},{AMTDISCHC}";
+        }
     }
 }
