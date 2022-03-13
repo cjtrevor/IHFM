@@ -119,6 +119,8 @@
     <Compile Include="Resident\Services\ResidentSearchService.cs" />
     <Compile Include="Room\Configuration\Configuration.cs" />
     <Compile Include="Room\Services\RoomPropertyService.cs" />
+    <Compile Include="SageExport\Configuration\Configuration.cs" />
+    <Compile Include="SageExport\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="ScriptManagement\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="ScriptManagement\Configuration\Configuration.cs" />
     <Compile Include="ScriptManagement\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />

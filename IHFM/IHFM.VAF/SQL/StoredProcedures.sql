@@ -125,7 +125,7 @@ Create proc sp_GetTimeBasedCareRecordsForResidentPeriod
 @EndDate smalldatetime,
 @Type varchar(4)
 as
-select SUM(Cost) 
+select ISNULL(SUM(Cost), 0) as Cost 
 	from TimeBasedCareExport 
 where ResidentID = @ResidentID
 	and TBCType = @Type
@@ -136,7 +136,7 @@ Create proc sp_GetWardStockRecordsForResidentPeriod
 @StartDate smalldatetime,
 @EndDate smalldatetime
 as
-select SUM(SellingPrice) 
+select ISNULL(SUM(SellingPrice), 0) as Cost
 	from WardStockExport 
 where ResidentID = @ResidentID
 	and TransactionDate between @StartDate and @EndDate

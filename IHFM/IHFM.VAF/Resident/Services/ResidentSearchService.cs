@@ -1,6 +1,8 @@
 ﻿using MFiles.VAF.Common;
 using MFilesAPI;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IHFM.VAF
 {
@@ -31,13 +33,11 @@ namespace IHFM.VAF
             return mFSearchBuilder.FindEx();
         }
 
-        public List<ObjVerEx> GetAllResidentsForSite(string siteNumber)
+        public List<ObjVerEx> GetAllResidentsForSite(int siteNumber)
         {
-            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(_vault);
-            mFSearchBuilder.ObjType(_configuration.ResidentObject);
-            mFSearchBuilder.Property(_configuration.SiteList, MFDataType.MFDatatypeText, siteNumber);
-            mFSearchBuilder.Deleted(false);
-            return mFSearchBuilder.FindEx();
+            List<ObjVerEx> allResident = GetAllActiveResidents();
+
+            return allResident.Where(x => x.GetLookupID(_configuration.BaseSiteID) == siteNumber).ToList();
         }
     }
 }

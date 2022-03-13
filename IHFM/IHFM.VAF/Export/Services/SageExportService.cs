@@ -31,17 +31,17 @@ namespace IHFM.VAF
             exportEnd = DateTime.Now;
         }
 
-        public void ExportBilling(string siteNumber, DateTime startDate, DateTime endDate)
+        public void ExportBilling(int siteId, string siteName, DateTime startDate, DateTime endDate)
         {  
             exportStart = startDate;
             exportEnd = endDate;
 
             ResidentSearchService searchService = new ResidentSearchService(_vault, _configuration);
-            List<ObjVerEx> residents = searchService.GetAllResidentsForSite(siteNumber);
+            List<ObjVerEx> residents = searchService.GetAllResidentsForSite(siteId);
 
             List<SageExport> exports = new List<SageExport>();
 
-            string expFile = $"C:\\IHFM\\SageExport\\Export_{siteNumber}_{startDate.ToString("yyMMdd")}-{endDate.ToString("yyMMdd")}";
+            string expFile = $"C:\\IHFM\\SageExport\\Export_{siteName}_{startDate.ToString("yyMMdd")}-{endDate.ToString("yyMMdd")}_{DateTime.Now.Ticks}.csv";
             StreamWriter writer = new StreamWriter(expFile);
 
             writer.WriteLine(new SageTransactionHeader().GetHeaders());
@@ -89,7 +89,8 @@ namespace IHFM.VAF
             List<SageTransactionItem> items = new List<SageTransactionItem>();
 
             //Tariffs
-            double tariff = resident.GetProperty(_configuration.Resident_ActualAmountPayable).GetValue<double>();
+            bool hasValidTariff = resident.HasValue(_configuration.Resident_ActualAmountPayable);
+            double tariff = hasValidTariff ? resident.GetProperty(_configuration.Resident_ActualAmountPayable).GetValue<double>() : 0;
             items.Add(new SageTransactionItem
             {
                 CNTLINE = "20",
@@ -140,7 +141,7 @@ namespace IHFM.VAF
                 {
                     CNTLINE = "60",
                     IDDIST = "8446-295-02",
-                    TEXTDESC = $"Time Based Care {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
+                    TEXTDESC = $"Time Based Care (Clinic) {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
                     AMTEXTN = tbcClinicCost.ToString(),
                     AMTTXBL = (tbcClinicCost * 85 / 100).ToString(),
                     TOTTAX = (tbcClinicCost * 15 / 100).ToString()
