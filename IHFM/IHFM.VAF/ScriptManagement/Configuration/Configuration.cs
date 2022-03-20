@@ -31,6 +31,9 @@ namespace IHFM.VAF
         public MFIdentifier GiveMeds2000 = "Mfiles.Property.2000?";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier ScriptManagementStartDate = "MFiles.Property.ScriptManagementStartDate";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier ScriptManagementEndDate = "MFiles.Property.ScriptManagementEndDate";
 
         [MFPropertyDef(Required = true)]
@@ -53,6 +56,9 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier MedsTaken = "MFiles.Property.MedsTaken";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Provider = "MFiles.Property.Provider";
 
         //Class Definitions
         [MFClass(Required = true)]

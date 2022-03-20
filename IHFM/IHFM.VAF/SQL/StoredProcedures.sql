@@ -1,5 +1,7 @@
 ﻿create proc sp_ExportScriptControl
 @ObjectID int,
+@SiteID int,
+@SiteName varchar(50),
 @ResidentID int,
 @Resident varchar(70),
 @Validity int,
@@ -8,9 +10,9 @@
 @Provider varchar(50)
 as
 
-insert into ScriptControlExport (ObjectID, ResidentID, Resident, Validity, StartDate, EndDate, [Provider])
+insert into ScriptControlExport (ObjectID, SiteID, SiteName, ResidentID, Resident, Validity, StartDate, EndDate, [Provider])
 values
-(@ObjectID, @ResidentID, @Resident, @Validity, @StartDate, @EndDate, @Provider)
+(@ObjectID, @SiteID, @SiteName, @ResidentID, @Resident, @Validity, @StartDate, @EndDate, @Provider)
 
 create proc sp_ExportMedsOnScript
 @ScriptControlID int,

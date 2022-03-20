@@ -21,9 +21,36 @@ namespace IHFM.VAF
             _connector = new DatabaseConnector();
         }
 
-        public int ExportScriptControl(ObjVerEx script)
+        public void ExportScriptControl(ObjVerEx script)
         {
-            return 1;
+            SiteSearchService searchService = new SiteSearchService(_vault, _configuration);
+
+            int siteId = Int32.Parse(script.GetProperty(_configuration.SiteList).GetValueAsLocalizedText());
+            ObjVerEx site = searchService.GetSiteByNumber(siteId.ToString());
+            string siteName = site.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle).GetValueAsLocalizedText();
+
+            DateTime startDate = DateTime.Parse(script.GetProperty(_configuration.ScriptManagementStartDate).GetValueAsLocalizedText());
+            DateTime endDate = DateTime.Parse(script.GetProperty(_configuration.ScriptManagementEndDate).GetValueAsLocalizedText());
+
+            int validity = ((startDate.Year - endDate.Year) * 12) + startDate.Month - endDate.Month;
+
+            StoredProc proc = new StoredProc
+            {
+                procedureName = "sp_ExportScriptControl",
+                storedProcParams = new Dictionary<string, object>()
+            };
+
+            proc.storedProcParams.Add("@ObjectID", script.ID);
+            proc.storedProcParams.Add("@SiteID", siteId);
+            proc.storedProcParams.Add("@SiteName", siteName);
+            proc.storedProcParams.Add("@ResidentID", script.GetLookupID(_configuration.ResidentLookup));
+            proc.storedProcParams.Add("@Resident", script.GetProperty(_configuration.ResidentLookup).GetValueAsLocalizedText());
+            proc.storedProcParams.Add("@Validity", validity);
+            proc.storedProcParams.Add("@StartDate", startDate);
+            proc.storedProcParams.Add("@EndDate", endDate);
+            proc.storedProcParams.Add("@Provider", script.GetProperty(_configuration.Provider).GetValueAsLocalizedText());
+
+            _connector.ExecuteStoredProc(proc);
         }
 
         public void ExportMedsOnScript(ObjVerEx meds, int scriptId)
@@ -44,13 +71,11 @@ namespace IHFM.VAF
 
             return "T";
         }
-
         private int GetTimeslot(DateTime timeGiven)
         {
             ScriptManagementUtilityService utilityService = new ScriptManagementUtilityService(_configuration);
             return utilityService.GetScheduledTimeslotNumber(timeGiven);
         }
-
         public void ExportMedsGiven(ObjVerEx meds, string medsType)
         {
             Lookups medsGiven = meds.GetLookups(_configuration.MedsOnScript);
