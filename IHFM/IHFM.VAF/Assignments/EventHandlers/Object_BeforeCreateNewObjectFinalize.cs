@@ -32,7 +32,21 @@ namespace IHFM.VAF
             //Site Team Leaders
             SetAssignmentUsers(staffPropertyService, Configuration.SiteTeamLeaders, env.ObjVerEx, createdByID);
 
+            //Notification Site
+            SetNotificationSite(staffPropertyService, env.ObjVerEx, createdByID);
+
             env.ObjVerEx.SaveProperties();
+        }
+
+        private void SetNotificationSite(StaffPropertyService staffPropertyService, ObjVerEx objVerEx, int createdById)
+        {
+            if (objVerEx.HasProperty(Configuration.Assignments_NotificationSite))
+            {
+               ObjVerEx staff = staffPropertyService.GetStaffObjVerExForUserId(createdById);
+               ObjVerEx site = staffPropertyService.GetSiteObjectFromStaff(staff);
+
+               objVerEx.AddLookup(Configuration.Assignments_NotificationSite, site.ObjVer);
+            }
         }
 
         private void SetAssignmentUsers(StaffPropertyService staffPropertyService, MFIdentifier type, ObjVerEx objVerEx, int createdByID)

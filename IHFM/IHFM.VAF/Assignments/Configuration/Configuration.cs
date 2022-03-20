@@ -27,5 +27,11 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier SiteTeamLeaders = "MFiles.Property.SiteTeamLeaders";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Assignments_Site = "MFiles.Property.BaseSite";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Assignments_NotificationSite = "MFiles.Property.NotificationSite";
     }
 }

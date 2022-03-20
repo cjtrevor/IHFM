@@ -22,9 +22,17 @@ namespace IHFM.VAF
         public List<ObjVer> GetAssignmentUsersByTypeForCreatedByUser(int userId, MFIdentifier assignmentProperty)
         {
             ObjVerEx staff = GetStaffObjVerExForUserId(userId);
-            return staff.GetLookupsFromProperty(assignmentProperty)
+
+            return GetSiteObjectFromStaff(staff).GetLookupsFromProperty(assignmentProperty)
                 .Select(x=> x.GetAsObjVer())
                 .ToList();
+        }
+
+        public ObjVerEx GetSiteObjectFromStaff(ObjVerEx staff)
+        {
+            Lookup site = staff.GetProperty(_configuration.Assignments_Site).TypedValue.GetValueAsLookup();
+
+            return new ObjVerEx(_vault, site);
         }
 
         public ObjVerEx GetStaffObjVerExForUserId(int userId)
