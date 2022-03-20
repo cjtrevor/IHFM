@@ -11,18 +11,35 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
+        [EventHandler(MFEventHandlerType.MFEventHandlerAfterCheckInChanges, Class = "MFiles.Class.MedsGiven", Priority = 100)]
+        public void AfterCheckInChangesMedsGiven(EventHandlerEnvironment env)
+        {
+            ExportMedsGiven(env, "CHR");
+        }
+
+        [EventHandler(MFEventHandlerType.MFEventHandlerAfterCheckInChanges, Class = "MFiles.Class.PrnMedsGiven", Priority = 100)]
+        public void AfterCheckInChangesPrnMedsGiven(EventHandlerEnvironment env)
+        {
+            ExportMedsGiven(env, "PRN");
+        }
+
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.MedsGiven", Priority = 100)]
         public void BeforeCreateNewMedsGiven(EventHandlerEnvironment env)
         {
-            SetMedsToGive(env);
+            ExportMedsGiven(env, "CHR");
+            SetMedsToGive(env);           
         }
-
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.PrnMedsGiven", Priority = 100)]
         public void BeforeCreateNewPRNMedsGiven(EventHandlerEnvironment env)
         {
-            SetPRNMedsToGive(env);
+            ExportMedsGiven(env, "PRN");
+            SetPRNMedsToGive(env);            
         }
-
+        private void ExportMedsGiven(EventHandlerEnvironment env, string type)
+        {
+            ScriptControlExportService service = new ScriptControlExportService(env.Vault, Configuration);
+            service.ExportMedsGiven(env.ObjVerEx, type);
+        }
         public void SetPRNMedsToGive(EventHandlerEnvironment env)
         {
             ScriptManagementSearchService searchService = new ScriptManagementSearchService(env.Vault, Configuration);
@@ -56,7 +73,6 @@ namespace IHFM.VAF
 
             env.ObjVerEx.SaveProperties();
         }
-
         public void SetMedsToGive(EventHandlerEnvironment env)
         {
             //Get ScriptManagementObject
@@ -96,6 +112,18 @@ namespace IHFM.VAF
             }
 
             env.ObjVerEx.SaveProperties();
+        }
+
+        [EventHandler(MFEventHandlerType.MFEventHandlerAfterCreateNewObjectFinalize, Class = "MFiles.Class.ScriptManagement", Priority = 100)]
+        public void AfterCreateNewScriptManagement(EventHandlerEnvironment env)
+        {
+            ExportScriptManagement(env);
+        }
+
+        private void ExportScriptManagement(EventHandlerEnvironment env)
+        {
+            ScriptControlExportService service = new ScriptControlExportService(env.Vault, Configuration);
+            service.ExportScriptControl(env.ObjVerEx);
         }
     }
 }

@@ -17,8 +17,6 @@ namespace IHFM.VAF
         }
         public MFIdentifier GetScheduledTimeToCheck(DateTime current)
         {
-            int threshold = configuration.ScriptControlTimeThreshold;
-            
             DateTime start0600 = DateTime.Today + new TimeSpan(5, 0, 0);
             DateTime end0600 = DateTime.Today + new TimeSpan(7, 0, 0);
 
@@ -46,6 +44,37 @@ namespace IHFM.VAF
                 return configuration.GiveMeds2000;
 
             return null;
+        }
+
+        public int GetScheduledTimeslotNumber(DateTime timeslotTme)
+        {
+            DateTime start0600 = DateTime.Today + new TimeSpan(5, 0, 0);
+            DateTime end0600 = DateTime.Today + new TimeSpan(7, 0, 0);
+
+            DateTime start0900 = DateTime.Today + new TimeSpan(7, 0, 0);
+            DateTime end0900 = DateTime.Today + new TimeSpan(10, 0, 0);
+
+            DateTime start1200 = DateTime.Today + new TimeSpan(11, 0, 0);
+            DateTime end1200 = DateTime.Today + new TimeSpan(14, 0, 0);
+
+            DateTime start1700 = DateTime.Today + new TimeSpan(16, 30, 0);
+            DateTime end1700 = DateTime.Today + new TimeSpan(18, 30, 0);
+
+            DateTime start2000 = DateTime.Today + new TimeSpan(20, 0, 0);
+            DateTime end2000 = DateTime.Today + new TimeSpan(22, 0, 0);
+
+            if (timeslotTme > start0600 && timeslotTme < end0600)
+                return 6;
+            else if (timeslotTme > start0900 && timeslotTme < end0900)
+                return 9;
+            else if (timeslotTme > start1200 && timeslotTme < end1200)
+                return 12;
+            else if (timeslotTme > start1700 && timeslotTme < end1700)
+                return 17;
+            else if (timeslotTme > start2000 && timeslotTme < end2000)
+                return 20;
+
+            return 0;
         }
     }
 }

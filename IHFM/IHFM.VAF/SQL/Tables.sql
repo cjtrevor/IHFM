@@ -58,6 +58,8 @@ GO
 CREATE TABLE [dbo].[ScriptControlExport](
 	[Identifier] [int] IDENTITY(1,1) NOT NULL,
 	[ObjectID] [int] NOT NULL,
+	[SiteID] [int] NOT NULL,
+	[SiteName] [varchar](50) NOT NULL,
 	[ResidentID] [int] NOT NULL,
 	[Resident] [varchar](70) NOT NULL,
 	[Validity] [int] NOT NULL,
@@ -81,6 +83,7 @@ CREATE TABLE [dbo].[MedsOnScriptExport](
 	[Give12PM] [bit] NOT NULL,
 	[Give5PM] [bit] NOT NULL,
 	[Give8PM] [bit] NOT NULL,
+	[GiveEveryday] [bit] NULL,
 	[GiveMonday] [bit] NOT NULL,
 	[GiveTuesday] [bit] NOT NULL,
 	[GiveWednesday] [bit] NOT NULL,
@@ -97,12 +100,16 @@ GO
 
 CREATE TABLE [dbo].[MedsGivenExport](
 	[Identifier] [int] IDENTITY(1,1) NOT NULL,
+	[MedsOnScriptID] [int] NOT NULL,
 	[Shift] [varchar](15) NOT NULL,
+	[SiteID] [int] NOT NULL,
+	[SiteName] [varchar](50) NOT NULL,
 	[ResidentID] [int] NOT NULL,
 	[Resident] [varchar](50) NOT NULL,
 	[ObjectID] [int] NOT NULL,
 	[MedsTaken] [varchar](1) NOT NULL,
 	[Timeslot] [int] NOT NULL,
+	[MedsType] [varchar](3) NOT NULL,
  CONSTRAINT [PK_MedsGivenExport] PRIMARY KEY CLUSTERED 
 (
 	[Identifier] ASC

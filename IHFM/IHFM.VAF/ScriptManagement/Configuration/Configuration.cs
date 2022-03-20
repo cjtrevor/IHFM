@@ -51,6 +51,9 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier DaysOfWeek = "MFiles.Property.DaysOfWeek";
 
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier MedsTaken = "MFiles.Property.MedsTaken";
+
         //Class Definitions
         [MFClass(Required = true)]
         public MFIdentifier ScriptManagementClass = "MFiles.Class.ScriptManagement";

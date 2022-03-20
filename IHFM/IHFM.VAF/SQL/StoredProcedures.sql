@@ -1,4 +1,64 @@
-﻿CREATE PROCEDURE [dbo].[sp_ExportTBCRecord]
+﻿create proc sp_ExportScriptControl
+@ObjectID int,
+@ResidentID int,
+@Resident varchar(70),
+@Validity int,
+@StartDate smalldatetime,
+@EndDate smalldatetime,
+@Provider varchar(50)
+as
+
+insert into ScriptControlExport (ObjectID, ResidentID, Resident, Validity, StartDate, EndDate, [Provider])
+values
+(@ObjectID, @ResidentID, @Resident, @Validity, @StartDate, @EndDate, @Provider)
+
+create proc sp_ExportMedsOnScript
+@ScriptControlID int,
+@ObjectID int,
+@MedsName varchar(50),
+@Give6AM bit,
+@Give9AM bit,
+@Give12PM bit,
+@Give5PM bit,
+@Give8PM bit,
+@GiveEveryday bit,
+@GiveMonday bit,
+@GiveTuesday bit,
+@GiveWednesday bit,
+@GiveThursday bit,
+@GiveFriday bit,
+@GiveSaturday bit,
+@GiveSunday bit
+as
+
+insert into MedsOnScriptExport (ScriptControlID, ObjectID, MedsName, Give6AM, Give9AM, Give12PM, Give5PM, Give8PM, GiveEveryday,
+	GiveMonday, GiveTuesday,GiveWednesday,GiveThursday,GiveFriday,GiveSaturday,GiveSunday)
+values
+(@ScriptControlID, @ObjectID, @MedsName, @Give6AM, @Give9AM, @Give12PM, @Give5PM, @Give8PM, @GiveEveryday, @GiveMonday, @GiveTuesday,
+@GiveWednesday, @GiveThursday, @GiveFriday, @GiveSaturday, @GiveSunday)
+
+create proc sp_ExportMedsGiven
+@MedsOnScriptID int,
+@Shift varchar(15),
+@SiteID int,
+@SiteName varchar(50),
+@ResidentID int,
+@Resident varchar(50),
+@ObjectID int,
+@MedsTaken varchar(1),
+@Timeslot int,
+@MedsType varchar(3)
+as
+
+if not exists (select 1 from MedsGivenExport where MedsOnScriptID = @MedsOnScriptID and ObjectID = @ObjectID)
+begin
+	insert into MedsGivenExport (MedsOnScriptID, Shift, SiteID, SiteName, ResidentID, Resident, ObjectID, MedsTaken, Timeslot, MedsType)
+	values
+	(@MedsOnScriptID,@Shift, @SiteID, @SiteName, @ResidentID, @Resident, @ObjectID, @MedsTaken, @Timeslot, @MedsType)
+end
+
+
+CREATE PROCEDURE [dbo].[sp_ExportTBCRecord]
 @ObjectID int,
 @SiteID int,
 @SiteName varchar(50),
