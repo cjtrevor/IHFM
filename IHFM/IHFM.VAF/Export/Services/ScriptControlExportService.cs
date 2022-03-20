@@ -32,7 +32,7 @@ namespace IHFM.VAF
             DateTime startDate = DateTime.Parse(script.GetProperty(_configuration.ScriptManagementStartDate).GetValueAsLocalizedText());
             DateTime endDate = DateTime.Parse(script.GetProperty(_configuration.ScriptManagementEndDate).GetValueAsLocalizedText());
 
-            int validity = ((startDate.Year - endDate.Year) * 12) + startDate.Month - endDate.Month;
+            int validity = (((startDate.Year - endDate.Year) * 12) + startDate.Month - endDate.Month) * -1;
 
             StoredProc proc = new StoredProc
             {
@@ -51,11 +51,58 @@ namespace IHFM.VAF
             proc.storedProcParams.Add("@Provider", script.GetProperty(_configuration.Provider).GetValueAsLocalizedText());
 
             _connector.ExecuteStoredProc(proc);
+
+            ExportMedsOnScript(script.GetLookups(_configuration.MedsOnScript), script.ID);
+        }
+
+        private void ExportMedsOnScript(Lookups lookups, int scriptControlId)
+        {
+            foreach(Lookup med in lookups)
+            {
+                ObjVerEx medObj = new ObjVerEx(_vault, med);
+                ExportMedsOnScript(medObj, scriptControlId);
+            }
+        }
+
+        private string GetDaysOfWeekString(Lookups days)
+        {
+            string dayString = "";
+            foreach(Lookup day in days)
+            {
+                dayString += $"{day.DisplayValue.ToUpper()};";
+            }
+
+            return dayString;
         }
 
         public void ExportMedsOnScript(ObjVerEx meds, int scriptId)
         {
+            StoredProc proc = new StoredProc
+            {
+                procedureName = "sp_ExportMedsOnScript",
+                storedProcParams = new Dictionary<string, object>()
+            };
 
+            string days = GetDaysOfWeekString(meds.GetLookups(_configuration.DaysOfWeek));
+
+            proc.storedProcParams.Add("@ScriptControlID", scriptId);
+            proc.storedProcParams.Add("@ObjectID", meds.ID);
+            proc.storedProcParams.Add("@MedsName", meds.GetProperty(_configuration.MedicineList).GetValueAsLocalizedText());
+            proc.storedProcParams.Add("@Give6AM", meds.HasValue(_configuration.GiveMeds0600) ? meds.GetProperty(_configuration.GiveMeds0600).GetValue<bool>() : false);
+            proc.storedProcParams.Add("@Give9AM", meds.HasValue(_configuration.GiveMeds0900) ? meds.GetProperty(_configuration.GiveMeds0900).GetValue<bool>() : false);
+            proc.storedProcParams.Add("@Give12PM", meds.HasValue(_configuration.GiveMeds1200) ? meds.GetProperty(_configuration.GiveMeds1200).GetValue<bool>() : false);
+            proc.storedProcParams.Add("@Give5PM", meds.HasValue(_configuration.GiveMeds1700) ? meds.GetProperty(_configuration.GiveMeds1700).GetValue<bool>() : false);
+            proc.storedProcParams.Add("@Give8PM", meds.HasValue(_configuration.GiveMeds2000) ? meds.GetProperty(_configuration.GiveMeds2000).GetValue<bool>() : false);
+            proc.storedProcParams.Add("@GiveEveryday", meds.HasValue(_configuration.SpecificDays) ? !meds.GetProperty(_configuration.SpecificDays).GetValue<bool>() : true);
+            proc.storedProcParams.Add("@GiveMonday", days.Contains("MONDAY"));
+            proc.storedProcParams.Add("@GiveTuesday", days.Contains("TUESDAY"));
+            proc.storedProcParams.Add("@GiveWednesday", days.Contains("WEDNESDAY"));
+            proc.storedProcParams.Add("@GiveThursday", days.Contains("THURSDAY"));
+            proc.storedProcParams.Add("@GiveFriday", days.Contains("FRIDAY"));
+            proc.storedProcParams.Add("@GiveSaturday", days.Contains("SATURDAY"));
+            proc.storedProcParams.Add("@GiveSunday", days.Contains("SUNDAY"));
+
+            _connector.ExecuteStoredProc(proc);
         }
 
         private string GetMedsTakenStatus(string medsTaken)

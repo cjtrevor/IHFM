@@ -33,11 +33,14 @@ create proc sp_ExportMedsOnScript
 @GiveSunday bit
 as
 
-insert into MedsOnScriptExport (ScriptControlID, ObjectID, MedsName, Give6AM, Give9AM, Give12PM, Give5PM, Give8PM, GiveEveryday,
-	GiveMonday, GiveTuesday,GiveWednesday,GiveThursday,GiveFriday,GiveSaturday,GiveSunday)
-values
-(@ScriptControlID, @ObjectID, @MedsName, @Give6AM, @Give9AM, @Give12PM, @Give5PM, @Give8PM, @GiveEveryday, @GiveMonday, @GiveTuesday,
-@GiveWednesday, @GiveThursday, @GiveFriday, @GiveSaturday, @GiveSunday)
+if not exists (select 1 from MedsOnScriptExport where ScriptControlID = @ScriptControlID and ObjectID = @ObjectID)
+begin
+	insert into MedsOnScriptExport (ScriptControlID, ObjectID, MedsName, Give6AM, Give9AM, Give12PM, Give5PM, Give8PM, GiveEveryday,
+		GiveMonday, GiveTuesday,GiveWednesday,GiveThursday,GiveFriday,GiveSaturday,GiveSunday)
+	values
+	(@ScriptControlID, @ObjectID, @MedsName, @Give6AM, @Give9AM, @Give12PM, @Give5PM, @Give8PM, @GiveEveryday, @GiveMonday, @GiveTuesday,
+	@GiveWednesday, @GiveThursday, @GiveFriday, @GiveSaturday, @GiveSunday)
+end
 
 create proc sp_ExportMedsGiven
 @MedsOnScriptID int,
