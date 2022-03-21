@@ -1,4 +1,81 @@
-﻿create proc sp_ExportScriptControl
+﻿create proc sp_GetOutstandingMedsGivenReport
+@SiteID int
+as
+
+declare @StartDate smalldatetime = GETDATE() - 7
+declare @ShiftStart varchar(8) = CONCAT(FORMAT(datepart(day,@StartDate),'00'), FORMAT(datepart(month,@StartDate),'00'), RIGHT(datepart(year,@StartDate),2))
+
+create table #Shifts(
+ShiftNo varchar(8)
+)
+
+Insert into #Shifts
+select CONCAT(FORMAT(datepart(day,@StartDate),'00'), FORMAT(datepart(month,@StartDate),'00'), RIGHT(datepart(year,@StartDate),2))
+union 
+select CONCAT(FORMAT(datepart(day,@StartDate + 1),'00'), FORMAT(datepart(month,@StartDate + 1),'00'), RIGHT(datepart(year,@StartDate + 1),2))
+union 
+select CONCAT(FORMAT(datepart(day,@StartDate + 2),'00'), FORMAT(datepart(month,@StartDate + 2),'00'), RIGHT(datepart(year,@StartDate + 2),2))
+union 
+select CONCAT(FORMAT(datepart(day,@StartDate + 3),'00'), FORMAT(datepart(month,@StartDate + 3),'00'), RIGHT(datepart(year,@StartDate + 3),2))
+union 
+select CONCAT(FORMAT(datepart(day,@StartDate + 4),'00'), FORMAT(datepart(month,@StartDate + 4),'00'), RIGHT(datepart(year,@StartDate + 4),2))
+union 
+select CONCAT(FORMAT(datepart(day,@StartDate + 5),'00'), FORMAT(datepart(month,@StartDate + 5),'00'), RIGHT(datepart(year,@StartDate + 5),2))
+union 
+select CONCAT(FORMAT(datepart(day,@StartDate + 6),'00'), FORMAT(datepart(month,@StartDate + 6),'00'), RIGHT(datepart(year,@StartDate + 6),2))
+union 
+select CONCAT(FORMAT(datepart(day,@StartDate + 7),'00'), FORMAT(datepart(month,@StartDate + 7),'00'), RIGHT(datepart(year,@StartDate + 7),2))
+
+--Temp
+select * into #AllMedsOnScript from
+(
+select sce.SiteID, sce.ResidentID, sce.Resident,mos.ObjectID as MedsOnScriptID, mos.MedsName, 6 as Timeslot
+from MedsOnScriptExport  mos
+	join ScriptControlExport sce on mos.ScriptControlID = sce.ObjectID
+where EndDate >= GETDATE() and sce.SiteID = @SiteID and GiveEveryday = 1 and Give6AM = 1
+union
+select sce.SiteID, sce.ResidentID, sce.Resident,mos.ObjectID as MedsOnScriptID, mos.MedsName, 9 as Timeslot
+from MedsOnScriptExport  mos
+	join ScriptControlExport sce on mos.ScriptControlID = sce.ObjectID
+where EndDate >= GETDATE() and sce.SiteID = @SiteID and GiveEveryday = 1 and Give9AM = 1
+union
+select sce.SiteID, sce.ResidentID, sce.Resident,mos.ObjectID as MedsOnScriptID, mos.MedsName, 12 as Timeslot
+from MedsOnScriptExport  mos
+	join ScriptControlExport sce on mos.ScriptControlID = sce.ObjectID
+where EndDate >= GETDATE() and sce.SiteID = @SiteID and GiveEveryday = 1 and Give12PM = 1
+union
+select sce.SiteID, sce.ResidentID, sce.Resident,mos.ObjectID as MedsOnScriptID, mos.MedsName, 17 as Timeslot
+from MedsOnScriptExport  mos
+	join ScriptControlExport sce on mos.ScriptControlID = sce.ObjectID
+where EndDate >= GETDATE() and sce.SiteID = @SiteID and GiveEveryday = 1 and Give5PM = 1
+union
+select sce.SiteID, sce.ResidentID, sce.Resident,mos.ObjectID as MedsOnScriptID, mos.MedsName, 20 as Timeslot
+from MedsOnScriptExport  mos
+	join ScriptControlExport sce on mos.ScriptControlID = sce.ObjectID
+where EndDate >= GETDATE() and sce.SiteID = @SiteID and GiveEveryday = 1 and Give8PM = 1) as amos
+cross join #Shifts
+
+--Meds For everyday
+select amos.*, mge.Identifier, CASE WHEN ISNULL(mge.Identifier,'') = '' THEN 'Not Given'
+						 WHEN mge.MedsTaken = 'R' THEN 'Resident Refused' END as Stat
+	from #AllMedsOnScript amos
+	 left join MedsGivenExport mge 
+		on amos.SiteID = mge.SiteID
+			and amos.ResidentID = mge.ResidentID
+			and amos.MedsOnScriptID = mge.MedsOnScriptID
+			and amos.Timeslot = mge.Timeslot
+			and amos.ShiftNo = left(mge.Shift,6)
+	where mge.Identifier is null or mge.MedsTaken = 'R'
+
+
+
+drop table #AllMedsOnScript
+drop table #Shifts
+
+
+
+
+create proc sp_ExportScriptControl
 @ObjectID int,
 @SiteID int,
 @SiteName varchar(50),
