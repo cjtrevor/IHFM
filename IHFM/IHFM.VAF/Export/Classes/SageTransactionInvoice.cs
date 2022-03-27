@@ -8,14 +8,14 @@ namespace IHFM.VAF.Export.Classes
 {
     public class SageTransactionInvoice
     {
-        public string RECTYPE { get => ""; }
-        public string CNTBTCH { get => ""; }
-        public string CNTITEM { get => ""; }
+        public string RECTYPE { get => "3"; }
+        public string CNTBTCH { get => "1"; }
+        public string CNTITEM { get => "1"; }
         public string CNTPAYM { get => ""; }
-        public string DATEDUE { get; set; }
+        public string DATEDUE { get => DateTime.Now.ToString("yyyyMMdd"); }
         public string AMTDUE { get; set; }
         public string DATEDISC { get => ""; }
-        public string AMTDISC { get => ""; }
+        public string AMTDISC { get => "0"; }
         public string AMTDUEHC { get; set; }
         public string AMTDISCHC { get => "0"; }
 

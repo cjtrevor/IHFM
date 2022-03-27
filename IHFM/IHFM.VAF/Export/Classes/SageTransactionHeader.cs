@@ -8,26 +8,26 @@ namespace IHFM.VAF.Export.Classes
 {
     public class SageTransactionHeader
     {
-        public string RECTYPE { get => ""; }
+        public string RECTYPE { get => "1"; }
         public string CNTBTCH { get => "1"; }
         public string CNTITEM { get => "1"; }
         public string IDCUST { get; set; }
         public string IDINVC { get => ""; }
-        public string IDSHPT { get => "1"; }
+        public string IDSHPT { get => ""; }
         public string SPECINST { get => ""; }
         public string TEXTTRX { get => "1"; }
-        public string IDTRX { get => "4"; }
+        public string IDTRX { get => "14"; }
         public string ORDRNBR { get => ""; }
         public string CUSTPO { get => ""; }
         public string INVCDESC { get; set; }
         public string SWPRTINVC { get => "0"; }
         public string INVCAPPLTO { get => ""; }
         public string IDACCTSET { get; set; }
-        public string DATEINVC { get => ""; }
-        public string DATEASOF { get => ""; }
-        public string CODECURN { get => ""; }
-        public string RATETYPE { get => ""; }
-        public string DATEDUE { get => ""; }
+        public string DATEINVC { get => DateTime.Now.ToString("yyyyMMdd"); }
+        public string DATEASOF { get => DateTime.Now.ToString("yyyyMMdd"); }
+        public string CODECURN { get => "ZAR"; }
+        public string RATETYPE { get => "SP"; }
+        public string DATEDUE { get => DateTime.Now.ToString("yyyyMMdd"); }
 
         public string GetHeaders()
         {

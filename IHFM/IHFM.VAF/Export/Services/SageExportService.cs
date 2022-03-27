@@ -96,9 +96,10 @@ namespace IHFM.VAF
                 CNTLINE = "20",
                 IDDIST = "8012-295-02",
                 TEXTDESC = $"BOARD & LODGING {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
-                AMTEXTN = tariff.ToString(),
-                AMTTXBL = (tariff * 85 / 100).ToString(),
-                TOTTAX = (tariff * 15 / 100).ToString()
+                AMTEXTN = tariff.ToString("0.00"),
+                AMTTXBL = (tariff * 85 / 100).ToString("0.00"),
+                BASETAX1 = (tariff * 85 / 100).ToString("0.00"),
+                TOTTAX = (tariff * 15 / 100).ToString("0.00")
             });
 
             //Ward Stock
@@ -111,9 +112,10 @@ namespace IHFM.VAF
                     CNTLINE = "40",
                     IDDIST = "8446-295-02",
                     TEXTDESC = $"Ward Stock {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
-                    AMTEXTN = wardStockCost.ToString(),
-                    AMTTXBL = (wardStockCost * 85 / 100).ToString(),
-                    TOTTAX = (wardStockCost * 15 / 100).ToString()
+                    AMTEXTN = wardStockCost.ToString("0.00"),
+                    AMTTXBL = (wardStockCost * 85 / 100).ToString("0.00"),
+                    BASETAX1 = (wardStockCost * 85 / 100).ToString("0.00"),
+                    TOTTAX = (wardStockCost * 15 / 100).ToString("0.00")
                 });
             }
 
@@ -127,9 +129,10 @@ namespace IHFM.VAF
                     CNTLINE = "60",
                     IDDIST = "8446-295-02",
                     TEXTDESC = $"Time Based Care {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
-                    AMTEXTN = tbcCost.ToString(),
-                    AMTTXBL = (tbcCost * 85 / 100).ToString(),
-                    TOTTAX = (tbcCost * 15 / 100).ToString()
+                    AMTEXTN = tbcCost.ToString("0.00"),
+                    AMTTXBL = (tbcCost * 85 / 100).ToString("0.00"),
+                    BASETAX1 = (tbcCost * 85 / 100).ToString("0.00"),
+                    TOTTAX = (tbcCost * 15 / 100).ToString("0.00")
                 });
             }
 
@@ -142,9 +145,10 @@ namespace IHFM.VAF
                     CNTLINE = "60",
                     IDDIST = "8446-295-02",
                     TEXTDESC = $"Time Based Care (Clinic) {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
-                    AMTEXTN = tbcClinicCost.ToString(),
-                    AMTTXBL = (tbcClinicCost * 85 / 100).ToString(),
-                    TOTTAX = (tbcClinicCost * 15 / 100).ToString()
+                    AMTEXTN = tbcClinicCost.ToString("0.00"),
+                    AMTTXBL = (tbcClinicCost * 85 / 100).ToString("0.00"),
+                    BASETAX1 = (tbcClinicCost * 85 / 100).ToString("0.00"),
+                    TOTTAX = (tbcClinicCost * 15 / 100).ToString("0.00")
                 });
             }
 
@@ -153,10 +157,9 @@ namespace IHFM.VAF
 
         private SageTransactionInvoice GetTransactionInvoice(List<SageTransactionItem> lines)
         {
-            string amountDue = lines.Sum(x => Decimal.Parse(x.AMTEXTN)).ToString();
+            string amountDue = lines.Sum(x => Decimal.Parse(x.AMTEXTN)).ToString("0.00");
             return new SageTransactionInvoice
             {
-                DATEDUE = DateTime.Now.ToShortDateString(),
                 AMTDUE = amountDue,
                 AMTDUEHC = amountDue
             };
