@@ -10,7 +10,7 @@ namespace IHFM.VAF.Export.Classes
     {
         public string RECTYPE { get => "3"; }
         public string CNTBTCH { get => "1"; }
-        public string CNTITEM { get => "1"; }
+        public string CNTITEM { get; set; }
         public string CNTPAYM { get => ""; }
         public string DATEDUE { get => DateTime.Now.ToString("yyyyMMdd"); }
         public string AMTDUE { get; set; }

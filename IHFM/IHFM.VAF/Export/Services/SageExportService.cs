@@ -48,17 +48,20 @@ namespace IHFM.VAF
             writer.WriteLine(new SageTransactionItem().GetHeaders());
             writer.WriteLine(new SageTransactionInvoice().GetHeaders());
 
+            int itemNumber = 1;
             foreach (ObjVerEx res in residents)
             {
                 SageExport exp = new SageExport
                 {
-                    header = GetTransactionHeader(res),
-                    lineItems = GetTransactionItems(res)
+                    header = GetTransactionHeader(res, itemNumber),
+                    lineItems = GetTransactionItems(res, itemNumber)
                 };
 
-                exp.invoiceLine = GetTransactionInvoice(exp.lineItems);
+                exp.invoiceLine = GetTransactionInvoice(exp.lineItems, itemNumber);
 
                 exports.Add(exp);
+
+                itemNumber++;
             }
 
             foreach (SageExport exp in exports)
@@ -74,17 +77,18 @@ namespace IHFM.VAF
 
         }
 
-        private SageTransactionHeader GetTransactionHeader(ObjVerEx resident)
+        private SageTransactionHeader GetTransactionHeader(ObjVerEx resident, int itemNumber)
         {
             return new SageTransactionHeader
             {
-                IDCUST = resident.GetPropertyText(_configuration.Resident_CPOARef),
+                IDCUST = $"0{resident.GetPropertyText(_configuration.Resident_CPOARef)}",
+                CNTITEM = itemNumber.ToString(),
                 INVCDESC = $"Billing Period {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
                 IDACCTSET = "RES"
             };
         }
 
-        private List<SageTransactionItem> GetTransactionItems(ObjVerEx resident)
+        private List<SageTransactionItem> GetTransactionItems(ObjVerEx resident, int itemNumber)
         {
             List<SageTransactionItem> items = new List<SageTransactionItem>();
 
@@ -94,13 +98,14 @@ namespace IHFM.VAF
             items.Add(new SageTransactionItem
             {
                 CNTLINE = "20",
-                IDDIST = "8012-295-02",
+                CNTITEM = itemNumber.ToString(),
+                IDACCTREV = "8012-295-02",
                 TEXTDESC = $"BOARD & LODGING {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
                 AMTEXTN = tariff.ToString("0.00"),
                 AMTTXBL = (tariff * 85 / 100).ToString("0.00"),
                 BASETAX1 = (tariff * 85 / 100).ToString("0.00"),
                 TOTTAX = (tariff * 15 / 100).ToString("0.00")
-            });
+            }) ;
 
             //Ward Stock
             decimal wardStockCost = Decimal.Parse(GetWardStockCost(resident.ObjID.ID));
@@ -110,7 +115,8 @@ namespace IHFM.VAF
                 items.Add(new SageTransactionItem
                 {
                     CNTLINE = "40",
-                    IDDIST = "8446-295-02",
+                    CNTITEM = itemNumber.ToString(),
+                    IDACCTREV = "8446-295-02",
                     TEXTDESC = $"Ward Stock {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
                     AMTEXTN = wardStockCost.ToString("0.00"),
                     AMTTXBL = (wardStockCost * 85 / 100).ToString("0.00"),
@@ -127,7 +133,8 @@ namespace IHFM.VAF
                 items.Add(new SageTransactionItem
                 {
                     CNTLINE = "60",
-                    IDDIST = "8446-295-02",
+                    CNTITEM = itemNumber.ToString(),
+                    IDACCTREV = "8446-295-02",
                     TEXTDESC = $"Time Based Care {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
                     AMTEXTN = tbcCost.ToString("0.00"),
                     AMTTXBL = (tbcCost * 85 / 100).ToString("0.00"),
@@ -143,7 +150,8 @@ namespace IHFM.VAF
                 items.Add(new SageTransactionItem
                 {
                     CNTLINE = "60",
-                    IDDIST = "8446-295-02",
+                    CNTITEM = itemNumber.ToString(),
+                    IDACCTREV = "8446-295-02",
                     TEXTDESC = $"Time Based Care (Clinic) {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
                     AMTEXTN = tbcClinicCost.ToString("0.00"),
                     AMTTXBL = (tbcClinicCost * 85 / 100).ToString("0.00"),
@@ -155,11 +163,12 @@ namespace IHFM.VAF
             return items;
         }
 
-        private SageTransactionInvoice GetTransactionInvoice(List<SageTransactionItem> lines)
+        private SageTransactionInvoice GetTransactionInvoice(List<SageTransactionItem> lines, int itemNumber)
         {
             string amountDue = lines.Sum(x => Decimal.Parse(x.AMTEXTN)).ToString("0.00");
             return new SageTransactionInvoice
             {
+                CNTITEM = itemNumber.ToString(),
                 AMTDUE = amountDue,
                 AMTDUEHC = amountDue
             };

@@ -10,10 +10,10 @@ namespace IHFM.VAF.Export.Classes
     {
         public string RECTYPE { get => "2"; }
         public string CNTBTCH { get => "1"; }
-        public string CNTITEM { get => "1"; }
+        public string CNTITEM { get; set; }
         public string CNTLINE { get; set; }
         public string IDITEM { get => ""; }
-        public string IDDIST { get; set; }
+        public string IDACCTREV { get; set; }
         public string TEXTDESC { get; set; }
         public string UNITMEAS { get => ""; }
         public string QTYINVC { get => "0"; }
@@ -24,19 +24,19 @@ namespace IHFM.VAF.Export.Classes
         public string AMTTXBL { get; set; }
         public string TOTTAX { get; set; }
         public string BASETAX1 { get; set; }
-        public string TAXSTTS1 { get => ""; }
-        public string SWTAXINCL1 { get => ""; }
+        public string TAXSTTS1 { get => "1"; }
+        public string SWTAXINCL1 { get => "1"; }
         public string RATETAX1 { get => ""; }
         public string AMTTAX1 { get => ""; }
 
         public string GetHeaders()
         {
-            return "RECTYPE, CNTBTCH,CNTITEM,CNTLINE,IDITEM,IDDIST,TEXTDESC,UNITMEAS,QTYINVC,AMTCOST,AMTPRIC,AMTEXTN,AMTCOGS,AMTTXBL,TOTTAX,BASETAX1,TAXSTTS1,SWTAXINCL1,RATETAX1,AMTTAX1";
+            return "RECTYPE, CNTBTCH,CNTITEM,CNTLINE,IDITEM,IDACCTREV,TEXTDESC,UNITMEAS,QTYINVC,AMTCOST,AMTPRIC,AMTEXTN,AMTCOGS,AMTTXBL,TOTTAX,BASETAX1,TAXSTTS1,SWTAXINCL1,RATETAX1,AMTTAX1";
         }
 
         public string GetDetails()
         {
-            return $"{RECTYPE}, {CNTBTCH},{CNTITEM},{CNTLINE},{IDITEM},{IDDIST},{TEXTDESC},{UNITMEAS},{QTYINVC},{AMTCOST},{AMTPRIC},{AMTEXTN},{AMTCOGS},{AMTTXBL},{TOTTAX},{BASETAX1},{TAXSTTS1},{SWTAXINCL1},{RATETAX1},{AMTTAX1}";
+            return $"{RECTYPE}, {CNTBTCH},{CNTITEM},{CNTLINE},{IDITEM},{IDACCTREV},{TEXTDESC},{UNITMEAS},{QTYINVC},{AMTCOST},{AMTPRIC},{AMTEXTN},{AMTCOGS},{AMTTXBL},{TOTTAX},{BASETAX1},{TAXSTTS1},{SWTAXINCL1},{RATETAX1},{AMTTAX1}";
         }
     }
 }

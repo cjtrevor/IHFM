@@ -10,7 +10,7 @@ namespace IHFM.VAF.Export.Classes
     {
         public string RECTYPE { get => "1"; }
         public string CNTBTCH { get => "1"; }
-        public string CNTITEM { get => "1"; }
+        public string CNTITEM { get; set; }
         public string IDCUST { get; set; }
         public string IDINVC { get => ""; }
         public string IDSHPT { get => ""; }
