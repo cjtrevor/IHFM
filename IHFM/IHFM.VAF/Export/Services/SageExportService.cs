@@ -81,7 +81,7 @@ namespace IHFM.VAF
         {
             return new SageTransactionHeader
             {
-                IDCUST = $"0{resident.GetPropertyText(_configuration.Resident_CPOARef)}",
+                IDCUST = resident.GetPropertyText(_configuration.Resident_CPOARef),
                 CNTITEM = itemNumber.ToString(),
                 INVCDESC = $"Billing Period {exportStart.ToShortDateString()} - {exportEnd.ToShortDateString()}",
                 IDACCTSET = "RES"

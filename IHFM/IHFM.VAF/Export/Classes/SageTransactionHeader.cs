@@ -12,7 +12,7 @@ namespace IHFM.VAF.Export.Classes
         public string CNTBTCH { get => "1"; }
         public string CNTITEM { get; set; }
         public string IDCUST { get; set; }
-        public string IDINVC { get => ""; }
+        public string IDINVC { get => "**NEW**"; }
         public string IDSHPT { get => ""; }
         public string SPECINST { get => ""; }
         public string TEXTTRX { get => "1"; }
