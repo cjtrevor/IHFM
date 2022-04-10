@@ -13,10 +13,16 @@ namespace IHFM.VAF
         [PropertyCustomValue("Mfiles.Property.Medsdosage", Priority = 1)]
         public TypedValue SetMedsDosageValue(PropertyEnvironment env)
         {
-            string objId = env.ObjVerEx.ObjID.ID.ToString();
             string medicineList = env.ObjVerEx.GetProperty(Configuration.MedicineList).GetValueAsLocalizedText();
             string medsDosage = env.ObjVerEx.GetProperty(Configuration.MedsDosageProperty).GetValueAsLocalizedText();
             string qtyDispensed = env.ObjVerEx.GetProperty(Configuration.QtyDispensed).GetValueAsLocalizedText();
+            string daysOfWeek = "All days";
+            
+            if(env.ObjVerEx.HasValue(Configuration.SpecificDays) && env.ObjVerEx.GetProperty(Configuration.SpecificDays).GetValue<bool>())
+            { 
+                daysOfWeek = env.ObjVerEx.GetProperty(Configuration.DaysOfWeek).GetValueAsLocalizedText();
+            }
+
             string PRN = "";
 
             string timeslots = "";
