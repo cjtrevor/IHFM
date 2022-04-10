@@ -25,8 +25,22 @@ namespace IHFM.VAF
             {          
                 ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
 
+                if(env.ObjVerEx.HasValue(Configuration.EndTime))
+                {
+                    string endTime = env.ObjVerEx.GetProperty(Configuration.EndTime).TypedValue.GetValueAsLocalizedText();
+
+                    DateTime endDate = DateTime.Parse($"2000-01-01 {endTime}");
+
+                    if(endDate < DateTime.Now)
+                    {
+                        throw new Exception($"The selected end time is before the current time ({DateTime.Now.ToShortTimeString()}). Please select a later end time.");
+                    }
+                }
+
+                
+
                 //Start Time
-                if(ShouldAddStartTime(env))
+                if (ShouldAddStartTime(env))
                 { 
                     env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
                 }
