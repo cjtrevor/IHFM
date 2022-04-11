@@ -41,9 +41,9 @@ namespace IHFM.VAF
             if (env.ObjVerEx.HasValue(Configuration.PRNMedication) && env.ObjVerEx.GetProperty(Configuration.PRNMedication).GetValue<bool>())
                 PRN = "_PRN";
 
-            string times = timeslots.Length > 0 ? $"times: {timeslots.Substring(0, timeslots.Length - 2)}" : "";
+            string times = timeslots.Length > 0 ? $"@: {timeslots.Substring(0, timeslots.Length - 2)} on {daysOfWeek}" : "";
 
-                string name = $"MDD{objId}_{medicineList}_{medsDosage}{PRN} x {qtyDispensed} {times}";
+            string name = $"{medicineList}_{medsDosage}{PRN} x {qtyDispensed} {times}";
 
             TypedValue calculated = new TypedValue();
             calculated.SetValue(MFDataType.MFDatatypeText, name);
