@@ -25,7 +25,7 @@ namespace IHFM.VAF
             {          
                 ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
 
-                if(env.ObjVerEx.HasValue(Configuration.EndTime))
+                if(env.ObjVerEx.HasValue(Configuration.EndTime) && ShouldAddStartTime(env))
                 {
                     string endTime = env.ObjVerEx.GetProperty(Configuration.EndTime).TypedValue.GetValueAsLocalizedText();
 
