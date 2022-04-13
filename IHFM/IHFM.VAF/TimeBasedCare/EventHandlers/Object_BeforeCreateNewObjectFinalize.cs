@@ -69,7 +69,7 @@ namespace IHFM.VAF
         {
             ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
 
-            if (env.ObjVerEx.HasValue(Configuration.EndTime))
+            if (env.ObjVerEx.HasValue(Configuration.EndTime) && ShouldAddStartTime(env))
             {
                 string endTime = env.ObjVerEx.GetProperty(Configuration.EndTime).TypedValue.GetValueAsLocalizedText();
 
@@ -84,7 +84,10 @@ namespace IHFM.VAF
             Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
 
             //Start Time
-            env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
+            if(ShouldAddStartTime(env))
+            { 
+                env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
+            }
 
             //TBC Clinic Items
             List<ObjVer> TBCClinic = residentPropertyService.GetResidentTBCClinicItems(residentLookup);
