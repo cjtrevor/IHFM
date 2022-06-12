@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -75,6 +76,20 @@ namespace IHFM.VAF
             }
 
             return returnValue;
+        }
+
+        public Dictionary<string, object> GetStoredProcParams<T>(T export)
+        {
+            Dictionary<string, object> props = new Dictionary<string, object>();
+
+            PropertyInfo[] propertyInfos = typeof(T).GetProperties();
+
+            foreach (PropertyInfo info in propertyInfos)
+            {
+                props.Add($"@{info.Name}", info.GetValue(export));
+            }
+
+            return props;
         }
     }
 }

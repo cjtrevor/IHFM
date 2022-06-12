@@ -1,23 +1,23 @@
-﻿
-
-using IHFM.VAF.Export.Classes;
+﻿using IHFM.VAF.Export.Classes;
 using IHFM.VAF.Utilities;
 using MFiles.VAF.Common;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace IHFM.VAF.Export.Services
 {
-    public class QMRAdmissionExportService
+    public class QMRDeathExportService
     {
         private readonly Configuration _configuration;
         private readonly Vault _vault;
         private readonly SiteSearchService _siteSearch;
         private readonly DatabaseConnector _connector;
 
-        public QMRAdmissionExportService(Configuration configuration, Vault vault)
+        public QMRDeathExportService(Configuration configuration, Vault vault)
         {
             _configuration = configuration;
             _vault = vault;
@@ -27,7 +27,7 @@ namespace IHFM.VAF.Export.Services
 
         public void Export(ObjVerEx admission)
         {
-            QMRAdmissionsExport export = new QMRAdmissionsExport();
+            QMRDeathsExport export = new QMRDeathsExport();
             export.ObjId = admission.ObjID.ID;
             export.SiteID = Int32.Parse(admission.GetProperty(_configuration.DailyCare_Site).GetValueAsLocalizedText());
             export.SiteName = GetSiteName(admission);
@@ -37,14 +37,14 @@ namespace IHFM.VAF.Export.Services
 
             StoredProc proc = new StoredProc
             {
-                procedureName = "sp_ExportQMRAdmission",
+                procedureName = "sp_ExportQMRDeath",
                 storedProcParams = _connector.GetStoredProcParams(export)
             };
 
             _connector.ExecuteStoredProc(proc);
         }
 
-        private void UpdateResidentDetails(QMRAdmissionsExport export, ObjVerEx admission)
+        private void UpdateResidentDetails(QMRDeathsExport export, ObjVerEx admission)
         {
             Lookup residentLookup = admission.GetProperty(_configuration.DailyCare_Resident).TypedValue.GetValueAsLookup();
             ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
@@ -61,22 +61,22 @@ namespace IHFM.VAF.Export.Services
         private string GetMedicalConditions(Lookups conditions)
         {
             List<string> cons = new List<string>();
-            foreach(Lookup con in conditions)
+            foreach (Lookup con in conditions)
             {
                 cons.Add(con.DisplayValue);
             }
 
-            return String.Join(",",cons);
+            return String.Join(",", cons);
         }
 
-        private void UpdateDateInfo(QMRAdmissionsExport export, ObjVerEx admission)
+        private void UpdateDateInfo(QMRDeathsExport export, ObjVerEx admission)
         {
             string created = admission.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated).GetValueAsLocalizedText();
             DateTime dtCreated = DateTime.Parse(created);
 
             export.YearNumber = dtCreated.Year;
             export.QuarterNumber = dtCreated.QuarterDecStart();
-            export.DateAdmitted = created;
+            export.DateOfDeath = created;
         }
 
         private string GetSiteName(ObjVerEx admission)
