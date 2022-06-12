@@ -6,6 +6,7 @@ using MFiles.VAF.Common;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace IHFM.VAF.Export.Services
 {
@@ -14,12 +15,14 @@ namespace IHFM.VAF.Export.Services
         private readonly Configuration _configuration;
         private readonly Vault _vault;
         private readonly SiteSearchService _siteSearch;
+        private readonly DatabaseConnector _connector;
 
         public QMRAdmissionExportService(Configuration configuration, Vault vault)
         {
             _configuration = configuration;
             _vault = vault;
             _siteSearch = new SiteSearchService(_vault, _configuration);
+            _connector = new DatabaseConnector();
         }
 
         public void Export(ObjVerEx admission)
@@ -31,6 +34,23 @@ namespace IHFM.VAF.Export.Services
 
             UpdateResidentDetails(export, admission);
             UpdateDateInfo(export, admission);
+
+            StoredProc proc = new StoredProc
+            {
+                procedureName = "sp_ExportQMRAdmission",
+                storedProcParams = GetStoredProcParams(export)
+            }
+        }
+
+        private Dictionary<string, object> GetStoredProcParams(QMRAdmissionsExport export)
+        {
+            Dictionary<string, string> props = new Dictionary<string, string>();
+
+            PropertyInfo[] propertyInfos = typeof(QMRAdmissionsExport).GetProperties();
+            
+            foreach()
+
+            throw new NotImplementedException();
         }
 
         private void UpdateResidentDetails(QMRAdmissionsExport export, ObjVerEx admission)
