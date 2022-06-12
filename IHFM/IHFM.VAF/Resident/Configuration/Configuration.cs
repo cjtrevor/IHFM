@@ -38,5 +38,17 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_ActualAmountPayable = "MFiles.Property.ActualAmountPaying";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_ResidentDetail = "MFiles.Property.ResidentDetail";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_Age = "MFiles.Property.Age";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_GenderTitle = "MFiles.Property.GenderTitle";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_MedicalConditions = "MFiles.Property.MedicalConditions";
     }
 }

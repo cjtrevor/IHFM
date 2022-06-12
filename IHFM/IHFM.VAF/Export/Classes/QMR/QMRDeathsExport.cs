@@ -11,7 +11,6 @@ namespace IHFM.VAF.Export.Classes
         public int ObjId { get; set; }
         public int SiteID { get; set; }
         public string SiteName { get; set; }
-        public string SiteCareManager { get; set; }
         public int QuarterNumber { get; set; }
         public int YearNumber { get; set; }
         public string ResidentName { get; set; }

@@ -13,10 +13,26 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.DailyCare")]
         public void BeforeCreateNewDailyCare(EventHandlerEnvironment env)
         {
-            CheckAlreadyExists(env);
+            if (CheckAlreadyExists(env))
+            {
+                throw new Exception("A daily care for this resident record for this shift already exists. Please refer to report 1.5 under the browse section for the existing records.");
+            }
+
+            
         }
 
-        private void CheckAlreadyExists(EventHandlerEnvironment env)
+        private void RunExports(ObjVerEx dailyCare)
+        {
+            if(dailyCare.GetLookupID(Configuration.DailyCare_NoteType) == Configuration.DailyCare_AdmissionNoteType.ID)
+            {
+                ExportQMRAdmission(dailyCare);
+            }
+        }
+        private void ExportQMRAdmission(ObjVerEx dailyCare)
+        {
+
+        }
+        private bool CheckAlreadyExists(EventHandlerEnvironment env)
         {
             int residentId = env.ObjVerEx.GetLookupID(Configuration.ResidentLookup);
             string shift = env.ObjVerEx.GetPropertyText(Configuration.Shift);
@@ -26,10 +42,11 @@ namespace IHFM.VAF
 
             if(dailyCare != null)
             {
-                throw new Exception("A daily care for this resident record for this shift already exists. Please refer to report 1.5 under the browse section for the existing records.");
+                return true;
             }
-        }
 
+            return false;
+        }
         private void SetResidentCareDoneForShift(EventHandlerEnvironment env)
         {
             Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
