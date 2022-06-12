@@ -282,3 +282,171 @@ select ISNULL(SUM(SellingPrice), 0) as Cost
 	from WardStockExport 
 where ResidentID = @ResidentID
 	and TransactionDate between @StartDate and @EndDate
+
+create proc sp_ExportQMRAdmission
+@ObjID int,
+@SiteID int,
+@SiteName varchar(50),
+@QuarterNumber int,
+@YearNumber int,
+@ResidentName varchar(50),
+@Age int,
+@Sex varchar(20),
+@DateAdmitted varchar(20),
+@MedicalConditions varchar(max)
+as
+
+INSERT INTO [dbo].[QMRAdmissionsExport]
+           ([ObjID]
+           ,[SiteID]
+           ,[SiteName]
+           ,[QuarterNumber]
+           ,[YearNumber]
+           ,[ResidentName]
+           ,[Age]
+           ,[Sex]
+           ,[DateAdmitted]
+           ,[MedicalConditions])
+     VALUES
+           (@ObjID
+           ,@SiteID
+           ,@SiteName
+           ,@QuarterNumber
+           ,@YearNumber
+           ,@ResidentName
+           ,@Age
+           ,@Sex
+           ,@DateAdmitted
+           ,@MedicalConditions)
+
+create proc sp_ExportQMRDeath
+@ObjID int,
+@SiteID int,
+@SiteName varchar(50),
+@QuarterNumber int,
+@YearNumber int,
+@ResidentName varchar(50),
+@Age int,
+@Sex varchar(20),
+@DateOfDeath varchar(20),
+@MedicalConditions varchar(max)
+as
+
+INSERT INTO [dbo].[QMRDeathsExport]
+           ([ObjID]
+           ,[SiteID]
+           ,[SiteName]
+           ,[QuarterNumber]
+           ,[YearNumber]
+           ,[ResidentName]
+           ,[Age]
+           ,[Sex]
+           ,[DateOfDeath]
+           ,[MedicalConditions])
+     VALUES
+           (@ObjID
+           ,@SiteID
+           ,@SiteName
+           ,@QuarterNumber
+           ,@YearNumber
+           ,@ResidentName
+           ,@Age
+           ,@Sex
+           ,@DateOfDeath
+           ,@MedicalConditions)
+
+create proc sp_ExportQMRIncident
+@ObjID int,
+@SiteID int,
+@SiteName varchar(50),
+@QuarterNumber int,
+@YearNumber int,
+@ResidentName varchar(50),
+@DateOfIncident varchar(20),
+@TimeOfIncident varchar(20),
+@Benzo char(1),
+@Cause varchar(max),
+@Injury varchar(20),
+@Treatment varchar(20)
+as
+
+INSERT INTO [dbo].[QMRIncidentsExport]
+           ([ObjID]
+           ,[SiteID]
+           ,[SiteName]
+           ,[QuarterNumber]
+           ,[YearNumber]
+           ,[ResidentName]
+           ,[DateOfIncident]
+           ,[TimeOfIncident]
+           ,[Benzo]
+           ,[Cause]
+           ,[Injury]
+           ,[Treatment])
+     VALUES
+           (@ObjID
+           ,@SiteID
+           ,@SiteName
+           ,@QuarterNumber
+           ,@YearNumber
+           ,@ResidentName
+           ,@DateOfIncident
+           ,@TimeOfIncident
+           ,@Benzo
+           ,@Cause
+           ,@Injury
+           ,@Treatment)
+
+create proc sp_ExportQMRSiteDetail
+@SiteID int,
+@SiteName varchar(50),
+@SiteCareManager varchar(50),
+@QuarterNumber int,
+@YearNumber int,
+@HealthStatusIndependant int,
+@HealthStatusAssisted int,
+@HealthStatusDependant int,
+@MentallyFrail int,
+@PhysicallyFrail int,
+@PartiallyFrail int,
+@TotallyFrail int,
+@Diabetics int,
+@InfectiousDisease int,
+@PressureSores int,
+@WheelchairCases int
+as
+
+INSERT INTO [dbo].[QMRSiteDetailExport]
+           ([SiteID]
+           ,[SiteName]
+           ,[SiteCareManager]
+           ,[QuarterNumber]
+           ,[YearNumber]
+           ,[HealthStatusIndependant]
+           ,[HealthStatusAssisted]
+           ,[HealthStatusDependant]
+           ,[MentallyFrail]
+           ,[PhysicallyFrail]
+           ,[PartiallyFrail]
+           ,[TotallyFrail]
+           ,[Diabetics]
+           ,[InfectiousDisease]
+           ,[PressureSores]
+           ,[WheelchairCases])
+     VALUES
+           (@SiteID
+           ,@SiteName
+           ,@SiteCareManager
+           ,@QuarterNumber
+           ,@YearNumber
+           ,@HealthStatusIndependant
+           ,@HealthStatusAssisted
+           ,@HealthStatusDependant
+           ,@MentallyFrail
+           ,@PhysicallyFrail
+           ,@PartiallyFrail
+           ,@TotallyFrail
+           ,@Diabetics
+           ,@InfectiousDisease
+           ,@PressureSores
+           ,@WheelchairCases)

@@ -92,9 +92,13 @@
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
-    <Compile Include="Export\Classes\SageTransactionHeader.cs" />
-    <Compile Include="Export\Classes\SageTransactionInvoice.cs" />
-    <Compile Include="Export\Classes\SageTransactionItem.cs" />
+    <Compile Include="Export\Classes\QMR\QMRAdmissionsExport.cs" />
+    <Compile Include="Export\Classes\QMR\QMRDeathsExport.cs" />
+    <Compile Include="Export\Classes\QMR\QMRIncidentExport.cs" />
+    <Compile Include="Export\Classes\QMR\QMRSiteDetail.cs" />
+    <Compile Include="Export\Classes\Sage\SageTransactionHeader.cs" />
+    <Compile Include="Export\Classes\Sage\SageTransactionInvoice.cs" />
+    <Compile Include="Export\Classes\Sage\SageTransactionItem.cs" />
     <Compile Include="Export\Services\MenuExportService.cs" />
     <Compile Include="Export\Services\SageExportService.cs" />
     <Compile Include="Export\Services\ScriptControlExportService.cs" />

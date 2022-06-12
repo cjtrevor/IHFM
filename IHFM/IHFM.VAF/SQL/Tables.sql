@@ -122,3 +122,87 @@ CREATE TABLE [dbo].[ExportLastRun](
 	[SageExportLastRun] [smalldatetime] NOT NULL
 ) ON [PRIMARY]
 GO
+
+CREATE TABLE [dbo].[QMRSiteDetailExport](
+	[Identifier] [int] IDENTITY(1,1) NOT NULL,
+	[SiteID] [int] NOT NULL,
+	[SiteName] [varchar](50) NOT NULL,
+	[SiteCareManager] [varchar](50) NOT NULL,
+	[QuarterNumber] [int] NOT NULL,
+	[YearNumber] [int] NOT NULL,
+	[HealthStatusIndependant] [int] NOT NULL,
+	[HealthStatusAssisted] [int] NOT NULL,
+	[HealthStatusDependant] [int] NOT NULL,
+	[MentallyFrail] [int] NOT NULL,
+	[PhysicallyFrail] [int] NOT NULL,
+	[PartiallyFrail] [int] NOT NULL,
+	[TotallyFrail] [int] NOT NULL,
+	[Diabetics] [int] NOT NULL,
+	[InfectiousDisease] [int] NOT NULL,
+	[PressureSores] [int] NOT NULL,
+	[WheelchairCases] [int] NOT NULL,
+ CONSTRAINT [PK_QMRSiteDetailExport] PRIMARY KEY CLUSTERED 
+(
+	[Identifier] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[QMRAdmissionsExport](
+	[Identifier] [int] IDENTITY(1,1) NOT NULL,
+	[ObjID] [int] NOT NULL,
+	[SiteID] [int] NOT NULL,
+	[SiteName] [varchar](50) NOT NULL,
+	[QuarterNumber] [int] NOT NULL,
+	[YearNumber] [int] NOT NULL,
+	[ResidentName] [varchar](50) NOT NULL,
+	[Age] [int] NOT NULL,
+	[Sex] [varchar](15) NOT NULL,
+	[DateAdmitted] [varchar](20) NOT NULL,
+	[MedicalConditions] [varchar](max) NOT NULL,
+ CONSTRAINT [PK_QMRAdmissionsExport] PRIMARY KEY CLUSTERED 
+(
+	[Identifier] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[QMRDeathsExport](
+	[Identifier] [int] IDENTITY(1,1) NOT NULL,
+	[ObjID] [int] NOT NULL,
+	[SiteID] [int] NOT NULL,
+	[SiteName] [varchar](50) NOT NULL,
+	[QuarterNumber] [int] NOT NULL,
+	[YearNumber] [int] NOT NULL,
+	[ResidentName] [varchar](50) NOT NULL,
+	[Age] [int] NOT NULL,
+	[Sex] [varchar](15) NOT NULL,
+	[DateOfDeath] [varchar](20) NOT NULL,
+	[MedicalConditions] [varchar](max) NOT NULL,
+ CONSTRAINT [PK_QMRDeathsExport] PRIMARY KEY CLUSTERED 
+(
+	[Identifier] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[QMRIncidentsExport](
+	[Identifier] [int] IDENTITY(1,1) NOT NULL,
+	[ObjID] [int] NOT NULL,
+	[SiteID] [int] NOT NULL,
+	[SiteName] [varchar](50) NOT NULL,
+	[QuarterNumber] [int] NOT NULL,
+	[YearNumber] [int] NOT NULL,
+	[ResidentName] [varchar](50) NOT NULL,
+	[DateOfIncident] [varchar](20) NOT NULL,
+	[TimeOfIncident] [varchar](20) NOT NULL,
+	[Benzo] [char](1) NOT NULL,
+	[Cause] [varchar](max) NOT NULL,
+	[Injury] [varchar](max) NOT NULL,
+	[Treatment] [varchar](max) NOT NULL
+ CONSTRAINT [PK_QMRIncidentsExport] PRIMARY KEY CLUSTERED 
+(
+	[Identifier] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
