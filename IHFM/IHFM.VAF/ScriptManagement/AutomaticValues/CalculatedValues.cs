@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IHFM.VAF.Utilities;
 
 namespace IHFM.VAF
 {
@@ -16,11 +17,22 @@ namespace IHFM.VAF
             string medicineList = env.ObjVerEx.GetProperty(Configuration.MedicineList).GetValueAsLocalizedText();
             string medsDosage = env.ObjVerEx.GetProperty(Configuration.MedsDosageProperty).GetValueAsLocalizedText();
             string qtyDispensed = env.ObjVerEx.GetProperty(Configuration.QtyDispensed).GetValueAsLocalizedText();
-            string daysOfWeek = "All days";
-            
+            string daysOfWeek = "on All days";
+                        
             if(env.ObjVerEx.HasValue(Configuration.SpecificDays) && env.ObjVerEx.GetProperty(Configuration.SpecificDays).GetValue<bool>())
             { 
-                daysOfWeek = env.ObjVerEx.GetProperty(Configuration.DaysOfWeek).GetValueAsLocalizedText();
+                daysOfWeek = "on " + env.ObjVerEx.GetProperty(Configuration.DaysOfWeek).GetValueAsLocalizedText();
+            }
+
+            if (env.ObjVerEx.HasValue(Configuration.MedsDosage_SpecificDayOfMonth))
+            {
+                string dayWithSuffix = (Int32.Parse(env.ObjVerEx.GetProperty(Configuration.MedsDosage_SpecificDayOfMonth).GetValueAsLocalizedText())).Ordinal();
+                daysOfWeek = $" on the {dayWithSuffix} of the month";
+            }
+
+            if(env.ObjVerEx.HasValue(Configuration.MedsDosage_4Hourly) && env.ObjVerEx.GetProperty(Configuration.MedsDosage_4Hourly).GetValue<bool>())
+            {
+                daysOfWeek = $"every 4 hours starting at {env.ObjVerEx.GetProperty(Configuration.MedsDosage_StartTimeOf4HourlyCycle).GetValueAsLocalizedText()}";
             }
 
             string PRN = "";
@@ -41,7 +53,7 @@ namespace IHFM.VAF
             if (env.ObjVerEx.HasValue(Configuration.PRNMedication) && env.ObjVerEx.GetProperty(Configuration.PRNMedication).GetValue<bool>())
                 PRN = "_PRN";
 
-            string times = timeslots.Length > 0 ? $"@: {timeslots.Substring(0, timeslots.Length - 2)} on {daysOfWeek}" : "";
+            string times = timeslots.Length > 0 ? $"@: {timeslots.Substring(0, timeslots.Length - 2)} {daysOfWeek}" : "";
 
             string name = $"{medicineList}_{medsDosage}{PRN} x {qtyDispensed} {times}";
 

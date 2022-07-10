@@ -69,11 +69,35 @@ namespace IHFM.VAF
             {
                 ObjVerEx med = new ObjVerEx(vault, lookup);
 
-                if(med.HasValue(configuration.SpecificDays) && med.GetProperty(configuration.SpecificDays).GetValue<bool>() && !ShouldGiveToday(med))
+                //Only fail on no slotConfig if its not a 4 hour cycle record
+                if (slotConfig == null && !(med.HasValue(configuration.MedsDosage_4Hourly) && med.GetProperty(configuration.MedsDosage_4Hourly).GetValue<bool>()))
+                {
+                    throw new Exception("The current time has no valid slot.");
+                }
+
+                //Specific Days
+                if (med.HasValue(configuration.SpecificDays) && med.GetProperty(configuration.SpecificDays).GetValue<bool>() && !ShouldGiveToday(med))
                 {
                     continue;
                 }
 
+                //Specific day of Month
+                if(med.HasValue(configuration.MedsDosage_SpecificDayOfMonth))
+                {
+                    if(!(DateTime.Now.Day == Int32.Parse(med.GetProperty(configuration.MedsDosage_SpecificDayOfMonth).GetValueAsLocalizedText())))
+                    {
+                        continue;
+                    }
+                }
+
+                //4 hour cycle
+                if (med.HasValue(configuration.MedsDosage_4Hourly) && med.GetProperty(configuration.MedsDosage_4Hourly).GetValue<bool>() && ShouldGiveNow4Hourly(med))
+                {
+                    medsToGive.Add(lookup);
+                    continue;
+                }
+
+                //Meds on script timeslot
                 if (isPRN)
                 {
                     if (med.HasValue(configuration.PRNMedication) && med.GetProperty(configuration.PRNMedication).GetValue<bool>())
@@ -90,6 +114,30 @@ namespace IHFM.VAF
             }
 
             return medsToGive;
+        }
+
+        private bool ShouldGiveNow4Hourly(ObjVerEx med)
+        {
+            int giveThreshold = 30;
+
+            string startTime = med.GetProperty(configuration.MedsDosage_StartTimeOf4HourlyCycle).TypedValue.GetValueAsLocalizedText();
+            DateTime startDate = DateTime.Parse($"2000-01-01 {startTime}").AddMinutes(-giveThreshold);
+            DateTime endDate = startDate.AddMinutes(240 + giveThreshold);
+            
+            DateTime now = DateTime.Parse($"2000-01-01 {DateTime.Now.ToShortTimeString()}");
+
+            for(int i = 0; i < 6; i++)
+            {
+                if (now > startDate && now < endDate)
+                {
+                    return true;
+                }
+
+                startDate.AddHours(4);
+                endDate.AddHours(4);
+            }
+
+            return false;
         }
 
         private bool ShouldGiveToday(ObjVerEx med)

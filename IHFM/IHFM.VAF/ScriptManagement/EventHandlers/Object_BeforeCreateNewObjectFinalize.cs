@@ -27,13 +27,17 @@ namespace IHFM.VAF
         public void BeforeCreateNewMedsGiven(EventHandlerEnvironment env)
         {
             ExportMedsGiven(env, "CHR");
-            SetMedsToGive(env);           
+
+            if(!env.ObjVerEx.HasValue(Configuration.MedsGiven_Adhoc) || !env.ObjVerEx.GetProperty(Configuration.MedsGiven_Adhoc).GetValue<bool>())
+                SetMedsToGive(env);           
         }
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.PrnMedsGiven", Priority = 100)]
         public void BeforeCreateNewPRNMedsGiven(EventHandlerEnvironment env)
         {
             ExportMedsGiven(env, "PRN");
-            SetPRNMedsToGive(env);            
+
+            if (!env.ObjVerEx.HasValue(Configuration.MedsGiven_Adhoc) || !env.ObjVerEx.GetProperty(Configuration.MedsGiven_Adhoc).GetValue<bool>())
+                SetPRNMedsToGive(env);            
         }
         private void ExportMedsGiven(EventHandlerEnvironment env, string type)
         {
@@ -88,11 +92,6 @@ namespace IHFM.VAF
             // Check if anymeds for now +- 30min
             ScriptManagementUtilityService scriptUtilityService = new ScriptManagementUtilityService(Configuration);
             MFIdentifier slotToCheck = scriptUtilityService.GetScheduledTimeToCheck(DateTime.Now);
-
-            if(slotToCheck == null)
-            {
-                throw new Exception("The current time has no valid slot.");
-            }
 
             List<Lookup> medsToGive = new List<Lookup>();
             foreach (ObjVerEx script in activeScripts)

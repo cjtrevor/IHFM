@@ -52,6 +52,14 @@ namespace IHFM.VAF
         public MFIdentifier SpecificDays = "MFiles.Property.SpecificDays";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier MedsDosage_SpecificDayOfMonth = "MFiles.Property.DayOfMonth";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier MedsDosage_4Hourly = "MFiles.Property.4Hourly";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier MedsDosage_StartTimeOf4HourlyCycle = "MFiles.Property.StartTimeOf4HourCycle";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier DaysOfWeek = "MFiles.Property.DaysOfWeek";
 
         [MFPropertyDef(Required = true)]
@@ -59,6 +67,9 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Provider = "MFiles.Property.Provider";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier MedsGiven_Adhoc = "MFiles.Property.Adhoc";
 
         //Class Definitions
         [MFClass(Required = true)]
