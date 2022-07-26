@@ -78,6 +78,8 @@ CREATE TABLE [dbo].[MedsOnScriptExport](
 	[ScriptControlID] [int] NOT NULL,
 	[ObjectID] [int] NOT NULL,
 	[MedsName] [varchar](50) NOT NULL,
+	[Dosage] [varchar](50) NULL,
+	[Quantity] [decimal](10, 3) NULL,
 	[Give6AM] [bit] NOT NULL,
 	[Give9AM] [bit] NOT NULL,
 	[Give12PM] [bit] NOT NULL,
@@ -91,6 +93,9 @@ CREATE TABLE [dbo].[MedsOnScriptExport](
 	[GiveFriday] [bit] NOT NULL,
 	[GiveSaturday] [bit] NOT NULL,
 	[GiveSunday] [bit] NOT NULL,
+	[SpecificDayOfMonth] [int] NULL,
+	[Cycle4Hours] [bit] NULL,
+	[CycleStartTime] [varchar](20) NULL
  CONSTRAINT [PK_MedsOnScriptExport] PRIMARY KEY CLUSTERED 
 (
 	[Identifier] ASC

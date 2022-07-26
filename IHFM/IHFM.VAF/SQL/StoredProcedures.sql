@@ -91,10 +91,12 @@ insert into ScriptControlExport (ObjectID, SiteID, SiteName, ResidentID, Residen
 values
 (@ObjectID, @SiteID, @SiteName, @ResidentID, @Resident, @Validity, @StartDate, @EndDate, @Provider)
 
-create proc sp_ExportMedsOnScript
+create proc [dbo].[sp_ExportMedsOnScript]
 @ScriptControlID int,
 @ObjectID int,
 @MedsName varchar(50),
+@Dosage varchar(50),
+@Quantity decimal(10,3),
 @Give6AM bit,
 @Give9AM bit,
 @Give12PM bit,
@@ -107,17 +109,46 @@ create proc sp_ExportMedsOnScript
 @GiveThursday bit,
 @GiveFriday bit,
 @GiveSaturday bit,
-@GiveSunday bit
+@GiveSunday bit,
+@SpecificDayOfMonth int,
+@Cycle4Hours bit,
+@CycleStartTime varchar(20)
+
 as
 
 if not exists (select 1 from MedsOnScriptExport where ScriptControlID = @ScriptControlID and ObjectID = @ObjectID)
 begin
-	insert into MedsOnScriptExport (ScriptControlID, ObjectID, MedsName, Give6AM, Give9AM, Give12PM, Give5PM, Give8PM, GiveEveryday,
-		GiveMonday, GiveTuesday,GiveWednesday,GiveThursday,GiveFriday,GiveSaturday,GiveSunday)
+	insert into MedsOnScriptExport (ScriptControlID, ObjectID, MedsName,Dosage,Quantity, Give6AM, Give9AM, Give12PM, Give5PM, Give8PM, GiveEveryday,
+		GiveMonday, GiveTuesday,GiveWednesday,GiveThursday,GiveFriday,GiveSaturday,GiveSunday, SpecificDayOfMonth,Cycle4Hours,CycleStartTime)
 	values
-	(@ScriptControlID, @ObjectID, @MedsName, @Give6AM, @Give9AM, @Give12PM, @Give5PM, @Give8PM, @GiveEveryday, @GiveMonday, @GiveTuesday,
-	@GiveWednesday, @GiveThursday, @GiveFriday, @GiveSaturday, @GiveSunday)
+	(@ScriptControlID, @ObjectID, @MedsName,@Dosage,@Quantity, @Give6AM, @Give9AM, @Give12PM, @Give5PM, @Give8PM, @GiveEveryday, @GiveMonday, @GiveTuesday,
+	@GiveWednesday, @GiveThursday, @GiveFriday, @GiveSaturday, @GiveSunday,@SpecificDayOfMonth,@Cycle4Hours,@CycleStartTime)
 end
+else
+begin
+	update MedsOnScriptExport
+		set MedsName = @MedsName,
+		Dosage = @Dosage,
+		Quantity = @Quantity,
+		Give6AM = @Give6AM,
+		Give9AM = @Give9AM,
+		Give12PM = @Give12PM,
+		Give5PM = @Give5PM,
+		Give8PM = @Give8PM,
+		GiveEveryday = @GiveEveryday,
+		GiveMonday = @GiveMonday,
+		GiveTuesday = @GiveTuesday,
+		GiveWednesday = @GiveWednesday,
+		GiveThursday = @GiveThursday,
+		GiveFriday = @GiveFriday,
+		GiveSaturday = @GiveSaturday,
+		GiveSunday = @GiveSunday,
+		SpecificDayOfMonth = @SpecificDayOfMonth,
+		Cycle4Hours = @Cycle4Hours,
+		CycleStartTime = @CycleStartTime
+	where ScriptControlID = @ScriptControlID and ObjectID = @ObjectID
+end
+GO
 
 create proc sp_ExportMedsGiven
 @MedsOnScriptID int,

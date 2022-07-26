@@ -88,6 +88,8 @@ namespace IHFM.VAF
             proc.storedProcParams.Add("@ScriptControlID", scriptId);
             proc.storedProcParams.Add("@ObjectID", meds.ID);
             proc.storedProcParams.Add("@MedsName", meds.GetProperty(_configuration.MedicineList).GetValueAsLocalizedText());
+            proc.storedProcParams.Add("@Dosage", meds.GetProperty(_configuration.MedsDosageProperty).GetValueAsLocalizedText());
+            proc.storedProcParams.Add("@Quantity", meds.GetProperty(_configuration.QtyDispensed).GetValue<double>());
             proc.storedProcParams.Add("@Give6AM", meds.HasValue(_configuration.GiveMeds0600) ? meds.GetProperty(_configuration.GiveMeds0600).GetValue<bool>() : false);
             proc.storedProcParams.Add("@Give9AM", meds.HasValue(_configuration.GiveMeds0900) ? meds.GetProperty(_configuration.GiveMeds0900).GetValue<bool>() : false);
             proc.storedProcParams.Add("@Give12PM", meds.HasValue(_configuration.GiveMeds1200) ? meds.GetProperty(_configuration.GiveMeds1200).GetValue<bool>() : false);
@@ -101,6 +103,11 @@ namespace IHFM.VAF
             proc.storedProcParams.Add("@GiveFriday", days.Contains("FRIDAY"));
             proc.storedProcParams.Add("@GiveSaturday", days.Contains("SATURDAY"));
             proc.storedProcParams.Add("@GiveSunday", days.Contains("SUNDAY"));
+            proc.storedProcParams.Add("@SpecificDayOfMonth", meds.HasValue(_configuration.MedsDosage_SpecificDayOfMonth) 
+                ? Int32.Parse(meds.GetProperty(_configuration.MedsDosage_SpecificDayOfMonth).GetValueAsLocalizedText()) 
+                : 0);
+            proc.storedProcParams.Add("@Cycle4Hours", meds.HasValue(_configuration.MedsDosage_4Hourly) ? meds.GetProperty(_configuration.MedsDosage_4Hourly).GetValue<bool>() : false);
+            proc.storedProcParams.Add("@CycleStartTime", meds.HasValue(_configuration.MedsDosage_StartTimeOf4HourlyCycle) ? meds.GetProperty(_configuration.MedsDosage_StartTimeOf4HourlyCycle).GetValueAsLocalizedText() : "");
 
             _connector.ExecuteStoredProc(proc);
         }

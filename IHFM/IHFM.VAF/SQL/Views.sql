@@ -23,3 +23,21 @@ select [Shift], SiteName, Resident, DateTaken, Temperature, SystolicBP, Diastoli
 		HGT,Saturation,HB, Monthly
 from VitalsRecordExport
 GO
+
+create view vw_Resident_MedsOnScript
+as
+select sce.SiteName, sce.Resident, mos.MedsName, mos.Give6AM, mos.Give9AM, mos.Give12PM, mos.Give5PM, mos.Give8PM
+from MedsOnScriptExport mos
+	join ScriptControlExport sce 
+		on mos.ScriptControlID = sce.ObjectID and EndDate > GETDATE()
+GO
+
+create view vw_TranspharmStockSold
+as
+select SiteName, Month,Year,LastMonth,LastYear, SUM(SellingPrice) as SellingPrice from
+(
+select SiteName, Month,Year, SellingPrice, DATENAME(month,DATEADD(month,-1,GETDATE())) as lastMonth, YEAR(DATEADD(month,-1,GETDATE())) as LastYear
+from WardStockExport 
+where Direction = 'OUT' and ISNULL(SiteName,'') <> ''
+) a
+Group by SiteName, Month,Year,LastMonth,LastYear
