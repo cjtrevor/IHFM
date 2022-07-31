@@ -41,3 +41,16 @@ from WardStockExport
 where Direction = 'OUT' and ISNULL(SiteName,'') <> ''
 ) a
 Group by SiteName, Month,Year,LastMonth,LastYear
+
+create view vw_TimeBasedCareBilled
+as
+select SiteName,Month,Year, SUM(case when TBCType = 'CLNC' then Cost else 0 end) as ClinicCost,
+	SUM(case when TBCType = 'ADL' then Cost else 0 end) as AdlCost, SUM(Cost) as Total
+from
+(
+select SiteName, Month,Year, TBCType, SUM(Cost) as Cost 
+	from TimeBasedCareExport
+where isnull(SiteName,'') <> ''
+group by SiteName,Month,Year,TBCType
+) a
+group by SiteName,Month,Year
