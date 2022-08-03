@@ -16,9 +16,7 @@ namespace IHFM.VAF
             if (CheckAlreadyExists(env))
             {
                 throw new Exception("A daily care for this resident record for this shift already exists. Please refer to report 1.5 under the browse section for the existing records.");
-            }
-
-            
+            } 
         }
 
         private void RunExports(ObjVerEx dailyCare)

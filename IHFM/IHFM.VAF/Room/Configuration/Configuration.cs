@@ -11,5 +11,10 @@ namespace IHFM.VAF
     {
         [MFPropertyDef(Required = true)]
         public MFIdentifier Vacant = "MFiles.Property.Vacant";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Room_Zone = "MFiles.Property.Zone";
+
+        [MFObjType(Required = true)]
+        public MFIdentifier Room_Object = "MFiles.Object.Room";
     }
 }

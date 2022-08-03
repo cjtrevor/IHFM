@@ -22,6 +22,23 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier DailyCare_Resident = "MFiles.Property.Resident";
 
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier DailyCare_BowelMovement = "MFiles.Property.BowelMovement";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier DailyCare_BathType = "MFiles.Property.BathType";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier DailyCare_HadBreakfast = "MFiles.Property.HadBreakfast";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier DailyCare_HadLunch = "MFiles.Property.HadLunch";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier DailyCare_HadSupper = "MFiles.Property.HadSupper";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier DailyCare_IsComplete = "MFiles.Property.isComplete";
+        
+
         //Class Aliases
         [MFClass(Required = true)]
         public MFIdentifier DailyCareClass = "MFiles.Class.DailyCare";

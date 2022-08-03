@@ -90,6 +90,7 @@
     <Compile Include="CarePlan\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="CarePlan\Services\CarePlanSearchService.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
+    <Compile Include="DailyCare\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
     <Compile Include="Export\Classes\QMR\QMRAdmissionsExport.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Resident\Services\ResidentSearchService.cs" />
     <Compile Include="Room\Configuration\Configuration.cs" />
     <Compile Include="Room\Services\RoomPropertyService.cs" />
+    <Compile Include="Room\Services\RoomSearchService.cs" />
     <Compile Include="SageExport\Configuration\Configuration.cs" />
     <Compile Include="SageExport\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="ScriptManagement\AutomaticValues\CalculatedValues.cs" />
@@ -138,10 +140,12 @@
     <Compile Include="Shift\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Shift\Configuration\Configuration.cs" />
     <Compile Include="Shift\Services\ShiftCalculationService.cs" />
+    <Compile Include="Site\BackgroundOperations\SiteBackgroundOperations.cs" />
     <Compile Include="Site\Configuration\Configuration.cs" />
     <Compile Include="Site\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Site\Services\SitePermissionService.cs" />
     <Compile Include="Site\Services\SiteSearchService.cs" />
+    <Compile Include="Site\VaultExtensionMethods\VaultExtensionMethods.cs" />
     <Compile Include="Staff\Services\StaffPropertyService.cs" />
     <Compile Include="Stock\Configuration\Configuration.cs" />
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />

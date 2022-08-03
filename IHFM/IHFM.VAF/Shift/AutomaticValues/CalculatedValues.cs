@@ -8,7 +8,6 @@ namespace IHFM.VAF
         [PropertyCustomValue("MFiles.Property.Shift",Priority = 1)]
         public TypedValue SetShiftValue(PropertyEnvironment env)
         {
-            SysUtils.ReportInfoToEventLog("Custom Value - Shift");
             ShiftCalculationService shiftCalculationService = new ShiftCalculationService(Configuration,env.Vault);
 
             TypedValue calculated = new TypedValue();

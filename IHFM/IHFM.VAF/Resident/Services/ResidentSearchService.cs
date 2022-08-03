@@ -39,5 +39,12 @@ namespace IHFM.VAF
 
             return allResident.Where(x => x.GetLookupID(_configuration.BaseSiteID) == siteNumber).ToList();
         }
+
+        public List<ObjVerEx> GetResidentsBySiteAndZone(int siteNumber, List<int> zoneIds)
+        {
+            List<ObjVerEx> siteResidents = GetAllResidentsForSite(siteNumber);
+
+            return siteResidents.Where(x => zoneIds.Contains(x.GetLookupID(_configuration.Room_Zone))).ToList();
+        }
     }
 }

@@ -130,5 +130,23 @@ namespace IHFM.VAF
             ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
             resident.SaveProperty(_configuration.HasCarePlan, MFDataType.MFDatatypeBoolean, true);
         }
+
+        public void SetNoBowelMovementCount(ObjVerEx resident, bool reset)
+        {
+            int currentCount = resident.HasValue(_configuration.Resident_NoBowelCount) ? resident.GetProperty(_configuration.Resident_NoBowelCount).GetValue<int>() : 0;
+            resident.SaveProperty(_configuration.Resident_NoBowelCount, MFDataType.MFDatatypeInteger, reset ? 0 : currentCount + 1);
+        }
+
+        public void SetNoEatCount(ObjVerEx resident, bool reset)
+        {
+            int currentCount = resident.HasValue(_configuration.Resident_NoEatCount) ? resident.GetProperty(_configuration.Resident_NoEatCount).GetValue<int>() : 0;
+            resident.SaveProperty(_configuration.Resident_NoEatCount, MFDataType.MFDatatypeInteger, reset ? 0 : currentCount + 1);
+        }
+
+        public void SetNoBathCount(ObjVerEx resident, bool reset)
+        {
+            int currentCount = resident.HasValue(_configuration.Resident_NoBathCount) ? resident.GetProperty(_configuration.Resident_NoBathCount).GetValue<int>() : 0;
+            resident.SaveProperty(_configuration.Resident_NoBathCount, MFDataType.MFDatatypeInteger, reset ? 0 : currentCount + 1);
+        }
     }
 }

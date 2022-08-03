@@ -50,5 +50,31 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_MedicalConditions = "MFiles.Property.MedicalConditions";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_Surname = "MFiles.Property.Surname";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_Initial = "MFiles.Property.Initial";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_AccomodationCalc = "MFiles.Properties.AccomodationCalc";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_DeceasedDeparted = "MFiles.Property.DeceasedOrDeparted";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_NoBowelCount = "MFiles.Property.NobowelCount";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_NoBathCount = "MFiles.Property.NobathCount";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_NoEatCount = "MFiles.Property.NoeatCount";
+
+        [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
+        public MFIdentifier DeceasedListItem = "{4930A454-50D9-47BC-9BE2-F08CBCF36D4E}";
+
+
     }
 }
