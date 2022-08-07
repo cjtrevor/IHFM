@@ -23,7 +23,7 @@ namespace IHFM.VAF
         public MFIdentifier DailyCare_Resident = "MFiles.Property.Resident";
 
         [MFPropertyDef(Required = true)]
-        public MFIdentifier DailyCare_BowelMovement = "MFiles.Property.BowelMovement";
+        public MFIdentifier DailyCare_BowelMovement = "MFiles.Properties.BowelMovement";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier DailyCare_BathType = "MFiles.Property.BathType";
