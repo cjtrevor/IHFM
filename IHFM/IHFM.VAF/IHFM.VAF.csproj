@@ -128,6 +128,7 @@
     <Compile Include="Resident\Services\ResidentPropertyService.cs" />
     <Compile Include="Resident\Services\ResidentSearchService.cs" />
     <Compile Include="Room\Configuration\Configuration.cs" />
+    <Compile Include="Room\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Room\Services\RoomPropertyService.cs" />
     <Compile Include="Room\Services\RoomSearchService.cs" />
     <Compile Include="SageExport\Configuration\Configuration.cs" />

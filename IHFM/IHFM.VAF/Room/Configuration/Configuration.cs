@@ -13,6 +13,8 @@ namespace IHFM.VAF
         public MFIdentifier Vacant = "MFiles.Property.Vacant";
         [MFPropertyDef(Required = true)]
         public MFIdentifier Room_Zone = "MFiles.Property.Zone";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Room_RoomNumber = "MFiles.Property.RoomNumber";
 
         [MFObjType(Required = true)]
         public MFIdentifier Room_Object = "MFiles.Object.Room";

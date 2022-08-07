@@ -46,5 +46,20 @@ namespace IHFM.VAF
 
             return siteResidents.Where(x => zoneIds.Contains(x.GetLookupID(_configuration.Room_Zone))).ToList();
         }
+
+        public ObjVerEx GetResidentByIDNumber(string idNumber)
+        {
+            MFSearchBuilder resSearch = new MFSearchBuilder(_vault);
+            resSearch.ObjType(_configuration.ResidentObject);
+            resSearch.Property(_configuration.IDNumber, MFDataType.MFDatatypeText, idNumber);
+            resSearch.Deleted(false);
+            
+            List<ObjVerEx> results = resSearch.FindEx();
+
+            if (results.Count > 0)
+                return results.FirstOrDefault();
+
+            return null;
+        }
     }
 }

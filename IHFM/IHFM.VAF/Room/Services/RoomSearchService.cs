@@ -39,5 +39,20 @@ namespace IHFM.VAF
 
             return allRooms.Where(x => zoneIds.Contains(x.GetLookupID(_configuration.Room_Zone))).ToList();
         }
+
+        public ObjVerEx GetRoomBySiteAndNumber(int siteId, string number)
+        {
+            MFSearchBuilder roomSearch = new MFSearchBuilder(_vault);
+            roomSearch.ObjType(_configuration.Room_Object);
+            roomSearch.Property(_configuration.BaseSite, MFDataType.MFDatatypeLookup, siteId);
+            roomSearch.Property(_configuration.Room_RoomNumber, MFDataType.MFDatatypeText, number);
+            roomSearch.Deleted(false);
+
+            List<ObjVerEx> results = roomSearch.FindEx();
+            if (results.Count > 0)
+                return results.FirstOrDefault();
+
+            return null;
+        }
     }
 }
