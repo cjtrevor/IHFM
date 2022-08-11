@@ -13,7 +13,10 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerAfterCheckInChangesFinalize, Class = "MFiles.Class.DailyCare")]
         public void AfterDailyCareCheckInChangesFinalized(EventHandlerEnvironment env)
         {
-            if(env.ObjVerEx.HasValue(Configuration.DailyCare_IsComplete) && env.ObjVerEx.GetProperty(Configuration.DailyCare_IsComplete).GetValue<bool>())
+            ObjVerChanges changes = new ObjVerChanges(env.ObjVerEx);
+
+            if(env.ObjVerEx.HasValue(Configuration.DailyCare_IsComplete) && changes.HasChanged(Configuration.DailyCare_IsComplete) 
+                && env.ObjVerEx.GetProperty(Configuration.DailyCare_IsComplete).GetValue<bool>())
             { 
                 UpdateResidentBathCount(env.Vault, env.ObjVerEx);
                 UpdateResidentBowelCount(env.Vault, env.ObjVerEx);

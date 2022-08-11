@@ -10,8 +10,7 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.Resident")]
         public void BeforeCreatingANewResident(EventHandlerEnvironment env)
         {
-            if (HasDuplicateResident(env.ObjVerEx, env.Vault))
-                throw new Exception("A resident with this ID number already exists. All ID numbers should be unique.");
+            CheckDuplicateResident(env.ObjVerEx, env.Vault);
 
             SetRoomNotVacant(env.ObjVerEx, env.Vault);
         }
@@ -25,7 +24,7 @@ namespace IHFM.VAF
             roomPropertyService.SetRoomVacantStatus(false, currentRoomObjVerEx);
         }
 
-        public bool HasDuplicateResident(ObjVerEx resident, Vault vault)
+        public void CheckDuplicateResident(ObjVerEx resident, Vault vault)
         {
             ResidentSearchService resSearch = new ResidentSearchService(vault, Configuration);
             string IdNumber = resident.GetProperty(Configuration.IDNumber).GetValueAsLocalizedText();
@@ -36,11 +35,13 @@ namespace IHFM.VAF
             {
                 if(res.ID != resident.ID)
                 {
-                    return true;
+                    string resSite = res.GetProperty(Configuration.BaseSite).GetValueAsLocalizedText();
+                    string residentName = res.GetProperty(Configuration.Resident_ResidentDetail).GetValueAsLocalizedText();
+                    string active = res.HasValue(Configuration.Active) && res.GetProperty(Configuration.Active).GetValue<bool>() ? "active" : "inactive";
+
+                    throw new Exception($"A resident with this ID number already exists at {resSite}. Name: {residentName} Status: {active}");                
                 }
             }
-
-            return  false;
         }
 
     }

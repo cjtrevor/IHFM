@@ -66,6 +66,9 @@ namespace IHFM.VAF
         public MFIdentifier MedsTaken = "MFiles.Property.MedsTaken";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier ScriptControl_MissedMeds = "MFiles.Property.MissedMeds";
+        
+        [MFPropertyDef(Required = true)]
         public MFIdentifier Provider = "MFiles.Property.Provider";
 
         [MFPropertyDef(Required = true)]

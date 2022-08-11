@@ -135,6 +135,7 @@
     <Compile Include="SageExport\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="ScriptManagement\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="ScriptManagement\Configuration\Configuration.cs" />
+    <Compile Include="ScriptManagement\EventHandlers\Object_BeforeCheckInChanges.cs" />
     <Compile Include="ScriptManagement\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="ScriptManagement\Services\ScriptManagementSearchService.cs" />
     <Compile Include="ScriptManagement\Services\ScriptManagementUtilityService.cs" />
