@@ -89,7 +89,7 @@ namespace IHFM.VAF
             proc.storedProcParams.Add("@ObjectID", meds.ID);
             proc.storedProcParams.Add("@MedsName", meds.GetProperty(_configuration.MedicineList).GetValueAsLocalizedText());
             proc.storedProcParams.Add("@Dosage", meds.GetProperty(_configuration.MedsDosageProperty).GetValueAsLocalizedText());
-            proc.storedProcParams.Add("@Quantity", meds.GetProperty(_configuration.QtyDispensed).GetValue<double>());
+            proc.storedProcParams.Add("@Quantity", meds.HasValue(_configuration.QtyDispensed) ? meds.GetProperty(_configuration.QtyDispensed).GetValue<double>() : 1);
             proc.storedProcParams.Add("@Give6AM", meds.HasValue(_configuration.GiveMeds0600) ? meds.GetProperty(_configuration.GiveMeds0600).GetValue<bool>() : false);
             proc.storedProcParams.Add("@Give9AM", meds.HasValue(_configuration.GiveMeds0900) ? meds.GetProperty(_configuration.GiveMeds0900).GetValue<bool>() : false);
             proc.storedProcParams.Add("@Give12PM", meds.HasValue(_configuration.GiveMeds1200) ? meds.GetProperty(_configuration.GiveMeds1200).GetValue<bool>() : false);

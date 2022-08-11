@@ -15,7 +15,7 @@ namespace IHFM.VAF
         {
             if(HasDuplicateRoom(env.ObjVerEx,env.Vault))
             {
-                throw new Exception("A room with the same nuber for the selected site already exists. Room numbers should be unique for each site.");
+                throw new Exception("A room with the same number for the selected site already exists. Room numbers should be unique for each site.");
             }
         }
 
@@ -25,7 +25,17 @@ namespace IHFM.VAF
             string roomNumber = room.GetProperty(Configuration.Room_RoomNumber).GetValueAsLocalizedText();
             int siteId = room.GetLookupID(Configuration.BaseSite);
 
-            return roomSearch.GetRoomBySiteAndNumber(siteId, roomNumber) != null; 
+            List<ObjVerEx> rooms = roomSearch.GetRoomsBySiteAndNumber(siteId, roomNumber);
+
+            foreach (ObjVerEx res in rooms)
+            {
+                if (res.ID != room.ID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

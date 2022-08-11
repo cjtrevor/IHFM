@@ -61,5 +61,15 @@ namespace IHFM.VAF
 
             return null;
         }
+
+        public List<ObjVerEx> GetResidentsByIDNumber(string idNumber)
+        {
+            MFSearchBuilder resSearch = new MFSearchBuilder(_vault);
+            resSearch.ObjType(_configuration.ResidentObject);
+            resSearch.Property(_configuration.IDNumber, MFDataType.MFDatatypeText, idNumber);
+            resSearch.Deleted(false);
+
+            return resSearch.FindEx();
+        }
     }
 }

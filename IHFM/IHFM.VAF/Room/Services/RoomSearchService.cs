@@ -54,5 +54,16 @@ namespace IHFM.VAF
 
             return null;
         }
+
+        public List<ObjVerEx> GetRoomsBySiteAndNumber(int siteId, string number)
+        {
+            MFSearchBuilder roomSearch = new MFSearchBuilder(_vault);
+            roomSearch.ObjType(_configuration.Room_Object);
+            roomSearch.Property(_configuration.BaseSite, MFDataType.MFDatatypeLookup, siteId);
+            roomSearch.Property(_configuration.Room_RoomNumber, MFDataType.MFDatatypeText, number);
+            roomSearch.Deleted(false);
+
+            return roomSearch.FindEx();
+        }
     }
 }

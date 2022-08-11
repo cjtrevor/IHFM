@@ -30,7 +30,17 @@ namespace IHFM.VAF
             ResidentSearchService resSearch = new ResidentSearchService(vault, Configuration);
             string IdNumber = resident.GetProperty(Configuration.IDNumber).GetValueAsLocalizedText();
 
-            return resSearch.GetResidentByIDNumber(IdNumber) != null;
+            List<ObjVerEx> residents = resSearch.GetResidentsByIDNumber(IdNumber);
+
+            foreach(ObjVerEx res in residents)
+            {
+                if(res.ID != resident.ID)
+                {
+                    return true;
+                }
+            }
+
+            return  false;
         }
 
     }
