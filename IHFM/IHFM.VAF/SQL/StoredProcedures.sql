@@ -481,3 +481,43 @@ INSERT INTO [dbo].[QMRSiteDetailExport]
            ,@InfectiousDisease
            ,@PressureSores
            ,@WheelchairCases)
+GO
+
+create procedure sp_ExpoortIncident
+@IncidentID int,
+@Incident varchar(50),
+@Shift varchar(15),
+@SiteID int,
+@SiteName varchar(50),
+@ResidentID int,
+@Resident varchar(50),
+@IncidentDate smalldatetime,
+@Month varchar(15),
+@Year int
+as
+
+INSERT INTO [dbo].[IncidentExport]
+           ([IncidentID]
+           ,[Incident]
+           ,[Shift]
+           ,[SiteID]
+           ,[SiteName]
+           ,[ResidentID]
+           ,[Resident]
+           ,[IncidentDate]
+           ,[Month]
+           ,[Year])
+     VALUES
+           (@IncidentID
+           ,@Incident
+           ,@Shift
+           ,@SiteID
+           ,@SiteName
+           ,@ResidentID
+           ,@Resident
+           ,@IncidentDate
+           ,@Month
+           ,@Year)
+GO
+
+

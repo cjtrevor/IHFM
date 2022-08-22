@@ -37,7 +37,9 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier DailyCare_IsComplete = "MFiles.Property.isComplete";
-        
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier ProgressName_ProgressNoteDet = "MFiles.Property.ProgressNoteDet";
 
         //Class Aliases
         [MFClass(Required = true)]
@@ -46,6 +48,8 @@ namespace IHFM.VAF
         //ValueListItem Aliases
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.ProgressNoteType")]
         public MFIdentifier DailyCare_AdmissionNoteType = "{FDB118DC-EA9A-4932-940B-1A29902128C2}";
+        [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.ProgressNoteType")]
+        public MFIdentifier DailyCare_IncidentNoteType = "{61CFF907-0DBB-43F4-B7AB-2F8FD14D7261}";
 
     }
 }

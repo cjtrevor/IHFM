@@ -53,5 +53,24 @@ namespace IHFM.VAF
             resident.SaveProperty(Configuration.CareDoneForShift, MFDataType.MFDatatypeBoolean, true);
             resident.CheckIn();
         }
+
+        [EventHandler(MFEventHandlerType.MFEventHandlerAfterCreateNewObjectFinalize, Class = "MFiles.Class.ProgressNote")]
+        public void AfterCreateNewProgressNote(EventHandlerEnvironment env)
+        {
+            if(DevelopmentUtility.IsDevMode(env.ObjVerEx, Configuration)) //TODO: Remove Dev check
+            {
+                ExportProgressNote(env.Vault, env.ObjVerEx);
+            }
+        }
+
+        public void ExportProgressNote(Vault vault, ObjVerEx note)
+        {
+            IncidentExportService exportService = new IncidentExportService(vault, Configuration);
+
+            if (note.GetLookupID(Configuration.DailyCare_NoteType) == Configuration.DailyCare_IncidentNoteType.ID)
+            {
+                exportService.ExportIncident(note);
+            }
+        }
     }
 }

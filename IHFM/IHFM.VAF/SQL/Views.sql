@@ -54,3 +54,10 @@ where isnull(SiteName,'') <> ''
 group by SiteName,Month,Year,TBCType
 ) a
 group by SiteName,Month,Year
+GO
+
+create view vw_IncidentSummary
+as
+select SiteName, Shift, Month, Year, Count(*) as qty 
+	from IncidentExport
+group by SiteName, Shift, Month, Year

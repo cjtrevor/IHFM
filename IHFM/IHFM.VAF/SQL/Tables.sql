@@ -211,3 +211,22 @@ CREATE TABLE [dbo].[QMRIncidentsExport](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+
+CREATE TABLE [dbo].[IncidentExport](
+	[Identifier] [int] IDENTITY(1,1) NOT NULL,
+	[IncidentID] [int] NOT NULL,
+	[Incident] [varchar](50) NOT NULL,
+	[Shift] [varchar](15) NOT NULL,
+	[SiteID] [int] NOT NULL,
+	[SiteName] [varchar](50) NOT NULL,
+	[ResidentID] [int] NOT NULL,
+	[Resident] [varchar](50) NOT NULL,
+	[IncidentDate] [smalldatetime] NOT NULL,
+	[Month] [varchar](15) NOT NULL,
+	[Year] [int] NOT NULL,
+ CONSTRAINT [PK_IncidentExport] PRIMARY KEY CLUSTERED 
+(
+	[Identifier] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO

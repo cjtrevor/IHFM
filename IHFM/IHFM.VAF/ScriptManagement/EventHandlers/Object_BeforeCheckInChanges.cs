@@ -13,13 +13,15 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.MedsGiven", Priority = 100)]
         public void BeforeCheckInChangesMedsGiven(EventHandlerEnvironment env)
         {
-            LogMissedMeds(env.ObjVerEx);
+            if(DevelopmentUtility.IsDevMode(env.ObjVerEx, Configuration))
+                LogMissedMeds(env.ObjVerEx);
         }
 
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.PrnMedsGiven", Priority = 100)]
         public void BeforeCheckInChangesPrnMedsGiven(EventHandlerEnvironment env)
         {
-            LogMissedMeds(env.ObjVerEx);
+            if (DevelopmentUtility.IsDevMode(env.ObjVerEx, Configuration))
+                LogMissedMeds(env.ObjVerEx);
         }
 
         public void LogMissedMeds(ObjVerEx medsGiven)

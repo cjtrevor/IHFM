@@ -32,6 +32,9 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.RiskmanChecklist")]
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.RiskmanShiftReport")]
 
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.Dq98AssessmentForAdmission")]
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.IncidentInvestigation")]
+
         public void SetSiteIDForOtherDocuments(EventHandlerEnvironment env)
         {
             SitePermissionService sitePermissionService = new SitePermissionService(env.Vault, Configuration);

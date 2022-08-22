@@ -27,6 +27,14 @@ namespace IHFM.VAF
                 }
             }
 
+            if (obj.HasProperty(configuration.BaseSite))
+            {
+                if (obj.GetProperty(configuration.BaseSite).GetValueAsLocalizedText() == "Renda Consulting")
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
     }

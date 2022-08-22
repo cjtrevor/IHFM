@@ -72,6 +72,15 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_NoEatCount = "MFiles.Property.NoeatCount";
 
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_DateAdmittedToFacility = "MFiles.Property.DateAdmittedToFacility";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_DateAdmittedToFrailCare = "MFiles.Property.DateAdmittedToFrailCare";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_DateDeceased = "MFiles.Property.DateDeceased";
+
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
         public MFIdentifier DeceasedListItem = "{4930A454-50D9-47BC-9BE2-F08CBCF36D4E}";
 
