@@ -101,6 +101,7 @@
     <Compile Include="Export\Classes\Sage\SageTransactionInvoice.cs" />
     <Compile Include="Export\Classes\Sage\SageTransactionItem.cs" />
     <Compile Include="Export\Services\IncidentExportService.cs" />
+    <Compile Include="Export\Services\IncidentInvestigationExportService.cs" />
     <Compile Include="Export\Services\MenuExportService.cs" />
     <Compile Include="Export\Services\QMRAdmissionExportService.cs" />
     <Compile Include="Export\Services\QMRDeathExportService.cs" />

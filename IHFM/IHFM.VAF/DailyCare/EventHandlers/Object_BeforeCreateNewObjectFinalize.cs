@@ -57,10 +57,7 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerAfterCreateNewObjectFinalize, Class = "MFiles.Class.ProgressNote")]
         public void AfterCreateNewProgressNote(EventHandlerEnvironment env)
         {
-            if(DevelopmentUtility.IsDevMode(env.ObjVerEx, Configuration)) //TODO: Remove Dev check
-            {
-                ExportProgressNote(env.Vault, env.ObjVerEx);
-            }
+            ExportProgressNote(env.Vault, env.ObjVerEx);
         }
 
         public void ExportProgressNote(Vault vault, ObjVerEx note)

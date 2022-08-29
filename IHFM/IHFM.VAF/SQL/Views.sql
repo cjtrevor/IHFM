@@ -60,4 +60,5 @@ create view vw_IncidentSummary
 as
 select SiteName, Shift, Month, Year, Count(*) as qty 
 	from IncidentExport
+where SiteID <> '999'
 group by SiteName, Shift, Month, Year

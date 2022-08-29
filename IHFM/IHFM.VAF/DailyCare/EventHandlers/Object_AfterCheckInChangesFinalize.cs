@@ -20,7 +20,7 @@ namespace IHFM.VAF
             { 
                 UpdateResidentBathCount(env.Vault, env.ObjVerEx);
                 UpdateResidentBowelCount(env.Vault, env.ObjVerEx);
-                UpdateResidentEatCount(env.Vault, env.ObjVerEx);
+                //UpdateResidentEatCount(env.Vault, env.ObjVerEx);
             }
         }
 
@@ -39,21 +39,21 @@ namespace IHFM.VAF
             Lookup resLookup = dailyCare.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
             ObjVerEx resident = new ObjVerEx(vault, resLookup);
             ResidentPropertyService propServ = new ResidentPropertyService(vault, Configuration);
-
-            propServ.SetNoBathCount(resident, dailyCare.HasValue(Configuration.DailyCare_BathType));
+            if (resident.GetLookupID(Configuration.Room_Zone) != Configuration.Zone_Independant.ID)
+               propServ.SetNoBathCount(resident, dailyCare.HasValue(Configuration.DailyCare_BathType));
         }
 
-        private void UpdateResidentEatCount(Vault vault, ObjVerEx dailyCare)
-        {
-            Lookup resLookup = dailyCare.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
-            ObjVerEx resident = new ObjVerEx(vault, resLookup);
-            ResidentPropertyService propServ = new ResidentPropertyService(vault, Configuration);
+        //private void UpdateResidentEatCount(Vault vault, ObjVerEx dailyCare)
+        //{
+        //    Lookup resLookup = dailyCare.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+        //    ObjVerEx resident = new ObjVerEx(vault, resLookup);
+        //    ResidentPropertyService propServ = new ResidentPropertyService(vault, Configuration);
 
-            bool hadBreakfast = dailyCare.HasValue(Configuration.DailyCare_HadBreakfast) && dailyCare.GetProperty(Configuration.DailyCare_HadBreakfast).GetValue<bool>();
-            bool hadLunch = dailyCare.HasValue(Configuration.DailyCare_HadLunch) && dailyCare.GetProperty(Configuration.DailyCare_HadLunch).GetValue<bool>();
-            bool hadSupper = dailyCare.HasValue(Configuration.DailyCare_HadSupper) && dailyCare.GetProperty(Configuration.DailyCare_HadSupper).GetValue<bool>();
+        //    bool hadBreakfast = dailyCare.HasValue(Configuration.DailyCare_HadBreakfast) && dailyCare.GetProperty(Configuration.DailyCare_HadBreakfast).GetValue<bool>();
+        //    bool hadLunch = dailyCare.HasValue(Configuration.DailyCare_HadLunch) && dailyCare.GetProperty(Configuration.DailyCare_HadLunch).GetValue<bool>();
+        //    bool hadSupper = dailyCare.HasValue(Configuration.DailyCare_HadSupper) && dailyCare.GetProperty(Configuration.DailyCare_HadSupper).GetValue<bool>();
 
-            propServ.SetNoEatCount(resident, !hadBreakfast && !hadLunch && !hadSupper);
-        }
+        //    propServ.SetNoEatCount(resident, !hadBreakfast && !hadLunch && !hadSupper);
+        //}
     }
 }
