@@ -31,6 +31,11 @@ namespace IHFM.VAF
             {
                if(changed.PropertyDef == Configuration.MedsOnScript.ID)
                {
+                    if(changed.OldValue == null || changed.NewValue == null)
+                    {
+                        continue;
+                    }
+
                     Lookups oldMeds = changed.OldValue.TypedValue.GetValueAsLookups();
                     Lookups newMeds = changed.NewValue.TypedValue.GetValueAsLookups();
 

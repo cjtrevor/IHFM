@@ -127,7 +127,10 @@ namespace IHFM.VAF
         public MFIdentifier IncidentInvestigation_Resident = "MFiles.Property.ResidentAll";
 
         [MFPropertyDef(Required = true)]
-        public MFIdentifier IncidentInvestigation_CommentsNotes = "MFiles.Property.CommentsNotes"; 
+        public MFIdentifier IncidentInvestigation_CommentsNotes = "MFiles.Property.CommentsNotes";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier IncidentInvestigation_Name = "PD.Incidentrep";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Incident_PH = "MFiles.Property.Ph";

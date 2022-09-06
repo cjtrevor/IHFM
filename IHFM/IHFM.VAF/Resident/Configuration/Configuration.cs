@@ -90,7 +90,9 @@ namespace IHFM.VAF
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
         public MFIdentifier DeceasedListItem = "{4930A454-50D9-47BC-9BE2-F08CBCF36D4E}";
 
-        
+        [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
+        public MFIdentifier DischargedListItem = "{7C24698D-E37E-49E8-A0D7-2C80F218AEFF}";
+
 
 
     }

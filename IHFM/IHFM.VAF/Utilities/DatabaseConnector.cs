@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MFiles.VAF.Common;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -45,7 +46,9 @@ namespace IHFM.VAF
                 sqlConnection.Open();
                 sqlCommand.ExecuteNonQuery();
             }
-            catch(Exception ex) {}
+            catch(Exception ex) {
+                SysUtils.ReportErrorToEventLog($"Export: {storedProc.procedureName} Error: {ex.Message}");
+            }
             finally
             {
                 sqlConnection.Close();

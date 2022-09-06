@@ -13,7 +13,7 @@ namespace IHFM.VAF
         {
             if(obj.HasProperty(configuration.SiteList))
             {
-                if(obj.GetProperty(configuration.SiteList).GetValueAsLocalizedText() == "999")
+                if(obj.GetProperty(configuration.SiteList).GetValueAsLocalizedText() == "2")
                 {
                     return true;
                 }
@@ -21,7 +21,7 @@ namespace IHFM.VAF
 
             if (obj.HasProperty(configuration.VAFSite))
             {
-                if (obj.GetProperty(configuration.VAFSite).GetValueAsLocalizedText() == "999")
+                if (obj.GetProperty(configuration.VAFSite).GetValueAsLocalizedText() == "2")
                 {
                     return true;
                 }
@@ -29,7 +29,7 @@ namespace IHFM.VAF
 
             if (obj.HasProperty(configuration.BaseSite))
             {
-                if (obj.GetProperty(configuration.BaseSite).GetValueAsLocalizedText() == "Renda Consulting")
+                if (obj.GetProperty(configuration.BaseSite).GetValueAsLocalizedText() == "Riverside Place")
                 {
                     return true;
                 }

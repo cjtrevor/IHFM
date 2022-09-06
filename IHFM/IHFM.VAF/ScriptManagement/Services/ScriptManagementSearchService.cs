@@ -91,7 +91,14 @@ namespace IHFM.VAF
                 }
 
                 //4 hour cycle
-                if (med.HasValue(configuration.MedsDosage_4Hourly) && med.GetProperty(configuration.MedsDosage_4Hourly).GetValue<bool>() && ShouldGiveNow4Hourly(med))
+                if (med.HasValue(configuration.MedsDosage_4Hourly) && med.GetProperty(configuration.MedsDosage_4Hourly).GetValue<bool>() && ShouldGiveNowHourly(med,4))
+                {
+                    medsToGive.Add(lookup);
+                    continue;
+                }
+
+                //6 hour cycle
+                if (med.HasValue(configuration.MedsDosage_6Hourly) && med.GetProperty(configuration.MedsDosage_6Hourly).GetValue<bool>() && ShouldGiveNowHourly(med,6))
                 {
                     medsToGive.Add(lookup);
                     continue;
@@ -116,25 +123,25 @@ namespace IHFM.VAF
             return medsToGive;
         }
 
-        private bool ShouldGiveNow4Hourly(ObjVerEx med)
+        private bool ShouldGiveNowHourly(ObjVerEx med, int hours)
         {
             int giveThreshold = 30;
 
             string startTime = med.GetProperty(configuration.MedsDosage_StartTimeOf4HourlyCycle).TypedValue.GetValueAsLocalizedText();
             DateTime startDate = DateTime.Parse($"2000-01-01 {startTime}").AddMinutes(-giveThreshold);
-            DateTime endDate = startDate.AddMinutes(240 + giveThreshold);
+            DateTime endDate = startDate.AddMinutes((hours * 60) + giveThreshold);
             
             DateTime now = DateTime.Parse($"2000-01-01 {DateTime.Now.ToShortTimeString()}");
 
-            for(int i = 0; i < 6; i++)
+            for(int i = 0; i < 24/hours; i++)
             {
                 if (now > startDate && now < endDate)
                 {
                     return true;
                 }
 
-                startDate.AddHours(4);
-                endDate.AddHours(4);
+                startDate.AddHours(hours);
+                endDate.AddHours(hours);
             }
 
             return false;

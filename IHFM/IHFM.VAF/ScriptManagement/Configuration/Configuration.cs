@@ -57,6 +57,8 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier MedsDosage_4Hourly = "MFiles.Property.4Hourly";
         [MFPropertyDef(Required = true)]
+        public MFIdentifier MedsDosage_6Hourly = "MFiles.Property.6Hourly";
+        [MFPropertyDef(Required = true)]
         public MFIdentifier MedsDosage_StartTimeOf4HourlyCycle = "MFiles.Property.StartTimeOf4HourCycle";
 
         [MFPropertyDef(Required = true)]

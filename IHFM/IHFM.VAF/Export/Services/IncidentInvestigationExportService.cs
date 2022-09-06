@@ -126,7 +126,7 @@ namespace IHFM.VAF
             string hb = incident.GetProperty(_configuration.Incident_Hb).GetValueAsLocalizedText();
             string commments = incident.GetProperty(_configuration.IncidentInvestigation_CommentsNotes).GetValueAsLocalizedText();
 
-            DateTime dateOfDeath = residentObj.HasValue(_configuration.Resident_DateDeceased) ? DateTime.Parse(residentObj.GetProperty(_configuration.Resident_DateDeceased).GetValueAsLocalizedText()) : DateTime.MinValue;
+            DateTime dateOfDeath = residentObj.HasValue(_configuration.Resident_DateDeceased) ? DateTime.Parse(residentObj.GetProperty(_configuration.Resident_DateDeceased).GetValueAsLocalizedText()) : DateTime.Parse("01/01/1900");
             string residentDiagnosis = residentObj.GetProperty(_configuration.Resident_MedicalConditions).GetValueAsLocalizedText();
 
             StoredProc storedProc = new StoredProc();
@@ -172,7 +172,12 @@ namespace IHFM.VAF
             int siteId = residentObj.GetLookupID(_configuration.Resident_Site);
             string site = residentObj.GetProperty(_configuration.Resident_Site).GetValueAsLocalizedText();
 
-            DateTime admissionDate = DateTime.Parse(residentObj.GetProperty(_configuration.Resident_DateAdmittedToFacility).GetValueAsLocalizedText());
+            DateTime admissionDate; 
+            if(!DateTime.TryParse(residentObj.GetProperty(_configuration.Resident_DateAdmittedToFacility).GetValueAsLocalizedText(),out admissionDate))
+            {
+                throw new Exception("The admission date on the resident is not valid. Please fix the admission date and save again.");
+            }
+
             string CPOARef = residentObj.GetProperty(_configuration.Resident_CPOARef).GetValueAsLocalizedText();
 
             StoredProc storedProc = new StoredProc();
@@ -250,6 +255,7 @@ namespace IHFM.VAF
         public void ExportIncidentInvestigationDetails(ObjVerEx investigation)
         {
             string investigationDoneBy = "";// = investigation.GetProperty(_configuration.IncidentInvestigation_InvestigationDoneBy).GetValueAsLocalizedText();
+            string name = investigation.GetProperty(_configuration.IncidentInvestigation_Name).GetValueAsLocalizedText();
 
             string date = investigation.GetProperty(_configuration.IncidentInvestigation_Date).GetValueAsLocalizedText();
             string time = investigation.GetProperty(_configuration.IncidentInvestigation_Time).GetValueAsLocalizedText();
@@ -265,6 +271,7 @@ namespace IHFM.VAF
 
             storedProc.storedProcParams = new Dictionary<string, object>();
             storedProc.storedProcParams.Add("@IncInvId", investigation.ID);
+            storedProc.storedProcParams.Add("@IncInvDet", name);
             storedProc.storedProcParams.Add("@InvestigationDoneBy", investigationDoneBy);
             storedProc.storedProcParams.Add("@DateOfInvestigation", dateOfInvestigation);
             storedProc.storedProcParams.Add("@LocationOfIncident", locationOfIncident);
