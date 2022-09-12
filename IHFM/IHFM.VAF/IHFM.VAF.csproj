@@ -93,6 +93,8 @@
     <Compile Include="DailyCare\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
+    <Compile Include="DQ98\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="DQ98\Configuration\Configuration.cs" />
     <Compile Include="Export\Classes\QMR\QMRAdmissionsExport.cs" />
     <Compile Include="Export\Classes\QMR\QMRDeathsExport.cs" />
     <Compile Include="Export\Classes\QMR\QMRIncidentExport.cs" />
@@ -164,6 +166,7 @@
     <Compile Include="Utilities\DevelopmentUtility.cs" />
     <Compile Include="Utilities\IdNumberParser.cs" />
     <Compile Include="Base\VaultApplication.cs" />
+    <Compile Include="Utilities\PropertyParser.cs" />
     <Compile Include="VitalsRecord\Configuration\Configuration.cs" />
     <Compile Include="VitalsRecord\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
   </ItemGroup>
