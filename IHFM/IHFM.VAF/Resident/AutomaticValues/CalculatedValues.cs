@@ -39,10 +39,14 @@ namespace IHFM.VAF
             string accomodationCalc = env.ObjVerEx.GetProperty(Configuration.CurrentRoom).GetValueAsLocalizedText();
             int deceasedLookupID = env.ObjVerEx.HasValue(Configuration.Resident_DeceasedDeparted) ? env.ObjVerEx.GetLookupID(Configuration.Resident_DeceasedDeparted) : 0;
 
-            string addDeceasedKeyword = deceasedLookupID == Configuration.DeceasedListItem.ID ? "- DECEASED" : "";
-            string addDischargedKeyword = deceasedLookupID == Configuration.DischargedListItem.ID ? "- DISCHARGED" : "";
+            string status = "";
 
-            string name = $"{surname}, {initial} {addDeceasedKeyword}{addDischargedKeyword} ({gender}) {accomodationCalc}";
+            if(env.ObjVerEx.HasValue(Configuration.Resident_DeceasedDeparted))
+            {
+                status = $"- {env.ObjVerEx.GetProperty(Configuration.Resident_DeceasedDeparted).GetValueAsLocalizedText()} ";
+            }
+
+            string name = $"{surname}, {initial} {status}({gender}) {accomodationCalc}";
 
             calculated.SetValue(MFDataType.MFDatatypeText, name);
             return calculated;

@@ -57,7 +57,61 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerAfterCreateNewObjectFinalize, Class = "MFiles.Class.ProgressNote")]
         public void AfterCreateNewProgressNote(EventHandlerEnvironment env)
         {
+            List<int> residentUpdateTypes = new List<int>
+            {
+                Configuration.DailyCare_BackInResidenceNoteType.ID,
+                Configuration.DailyCare_DeceasedNoteType.ID,
+                Configuration.DailyCare_DischargedNoteType.ID,
+                Configuration.DailyCare_HospitalNoteType.ID,
+                Configuration.DailyCare_TempDischargeNoteType.ID
+            };
+
+            if(residentUpdateTypes.Contains(env.ObjVerEx.GetLookupID(Configuration.DailyCare_NoteType)) && DevelopmentUtility.IsDevMode(env.ObjVerEx,Configuration))
+            {
+                UpdateResidentStatusFromProgressNote(env.Vault, env.ObjVerEx);
+            }
+
             ExportProgressNote(env.Vault, env.ObjVerEx);
+        }
+
+        private void UpdateResidentStatusFromProgressNote(Vault vault, ObjVerEx note)
+        {
+            ObjVerEx resident = new ObjVerEx(vault, note.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup());
+
+            int typeId = note.GetLookupID(Configuration.DailyCare_NoteType);
+
+            if (typeId == Configuration.DailyCare_BackInResidenceNoteType.ID)
+            {
+                //Configuration.Resident_DeceasedDeparted;
+                //Configuration.Resident_DateDeceased;
+                
+            }
+            else if (typeId == Configuration.DailyCare_DeceasedNoteType.ID)
+            {
+                resident.SetProperty(Configuration.Resident_DeceasedDeparted, MFDataType.MFDatatypeLookup, Configuration.DeceasedListItem.ID);
+                resident.SetProperty(Configuration.Resident_DateDeceased, MFDataType.MFDatatypeDate, DateTime.Now);
+                resident.SetProperty(Configuration.Active, MFDataType.MFDatatypeBoolean, false);
+                resident.SaveProperties();
+            }
+            else if (typeId == Configuration.DailyCare_DischargedNoteType.ID)
+            {
+                resident.SetProperty(Configuration.Resident_DeceasedDeparted, MFDataType.MFDatatypeLookup, Configuration.DischargedListItem.ID);
+                resident.SetProperty(Configuration.Resident_DateDeceased, MFDataType.MFDatatypeDate, DateTime.Now);
+                resident.SetProperty(Configuration.Active, MFDataType.MFDatatypeBoolean, false);
+                resident.SaveProperties();
+            }
+            else if (typeId == Configuration.DailyCare_HospitalNoteType.ID)
+            {
+                resident.SetProperty(Configuration.Resident_DeceasedDeparted, MFDataType.MFDatatypeLookup, Configuration.HospitalListItem.ID);
+                resident.SetProperty(Configuration.Resident_DateDeceased, MFDataType.MFDatatypeDate, DateTime.Now);
+                resident.SaveProperties();
+            }
+            else if (typeId == Configuration.DailyCare_TempDischargeNoteType.ID)
+            {
+                resident.SetProperty(Configuration.Resident_DeceasedDeparted, MFDataType.MFDatatypeLookup, Configuration.TempDischargeListItem.ID);
+                resident.SetProperty(Configuration.Resident_DateDeceased, MFDataType.MFDatatypeDate, DateTime.Now);
+                resident.SaveProperties();
+            }
         }
 
         public void ExportProgressNote(Vault vault, ObjVerEx note)

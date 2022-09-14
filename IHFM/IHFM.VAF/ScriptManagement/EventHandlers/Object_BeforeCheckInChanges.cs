@@ -20,8 +20,7 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.PrnMedsGiven", Priority = 100)]
         public void BeforeCheckInChangesPrnMedsGiven(EventHandlerEnvironment env)
         {
-            if (DevelopmentUtility.IsDevMode(env.ObjVerEx, Configuration))
-                LogMissedMeds(env.ObjVerEx);
+            LogMissedMeds(env.ObjVerEx);
         }
 
         public void LogMissedMeds(ObjVerEx medsGiven)

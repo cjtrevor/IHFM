@@ -92,6 +92,10 @@ namespace IHFM.VAF
 
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
         public MFIdentifier DischargedListItem = "{7C24698D-E37E-49E8-A0D7-2C80F218AEFF}";
+        [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
+        public MFIdentifier HospitalListItem = "{ADFA2DF4-8EA7-43A6-A432-B539F77FAA5E}";
+        [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
+        public MFIdentifier TempDischargeListItem = "{C277F52F-0843-4D93-B4C8-471E558C4B1D}";
 
 
 
