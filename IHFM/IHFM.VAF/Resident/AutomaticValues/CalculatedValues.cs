@@ -43,7 +43,7 @@ namespace IHFM.VAF
 
             if(env.ObjVerEx.HasValue(Configuration.Resident_DeceasedDeparted))
             {
-                status = $"- {env.ObjVerEx.GetProperty(Configuration.Resident_DeceasedDeparted).GetValueAsLocalizedText()} ";
+                status = $"- {env.ObjVerEx.GetProperty(Configuration.Resident_DeceasedDeparted).GetValueAsLocalizedText().ToUpper()} ";
             }
 
             string name = $"{surname}, {initial} {status}({gender}) {accomodationCalc}";
