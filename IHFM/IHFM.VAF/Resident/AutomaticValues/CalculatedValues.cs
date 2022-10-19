@@ -41,7 +41,7 @@ namespace IHFM.VAF
 
             string status = "";
 
-            if(env.ObjVerEx.HasValue(Configuration.Resident_DeceasedDeparted))
+            if(env.ObjVerEx.HasValue(Configuration.Resident_DeceasedDeparted) && deceasedLookupID != Configuration.ReturnedToResidenceListItem.ID)
             {
                 status = $"- {env.ObjVerEx.GetProperty(Configuration.Resident_DeceasedDeparted).GetValueAsLocalizedText().ToUpper()} ";
             }

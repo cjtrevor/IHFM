@@ -66,7 +66,7 @@ namespace IHFM.VAF
                 Configuration.DailyCare_TempDischargeNoteType.ID
             };
 
-            if(residentUpdateTypes.Contains(env.ObjVerEx.GetLookupID(Configuration.DailyCare_NoteType)) && DevelopmentUtility.IsDevMode(env.ObjVerEx,Configuration))
+            if(residentUpdateTypes.Contains(env.ObjVerEx.GetLookupID(Configuration.DailyCare_NoteType)))
             {
                 UpdateResidentStatusFromProgressNote(env.Vault, env.ObjVerEx);
             }
@@ -82,9 +82,10 @@ namespace IHFM.VAF
 
             if (typeId == Configuration.DailyCare_BackInResidenceNoteType.ID)
             {
-                //Configuration.Resident_DeceasedDeparted;
-                //Configuration.Resident_DateDeceased;
-                
+                resident.SetProperty(Configuration.Resident_DeceasedDeparted, MFDataType.MFDatatypeLookup, Configuration.ReturnedToResidenceListItem.ID);
+                resident.SetProperty(Configuration.Resident_DateDeceased, MFDataType.MFDatatypeDate, DateTime.Now);
+                resident.SaveProperties();
+
             }
             else if (typeId == Configuration.DailyCare_DeceasedNoteType.ID)
             {
