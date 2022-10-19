@@ -28,7 +28,7 @@ namespace IHFM.VAF
             ObjVerEx site = searchService.GetSiteByNumber(siteId.ToString());
             string siteName = site.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle).GetValueAsLocalizedText();
 
-            int residentId = vitalsRecord.GetProperty(_configuration.ResidentLookup).TypedValue.GetLookupID();
+            int residentId = vitalsRecord.GetLookupID(_configuration.ResidentLookup);
             string resident = vitalsRecord.GetProperty(_configuration.ResidentLookup).GetValueAsLocalizedText();
             DateTime dateTaken = DateTime.Now;
             decimal temperature = vitalsRecord.HasValue(_configuration.Vitals_Temperature) 
@@ -69,7 +69,7 @@ namespace IHFM.VAF
             storedProc.storedProcParams.Add("@ObjectID", objectId);
             storedProc.storedProcParams.Add("@SiteID", siteId);
             storedProc.storedProcParams.Add("@SiteName", siteName);
-            storedProc.storedProcParams.Add("@ResidentId", resident);
+            storedProc.storedProcParams.Add("@ResidentId", residentId);
             storedProc.storedProcParams.Add("@Resident", resident);
             storedProc.storedProcParams.Add("@DateTaken", dateTaken);
             storedProc.storedProcParams.Add("@Temperature", temperature);
