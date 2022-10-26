@@ -169,6 +169,7 @@
     <Compile Include="Utilities\PropertyParser.cs" />
     <Compile Include="VitalsRecord\Configuration\Configuration.cs" />
     <Compile Include="VitalsRecord\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="Workflow\StateActions\StateActions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appdef.xml">

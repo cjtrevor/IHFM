@@ -6,8 +6,8 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
-        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.IncidentInvestigation")]
-        public void BeforeCreateNewIncidentInvestigation(EventHandlerEnvironment env)
+        [EventHandler(MFEventHandlerType.MFEventHandlerAfterCreateNewObjectFinalize, Class = "MFiles.Class.IncidentInvestigation")]
+        public void AfterCreateNewIncidentInvestigation(EventHandlerEnvironment env)
         {
             SetInvestigationDoneOnProgressNote(env.ObjVerEx, env.Vault);
             ExportIncidentInvestigation(env.ObjVerEx, env.Vault);
