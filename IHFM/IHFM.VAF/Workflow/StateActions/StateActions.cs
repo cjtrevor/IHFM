@@ -10,7 +10,7 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
-        [StateAction("MFiles.Property.ScriptVerifiedCorrect")]
+        [StateAction("MFiles.WorkflowState.ScriptVerifiedCorrect")]
         public void SetItemSiteOnScriptVerifiedCorrect(StateEnvironment env)
         {
             var residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();

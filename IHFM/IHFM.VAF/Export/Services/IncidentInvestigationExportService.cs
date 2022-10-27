@@ -102,7 +102,7 @@ namespace IHFM.VAF
         {
             Lookup incLookup = investigation.GetProperty(_configuration.IncidentReport_RegardingIncident).Value.GetValueAsLookup();
             ObjVerEx incident = new ObjVerEx(_vault, incLookup);
-
+            
             Lookup resLookup = investigation.GetProperty(_configuration.IncidentInvestigation_Resident).Value.GetValueAsLookup();
             ObjVerEx residentObj = new ObjVerEx(_vault, resLookup);
 
@@ -134,6 +134,7 @@ namespace IHFM.VAF
 
             storedProc.storedProcParams = new Dictionary<string, object>();
             storedProc.storedProcParams.Add("@IncInvId", investigation.ID);
+            storedProc.storedProcParams.Add("@IncidentId", incident.ID);
             storedProc.storedProcParams.Add("@IncidentDateTime", incidentDateTime);
             storedProc.storedProcParams.Add("@Shift", shift);
             storedProc.storedProcParams.Add("@Temperature", temperature);
