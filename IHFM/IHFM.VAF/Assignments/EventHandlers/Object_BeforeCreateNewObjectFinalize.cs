@@ -11,6 +11,9 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize)]
         public void SetAssignmentDropdowns(EventHandlerEnvironment env)
         {
+            if (env.ObjVerEx.Class == 1180)
+                return;
+
             StaffPropertyService staffPropertyService = new StaffPropertyService(env.ObjVerEx.Vault, Configuration);
             int createdByID = env.ObjVerEx.Properties.SearchForProperty((int)MFBuiltInPropertyDef.MFBuiltInPropertyDefCreatedBy).TypedValue.GetLookupID();
 
