@@ -153,6 +153,7 @@
     <Compile Include="Site\Services\SiteSearchService.cs" />
     <Compile Include="Site\VaultExtensionMethods\VaultExtensionMethods.cs" />
     <Compile Include="Staff\Services\StaffPropertyService.cs" />
+    <Compile Include="Stock\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Stock\Configuration\Configuration.cs" />
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Stock\Services\SiteStockUpdateService.cs" />
