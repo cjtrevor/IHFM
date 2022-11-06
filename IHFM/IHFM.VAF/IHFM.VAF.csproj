@@ -91,6 +91,7 @@
     <Compile Include="CarePlan\Services\CarePlanSearchService.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
+    <Compile Include="DailyCare\EventHandlers\Object_AfterCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
     <Compile Include="DQ98\AutomaticValues\CalculatedValues.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Stock\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Stock\Configuration\Configuration.cs" />
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="Stock\Services\NappyUsageService.cs" />
     <Compile Include="Stock\Services\SiteStockUpdateService.cs" />
     <Compile Include="TimeBasedCare\Configuration\Configuration.cs" />
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCheckInChanges.cs" />

@@ -12,10 +12,15 @@ namespace IHFM.VAF
         //Object Aliases
         [MFObjType(Required = true)]
         public MFIdentifier SiteStockObject = "MFiles.Object.SiteStock";
+        [MFObjType(Required = true)]
+        public MFIdentifier NappyUsage_MonthlyUsageObject = "MFiles.Object.ResidentMonthlyNappyUsage";
 
         //Class Aliases
         [MFClass(Required = true)]
         public MFIdentifier SiteStock = "MFiles.Class.SiteStock";
+
+        [MFClass(Required = true)]
+        public MFIdentifier NappyUsage_MonthlyCountClass = "MFiles.Class.ResidentMonthlyNappyUsage";
 
         //Property Aliases
         [MFPropertyDef(Required = true)]
@@ -68,5 +73,13 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier CostPrice = "MFiles.Property.Cost";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier NappyUsage_Month = "MFiles.Property.NappyUsageMonth";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier NappyUsage_TotalMonthlyUsage = "MFiles.Property.TotalNappyUsage";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier NappyUsage_NappyChange = "MFiles.Property.NappyChange";
+
     }
 }
