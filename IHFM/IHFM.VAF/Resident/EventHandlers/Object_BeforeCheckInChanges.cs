@@ -21,15 +21,12 @@ namespace IHFM.VAF
                 if (change.PropertyDef == Configuration.RoomTariff.ID && change.ChangeType == PropertyValueChangeType.Modified)
                 {
                     SetDiscountValueIfPercentage(env);
-                }
+                }          
                 
-                if(DevelopmentUtility.IsDevMode(env.ObjVerEx, Configuration)) //TODO: Remove Dev Check
-                { 
-                    if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified)
-                    {
-                        UpdateRoomTariffOnRoomChange(env);
-                        SetDiscountValueIfPercentage(env);
-                    }
+                if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified)
+                {
+                    UpdateRoomTariffOnRoomChange(env);
+                    SetDiscountValueIfPercentage(env);
                 }
             }
         }

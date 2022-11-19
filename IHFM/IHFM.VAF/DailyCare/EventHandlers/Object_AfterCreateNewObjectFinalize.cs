@@ -21,9 +21,6 @@ namespace IHFM.VAF
 
         private void UpdateNappyStock(ObjVerEx change, Vault vault)
         {
-            if (!DevelopmentUtility.IsDevMode(change, Configuration))
-                return;
-
             NappyUsageService usageService = new NappyUsageService(vault, Configuration);
 
             int siteID = change.GetLookupID(Configuration.SiteList);
