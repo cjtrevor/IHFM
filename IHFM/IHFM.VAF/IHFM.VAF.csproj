@@ -118,6 +118,9 @@
     <Compile Include="GCS\Services\GcsCalculationService.cs" />
     <Compile Include="IncidentReport\Configuration\Configuration.cs" />
     <Compile Include="IncidentReport\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="IncontinenceSupplies\Configuration\Configuration.cs" />
+    <Compile Include="IncontinenceSupplies\EventHandlers\Object_AfterCreateNewObjectFinalize.cs" />
+    <Compile Include="IncontinenceSupplies\Services\IncontinenceStockUpdateService.cs" />
     <Compile Include="InputOutput\Configuration\Configuration.cs" />
     <Compile Include="InputOutput\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="InputOutput\Services\InputOutputSearchService.cs" />
@@ -157,7 +160,7 @@
     <Compile Include="Stock\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Stock\Configuration\Configuration.cs" />
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
-    <Compile Include="Stock\Services\NappyUsageService.cs" />
+    <Compile Include="IncontinenceSupplies\Services\NappyUsageService.cs" />
     <Compile Include="Stock\Services\SiteStockUpdateService.cs" />
     <Compile Include="TimeBasedCare\Configuration\Configuration.cs" />
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCheckInChanges.cs" />
