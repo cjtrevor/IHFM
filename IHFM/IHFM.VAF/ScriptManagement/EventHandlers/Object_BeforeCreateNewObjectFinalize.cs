@@ -116,13 +116,9 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerAfterCreateNewObjectFinalize, Class = "MFiles.Class.ScriptManagement", Priority = 100)]
         public void AfterCreateNewScriptManagement(EventHandlerEnvironment env)
         {
-            ExportScriptManagement(env);
+            
         }
 
-        private void ExportScriptManagement(EventHandlerEnvironment env)
-        {
-            ScriptControlExportService service = new ScriptControlExportService(env.Vault, Configuration);
-            service.ExportScriptControl(env.ObjVerEx);
-        }
+       
     }
 }

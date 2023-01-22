@@ -16,10 +16,18 @@ namespace IHFM.VAF
             var residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
 
             ObjVerEx res = new ObjVerEx(env.Vault, residentLookup);
-            int siteId = res.GetLookupID(Configuration.BaseSiteID);
+            int vafSiteId = res.GetLookupID(Configuration.BaseSiteID);
+            int siteId = res.GetLookupID(Configuration.BaseSite);
 
-            env.ObjVerEx.SetProperty(Configuration.VAFSite, MFDataType.MFDatatypeLookup, siteId);
+            env.ObjVerEx.SetProperty(Configuration.VAFSite, MFDataType.MFDatatypeLookup, vafSiteId);
             env.ObjVerEx.SaveProperties();
+
+            ExportScriptManagement(env, siteId);
+        }
+        private void ExportScriptManagement(StateEnvironment env, int siteId)
+        {
+            ScriptControlExportService service = new ScriptControlExportService(env.Vault, Configuration);
+            service.ExportScriptControl(env.ObjVerEx, siteId);
         }
     }
 }

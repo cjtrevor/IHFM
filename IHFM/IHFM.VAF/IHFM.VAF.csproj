@@ -150,6 +150,7 @@
     <Compile Include="Shift\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Shift\Configuration\Configuration.cs" />
     <Compile Include="Shift\Services\ShiftCalculationService.cs" />
+    <Compile Include="Site\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Site\BackgroundOperations\SiteBackgroundOperations.cs" />
     <Compile Include="Site\Configuration\Configuration.cs" />
     <Compile Include="Site\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />

@@ -25,6 +25,7 @@ namespace IHFM.VAF
                 
                 if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified)
                 {
+                    SetRoomNotVacant(env.ObjVerEx, env.Vault);
                     UpdateRoomTariffOnRoomChange(env);
                     SetDiscountValueIfPercentage(env);
                 }

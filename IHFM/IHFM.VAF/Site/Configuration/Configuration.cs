@@ -43,6 +43,8 @@ namespace IHFM.VAF
         public MFIdentifier Site_TotalBeds = "MFiles.Property.SiteTotalBeds";
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site_LastDataUpdate = "MFiles.Property.LastDataUpdate";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Site_ReportSite = "MFiles.Property.ReportSite";
 
         //Object Aliases
         [MFObjType(Required = true)]

@@ -21,12 +21,12 @@ namespace IHFM.VAF
             _connector = new DatabaseConnector();
         }
 
-        public void ExportScriptControl(ObjVerEx script)
+        public void ExportScriptControl(ObjVerEx script, int siteId)
         {
             SiteSearchService searchService = new SiteSearchService(_vault, _configuration);
 
-            int siteId = Int32.Parse(script.GetProperty(_configuration.SiteList).GetValueAsLocalizedText());
-            ObjVerEx site = searchService.GetSiteByNumber(siteId.ToString());
+            //int siteId = Int32.Parse(script.GetProperty(_configuration.SiteList).GetValueAsLocalizedText());
+            ObjVerEx site = searchService.GetAllSites().Where(x=> x.ID == siteId).SingleOrDefault();
             string siteName = site.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle).GetValueAsLocalizedText();
 
             DateTime startDate = DateTime.Parse(script.GetProperty(_configuration.ScriptManagementStartDate).GetValueAsLocalizedText());
