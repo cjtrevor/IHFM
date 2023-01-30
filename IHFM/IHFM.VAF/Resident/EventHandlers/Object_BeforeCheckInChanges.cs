@@ -13,17 +13,17 @@ namespace IHFM.VAF
 
             foreach (PropertyValueChange change in changes.Changed)
             {
-                if(change.PropertyDef == Configuration.Active.ID && change.ChangeType == PropertyValueChangeType.Modified)
+                if(change.PropertyDef == Configuration.Active.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {
                     SetRoomVacantWhenInactive(env);
                 }
 
-                if (change.PropertyDef == Configuration.RoomTariff.ID && change.ChangeType == PropertyValueChangeType.Modified)
+                if (change.PropertyDef == Configuration.RoomTariff.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {
                     SetDiscountValueIfPercentage(env);
                 }          
                 
-                if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified)
+                if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {
                     SetRoomNotVacant(env.ObjVerEx, env.Vault);
                     UpdateRoomTariffOnRoomChange(env);
