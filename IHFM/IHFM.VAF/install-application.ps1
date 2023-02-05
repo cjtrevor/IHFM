@@ -13,11 +13,11 @@ $appFilePath = "bin\Debug\IHFM.VAF.mfappx"
 $appGuid = "a496496c-90c7-4ca5-a191-266c1e2c79d9"
 
 # Target vault
-$vaultName = "IHFM_Badisa"
+$vaultName = "IHFM_BADISA"
 
 # Connection details 
 $authType = [MFilesAPI.MFAuthType]::MFAuthTypeSpecificMFilesUser
-$userName = "rcadmin"
+$userName = "CBAadmin"
 $password = "Atalsl69210!2#4%6"
 $domain = ""
 $spn = ""
