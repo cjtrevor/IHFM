@@ -17,6 +17,11 @@ namespace IHFM.VAF
 
         public void SetRoomNotVacant(ObjVerEx resident, Vault vault)
         {
+            if(!resident.HasValue(Configuration.CurrentRoom))
+            {
+                return;
+            }
+
             RoomPropertyService roomPropertyService = new RoomPropertyService(Configuration);
             Lookup currentRoom = resident.GetProperty(Configuration.CurrentRoom).TypedValue.GetValueAsLookup();
 
@@ -28,6 +33,11 @@ namespace IHFM.VAF
         {
             ResidentSearchService resSearch = new ResidentSearchService(vault, Configuration);
             string IdNumber = resident.GetProperty(Configuration.IDNumber).GetValueAsLocalizedText();
+
+            if(string.IsNullOrWhiteSpace(IdNumber))
+            {
+                return;
+            }
 
             List<ObjVerEx> residents = resSearch.GetResidentsByIDNumber(IdNumber);
 
