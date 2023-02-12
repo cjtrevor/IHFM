@@ -46,12 +46,27 @@ namespace IHFM.VAF
             MFSearchBuilder scriptSearch = new MFSearchBuilder(vault);
             scriptSearch.Class(configuration.ScriptManagementClass);
             scriptSearch.Property(configuration.ResidentLookup, MFDataType.MFDatatypeLookup, residentId);
+            
 
             List<ObjVerEx> scripts = scriptSearch.FindEx();
 
             foreach (ObjVerEx item in scripts)
             {
                 DateTime EndDate = DateTime.Parse(item.GetProperty(configuration.ScriptManagementEndDate).GetValueAsLocalizedText());
+                bool discontinued = item.HasValue(configuration.ScriptManagement_Discontinued) ? item.GetProperty(configuration.ScriptManagement_Discontinued).GetValue<bool>()
+                    : false;
+
+                if (discontinued)
+                    continue;
+
+                if(DevelopmentUtility.IsDevMode(item, configuration,"6","Avondrust"))
+                {
+                    bool scriptVerified = item.HasValue(configuration.ScriptManagement_ScriptVerifiedCorrect) ? item.GetProperty(configuration.ScriptManagement_ScriptVerifiedCorrect).GetValue<bool>()
+                   : true;
+
+                    if (!scriptVerified)
+                        continue;
+                }
 
                 if (EndDate > DateTime.Now)
                     activeScripts.Add(item);

@@ -9,11 +9,11 @@ namespace IHFM.VAF
 {
     public static class DevelopmentUtility
     {
-        public static bool IsDevMode(ObjVerEx obj, Configuration configuration)
+        public static bool IsDevMode(ObjVerEx obj, Configuration configuration, string siteCode = "999", string siteName = "Renda Consulting" )
         {
             if(obj.HasProperty(configuration.SiteList))
             {
-                if(obj.GetProperty(configuration.SiteList).GetValueAsLocalizedText() == "999")
+                if(obj.GetProperty(configuration.SiteList).GetValueAsLocalizedText() == siteCode)
                 {
                     return true;
                 }
@@ -21,7 +21,7 @@ namespace IHFM.VAF
 
             if (obj.HasProperty(configuration.VAFSite))
             {
-                if (obj.GetProperty(configuration.VAFSite).GetValueAsLocalizedText() == "999")
+                if (obj.GetProperty(configuration.VAFSite).GetValueAsLocalizedText() == siteCode)
                 {
                     return true;
                 }
@@ -29,7 +29,7 @@ namespace IHFM.VAF
 
             if (obj.HasProperty(configuration.BaseSite))
             {
-                if (obj.GetProperty(configuration.BaseSite).GetValueAsLocalizedText() == "Renda Consulting")
+                if (obj.GetProperty(configuration.BaseSite).GetValueAsLocalizedText() == siteName)
                 {
                     return true;
                 }

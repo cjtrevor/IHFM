@@ -37,6 +37,12 @@ namespace IHFM.VAF
         public MFIdentifier ScriptManagementEndDate = "MFiles.Property.ScriptManagementEndDate";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier ScriptManagement_Discontinued = "MFiles.Property.Discontinued";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier ScriptManagement_ScriptVerifiedCorrect = "MFiles.Property.ScriptVerifiedCorrect";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier PRNMedication = "MFiles.Property.PrnMedication";
 
         [MFPropertyDef(Required = true)]
