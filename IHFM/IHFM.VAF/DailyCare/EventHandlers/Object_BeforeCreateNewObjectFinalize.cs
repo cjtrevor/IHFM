@@ -71,11 +71,8 @@ namespace IHFM.VAF
                 UpdateResidentStatusFromProgressNote(env.Vault, env.ObjVerEx);
             }
 
-            if(DevelopmentUtility.IsDevMode(env.ObjVerEx,Configuration))
-            {
-                ProgressNoteSummaryUpdateService service = new ProgressNoteSummaryUpdateService(env.Vault, Configuration);
-                service.LogProgressNoteCreation(env.ObjVerEx);
-            }
+            ProgressNoteSummaryUpdateService service = new ProgressNoteSummaryUpdateService(env.Vault, Configuration);
+            service.LogProgressNoteCreation(env.ObjVerEx);
 
             ExportProgressNote(env.Vault, env.ObjVerEx);
         }
