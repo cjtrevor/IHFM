@@ -39,7 +39,7 @@ namespace IHFM.VAF
             int year = incidentDate.Year;
 
 
-            DatabaseConnector connector = new DatabaseConnector();
+            DatabaseConnector connector = new DatabaseConnector(_configuration.SQLExport_Server, _configuration.SQLExport_Database);
 
             StoredProc storedProc = new StoredProc();
             storedProc.procedureName = "sp_ExpoortIncident";

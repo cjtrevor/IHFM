@@ -13,6 +13,8 @@ namespace IHFM.VAF
         //Class Aliases
         [MFClass(Required = true)]
         public MFIdentifier Staff = "MFiles.Class.Staff";
+        [MFClass(Required = true)]
+        public MFIdentifier Site_Class = "MFiles.Class.Site";
 
         //Property Aliases
         [MFPropertyDef(Required = true)]

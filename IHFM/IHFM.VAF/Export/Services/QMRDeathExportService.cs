@@ -22,7 +22,7 @@ namespace IHFM.VAF.Export.Services
             _configuration = configuration;
             _vault = vault;
             _siteSearch = new SiteSearchService(_vault, _configuration);
-            _connector = new DatabaseConnector();
+            _connector = new DatabaseConnector(_configuration.SQLExport_Server, _configuration.SQLExport_Database);
         }
 
         public void Export(ObjVerEx admission)

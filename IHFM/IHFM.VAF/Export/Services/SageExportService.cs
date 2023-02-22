@@ -176,7 +176,7 @@ namespace IHFM.VAF
 
         private string GetWardStockCost(int residentId)
         {
-            DatabaseConnector connector = new DatabaseConnector();
+            DatabaseConnector connector = new DatabaseConnector(_configuration.SQLExport_Server, _configuration.SQLExport_Database);
 
             StoredProc proc = new StoredProc
             {
@@ -193,7 +193,7 @@ namespace IHFM.VAF
 
         private string GetTimeBasedCareCost(int residentId, string type)
         {
-            DatabaseConnector connector = new DatabaseConnector();
+            DatabaseConnector connector = new DatabaseConnector(_configuration.SQLExport_Server, _configuration.SQLExport_Database);
 
             StoredProc proc = new StoredProc
             {

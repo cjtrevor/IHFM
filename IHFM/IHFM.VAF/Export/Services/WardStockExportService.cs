@@ -33,7 +33,7 @@ namespace IHFM.VAF
         public void ExportRecord(WardStockExport item)
         {
             SiteSearchService searchService = new SiteSearchService(_vault, _configuration);
-            DatabaseConnector connector = new DatabaseConnector();
+            DatabaseConnector connector = new DatabaseConnector(_configuration.SQLExport_Server, _configuration.SQLExport_Database);
             
             ObjVerEx stockItem = new ObjVerEx(_vault, item.stockId);
             ObjVerEx site = searchService.GetSiteByNumber(item.siteId.ToString());

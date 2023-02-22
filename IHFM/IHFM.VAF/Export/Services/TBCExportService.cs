@@ -59,7 +59,7 @@ namespace IHFM.VAF
                 cost = 0.0m;
             }
 
-            DatabaseConnector connector = new DatabaseConnector();
+            DatabaseConnector connector = new DatabaseConnector(_configuration.SQLExport_Server, _configuration.SQLExport_Database);
 
             StoredProc storedProc = new StoredProc();
             storedProc.procedureName = "sp_ExportTBCRecord";

@@ -35,14 +35,14 @@ namespace IHFM.VAF
             return new ObjVerEx(_vault, site);
         }
 
-        public ObjVerEx GetStaffObjVerExForUserId(int userId)
+        public ObjVerEx GetStaffObjVerExForUserId(int userId, bool errorIfNotFound = true)
         {
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(_vault);
             mFSearchBuilder.Class(_configuration.Staff);
             mFSearchBuilder.Property(_configuration.Login, MFDataType.MFDatatypeLookup, userId);
             ObjectSearchResults objectSearchResults = mFSearchBuilder.Find();
 
-            if (objectSearchResults.Count == 0)
+            if (errorIfNotFound && objectSearchResults.Count == 0)
             {
                 throw new Exception("No staff object exists for the current user");
             }

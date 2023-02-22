@@ -19,15 +19,21 @@ namespace IHFM.VAF
     {
         private SqlConnection sqlConnection;
         private SqlCommand sqlCommand;
-        private const string connectionString = @"Server=WIN-L5VS4AH5TL5\MSSQLSERVER01;Database=MFILESVAF;User Id=MFilesVAF;Password=MFilesVAF;";
 
-        public DatabaseConnector()
+        private string _server;
+        private string _database;
+        private string connectionString;
+
+        public DatabaseConnector(string server, string database)
         {
+            _server = server;
+            _database = database;
             Setup();
         }
 
         private void Setup()
         {
+            connectionString = $@"Server={_server};Database={_database};User Id=MFilesVAF;Password=MFilesVAF;";
             sqlConnection = new SqlConnection(connectionString);
         }
 

@@ -18,7 +18,7 @@ namespace IHFM.VAF
         {
             _vault = vault;
             _configuration = configuration;
-            _connector = new DatabaseConnector();
+            _connector = new DatabaseConnector(_configuration.SQLExport_Server, _configuration.SQLExport_Database);
         }
 
         public void ExportScriptControl(ObjVerEx script, int siteId)

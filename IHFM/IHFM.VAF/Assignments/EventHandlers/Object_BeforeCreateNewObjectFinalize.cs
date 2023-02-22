@@ -11,7 +11,9 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize)]
         public void SetAssignmentDropdowns(EventHandlerEnvironment env)
         {
-            if (env.ObjVerEx.Class == 1180)
+            if (env.ObjVerEx.Class == 1180
+                || env.ObjVerEx.Class == Configuration.Site_Class.ID
+                || env.ObjVerEx.Class == Configuration.Staff.ID)
                 return;
 
             StaffPropertyService staffPropertyService = new StaffPropertyService(env.ObjVerEx.Vault, Configuration);

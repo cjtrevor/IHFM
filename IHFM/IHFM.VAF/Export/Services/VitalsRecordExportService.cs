@@ -18,7 +18,7 @@ namespace IHFM.VAF
 
         public void ExportRecord(ObjVerEx vitalsRecord)
         {
-            DatabaseConnector connector = new DatabaseConnector();
+            DatabaseConnector connector = new DatabaseConnector(_configuration.SQLExport_Server, _configuration.SQLExport_Database);
             SiteSearchService searchService = new SiteSearchService(_vault, _configuration);
 
             string shift = vitalsRecord.GetPropertyText(_configuration.Shift);
