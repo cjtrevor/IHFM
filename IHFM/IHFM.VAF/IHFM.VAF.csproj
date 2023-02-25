@@ -94,6 +94,9 @@
     <Compile Include="DailyCare\EventHandlers\Object_AfterCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
+    <Compile Include="DeathReport\Configuration\Configuration.cs" />
+    <Compile Include="DeathReport\EventHandlers\ObjectAfterCreateNewObjectFinalize.cs" />
+    <Compile Include="Export\Services\DeathReportExportService.cs" />
     <Compile Include="DQ98\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="DQ98\Configuration\Configuration.cs" />
     <Compile Include="Export\Classes\QMR\QMRAdmissionsExport.cs" />
@@ -192,7 +195,9 @@
     <None Include="install-application.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DeathReport\Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="RunWhenBuildChanges" AfterTargets="CoreBuild">
     <Message Importance="High" Text="Cleaning old .mfappx file (if available)..." />

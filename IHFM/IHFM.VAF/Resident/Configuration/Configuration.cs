@@ -87,6 +87,12 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_Site = "MFiles.Property.BaseSite";
 
+        [MFPropertyDef]
+        public MFIdentifier Resident_DurationInFacility = "MFiles.Property.DurationOfStayInFacility";
+
+        [MFPropertyDef]
+        public MFIdentifier Resident_DurationInFrailcare = "MFiles.Property.DurationOfStayInFrailcare";
+
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
         public MFIdentifier DeceasedListItem = "{4930A454-50D9-47BC-9BE2-F08CBCF36D4E}";
 
