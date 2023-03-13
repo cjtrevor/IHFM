@@ -84,6 +84,9 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_IDNumber = "MFiles.Property.IDNumber";
 
+        [MFPropertyDef]
+        public MFIdentifier Resident_HealthStatus = "MFiles.Property.Independant";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_Site = "MFiles.Property.BaseSite";
 

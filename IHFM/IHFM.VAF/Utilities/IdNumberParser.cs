@@ -9,6 +9,26 @@ namespace IHFM.VAF.Utilities
 {
     public static class IdNumberParser
     {
+        public static string GetDateOfBirthFromIdNumber(string idNumber)
+        {
+            string day = GetDayPartFromIDNumber(idNumber).ToString();
+            string month = GetMonthPartFromIDNumber(idNumber).ToString();
+            int yearPart = GetYearPartFromIDNumber(idNumber);
+            string year;
+
+            int currentYearPart = GetCurrentYearPart();
+
+            if (yearPart > currentYearPart)
+            {
+                year = $"19{yearPart}";
+            }
+            else
+            {
+                year = $"20{yearPart}";
+            }
+           
+            return $"{day}/{month}/{year}";
+        }
         public static int GetDayPartFromIDNumber(string idNumber)
         {
             return int.Parse(idNumber.Substring(4, 2));

@@ -195,9 +195,7 @@
     <None Include="install-application.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DeathReport\Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="RunWhenBuildChanges" AfterTargets="CoreBuild">
     <Message Importance="High" Text="Cleaning old .mfappx file (if available)..." />
