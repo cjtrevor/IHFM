@@ -37,7 +37,7 @@ namespace IHFM.VAF
         {
             List<ObjVerEx> allRooms = GetAllRoomsBySite(siteId);
 
-            return allRooms.Where(x => zoneIds.Contains(x.GetLookupID(_configuration.Room_Zone))).ToList();
+            return allRooms;//.Where(x => zoneIds.Contains(x.GetLookupID(_configuration.Room_Zone))).ToList();
         }
 
         public ObjVerEx GetRoomBySiteAndNumber(int siteId, string number)

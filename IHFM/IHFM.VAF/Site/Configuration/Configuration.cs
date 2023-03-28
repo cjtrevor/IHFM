@@ -64,5 +64,12 @@ namespace IHFM.VAF
         [DataMember]
             [JsonConfIntegerEditor(DefaultValue = 12, HelpText = "Interval for refreshing site nominals in hours")]
             public int SiteNominalRunCheckInterval { get; set; } = 12;
-        }
+
+        //Admin Configs
+        [DataMember]
+        [MFClass]
+        [JsonConfEditor]
+        [ValueOptions(typeof(ClassTypesOptionsProvider))]
+        public IEnumerable<MFIdentifier> CreateByUserIdSites { get; set; }
+    }
 }
