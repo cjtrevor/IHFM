@@ -161,6 +161,7 @@
     <Compile Include="Site\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Site\Services\SitePermissionService.cs" />
     <Compile Include="Site\Services\SiteSearchService.cs" />
+    <Compile Include="Site\ValueOptionProviders\ClassTypesOptionsProvider.cs" />
     <Compile Include="Site\VaultExtensionMethods\VaultExtensionMethods.cs" />
     <Compile Include="Staff\Services\StaffPropertyService.cs" />
     <Compile Include="Stock\AutomaticValues\CalculatedValues.cs" />
