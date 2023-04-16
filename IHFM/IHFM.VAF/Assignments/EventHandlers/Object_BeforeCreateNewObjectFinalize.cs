@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MFiles.VAF.Common;
 using MFiles.VAF.Configuration;
 using MFilesAPI;
@@ -11,7 +12,7 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize)]
         public void SetAssignmentDropdowns(EventHandlerEnvironment env)
         {
-            if (env.ObjVerEx.Class == 1180)
+            if (Configuration.AssignmentNotificationExclusionClasses != null && Configuration.AssignmentNotificationExclusionClasses.Any(x => x.ID == env.ObjVerEx.Class))
                 return;
 
             StaffPropertyService staffPropertyService = new StaffPropertyService(env.ObjVerEx.Vault, Configuration);

@@ -20,7 +20,7 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize)]
         public void SetSiteIDForOtherDocuments(EventHandlerEnvironment env)
         {
-            if(Configuration.CreateByUserIdSites.Any(x=> x.ID == env.ObjVerEx.Class))
+            if(Configuration.CreateByUserIdSites != null && Configuration.CreateByUserIdSites.Any(x=> x.ID == env.ObjVerEx.Class))
             { 
                 SitePermissionService sitePermissionService = new SitePermissionService(env.Vault, Configuration);
                 sitePermissionService.SetSiteFromStaffByUserID(env.ObjVerEx, Configuration.VAFSite);
