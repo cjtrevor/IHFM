@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,5 +34,12 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Assignments_NotificationSite = "MFiles.Property.NotificationSite";
+
+        //Admin Configs
+        [DataMember]
+        [MFClass]
+        [JsonConfEditor]
+        [ValueOptions(typeof(ClassTypesOptionsProvider))]
+        public IEnumerable<MFIdentifier> AssignmentNotificationExclusionClasses { get; set; }
     }
 }
