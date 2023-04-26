@@ -45,5 +45,23 @@ namespace IHFM.VAF
 
             return mFSearch.FindEx().Where(x=> x.ID == 4).ToList();
         }
+
+        public ObjVerEx GetSiteConfig(int siteID)
+        {
+            MFSearchBuilder mFSearch = new MFSearchBuilder(_vault);
+            mFSearch.ObjType(_configuration.SiteConfig_Object);
+            mFSearch.Deleted(false);
+
+            mFSearch.Property(_configuration.Site_BaseSiteDropdown, MFDataType.MFDatatypeLookup, siteID);
+
+            List<ObjVerEx> configs = mFSearch.FindEx();
+
+            if(configs.Count == 0)
+            {
+                throw new Exception("No configuration has been created for the selected rooms site.");
+            }
+
+            return configs.First();
+        }
     }
 }

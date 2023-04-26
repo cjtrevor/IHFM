@@ -14,6 +14,9 @@ namespace IHFM.VAF
         [MFClass(Required = true)]
         public MFIdentifier Staff = "MFiles.Class.Staff";
 
+        [MFClass]
+        public MFIdentifier Site_Config_Class = "MFiles.Class.SiteConfig";
+
         //Property Aliases
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site = "MFiles.Property.Site";
@@ -45,10 +48,17 @@ namespace IHFM.VAF
         public MFIdentifier Site_LastDataUpdate = "MFiles.Property.LastDataUpdate";
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site_ReportSite = "MFiles.Property.ReportSite";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Site_BaseSiteDropdown = "MFiles.Property.BaseSite";
+
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_LevyIncrPerc = "MFiles.Property.Levyincrperc";
 
         //Object Aliases
         [MFObjType(Required = true)]
         public MFIdentifier SiteObject = "MFiles.Object.Site";
+        [MFObjType]
+        public MFIdentifier SiteConfig_Object = "MFiles.Object.SiteConfig";
 
         //ValuelistItems
         [MFValueListItem(Required = true, ValueList = "MFiles.Valuelist.Zones")]

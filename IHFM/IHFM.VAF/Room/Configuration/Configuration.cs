@@ -16,7 +16,13 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Room_RoomNumber = "MFiles.Property.RoomNumber";
 
+        [MFPropertyDef]
+        public MFIdentifier Room_Tariff = "MFiles.Property.RoomTariff";
+
         [MFObjType(Required = true)]
         public MFIdentifier Room_Object = "MFiles.Object.Room";
+
+        [MFValueList]
+        public MFIdentifier Room_TariffValueList = "VL.Roomtariff";
     }
 }
