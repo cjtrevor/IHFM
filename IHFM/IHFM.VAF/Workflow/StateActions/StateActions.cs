@@ -77,6 +77,8 @@ namespace IHFM.VAF
             }
 
             env.ObjVerEx.SaveProperty(Configuration.Room_Tariff, MFDataType.MFDatatypeLookup, item.ID);
+            env.ObjVerEx.SetWorkflowState(null, null);
+            env.ObjVerEx.SaveProperties();
 
             UpdateRoomResidentTariff(env.ObjVerEx, item.ID, env.Vault);
         }
