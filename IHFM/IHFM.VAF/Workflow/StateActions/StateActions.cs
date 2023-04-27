@@ -77,7 +77,31 @@ namespace IHFM.VAF
             }
 
             env.ObjVerEx.SaveProperty(Configuration.Room_Tariff, MFDataType.MFDatatypeLookup, item.ID);
-   
+
+            UpdateRoomResidentTariff(env.ObjVerEx, item.ID, env.Vault);
+        }
+
+        public void UpdateRoomResidentTariff(ObjVerEx room, int tariff, Vault vault)
+        {
+            List<ObjVerEx> roomResidents = room.GetDirectReferences(Configuration.CurrentRoom);
+            ObjVerEx resident = new ObjVerEx();
+
+            bool roomHasResident = false;
+            foreach(ObjVerEx res in roomResidents)
+            {
+                if(res.HasValue(Configuration.Active) && res.GetProperty(Configuration.Active).GetValue<bool>())
+                {
+                    resident = res;
+                    roomHasResident = true;
+                    break;
+                }
+            }
+
+            if (roomHasResident)
+            {
+                ResidentPropertyService serv = new ResidentPropertyService(vault, Configuration);
+                serv.SetTariff(resident, tariff);
+            }
         }
     }
 }

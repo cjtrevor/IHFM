@@ -148,5 +148,10 @@ namespace IHFM.VAF
             int currentCount = resident.HasValue(_configuration.Resident_NoBathCount) ? resident.GetProperty(_configuration.Resident_NoBathCount).GetValue<int>() : 0;
             resident.SaveProperty(_configuration.Resident_NoBathCount, MFDataType.MFDatatypeInteger, reset ? 0 : currentCount + 1);
         }
+
+        public void SetTariff(ObjVerEx resident, int tariffId)
+        {
+            resident.SaveProperty(_configuration.RoomTariff, MFDataType.MFDatatypeLookup, tariffId);
+        }
     }
 }
