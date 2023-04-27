@@ -71,5 +71,15 @@ namespace IHFM.VAF
 
             return resSearch.FindEx();
         }
+
+        public List<ObjVerEx> GetResidentByRoom(int roomId)
+        {
+            MFSearchBuilder resSearch = new MFSearchBuilder(_vault);
+            resSearch.ObjType(_configuration.ResidentObject);
+            resSearch.Property(_configuration.CurrentRoom, MFDataType.MFDatatypeLookup, roomId);
+            resSearch.Deleted(false);
+
+            return resSearch.FindEx();
+        }
     }
 }
