@@ -71,12 +71,14 @@ namespace IHFM.VAF
             storedProc.storedProcParams.Add("@SiteID", item.siteId);
             storedProc.storedProcParams.Add("@SiteName", siteName);
             storedProc.storedProcParams.Add("@ResidentID", item.residentId);
+            storedProc.storedProcParams.Add("@TranspharmStockID", item.stockId.DisplayID);
             storedProc.storedProcParams.Add("@Direction", item.isTransferIn ? "IN" : "OUT");
             storedProc.storedProcParams.Add("@TransactionDate", item.created);
             storedProc.storedProcParams.Add("@Month", item.created.ToString("MMMM", CultureInfo.InvariantCulture));
             storedProc.storedProcParams.Add("@Year", item.created.Year);
             storedProc.storedProcParams.Add("@CostPrice", costParam);
             storedProc.storedProcParams.Add("@SellingPrice", sellingParam);
+            storedProc.storedProcParams.Add("@Quantity", (decimal)item.quantity);
 
             connector.ExecuteStoredProc(storedProc);
         }
