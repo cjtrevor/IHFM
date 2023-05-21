@@ -18,20 +18,14 @@ namespace IHFM.VAF
 
         private void SetLastActionedDateForParentRecord(EventHandlerEnvironment env)
         {
-            if (DevelopmentUtility.IsDevMode(env.ObjVerEx,Configuration))
-            {
-                //Get PArent Object
-                Lookup lookupParent = env.ObjVerEx.GetProperty(Configuration.SistersInstructionActivity_SistersIntructionDropdown).TypedValue.GetValueAsLookup();
+            Lookup lookupParent = env.ObjVerEx.GetProperty(Configuration.SistersInstructionActivity_SistersIntructionDropdown).TypedValue.GetValueAsLookup();
 
-                ObjVerEx parent = new ObjVerEx(env.Vault, lookupParent);
+            ObjVerEx parent = new ObjVerEx(env.Vault, lookupParent);
 
-                //SetDate
-                parent.SetProperty(Configuration.SistersInstruction_DateLastActioned, MFDataType.MFDatatypeDate, DateTime.Now);
-                //SetTime
-                parent.SetProperty(Configuration.SistersInstruction_TimeLastActioned, MFDataType.MFDatatypeTime, DateTime.Now);
+            parent.SetProperty(Configuration.SistersInstruction_DateLastActioned, MFDataType.MFDatatypeDate, DateTime.Now);
+            parent.SetProperty(Configuration.SistersInstruction_TimeLastActioned, MFDataType.MFDatatypeTime, DateTime.Now);
 
-                parent.SaveProperties(); 
-            }
+            parent.SaveProperties(); 
         }
     }
 }
