@@ -16,7 +16,11 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerAfterCreateNewObjectFinalize, Class = "MFiles.Class.NappyChange")]
         public void AfterCreateNewNappyChange(EventHandlerEnvironment env)
         {
-            UpdateNappyStock(env.ObjVerEx, env.Vault);
+            if(env.ObjVerEx.HasValue(Configuration.IncontinenceSupplies_IncontinenceProduct))
+            {
+                UpdateNappyStock(env.ObjVerEx, env.Vault);
+            }
+            
         }
 
         private void UpdateNappyStock(ObjVerEx change, Vault vault)
