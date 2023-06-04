@@ -3,6 +3,7 @@ using MFiles.VAF.Configuration;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,7 +77,7 @@ namespace IHFM.VAF
             switch (DateTime.Now.DayOfWeek)
             {
                 case DayOfWeek.Sunday:
-                    return _configuration.SundayADLLookup;
+                    return _configuration.TBC_TestSundayTimes;
                 case DayOfWeek.Monday:
                     return _configuration.MondayADLLookup;
                 case DayOfWeek.Tuesday:
@@ -90,7 +91,7 @@ namespace IHFM.VAF
                 case DayOfWeek.Saturday:
                     return _configuration.SaturdayADLLookup;
                 default:
-                    return _configuration.SundayADLLookup;
+                    return _configuration.TBC_TestSundayTimes;
             }
         }
 
@@ -98,14 +99,37 @@ namespace IHFM.VAF
         {
             List<ObjVer> objVers = new List<ObjVer>();
 
-            Lookups tbcItems = resident.GetLookups(alias);
+            Lookups tbcScheduleItems = resident.GetLookups(alias);
 
-            foreach (Lookup item in tbcItems)
+            foreach (Lookup item in tbcScheduleItems)
             {
-                objVers.Add(item.GetAsObjVer());
+                ObjVerEx scheduleItem = new ObjVerEx(_vault, item);
+
+                Lookups times = scheduleItem.GetLookups(_configuration.TBCS_TbcScheduledTimes);
+
+                foreach(Lookup time in times)
+                {
+                    if(ScheduledItemIsInCurrentTimeSlot(time.DisplayValue))
+                    {
+                        Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
+                        objVers.Add(tbcItem.GetAsObjVer());
+                    }
+                }           
             }
 
             return objVers;
+        }
+
+        private bool ScheduledItemIsInCurrentTimeSlot(string time)
+        {
+            string today = DateTime.Today.ToString("dd-MM-yyyy");
+
+            DateTime timeslot = DateTime.ParseExact($"{today} {time}", "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+
+            DateTime startSlot = timeslot.AddHours(-1);
+            DateTime endSlot = timeslot.AddHours(1);
+
+            return DateTime.Compare(DateTime.Now, startSlot) > 0 && DateTime.Compare(DateTime.Now,endSlot) < 0;
         }
 
         public List<ObjVer> GetResidentTBCClinicItems(Lookup residentLookup)

@@ -47,6 +47,8 @@ namespace IHFM.VAF
         public MFIdentifier SaturdayADLLookup = "MFiles.Property.SaturdayTBCADL";
         [MFPropertyDef(Required = true)]
         public MFIdentifier SundayADLLookup = "MFiles.Property.SundayTBCADL";
+        [MFPropertyDef]
+        public MFIdentifier TBC_TestSundayTimes = "MFiles.Property.TestSundayAdl";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier DailyClinicLookup = "MFiles.Property.EveryDayTBCClinic";
@@ -66,8 +68,7 @@ namespace IHFM.VAF
         public MFIdentifier SaturdayClinicLookup = "MFiles.Property.SaturdayTBCClinic";
         [MFPropertyDef(Required = true)]
         public MFIdentifier SundayClinicLookup = "MFiles.Property.SundayTBCClinic";
-
-
+        
         [MFPropertyDef(Required = true)]
         public MFIdentifier TBCClinicLookup = "MFiles.Property.TBCClinic";
 
@@ -85,5 +86,10 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier AverageCost = "MFiles.Property.AverageCost";
+
+        [MFPropertyDef]
+        public MFIdentifier TBCS_TimeBasedCareItem = "MFiles.Property.TimeBasedCareItem";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_TbcScheduledTimes = "MFiles.Property.TbcScheduledTimes";
     }
 }
