@@ -24,6 +24,7 @@ namespace IHFM.VAF
 
                 TimeBasedCarePropertyService timeBasedCarePropertyService = new TimeBasedCarePropertyService(env.Vault, Configuration);
                 TBCExportService exportService = new TBCExportService(env.Vault, Configuration);
+                SiteSearchService siteSearchService = new SiteSearchService(env.Vault, Configuration);
 
                 //Calculate time spent
                 string startTime = env.ObjVerEx.GetProperty(Configuration.StartTimeTBC).TypedValue.GetValueAsLocalizedText();
@@ -42,11 +43,25 @@ namespace IHFM.VAF
                     averageTime += timeBasedCarePropertyService.GetAverageTime(item);
                 }
 
-                //Get cost from first item
-                decimal averageCost = items.Count > 0 ? timeBasedCarePropertyService.GetAverageCost(items[1]) : 0;
-
                 //Calculate cost
-                decimal costForService = timeSpent > averageTime
+                Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+                ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
+
+                ObjVerEx siteConfig = siteSearchService.GetSiteConfig(resident.GetLookupID(Configuration.Resident_Site));
+
+                if (siteConfig == null)
+                {
+                    throw new Exception("No configuration found for the site. Please contact an administrator.");
+                }
+
+                double averageCost = siteConfig.HasValue(Configuration.SiteConfig_SiteTBCADL) ? siteConfig.GetProperty(Configuration.SiteConfig_SiteTBCADL).GetValue<double>() : 0;
+
+                //Get cost from first item
+                //decimal averageCost = items.Count > 0 ? timeBasedCarePropertyService.GetAverageCost(items[1]) : 0;
+
+                bool billAverageTime = resident.HasValue(Configuration.Resident_BillAverageTime) ? resident.GetProperty(Configuration.Resident_BillAverageTime).GetValue<bool>() : false;
+
+                double costForService = timeSpent > averageTime && !billAverageTime
                                             ? timeSpent * averageCost
                                             : averageTime * averageCost;
 
@@ -78,6 +93,7 @@ namespace IHFM.VAF
 
             TimeBasedCarePropertyService timeBasedCarePropertyService = new TimeBasedCarePropertyService(env.Vault, Configuration);
             TBCExportService exportService = new TBCExportService(env.Vault, Configuration);
+            SiteSearchService siteSearchService = new SiteSearchService(env.Vault, Configuration);
 
             //Calculate time spent
             string startTime = env.ObjVerEx.GetProperty(Configuration.StartTimeTBC).TypedValue.GetValueAsLocalizedText();
@@ -97,10 +113,24 @@ namespace IHFM.VAF
             }
 
             //Get cost from first item
-            decimal averageCost = items.Count > 0 ? timeBasedCarePropertyService.GetAverageCost(items[1]) : 0;
+            //decimal averageCost = items.Count > 0 ? timeBasedCarePropertyService.GetAverageCost(items[1]) : 0;
 
             //Calculate cost
-            decimal costForService = timeSpent > averageTime
+            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+            ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
+
+            ObjVerEx siteConfig = siteSearchService.GetSiteConfig(resident.GetLookupID(Configuration.Resident_Site));
+
+            if(siteConfig == null)
+            {
+                throw new Exception("No configuration found for the site. Please contact an administrator.");
+            }
+
+            double averageCost = siteConfig.HasValue(Configuration.SiteConfig_SiteTBCADL) ? siteConfig.GetProperty(Configuration.SiteConfig_SiteTBCADL).GetValue<double>() : 0;
+
+            bool billAverageTime = resident.HasValue(Configuration.Resident_BillAverageTime) ? resident.GetProperty(Configuration.Resident_BillAverageTime).GetValue<bool>() : false;
+
+            double costForService = timeSpent > averageTime && !billAverageTime
                                         ? timeSpent * averageCost
                                         : averageTime * averageCost;
 

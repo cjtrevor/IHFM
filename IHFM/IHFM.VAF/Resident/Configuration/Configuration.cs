@@ -87,6 +87,9 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_Site = "MFiles.Property.BaseSite";
 
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_BillAverageTime = "MFiles.Property.BillAverageTime";
+
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
         public MFIdentifier DeceasedListItem = "{4930A454-50D9-47BC-9BE2-F08CBCF36D4E}";
 
