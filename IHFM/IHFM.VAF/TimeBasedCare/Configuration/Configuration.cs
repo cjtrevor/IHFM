@@ -47,9 +47,7 @@ namespace IHFM.VAF
         public MFIdentifier SaturdayADLLookup = "MFiles.Property.SaturdayTBCADL";
         [MFPropertyDef(Required = true)]
         public MFIdentifier SundayADLLookup = "MFiles.Property.SundayTBCADL";
-        [MFPropertyDef]
-        public MFIdentifier TBC_TestSundayTimes = "MFiles.Property.TestSundayAdl";
-
+        
         [MFPropertyDef(Required = true)]
         public MFIdentifier DailyClinicLookup = "MFiles.Property.EveryDayTBCClinic";
         [MFPropertyDef(Required = true)]

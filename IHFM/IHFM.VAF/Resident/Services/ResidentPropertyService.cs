@@ -77,7 +77,7 @@ namespace IHFM.VAF
             switch (DateTime.Now.DayOfWeek)
             {
                 case DayOfWeek.Sunday:
-                    return _configuration.TBC_TestSundayTimes;
+                    return _configuration.SundayADLLookup;
                 case DayOfWeek.Monday:
                     return _configuration.MondayADLLookup;
                 case DayOfWeek.Tuesday:
@@ -91,7 +91,7 @@ namespace IHFM.VAF
                 case DayOfWeek.Saturday:
                     return _configuration.SaturdayADLLookup;
                 default:
-                    return _configuration.TBC_TestSundayTimes;
+                    return _configuration.SundayADLLookup;
             }
         }
 

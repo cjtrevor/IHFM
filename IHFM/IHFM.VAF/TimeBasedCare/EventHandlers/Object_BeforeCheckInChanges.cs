@@ -126,7 +126,7 @@ namespace IHFM.VAF
                 throw new Exception("No configuration found for the site. Please contact an administrator.");
             }
 
-            double averageCost = siteConfig.HasValue(Configuration.SiteConfig_SiteTBCADL) ? siteConfig.GetProperty(Configuration.SiteConfig_SiteTBCADL).GetValue<double>() : 0;
+            double averageCost = siteConfig.HasValue(Configuration.SiteConfig_SiteTBCClinic) ? siteConfig.GetProperty(Configuration.SiteConfig_SiteTBCClinic).GetValue<double>() : 0;
 
             bool billAverageTime = resident.HasValue(Configuration.Resident_BillAverageTime) ? resident.GetProperty(Configuration.Resident_BillAverageTime).GetValue<bool>() : false;
 

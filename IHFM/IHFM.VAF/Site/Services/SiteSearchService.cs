@@ -50,9 +50,10 @@ namespace IHFM.VAF
         {
             MFSearchBuilder search = new MFSearchBuilder(_vault);
             search.ObjType(_configuration.SiteConfigObject);
+            search.Property(_configuration.BaseSite, MFDataType.MFDatatypeLookup, siteId);
             search.Deleted(false);
 
-            return search.FindEx().Where(x => x.ID == siteId).SingleOrDefault();
+            return search.FindOneEx();
         }
     }
 }
