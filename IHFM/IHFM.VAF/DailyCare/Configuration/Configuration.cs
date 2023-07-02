@@ -41,6 +41,9 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier ProgressName_ProgressNoteDet = "MFiles.Property.ProgressNoteDet";
 
+        [MFPropertyDef]
+        public MFIdentifier TBCS_CompletedCare = "MFiles.Property.CompletedCare";
+
         //Class Aliases
         [MFClass(Required = true)]
         public MFIdentifier DailyCareClass = "MFiles.Class.DailyCare";
