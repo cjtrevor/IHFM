@@ -31,6 +31,39 @@ namespace IHFM.VAF
 
             return resident.GetProperty(_configuration.OnCarePlan).GetValue<bool>();
         }
+        public List<ObjVer> GetResidentTBCSForDay(Lookup residentLookup)
+        {
+            List<ObjVer> objVers = new List<ObjVer>();
+            ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
+
+            //Get Daily Items
+            objVers.AddRange(GetTBCSItems(resident, _configuration.DailyADLLookup));
+            objVers.AddRange(GetTBCSItems(resident, _configuration.DailyClinicLookup));
+
+            //Get Weekly Items
+            objVers.AddRange(GetTBCSItems(resident, _configuration.WeekdaysADLLookup));
+            objVers.AddRange(GetTBCSItems(resident, _configuration.WeekdaysClinicLookup));
+
+            //Get Specific Day Items
+            objVers.AddRange(GetTBCSItems(resident, GetADLAliasForDayOfWeek()));
+            objVers.AddRange(GetTBCSItems(resident, GetClinicAliasForDayOfWeek()));
+
+            return objVers;
+        }
+
+        private List<ObjVer> GetTBCSItems(ObjVerEx resident, MFIdentifier alias)
+        {
+            List<ObjVer> objVers = new List<ObjVer>();
+
+            Lookups tbcScheduleItems = resident.GetLookups(alias);
+
+            foreach (Lookup item in tbcScheduleItems)
+            {
+                objVers.Add(item.GetAsObjVer());
+            }
+
+            return objVers;
+        }
 
         public List<ObjVer> GetResidentTBCItems(Lookup residentLookup)
         {
@@ -107,14 +140,22 @@ namespace IHFM.VAF
 
                 Lookups times = scheduleItem.GetLookups(_configuration.TBCS_TbcScheduledTimes);
 
-                foreach(Lookup time in times)
+                if(times.Count == 0)
                 {
-                    if(ScheduledItemIsInCurrentTimeSlot(time.DisplayValue))
+                    Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
+                    objVers.Add(tbcItem.GetAsObjVer());
+                }
+                else
+                { 
+                    foreach(Lookup time in times)
                     {
-                        Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
-                        objVers.Add(tbcItem.GetAsObjVer());
+                        if(ScheduledItemIsInCurrentTimeSlot(time.DisplayValue))
+                        {
+                            Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
+                            objVers.Add(tbcItem.GetAsObjVer());
+                        }
                     }
-                }           
+                }
             }
 
             return objVers;

@@ -16,7 +16,25 @@ namespace IHFM.VAF
             if (CheckAlreadyExists(env))
             {
                 throw new Exception("A daily care for this resident record for this shift already exists. Please refer to report 1.5 under the browse section for the existing records.");
-            } 
+            }
+
+            SetScheduledTimeBasedCare(env);
+
+            env.ObjVerEx.SaveProperties();
+        }
+
+        private void SetScheduledTimeBasedCare(EventHandlerEnvironment env)
+        {
+            ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
+            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+
+            List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCSForDay(residentLookup);
+
+            TBCADL.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_TimeBasedCareScheduleDropdown, x);
+            });
+
+            
         }
 
         private void RunExports(ObjVerEx dailyCare)
@@ -71,8 +89,8 @@ namespace IHFM.VAF
                 UpdateResidentStatusFromProgressNote(env.Vault, env.ObjVerEx);
             }
 
-            ProgressNoteSummaryUpdateService service = new ProgressNoteSummaryUpdateService(env.Vault, Configuration);
-            service.LogProgressNoteCreation(env.ObjVerEx);
+            //ProgressNoteSummaryUpdateService service = new ProgressNoteSummaryUpdateService(env.Vault, Configuration);
+            //service.LogProgressNoteCreation(env.ObjVerEx);
 
             ExportProgressNote(env.Vault, env.ObjVerEx);
         }

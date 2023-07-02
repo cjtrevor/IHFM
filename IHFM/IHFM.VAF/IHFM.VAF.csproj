@@ -168,6 +168,7 @@
     <Compile Include="TimeBasedCare\Configuration\Configuration.cs" />
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCheckInChanges.cs" />
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="TimeBasedCare\Services\ScheduledTimeBasedCareService.cs" />
     <Compile Include="TimeBasedCare\Services\TimeBasedCarePropertyService.cs" />
     <Compile Include="Utilities\Configuration\Configuration.cs" />
     <Compile Include="Utilities\DatabaseConnector.cs" />

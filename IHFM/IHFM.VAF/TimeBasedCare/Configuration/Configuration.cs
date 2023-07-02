@@ -89,5 +89,8 @@ namespace IHFM.VAF
         public MFIdentifier TBCS_TimeBasedCareItem = "MFiles.Property.TimeBasedCareItem";
         [MFPropertyDef]
         public MFIdentifier TBCS_TbcScheduledTimes = "MFiles.Property.TbcScheduledTimes";
+
+        [MFPropertyDef]
+        public MFIdentifier TBCS_TimeBasedCareScheduleDropdown = "MFiles.Property.TimeBasedCareScedule";
     }
 }
