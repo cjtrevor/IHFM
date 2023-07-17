@@ -90,6 +90,9 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_BillAverageTime = "MFiles.Property.BillAverageTime";
 
+        [MFPropertyDef]
+        public MFIdentifier Resident_BillCareDropdown = "MFiles.Property.BillCare";
+
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
         public MFIdentifier DeceasedListItem = "{4930A454-50D9-47BC-9BE2-F08CBCF36D4E}";
 
@@ -101,6 +104,13 @@ namespace IHFM.VAF
         public MFIdentifier TempDischargeListItem = "{C277F52F-0843-4D93-B4C8-471E558C4B1D}";
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
         public MFIdentifier ReturnedToResidenceListItem = "{844CEC6A-7BD8-4605-87AB-BAD3A1ED95EF}";
+
+        [MFValueListItem(Required = true, ValueList = "MFiles.Valuelist.BillCare")]
+        public MFIdentifier Resident_BillCareNoItem = "{648E9DD6-AA78-455F-9EFF-87CCC96C2B5B}";
+        [MFValueListItem(Required = true, ValueList = "MFiles.Valuelist.BillCare")]
+        public MFIdentifier Resident_BillCareAvgTime = "{0791A5B8-B909-4C26-8544-D59C989E3369}";
+        [MFValueListItem(Required = true, ValueList = "MFiles.Valuelist.BillCare")]
+        public MFIdentifier Resident_BillCareActTime = "{88D43750-16D6-4A89-951E-00C1F367A875}";
 
 
 

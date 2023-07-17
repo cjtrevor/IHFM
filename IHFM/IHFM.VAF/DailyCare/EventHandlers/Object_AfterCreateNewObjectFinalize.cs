@@ -33,11 +33,8 @@ namespace IHFM.VAF
 
             usageService.LogMonthlyNappyUsage(siteID, residentId);
 
-            if(DevelopmentUtility.IsDevMode(change,Configuration))
-            {
-                int productId = change.GetLookupID(Configuration.IncontinenceSupplies_IncontinenceProduct);
-                stockUpdateService.AdjustIncontinenceStockOnHand(residentId, productId, -1);
-            }
+            int productId = change.GetLookupID(Configuration.IncontinenceSupplies_IncontinenceProduct);
+            stockUpdateService.AdjustIncontinenceStockOnHand(residentId, productId, -1);
         }
     }
 }

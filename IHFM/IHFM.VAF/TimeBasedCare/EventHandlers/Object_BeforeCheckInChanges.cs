@@ -47,6 +47,8 @@ namespace IHFM.VAF
                 Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
                 ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
 
+                int residentBillCareId = resident.HasValue(Configuration.Resident_BillCareDropdown) ? resident.GetLookupID(Configuration.Resident_BillCareDropdown) : Configuration.Resident_BillCareNoItem.ID;
+
                 ObjVerEx siteConfig = siteSearchService.GetSiteConfig(resident.GetLookupID(Configuration.Resident_Site));
 
                 if (siteConfig == null)
@@ -59,11 +61,15 @@ namespace IHFM.VAF
                 //Get cost from first item
                 //decimal averageCost = items.Count > 0 ? timeBasedCarePropertyService.GetAverageCost(items[1]) : 0;
 
-                bool billAverageTime = resident.HasValue(Configuration.Resident_BillAverageTime) ? resident.GetProperty(Configuration.Resident_BillAverageTime).GetValue<bool>() : false;
+                bool billAverageTime = residentBillCareId == Configuration.Resident_BillCareAvgTime.ID;
 
-                double costForService = timeSpent > averageTime && !billAverageTime
+                double costForService = 0;
+                if(residentBillCareId != Configuration.Resident_BillCareNoItem.ID)
+                { 
+                    costForService = timeSpent > averageTime && !billAverageTime
                                             ? timeSpent * averageCost
                                             : averageTime * averageCost;
+                }
 
                 env.ObjVerEx.SetProperty(Configuration.TimeSpent, MFDataType.MFDatatypeText, timeSpent > averageTime ? timeSpent.ToString() : averageTime.ToString());
                 env.ObjVerEx.SetProperty(Configuration.CostForService, MFDataType.MFDatatypeText, costForService.ToString("N2"));
