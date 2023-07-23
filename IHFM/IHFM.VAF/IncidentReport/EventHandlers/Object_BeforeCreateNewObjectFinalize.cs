@@ -10,7 +10,7 @@ namespace IHFM.VAF
         public void AfterCreateNewIncidentInvestigation(EventHandlerEnvironment env)
         {
             SetInvestigationDoneOnProgressNote(env.ObjVerEx, env.Vault);
-            ExportIncidentInvestigation(env.ObjVerEx, env.Vault);
+            //ExportIncidentInvestigation(env.ObjVerEx, env.Vault);
         }
 
         private void ExportIncidentInvestigation(ObjVerEx investigation, Vault vault)

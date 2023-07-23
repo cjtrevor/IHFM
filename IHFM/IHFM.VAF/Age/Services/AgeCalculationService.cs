@@ -19,16 +19,16 @@ namespace IHFM.VAF
 
 			int currentYearPart = IdNumberParser.GetCurrentYearPart();
 
-			if (yearPart > currentYearPart)
-			{
+			//if (yearPart > currentYearPart)
+			//{
 				DateTime birthDate = new DateTime(1900 + yearPart, monthPart, dayPart);
 				return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
-			}
-			else
-			{
-				DateTime birthDate = new DateTime(2000 + yearPart, monthPart, dayPart);
-				return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
-			}
+			//}
+			//else
+			//{
+			//	DateTime birthDate = new DateTime(2000 + yearPart, monthPart, dayPart);
+			//	return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
+			//}
 		}
 
 		public void RefreshAge(ObjVerEx objVerEx, Configuration configuration, bool doCheckout = true)
