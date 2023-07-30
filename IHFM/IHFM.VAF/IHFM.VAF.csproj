@@ -89,6 +89,7 @@
     <Compile Include="CarePlan\Configuration\Configuration.cs" />
     <Compile Include="CarePlan\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="CarePlan\Services\CarePlanSearchService.cs" />
+    <Compile Include="DailyCare\Automatic Values\CalculatedValues.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_AfterCreateNewObjectFinalize.cs" />
