@@ -27,8 +27,14 @@ namespace IHFM.VAF
         {
             ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
             Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+            ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
 
-            List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCSForDay(residentLookup);
+            SiteSearchService siteSearchService = new SiteSearchService(env.Vault, Configuration);
+            ObjVerEx siteConfig = siteSearchService.GetSiteConfig(resident.GetLookupID(Configuration.Resident_Site));
+            bool useCarePlan = siteConfig.HasValue(Configuration.SiteConfig_TbcFromCarePlan)
+                && siteConfig.GetProperty(Configuration.SiteConfig_TbcFromCarePlan).GetValue<bool>();
+
+            List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCSForDay(residentLookup, useCarePlan);
 
             TBCADL.ForEach(x => {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_TimeBasedCareScheduleDropdown, x);

@@ -31,22 +31,36 @@ namespace IHFM.VAF
 
             return resident.GetProperty(_configuration.OnCarePlan).GetValue<bool>();
         }
-        public List<ObjVer> GetResidentTBCSForDay(Lookup residentLookup)
+        public List<ObjVer> GetResidentTBCSForDay(Lookup residentLookup, bool useCareplan = false)
         {
+            ObjVerEx STBCParent;
             List<ObjVer> objVers = new List<ObjVer>();
             ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
 
+            CarePlanSearchService searchService = new CarePlanSearchService(_vault, _configuration);
+            ObjVerEx careplan = searchService.GetResidentCarePlan(residentLookup.Item);
+
+            //If the site is set to use careplan for scheduled care and one exists then pull care from there
+            if(useCareplan && careplan != null)
+            {
+                STBCParent = careplan;
+            }
+            else
+            {
+                STBCParent = resident;
+            }
+
             //Get Daily Items
-            objVers.AddRange(GetTBCSItems(resident, _configuration.DailyADLLookup));
-            objVers.AddRange(GetTBCSItems(resident, _configuration.DailyClinicLookup));
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyADLLookup));
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyClinicLookup));
 
             //Get Weekly Items
-            objVers.AddRange(GetTBCSItems(resident, _configuration.WeekdaysADLLookup));
-            objVers.AddRange(GetTBCSItems(resident, _configuration.WeekdaysClinicLookup));
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.WeekdaysADLLookup));
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.WeekdaysClinicLookup));
 
             //Get Specific Day Items
-            objVers.AddRange(GetTBCSItems(resident, GetADLAliasForDayOfWeek()));
-            objVers.AddRange(GetTBCSItems(resident, GetClinicAliasForDayOfWeek()));
+            objVers.AddRange(GetTBCSItems(STBCParent, GetADLAliasForDayOfWeek()));
+            objVers.AddRange(GetTBCSItems(STBCParent, GetClinicAliasForDayOfWeek()));
 
             return objVers;
         }

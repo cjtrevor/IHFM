@@ -52,6 +52,8 @@ namespace IHFM.VAF
         public MFIdentifier SiteConfig_SiteTBCADL = "MFiles.Property.Sitetbcadl";
         [MFPropertyDef]
         public MFIdentifier SiteConfig_SiteTBCClinic = "MFiles.Property.SitetbcClinic";
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_TbcFromCarePlan = "MFiles.Property.TbcFromCarePlan";
 
         //Object Aliases
         [MFObjType(Required = true)]
