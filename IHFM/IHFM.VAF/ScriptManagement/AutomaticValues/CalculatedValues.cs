@@ -39,16 +39,22 @@ namespace IHFM.VAF
 
             string timeslots = "";
 
+            if (env.ObjVerEx.HasValue(Configuration.GiveMeds0200) && env.ObjVerEx.GetProperty(Configuration.GiveMeds0200).GetValue<bool>())
+                timeslots += "02:00 | ";
             if (env.ObjVerEx.HasValue(Configuration.GiveMeds0600) && env.ObjVerEx.GetProperty(Configuration.GiveMeds0600).GetValue<bool>())
                 timeslots += "06:00 | ";
             if (env.ObjVerEx.HasValue(Configuration.GiveMeds0900) && env.ObjVerEx.GetProperty(Configuration.GiveMeds0900).GetValue<bool>())
                 timeslots += "09:00 | ";
             if (env.ObjVerEx.HasValue(Configuration.GiveMeds1200) && env.ObjVerEx.GetProperty(Configuration.GiveMeds1200).GetValue<bool>())
                 timeslots += "12:00 | ";
+            if (env.ObjVerEx.HasValue(Configuration.GiveMeds1400) && env.ObjVerEx.GetProperty(Configuration.GiveMeds1400).GetValue<bool>())
+                timeslots += "14:00 | ";
             if (env.ObjVerEx.HasValue(Configuration.GiveMeds1700) && env.ObjVerEx.GetProperty(Configuration.GiveMeds1700).GetValue<bool>())
                 timeslots += "17:00 | ";
             if (env.ObjVerEx.HasValue(Configuration.GiveMeds2000) && env.ObjVerEx.GetProperty(Configuration.GiveMeds2000).GetValue<bool>())
                 timeslots += "20:00 | ";
+            if (env.ObjVerEx.HasValue(Configuration.GiveMeds2200) && env.ObjVerEx.GetProperty(Configuration.GiveMeds2200).GetValue<bool>())
+                timeslots += "22:00 | ";
 
             if (env.ObjVerEx.HasValue(Configuration.PRNMedication) && env.ObjVerEx.GetProperty(Configuration.PRNMedication).GetValue<bool>())
                 PRN = "_PRN";

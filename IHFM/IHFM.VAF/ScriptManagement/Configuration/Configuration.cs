@@ -16,6 +16,9 @@ namespace IHFM.VAF
         public MFIdentifier MedsOnScript = "Mfiles.Property.MedsOnScript";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier GiveMeds0200 = "Mfiles.Property.0200";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier GiveMeds0600 = "Mfiles.Property.0600?";
 
         [MFPropertyDef(Required = true)]
@@ -25,10 +28,16 @@ namespace IHFM.VAF
         public MFIdentifier GiveMeds1200 = "Mfiles.Property.1200?";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier GiveMeds1400 = "Mfiles.Property.1400";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier GiveMeds1700 = "Mfiles.Property.1700?";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier GiveMeds2000 = "Mfiles.Property.2000?";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier GiveMeds2200 = "Mfiles.Property.2200";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier ScriptManagementStartDate = "MFiles.Property.ScriptManagementStartDate";
