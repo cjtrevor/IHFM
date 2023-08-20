@@ -38,6 +38,9 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier DailyCare_IsComplete = "MFiles.Property.isComplete";
 
+        [MFPropertyDef]
+        public MFIdentifier DailyCare_CarePlanNotes = "MFiles.Property.CarePlanNotes";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier ProgressName_ProgressNoteDet = "MFiles.Property.ProgressNoteDet";
 

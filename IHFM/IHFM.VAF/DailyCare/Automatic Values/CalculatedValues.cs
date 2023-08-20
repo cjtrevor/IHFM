@@ -10,21 +10,21 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
-        [PropertyCustomValue("MFiles.Property.CarePlanNotes")]
-        public TypedValue SetCareplanNotesValue(PropertyEnvironment env)
-        {
-            CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
-            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+        //[PropertyCustomValue("MFiles.Property.CarePlanNotes")]
+        //public TypedValue SetCareplanNotesValue(PropertyEnvironment env)
+        //{
+        //    CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
+        //    int lookupId = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetLookupID();
 
-            ObjVerEx careplan = searchService.GetResidentCarePlan(residentLookup.Item);
+        //    ObjVerEx careplan = searchService.GetResidentCarePlan(lookupId);
 
-            string output = $"{careplan.GetPropertyText(Configuration.Careplan_CpDietAndFeeding)}" +
-                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpToilet)}";
+        //    string output = careplan == null ? "" : $"{careplan.GetPropertyText(Configuration.Careplan_CpDietAndFeeding)}" +
+        //        $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpToilet)}";
 
-            TypedValue calculated = new TypedValue();
-            calculated.SetValue(MFDataType.MFDatatypeText, output);
+        //    TypedValue calculated = new TypedValue();
+        //    calculated.SetValue(MFDataType.MFDatatypeText, output);
 
-            return calculated;
-        }
+        //    return calculated;
+        //}
     }
 }

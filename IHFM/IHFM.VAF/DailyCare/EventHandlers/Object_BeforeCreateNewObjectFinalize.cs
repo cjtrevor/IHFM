@@ -15,14 +15,27 @@ namespace IHFM.VAF
         {
             if (CheckAlreadyExists(env))
             {
-                throw new Exception("A daily care for this resident record for this shift already exists. Please refer to report 1.5 under the browse section for the existing records.");
+                throw new Exception("A daily care for this resident record for this shift already exists. Please refer to Daily Care not yet Complete.");
             }
 
             SetScheduledTimeBasedCare(env);
+            SetCarePlanNotes(env);
 
             env.ObjVerEx.SaveProperties();
         }
 
+        private void SetCarePlanNotes(EventHandlerEnvironment env)
+        {
+            CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
+            int lookupId = env.ObjVerEx.GetLookupID(Configuration.ResidentLookup);
+
+            ObjVerEx careplan = searchService.GetResidentCarePlan(lookupId);
+
+            string output = careplan == null ? "" : $"{careplan.GetPropertyText(Configuration.Careplan_CpDietAndFeeding)}" +
+                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpToilet)}";
+
+            env.ObjVerEx.SaveProperty(Configuration.DailyCare_CarePlanNotes, MFDataType.MFDatatypeMultiLineText, output);
+        }
         private void SetScheduledTimeBasedCare(EventHandlerEnvironment env)
         {
             ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
