@@ -56,19 +56,16 @@ namespace IHFM.VAF
         public TypedValue SetDurationInFrailcare(PropertyEnvironment env)
         {
             TypedValue calculated = new TypedValue();
-            int deceasedLookupID = env.ObjVerEx.HasValue(Configuration.Resident_DeceasedDeparted) ? env.ObjVerEx.GetLookupID(Configuration.Resident_DeceasedDeparted) : 0;
+            
             int numOfDays = 0;
 
-            if (deceasedLookupID == Configuration.DeceasedListItem.ID)
+            if (env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFrailCare) && env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFrailCare))
             {
-                if (env.ObjVerEx.HasValue(Configuration.Resident_DateDeceased) && env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFrailCare))
-                {
-                    DateTime deceasedDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateDeceased).GetValueAsLocalizedText());
-                    DateTime admissionDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateAdmittedToFrailCare).GetValueAsLocalizedText());
+                DateTime current = DateTime.Now;
+                DateTime admissionDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateAdmittedToFrailCare).GetValueAsLocalizedText());
 
-                    numOfDays = (deceasedDate - admissionDate).Days;
-                }             
-            }
+                numOfDays = (current - admissionDate).Days;
+            }             
 
             calculated.SetValue(MFDataType.MFDatatypeInteger, numOfDays);
             return calculated;
@@ -78,18 +75,15 @@ namespace IHFM.VAF
         public TypedValue SetDurationInFacility(PropertyEnvironment env)
         {
             TypedValue calculated = new TypedValue();
-            int deceasedLookupID = env.ObjVerEx.HasValue(Configuration.Resident_DeceasedDeparted) ? env.ObjVerEx.GetLookupID(Configuration.Resident_DeceasedDeparted) : 0;
+            
             int numOfDays = 0;
 
-            if (deceasedLookupID == Configuration.DeceasedListItem.ID)
+            if (env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFacility) && env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFacility))
             {
-                if (env.ObjVerEx.HasValue(Configuration.Resident_DateDeceased) && env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFacility))
-                {
-                    DateTime deceasedDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateDeceased).GetValueAsLocalizedText());
-                    DateTime admissionDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateAdmittedToFacility).GetValueAsLocalizedText());
+                DateTime current = DateTime.Now;
+                DateTime admissionDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateAdmittedToFacility).GetValueAsLocalizedText());
 
-                    numOfDays = (deceasedDate - admissionDate).Days;
-                }
+                numOfDays = (current - admissionDate).Days;
             }
 
             calculated.SetValue(MFDataType.MFDatatypeInteger, numOfDays);
