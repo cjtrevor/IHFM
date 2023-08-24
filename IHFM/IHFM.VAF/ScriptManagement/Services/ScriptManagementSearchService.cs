@@ -85,10 +85,10 @@ namespace IHFM.VAF
                 ObjVerEx med = new ObjVerEx(vault, lookup);
 
                 //Only fail on no slotConfig if its not a 4 hour cycle record
-                if (slotConfig == null && !(med.HasValue(configuration.MedsDosage_4Hourly) && med.GetProperty(configuration.MedsDosage_4Hourly).GetValue<bool>()))
-                {
-                    throw new Exception("The current time has no valid slot.");
-                }
+                //if (slotConfig == null && !(med.HasValue(configuration.MedsDosage_4Hourly) && med.GetProperty(configuration.MedsDosage_4Hourly).GetValue<bool>()))
+                //{
+                //    throw new Exception("The current time has no valid slot.");
+                //}
 
                 //Specific Days
                 if (med.HasValue(configuration.SpecificDays) && med.GetProperty(configuration.SpecificDays).GetValue<bool>() && !ShouldGiveToday(med))
@@ -120,9 +120,8 @@ namespace IHFM.VAF
                 }
 
                 //Meds on script timeslot
-                if (isPRN)
-                {
-                    if (med.HasValue(configuration.PRNMedication) && med.GetProperty(configuration.PRNMedication).GetValue<bool>())
+                if (med.HasValue(configuration.PRNMedication) && med.GetProperty(configuration.PRNMedication).GetValue<bool>())
+                {          
                         medsToGive.Add(lookup);
                 }
                 else

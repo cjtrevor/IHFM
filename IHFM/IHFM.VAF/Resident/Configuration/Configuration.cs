@@ -51,6 +51,9 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_MedicalConditions = "MFiles.Property.MedicalConditions";
 
+        [MFPropertyDef]
+        public MFIdentifier Resident_FirstName = "PD.FirstName";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_Surname = "MFiles.Property.Surname";
 
@@ -77,6 +80,9 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_DateAdmittedToFrailCare = "MFiles.Property.DateAdmittedToFrailCare";
+
+        [MFPropertyDef]
+        public MFIdentifier Resident_AccomodationRequired = "MFiles.Property.AccomodationRequired";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_DateDeceased = "MFiles.Property.DateDeceased";
