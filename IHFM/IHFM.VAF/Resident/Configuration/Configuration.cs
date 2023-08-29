@@ -82,7 +82,7 @@ namespace IHFM.VAF
         public MFIdentifier Resident_DateAdmittedToFrailCare = "MFiles.Property.DateAdmittedToFrailCare";
 
         [MFPropertyDef]
-        public MFIdentifier Resident_AccomodationRequired = "MFiles.Property.AccomodationRequired";
+        public MFIdentifier Resident_AccomodationRequired = "MFiles.Property.AccommodationRequired";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_DateDeceased = "MFiles.Property.DateDeceased";
