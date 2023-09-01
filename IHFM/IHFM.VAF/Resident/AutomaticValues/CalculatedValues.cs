@@ -36,7 +36,7 @@ namespace IHFM.VAF
             string surname = env.ObjVerEx.GetProperty(Configuration.Resident_Surname).GetValueAsLocalizedText();
             string gender = env.ObjVerEx.GetProperty(Configuration.Resident_GenderTitle).GetValueAsLocalizedText();
             string initial = env.ObjVerEx.GetProperty(Configuration.Resident_Initial).GetValueAsLocalizedText();
-            string firstName = env.ObjVerEx.GetPropertyText(Configuration.Resident_FirstName);
+            string firstName = env.ObjVerEx.GetPropertyText(Configuration.Resident_FirstName).Split(' ')[0];
             string accomodationCalc = env.ObjVerEx.GetProperty(Configuration.CurrentRoom).GetValueAsLocalizedText();
             string accomodationReq =  env.ObjVerEx.GetProperty(Configuration.Resident_AccomodationRequired).GetValueAsLocalizedText();
             int deceasedLookupID = env.ObjVerEx.HasValue(Configuration.Resident_DeceasedDeparted) ? env.ObjVerEx.GetLookupID(Configuration.Resident_DeceasedDeparted) : 0;

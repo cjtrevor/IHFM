@@ -80,6 +80,8 @@ namespace IHFM.VAF
         public MFIdentifier NappyUsage_TotalMonthlyUsage = "MFiles.Property.TotalNappyUsage";
         [MFPropertyDef(Required = true)]
         public MFIdentifier NappyUsage_NappyChange = "MFiles.Property.NappyChange";
+        [MFPropertyDef]
+        public MFIdentifier NappyUsage_CheckedNotChanged = "MFiles.Property.CheckedNotChanged";
 
     }
 }
