@@ -32,5 +32,19 @@ namespace IHFM.VAF
 
             return null;
         }
+
+        public ObjVerEx GetResidentCarePlanExisting(int residentId)
+        {
+            MFSearchBuilder search = new MFSearchBuilder(_vault);
+            search.ObjType(_configuration.CarePlanObject);
+            search.Property(_configuration.ResidentLookup, MFDataType.MFDatatypeLookup, residentId);
+
+            if (search.Find().Count >= 1)
+            {
+                return search.FindOneEx();
+            }
+
+            return null;
+        }
     }
 }

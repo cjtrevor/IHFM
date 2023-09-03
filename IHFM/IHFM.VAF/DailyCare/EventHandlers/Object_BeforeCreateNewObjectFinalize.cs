@@ -19,17 +19,79 @@ namespace IHFM.VAF
             }
 
             SetScheduledTimeBasedCare(env);
+
             SetCarePlanNotes(env);
 
             env.ObjVerEx.SaveProperties();
         }
 
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.DailyCareCopy")]
+        public void BeforeCreateNewDailyCareV2(EventHandlerEnvironment env)
+        {
+            if (CheckAlreadyExists(env))
+            {
+                throw new Exception("A daily care for this resident record for this shift already exists. Please refer to Daily Care not yet Complete.");
+            }
+
+            SetScheduledTimeBasedCare(env);
+            env.ObjVerEx.SaveProperties();
+
+            SetScheduledTimeSlots(env);
+            
+            env.ObjVerEx.SaveProperties();
+        }
+
+        private void SetScheduledTimeSlots(EventHandlerEnvironment env)
+        {
+            List<ObjVer> firstSlot = new List<ObjVer>();
+            List<ObjVer> secondSlot = new List<ObjVer>();
+            List<ObjVer> thirdSlot = new List<ObjVer>();
+
+            Lookups items = env.ObjVerEx.GetProperty(Configuration.TBCS_TimeBasedCareScheduleDropdown).TypedValue.GetValueAsLookups();
+            foreach(Lookup item in items)
+            { 
+                ObjVerEx careItem = new ObjVerEx(env.Vault, item);
+
+                foreach(Lookup time in careItem.GetLookups(Configuration.TBCS_TbcScheduledTimes))
+                {
+                    if(time.Item == Configuration.ScheduledCareTime_0600.ID 
+                        || time.Item == Configuration.ScheduledCareTime_0800.ID
+                        || time.Item == Configuration.ScheduledCareTime_1000.ID)
+                    {
+                        firstSlot.Add(item.GetAsObjVer());
+                    }
+                    else if (time.Item == Configuration.ScheduledCareTime_1200.ID
+                        || time.Item == Configuration.ScheduledCareTime_1400.ID)
+                    {
+                        secondSlot.Add(item.GetAsObjVer());
+                    }
+                    else if (time.Item == Configuration.ScheduledCareTime_1600.ID
+                        || time.Item == Configuration.ScheduledCareTime_1800.ID)
+                    {
+                        thirdSlot.Add(item.GetAsObjVer());
+                    }
+                }
+            }
+
+            firstSlot.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_0600_1000Care, x);
+            });
+
+            secondSlot.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_1000_1400Care, x);
+            });
+
+            thirdSlot.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_1400_1800Care, x);
+            });
+        }
+
         private void SetCarePlanNotes(EventHandlerEnvironment env)
         {
             CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
-            int lookupId = env.ObjVerEx.GetLookupID(Configuration.ResidentLookup);
+            int lookupId = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetLookupID();
 
-            ObjVerEx careplan = searchService.GetResidentCarePlan(lookupId);
+            ObjVerEx careplan = searchService.GetResidentCarePlanExisting(lookupId);
 
             string output = careplan == null ? "" : $"{careplan.GetPropertyText(Configuration.Careplan_CpDietAndFeeding)}" +
                 $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpToilet)}";

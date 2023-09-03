@@ -47,6 +47,16 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier TBCS_CompletedCare = "MFiles.Property.CompletedCare";
 
+        [MFPropertyDef]
+        public MFIdentifier TBCS_0600_1000Care = "MFiles.Property.0600_1000Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1000_1400Care = "MFiles.Property.1000_1400Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1400_1800Care = "MFiles.Property.1400_1800Care";
+
+        //[MFPropertyDef]
+        //public MFIdentifier TBCS_TbcScheduledTimes = "MFiles.Property.TbcScheduledTimes";
+
         //Class Aliases
         [MFClass(Required = true)]
         public MFIdentifier DailyCareClass = "MFiles.Class.DailyCare";
@@ -67,5 +77,21 @@ namespace IHFM.VAF
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.ProgressNoteType")]
         public MFIdentifier DailyCare_BackInResidenceNoteType = "{6CC30B8A-B93D-4FD3-97BF-79F94B3F2F17}";
 
+        [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
+        public MFIdentifier ScheduledCareTime_0600 = "{D641088F-F3A3-402A-B4AF-FF8C7CBBF9F0}";
+        [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
+        public MFIdentifier ScheduledCareTime_0800 = "{B573B435-0BCE-47E7-B1A0-129AABBC6467}";
+        [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
+        public MFIdentifier ScheduledCareTime_1000 = "{C13FDCB7-887A-47E9-9A15-EE564D6AAB85}";
+        [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
+        public MFIdentifier ScheduledCareTime_1200 = "{650243C7-16D4-49F1-A317-3CB5DA3341FD}";
+        [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
+        public MFIdentifier ScheduledCareTime_1400 = "{520332F8-814C-4D6C-B6F4-1A721AB9569D}";
+        [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
+        public MFIdentifier ScheduledCareTime_1600 = "{B4334103-CFA0-41AD-931A-9C5AF53C2A4B}";
+        [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
+        public MFIdentifier ScheduledCareTime_1800 = "{E45C6E8E-CBEB-4B50-BC18-A57AE54AD72D}";
+
     }
 }
+

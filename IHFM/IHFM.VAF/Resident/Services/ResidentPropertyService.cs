@@ -38,7 +38,7 @@ namespace IHFM.VAF
             ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
 
             CarePlanSearchService searchService = new CarePlanSearchService(_vault, _configuration);
-            ObjVerEx careplan = searchService.GetResidentCarePlan(residentLookup.Item);
+            ObjVerEx careplan = searchService.GetResidentCarePlanExisting(residentLookup.Item);
 
             //If the site is set to use careplan for scheduled care and one exists then pull care from there
             if(useCareplan && careplan != null)
