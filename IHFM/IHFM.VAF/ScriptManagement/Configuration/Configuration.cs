@@ -40,6 +40,9 @@ namespace IHFM.VAF
         public MFIdentifier GiveMeds2200 = "Mfiles.Property.2200";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier GiveMeds0000 = "Mfiles.Property.0000";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier ScriptManagementStartDate = "MFiles.Property.ScriptManagementStartDate";
 
         [MFPropertyDef(Required = true)]

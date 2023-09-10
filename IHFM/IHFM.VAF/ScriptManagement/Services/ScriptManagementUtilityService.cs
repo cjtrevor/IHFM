@@ -41,6 +41,9 @@ namespace IHFM.VAF
             DateTime start2200 = DateTime.Today + new TimeSpan(21, 0, 0);
             DateTime end2200 = DateTime.Today + new TimeSpan(23, 0, 0);
 
+            DateTime start0000 = DateTime.Today + new TimeSpan(23, 0, 0);
+            DateTime end0000 = DateTime.Today + new TimeSpan(1, 0, 0);
+
             if (current > start0200 && current < end0200)
                 return configuration.GiveMeds0200;
             else if (current > start0600 && current < end0600)
@@ -57,6 +60,8 @@ namespace IHFM.VAF
                 return configuration.GiveMeds2000;
             else if (current > start2200 && current < end2200)
                 return configuration.GiveMeds2200;
+            else if (current > start0000 && current < end0000)
+                return configuration.GiveMeds0000;
 
             return null;
         }
