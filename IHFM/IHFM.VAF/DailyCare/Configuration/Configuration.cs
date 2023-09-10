@@ -48,11 +48,20 @@ namespace IHFM.VAF
         public MFIdentifier TBCS_CompletedCare = "MFiles.Property.CompletedCare";
 
         [MFPropertyDef]
-        public MFIdentifier TBCS_0600_1000Care = "MFiles.Property.0600_1000Care";
+        public MFIdentifier TBCS_0600_0800Care = "MFiles.Property.0600_0800Care";
         [MFPropertyDef]
-        public MFIdentifier TBCS_1000_1400Care = "MFiles.Property.1000_1400Care";
+        public MFIdentifier TBCS_0800_1000Care = "MFiles.Property.08001000Care";
         [MFPropertyDef]
-        public MFIdentifier TBCS_1400_1800Care = "MFiles.Property.1400_1800Care";
+        public MFIdentifier TBCS_1000_1200Care = "MFiles.Property.10001200Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1200_1400Care = "MFiles.Property.1200_1400Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1400_1600Care = "MFiles.Property.14001600Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1600_1800Care = "MFiles.Property.1600_1800Care";
+
+        [MFPropertyDef]
+        public MFIdentifier TBCS_Frequency = "MFiles.Property.Frequency";
 
         //[MFPropertyDef]
         //public MFIdentifier TBCS_TbcScheduledTimes = "MFiles.Property.TbcScheduledTimes";
@@ -91,6 +100,19 @@ namespace IHFM.VAF
         public MFIdentifier ScheduledCareTime_1600 = "{B4334103-CFA0-41AD-931A-9C5AF53C2A4B}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
         public MFIdentifier ScheduledCareTime_1800 = "{E45C6E8E-CBEB-4B50-BC18-A57AE54AD72D}";
+
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_SpecificTimes = "{1EB2646E-1FDD-42B6-9F97-B6DFF227FA00}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_Hourly = "{FCBDB036-4154-4168-90C2-F429F16FA44F}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_2Hourly = "{E88D695A-88F7-4A47-8913-1BF52F5D85A8}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_3Hourly = "{8EE0AAD5-E9AE-4773-B18A-295465E8C5D6}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_4Hourly = "{F6F145EE-1308-4F7C-9A00-C371570001C5}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_8Hourly = "{FC5EC8DF-9115-421C-8907-2A832547470C}";
 
     }
 }

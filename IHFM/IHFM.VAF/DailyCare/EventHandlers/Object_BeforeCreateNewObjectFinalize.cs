@@ -43,46 +43,121 @@ namespace IHFM.VAF
 
         private void SetScheduledTimeSlots(EventHandlerEnvironment env)
         {
-            List<ObjVer> firstSlot = new List<ObjVer>();
-            List<ObjVer> secondSlot = new List<ObjVer>();
-            List<ObjVer> thirdSlot = new List<ObjVer>();
+            List<ObjVer> slot_68 = new List<ObjVer>();
+            List<ObjVer> slot_810 = new List<ObjVer>();
+            List<ObjVer> slot_1012 = new List<ObjVer>();
+            List<ObjVer> slot_1214 = new List<ObjVer>();
+            List<ObjVer> slot_1416 = new List<ObjVer>();
+            List<ObjVer> slot_1618 = new List<ObjVer>();
+
 
             Lookups items = env.ObjVerEx.GetProperty(Configuration.TBCS_TimeBasedCareScheduleDropdown).TypedValue.GetValueAsLookups();
             foreach(Lookup item in items)
             { 
                 ObjVerEx careItem = new ObjVerEx(env.Vault, item);
 
-                foreach(Lookup time in careItem.GetLookups(Configuration.TBCS_TbcScheduledTimes))
+                if(careItem.HasProperty(Configuration.TBCS_Frequency) && careItem.HasValue(Configuration.TBCS_Frequency) 
+                    && !(careItem.GetLookupID(Configuration.TBCS_Frequency) == Configuration.Frequency_SpecificTimes.ID))
                 {
-                    if(time.Item == Configuration.ScheduledCareTime_0600.ID 
-                        || time.Item == Configuration.ScheduledCareTime_0800.ID
-                        || time.Item == Configuration.ScheduledCareTime_1000.ID)
+                    int frequencyId = careItem.GetLookupID(Configuration.TBCS_Frequency);
+
+                    if(frequencyId == Configuration.Frequency_Hourly.ID)
                     {
-                        firstSlot.Add(item.GetAsObjVer());
+                        slot_68.Add(item.GetAsObjVer());
+                        slot_68.Add(item.GetAsObjVer());
+
+                        slot_810.Add(item.GetAsObjVer());
+                        slot_810.Add(item.GetAsObjVer());
+
+                        slot_1012.Add(item.GetAsObjVer());
+                        slot_1012.Add(item.GetAsObjVer());
+
+                        slot_1214.Add(item.GetAsObjVer());
+                        slot_1214.Add(item.GetAsObjVer());
+
+                        slot_1416.Add(item.GetAsObjVer());
+                        slot_1416.Add(item.GetAsObjVer());
+
+                        slot_1618.Add(item.GetAsObjVer());
+                        slot_1618.Add(item.GetAsObjVer());
                     }
-                    else if (time.Item == Configuration.ScheduledCareTime_1200.ID
-                        || time.Item == Configuration.ScheduledCareTime_1400.ID)
+                    else if (frequencyId == Configuration.Frequency_2Hourly.ID)
                     {
-                        secondSlot.Add(item.GetAsObjVer());
+                        slot_68.Add(item.GetAsObjVer());                       
+                        slot_810.Add(item.GetAsObjVer());                        
+                        slot_1012.Add(item.GetAsObjVer());                      
+                        slot_1214.Add(item.GetAsObjVer());                       
+                        slot_1416.Add(item.GetAsObjVer());                     
+                        slot_1618.Add(item.GetAsObjVer());
                     }
-                    else if (time.Item == Configuration.ScheduledCareTime_1600.ID
-                        || time.Item == Configuration.ScheduledCareTime_1800.ID)
+                    else if (frequencyId == Configuration.Frequency_3Hourly.ID)
                     {
-                        thirdSlot.Add(item.GetAsObjVer());
+                        slot_68.Add(item.GetAsObjVer());
+                        slot_810.Add(item.GetAsObjVer());
+                        slot_1012.Add(item.GetAsObjVer());
+                        slot_1214.Add(item.GetAsObjVer());
+                        slot_1416.Add(item.GetAsObjVer());
+                        slot_1618.Add(item.GetAsObjVer());
+                    }
+                    else if (frequencyId == Configuration.Frequency_4Hourly.ID)
+                    {
+                        slot_68.Add(item.GetAsObjVer());
+                        slot_1012.Add(item.GetAsObjVer());
+                        slot_1416.Add(item.GetAsObjVer());
+                    }
+                    else if (frequencyId == Configuration.Frequency_8Hourly.ID)
+                    {
+                        slot_68.Add(item.GetAsObjVer());
+                        slot_1618.Add(item.GetAsObjVer());
+                    }
+                }
+                else
+                {
+                    //Specific times logic to be used
+                    foreach(Lookup time in careItem.GetLookups(Configuration.TBCS_TbcScheduledTimes))
+                    {
+                        if(time.Item == Configuration.ScheduledCareTime_0600.ID 
+                            || time.Item == Configuration.ScheduledCareTime_0800.ID
+                            || time.Item == Configuration.ScheduledCareTime_1000.ID)
+                        {
+                            slot_68.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_1200.ID
+                            || time.Item == Configuration.ScheduledCareTime_1400.ID)
+                        {
+                            slot_810.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_1600.ID
+                            || time.Item == Configuration.ScheduledCareTime_1800.ID)
+                        {
+                            slot_1012.Add(item.GetAsObjVer());
+                        }
                     }
                 }
             }
 
-            firstSlot.ForEach(x => {
-                env.ObjVerEx.AddLookup(Configuration.TBCS_0600_1000Care, x);
+            slot_68.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_0600_0800Care, x);
             });
 
-            secondSlot.ForEach(x => {
-                env.ObjVerEx.AddLookup(Configuration.TBCS_1000_1400Care, x);
+            slot_810.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_0800_1000Care, x);
             });
 
-            thirdSlot.ForEach(x => {
-                env.ObjVerEx.AddLookup(Configuration.TBCS_1400_1800Care, x);
+            slot_1012.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_1000_1200Care, x);
+            });
+
+            slot_1214.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_1200_1400Care, x);
+            });
+
+            slot_1416.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_1400_1600Care, x);
+            });
+
+            slot_1618.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_1600_1800Care, x);
             });
         }
 
