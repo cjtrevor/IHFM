@@ -74,7 +74,7 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier TBCS_1800_1900Care = "MFiles.Property.18001900Care";    
         [MFPropertyDef]
-        public MFIdentifier TBCS_1900_2000Care = "MFiles.Property.18002000Care";
+        public MFIdentifier TBCS_1900_2000Care = "MFiles.Property.19002000Care";
 
         [MFPropertyDef]
         public MFIdentifier TBCS_Frequency = "MFiles.Property.Frequency";
