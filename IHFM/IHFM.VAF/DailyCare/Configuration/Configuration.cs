@@ -48,17 +48,33 @@ namespace IHFM.VAF
         public MFIdentifier TBCS_CompletedCare = "MFiles.Property.CompletedCare";
 
         [MFPropertyDef]
-        public MFIdentifier TBCS_0600_0800Care = "MFiles.Property.0600_0800Care";
+        public MFIdentifier TBCS_0600_0700Care = "MFiles.Property.06000700Care";
         [MFPropertyDef]
-        public MFIdentifier TBCS_0800_1000Care = "MFiles.Property.08001000Care";
+        public MFIdentifier TBCS_0700_0800Care = "MFiles.Property.07000800Care";
         [MFPropertyDef]
-        public MFIdentifier TBCS_1000_1200Care = "MFiles.Property.10001200Care";
+        public MFIdentifier TBCS_0800_0900Care = "MFiles.Property.08000900Care";
         [MFPropertyDef]
-        public MFIdentifier TBCS_1200_1400Care = "MFiles.Property.1200_1400Care";
+        public MFIdentifier TBCS_0900_1000Care = "MFiles.Property.09001000Care";
         [MFPropertyDef]
-        public MFIdentifier TBCS_1400_1600Care = "MFiles.Property.14001600Care";
+        public MFIdentifier TBCS_1000_1100Care = "MFiles.Property.10001100Care";
         [MFPropertyDef]
-        public MFIdentifier TBCS_1600_1800Care = "MFiles.Property.1600_1800Care";
+        public MFIdentifier TBCS_1100_1200Care = "MFiles.Property.11001200Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1200_1300Care = "MFiles.Property.12001300Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1300_1400Care = "MFiles.Property.13001400Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1400_1500Care = "MFiles.Property.14001500Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1500_1600Care = "MFiles.Property.15001600Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1600_1700Care = "MFiles.Property.16001700Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1700_1800Care = "MFiles.Property.17001800Care";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1800_1900Care = "MFiles.Property.18001900Care";    
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1900_2000Care = "MFiles.Property.18002000Care";
 
         [MFPropertyDef]
         public MFIdentifier TBCS_Frequency = "MFiles.Property.Frequency";
@@ -112,8 +128,13 @@ namespace IHFM.VAF
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
         public MFIdentifier Frequency_4Hourly = "{F6F145EE-1308-4F7C-9A00-C371570001C5}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_6Hourly = "{DC4302EC-8179-4C16-A00E-8FB36FF2AB0E";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
         public MFIdentifier Frequency_8Hourly = "{FC5EC8DF-9115-421C-8907-2A832547470C}";
 
+        
     }
+
 }
+
 
