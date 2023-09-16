@@ -128,7 +128,7 @@ namespace IHFM.VAF
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
         public MFIdentifier Frequency_4Hourly = "{F6F145EE-1308-4F7C-9A00-C371570001C5}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_6Hourly = "{DC4302EC-8179-4C16-A00E-8FB36FF2AB0E";
+        public MFIdentifier Frequency_6Hourly = "{DC4302EC-8179-4C16-A00E-8FB36FF2AB0E}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
         public MFIdentifier Frequency_8Hourly = "{FC5EC8DF-9115-421C-8907-2A832547470C}";
 
