@@ -46,6 +46,12 @@ namespace IHFM.VAF
 
         private void SetScheduledTimeSlots(EventHandlerEnvironment env)
         {
+            List<ObjVer> slot_01 = new List<ObjVer>();
+            List<ObjVer> slot_12 = new List<ObjVer>();
+            List<ObjVer> slot_23 = new List<ObjVer>();
+            List<ObjVer> slot_34 = new List<ObjVer>();
+            List<ObjVer> slot_45 = new List<ObjVer>();
+            List<ObjVer> slot_56 = new List<ObjVer>();
             List<ObjVer> slot_67 = new List<ObjVer>();
             List<ObjVer> slot_78 = new List<ObjVer>();
             List<ObjVer> slot_89 = new List<ObjVer>();
@@ -60,6 +66,10 @@ namespace IHFM.VAF
             List<ObjVer> slot_1718 = new List<ObjVer>();
             List<ObjVer> slot_1819 = new List<ObjVer>();
             List<ObjVer> slot_1920 = new List<ObjVer>();
+            List<ObjVer> slot_2021 = new List<ObjVer>();
+            List<ObjVer> slot_2122 = new List<ObjVer>();
+            List<ObjVer> slot_2223 = new List<ObjVer>();
+            List<ObjVer> slot_2300 = new List<ObjVer>();
 
 
             Lookups items = env.ObjVerEx.GetProperty(Configuration.TBCS_TimeBasedCareScheduleDropdown).TypedValue.GetValueAsLookups();
@@ -74,6 +84,12 @@ namespace IHFM.VAF
 
                     if(frequencyId == Configuration.Frequency_Hourly.ID)
                     {
+                        slot_01.Add(item.GetAsObjVer());
+                        slot_12.Add(item.GetAsObjVer());
+                        slot_23.Add(item.GetAsObjVer());
+                        slot_34.Add(item.GetAsObjVer());
+                        slot_45.Add(item.GetAsObjVer());
+                        slot_56.Add(item.GetAsObjVer());
                         slot_67.Add(item.GetAsObjVer());
                         slot_78.Add(item.GetAsObjVer());
                         slot_89.Add(item.GetAsObjVer());
@@ -88,9 +104,16 @@ namespace IHFM.VAF
                         slot_1718.Add(item.GetAsObjVer());
                         slot_1819.Add(item.GetAsObjVer());
                         slot_1920.Add(item.GetAsObjVer());
+                        slot_2021.Add(item.GetAsObjVer());
+                        slot_2122.Add(item.GetAsObjVer());
+                        slot_2223.Add(item.GetAsObjVer());
+                        slot_2300.Add(item.GetAsObjVer());
                     }
                     else if (frequencyId == Configuration.Frequency_2Hourly.ID)
                     {
+                        slot_01.Add(item.GetAsObjVer());
+                        slot_23.Add(item.GetAsObjVer());
+                        slot_45.Add(item.GetAsObjVer());
                         slot_67.Add(item.GetAsObjVer());
                         slot_89.Add(item.GetAsObjVer());
                         slot_1011.Add(item.GetAsObjVer());
@@ -98,29 +121,39 @@ namespace IHFM.VAF
                         slot_1415.Add(item.GetAsObjVer());
                         slot_1617.Add(item.GetAsObjVer());
                         slot_1819.Add(item.GetAsObjVer());
+                        slot_2021.Add(item.GetAsObjVer());
+                        slot_2223.Add(item.GetAsObjVer());
                     }
                     else if (frequencyId == Configuration.Frequency_3Hourly.ID)
                     {
-                        slot_67.Add(item.GetAsObjVer());
-                        slot_910.Add(item.GetAsObjVer());
-                        slot_1213.Add(item.GetAsObjVer());
-                        slot_1516.Add(item.GetAsObjVer());
-                        slot_1819.Add(item.GetAsObjVer());
+                       slot_01.Add(item.GetAsObjVer());
+                       slot_34.Add(item.GetAsObjVer());
+                       slot_67.Add(item.GetAsObjVer());
+                       slot_910.Add(item.GetAsObjVer());
+                       slot_1213.Add(item.GetAsObjVer());
+                       slot_1516.Add(item.GetAsObjVer());
+                       slot_1819.Add(item.GetAsObjVer());
+                       slot_2122.Add(item.GetAsObjVer());
                     }
                     else if (frequencyId == Configuration.Frequency_4Hourly.ID)
                     {
+                        slot_01.Add(item.GetAsObjVer());
+                        slot_45.Add(item.GetAsObjVer());
                         slot_89.Add(item.GetAsObjVer());
                         slot_1213.Add(item.GetAsObjVer());
                         slot_1617.Add(item.GetAsObjVer());
+                        slot_2021.Add(item.GetAsObjVer());
                     }
                     else if (frequencyId == Configuration.Frequency_6Hourly.ID)
                     {
+                        slot_01.Add(item.GetAsObjVer());
                         slot_67.Add(item.GetAsObjVer());
                         slot_1213.Add(item.GetAsObjVer());
                         slot_1819.Add(item.GetAsObjVer());
                     }
                     else if (frequencyId == Configuration.Frequency_8Hourly.ID)
                     {
+                        slot_01.Add(item.GetAsObjVer());
                         slot_89.Add(item.GetAsObjVer());
                         slot_1617.Add(item.GetAsObjVer());
                     }
@@ -130,38 +163,123 @@ namespace IHFM.VAF
                     //Specific times logic to be used
                     foreach(Lookup time in careItem.GetLookups(Configuration.TBCS_TbcScheduledTimes))
                     {
-                        if(time.Item == Configuration.ScheduledCareTime_0600.ID)
+                        if (time.Item == Configuration.ScheduledCareTime_0000.ID)
+                        {
+                            slot_01.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_0100.ID)
+                        {
+                            slot_12.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_0200.ID)
+                        {
+                            slot_23.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_0300.ID)
+                        {
+                            slot_34.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_0400.ID)
+                        {
+                            slot_45.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_0500.ID)
+                        {
+                            slot_56.Add(item.GetAsObjVer());
+                        }
+                        else if(time.Item == Configuration.ScheduledCareTime_0600.ID)
                         {
                             slot_67.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_0700.ID)
+                        {
+                            slot_78.Add(item.GetAsObjVer());
                         }
                         else if (time.Item == Configuration.ScheduledCareTime_0800.ID)
                         {
                             slot_89.Add(item.GetAsObjVer());
                         }
+                        else if (time.Item == Configuration.ScheduledCareTime_0900.ID)
+                        {
+                            slot_910.Add(item.GetAsObjVer());
+                        }
                         else if (time.Item == Configuration.ScheduledCareTime_1000.ID)
                         {
                             slot_1011.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_1100.ID)
+                        {
+                            slot_1112.Add(item.GetAsObjVer());
                         }
                         else if (time.Item == Configuration.ScheduledCareTime_1200.ID)
                         {
                             slot_1213.Add(item.GetAsObjVer());
                         }
+                        else if (time.Item == Configuration.ScheduledCareTime_1300.ID)
+                        {
+                            slot_1314.Add(item.GetAsObjVer());
+                        }
                         else if (time.Item == Configuration.ScheduledCareTime_1400.ID)
                         {
                             slot_1415.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_1500.ID)
+                        {
+                            slot_1516.Add(item.GetAsObjVer());
                         }
                         else if (time.Item == Configuration.ScheduledCareTime_1600.ID)
                         {
                             slot_1617.Add(item.GetAsObjVer());
                         }
+                        else if (time.Item == Configuration.ScheduledCareTime_1700.ID)
+                        {
+                            slot_1718.Add(item.GetAsObjVer());
+                        }
                         else if (time.Item == Configuration.ScheduledCareTime_1800.ID)
                         {
                             slot_1819.Add(item.GetAsObjVer());
                         }
+                        else if (time.Item == Configuration.ScheduledCareTime_1900.ID)
+                        {
+                            slot_1920.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_2000.ID)
+                        {
+                            slot_2021.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_2100.ID)
+                        {
+                            slot_2122.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_2200.ID)
+                        {
+                            slot_2223.Add(item.GetAsObjVer());
+                        }
+                        else if (time.Item == Configuration.ScheduledCareTime_2300.ID)
+                        {
+                            slot_2300.Add(item.GetAsObjVer());
+                        }
                     }
                 }
             }
-
+            slot_01.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_0000_0100Care, x);
+            });
+            slot_12.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_0100_0200Care, x);
+            });
+            slot_23.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_0200_0300Care, x);
+            });
+            slot_34.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_0300_0400Care, x);
+            });
+            slot_45.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_0400_0500Care, x);
+            });
+            slot_56.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_0500_0600Care, x);
+            });
             slot_67.ForEach(x => {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0600_0700Care, x);
             });
@@ -203,6 +321,18 @@ namespace IHFM.VAF
             });
             slot_1920.ForEach(x => {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1900_2000Care, x);
+            });
+            slot_2021.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_2000_2100Care, x);
+            });
+            slot_2122.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_2100_2200Care, x);
+            });
+            slot_2223.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_2200_2300Care, x);
+            });
+            slot_2300.ForEach(x => {
+                env.ObjVerEx.AddLookup(Configuration.TBCS_2300_0000Care, x);
             });
         }
 
