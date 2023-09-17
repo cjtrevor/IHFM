@@ -54,6 +54,10 @@ namespace IHFM.VAF
         public MFIdentifier SiteConfig_SiteTBCClinic = "MFiles.Property.SitetbcClinic";
         [MFPropertyDef]
         public MFIdentifier SiteConfig_TbcFromCarePlan = "MFiles.Property.TbcFromCarePlan";
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_SCDayOfWeek = "MFiles.Property.SCDayOfWeek";
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_SCDayOfMonth = "MFiles.Property.SCDayOfMonth";
 
         //Object Aliases
         [MFObjType(Required = true)]

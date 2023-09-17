@@ -40,9 +40,7 @@ namespace IHFM.VAF
             SetScheduledTimeSlots(env);
             env.ObjVerEx.SaveProperties();
 
-            SetCarePlanNotes(env);
-
-            
+            SetCarePlanNotes(env);          
         }
 
         private void SetScheduledTimeSlots(EventHandlerEnvironment env)
@@ -72,6 +70,11 @@ namespace IHFM.VAF
             List<ObjVer> slot_2223 = new List<ObjVer>();
             List<ObjVer> slot_2300 = new List<ObjVer>();
 
+            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+            ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
+
+            SiteSearchService siteSearchService = new SiteSearchService(env.Vault, Configuration);
+            ObjVerEx siteConfig = siteSearchService.GetSiteConfig(resident.GetLookupID(Configuration.Resident_Site));
 
             Lookups items = env.ObjVerEx.GetProperty(Configuration.TBCS_TimeBasedCareScheduleDropdown).TypedValue.GetValueAsLookups();
             foreach(Lookup item in items)
@@ -157,6 +160,23 @@ namespace IHFM.VAF
                         slot_01.Add(item.GetAsObjVer());
                         slot_89.Add(item.GetAsObjVer());
                         slot_1617.Add(item.GetAsObjVer());
+                    }
+                    else if (frequencyId == Configuration.Frequency_Daily.ID)
+                    {
+                        slot_89.Add(item.GetAsObjVer());
+                    }
+                    else if (frequencyId == Configuration.Frequency_Weekly.ID)
+                    {
+                        int SCDayOfWeek = siteConfig.HasValue(Configuration.SiteConfig_SCDayOfWeek) ? siteConfig.GetProperty(Configuration.SiteConfig_SCDayOfWeek).GetValue<int>() : 1;
+
+                        if((int)DateTime.Now.DayOfWeek == SCDayOfWeek)
+                            slot_89.Add(item.GetAsObjVer());
+                    }
+                    else if (frequencyId == Configuration.Frequency_Monthly.ID)
+                    {
+                        int SCDayOfMonth = siteConfig.HasValue(Configuration.SiteConfig_SCDayOfMonth) ? siteConfig.GetProperty(Configuration.SiteConfig_SCDayOfMonth).GetValue<int>() : 1;
+                        if(DateTime.Now.Day == SCDayOfMonth)
+                            slot_89.Add(item.GetAsObjVer());
                     }
                 }
                 else

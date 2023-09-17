@@ -187,9 +187,16 @@ namespace IHFM.VAF
         public MFIdentifier Frequency_6Hourly = "{DC4302EC-8179-4C16-A00E-8FB36FF2AB0E}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
         public MFIdentifier Frequency_8Hourly = "{FC5EC8DF-9115-421C-8907-2A832547470C}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_Daily = "{DC743AC4-05F9-4FB3-AF6D-02C5D2B79713}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_Weekly = "{AB2F45CA-4A79-42CD-B593-92470D1087AD}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_Monthly = "{239936C2-65D6-4BA1-92A8-D6FB694C0072}";
 
         
     }
+
 
 }
 
