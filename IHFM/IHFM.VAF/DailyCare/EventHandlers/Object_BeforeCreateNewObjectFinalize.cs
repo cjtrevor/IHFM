@@ -38,10 +38,11 @@ namespace IHFM.VAF
             env.ObjVerEx.SaveProperties();
 
             SetScheduledTimeSlots(env);
+            env.ObjVerEx.SaveProperties();
 
             SetCarePlanNotes(env);
 
-            env.ObjVerEx.SaveProperties();
+            
         }
 
         private void SetScheduledTimeSlots(EventHandlerEnvironment env)
