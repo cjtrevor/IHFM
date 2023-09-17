@@ -84,7 +84,9 @@ namespace IHFM.VAF
 
         //Class Aliases
         [MFClass(Required = true)]
-        public MFIdentifier DailyCareClass = "MFiles.Class.DailyCare";
+        public MFIdentifier DailyCare_DailyCareClass = "MFiles.Class.DailyCare";
+        [MFClass(Required = true)]
+        public MFIdentifier DailyCare_CareClass = "MFiles.Class.DailyCareCopy";
 
         //ValueListItem Aliases
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.ProgressNoteType")]

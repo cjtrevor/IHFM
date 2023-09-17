@@ -1,4 +1,5 @@
 ﻿using MFiles.VAF.Common;
+using MFiles.VAF.Configuration;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.DailyCare")]
         public void BeforeCreateNewDailyCare(EventHandlerEnvironment env)
         {
-            if (CheckAlreadyExists(env))
+            if (CheckAlreadyExists(env, Configuration.DailyCare_DailyCareClass))
             {
                 throw new Exception("A daily care for this resident record for this shift already exists. Please refer to Daily Care not yet Complete.");
             }
@@ -28,7 +29,7 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.DailyCareCopy")]
         public void BeforeCreateNewDailyCareV2(EventHandlerEnvironment env)
         {
-            if (CheckAlreadyExists(env))
+            if (CheckAlreadyExists(env, Configuration.DailyCare_CareClass))
             {
                 throw new Exception("A daily care for this resident record for this shift already exists. Please refer to Daily Care not yet Complete.");
             }
@@ -37,7 +38,9 @@ namespace IHFM.VAF
             env.ObjVerEx.SaveProperties();
 
             SetScheduledTimeSlots(env);
-            
+
+            SetCarePlanNotes(env);
+
             env.ObjVerEx.SaveProperties();
         }
 
@@ -211,7 +214,9 @@ namespace IHFM.VAF
             ObjVerEx careplan = searchService.GetResidentCarePlanExisting(lookupId);
 
             string output = careplan == null ? "" : $"{careplan.GetPropertyText(Configuration.Careplan_CpDietAndFeeding)}" +
-                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpToilet)}";
+                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpToilet)}" +
+                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpPsychosocialSummary)}" +
+                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpWalkingAids)}";
 
             env.ObjVerEx.SaveProperty(Configuration.DailyCare_CarePlanNotes, MFDataType.MFDatatypeMultiLineText, output);
         }
@@ -246,13 +251,13 @@ namespace IHFM.VAF
         {
 
         }
-        private bool CheckAlreadyExists(EventHandlerEnvironment env)
+        private bool CheckAlreadyExists(EventHandlerEnvironment env, MFIdentifier classToCheck)
         {
             int residentId = env.ObjVerEx.GetLookupID(Configuration.ResidentLookup);
             string shift = env.ObjVerEx.GetPropertyText(Configuration.Shift);
 
             DailyCareSearchService searchService = new DailyCareSearchService(env.Vault, Configuration);
-            ObjVerEx dailyCare = searchService.GetDailyCareByResidentAndShift(residentId, shift);
+            ObjVerEx dailyCare = searchService.GetDailyCareByResidentAndShift(residentId, shift, classToCheck);
 
             if(dailyCare != null)
             {

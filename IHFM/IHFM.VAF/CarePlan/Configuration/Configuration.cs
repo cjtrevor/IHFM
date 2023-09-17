@@ -16,5 +16,9 @@ namespace IHFM.VAF
         public MFIdentifier Careplan_CpDietAndFeeding = "MFiles.Property.CpDietAndFeeding";
         [MFPropertyDef]
         public MFIdentifier Careplan_CpToilet = "MFiles.Property.CpToilet";
+        [MFPropertyDef]
+        public MFIdentifier Careplan_CpPsychosocialSummary = "MFiles.Property.CpPsychosocialSummary";
+        [MFPropertyDef]
+        public MFIdentifier Careplan_CpWalkingAids = "MFiles.Property.CpWalkingAids";
     }
 }
