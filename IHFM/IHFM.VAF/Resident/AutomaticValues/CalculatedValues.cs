@@ -59,7 +59,7 @@ namespace IHFM.VAF
 
             int numOfDays = 0;
 
-            if (env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFrailCare) && env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFrailCare))
+            if (env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFrailCare) && env.ObjVerEx.HasValue(Configuration.Resident_DateDeceased))
             {
                 DateTime deceasedDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateDeceased).GetValueAsLocalizedText());
                 DateTime admissionDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateAdmittedToFrailCare).GetValueAsLocalizedText());
@@ -77,7 +77,7 @@ namespace IHFM.VAF
             TypedValue calculated = new TypedValue();
             int numOfDays = 0;
 
-            if (env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFacility) && env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFacility))
+            if (env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFacility) && env.ObjVerEx.HasValue(Configuration.Resident_DateDeceased))
             {
                 DateTime deceasedDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateDeceased).GetValueAsLocalizedText());
                 DateTime admissionDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateAdmittedToFacility).GetValueAsLocalizedText());
