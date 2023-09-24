@@ -15,5 +15,16 @@ namespace IHFM.VAF
 
             return calculated;
         }
+
+        [PropertyCustomValue("MFiles.Property.Dayshift", Priority = 5)]
+        public TypedValue SetDayshiftShiftValue(PropertyEnvironment env)
+        {
+            ShiftCalculationService shiftCalculationService = new ShiftCalculationService(Configuration, env.Vault);
+
+            TypedValue calculated = new TypedValue();
+            calculated.SetValue(MFDataType.MFDatatypeBoolean, shiftCalculationService.CalculateShiftNumber(env.ObjVerEx).ToUpper().Contains("DAY"));
+
+            return calculated;
+        }
     }
 }
