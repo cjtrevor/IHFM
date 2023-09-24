@@ -98,6 +98,8 @@
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
     <Compile Include="DQ98\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="DQ98\Configuration\Configuration.cs" />
+    <Compile Include="Events_Activities\Configuration\Configuration.cs" />
+    <Compile Include="Events_Activities\Services\EventsActivitiesSearchService.cs" />
     <Compile Include="Export\Classes\QMR\QMRAdmissionsExport.cs" />
     <Compile Include="Export\Classes\QMR\QMRDeathsExport.cs" />
     <Compile Include="Export\Classes\QMR\QMRIncidentExport.cs" />
