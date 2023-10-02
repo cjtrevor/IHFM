@@ -19,6 +19,29 @@ namespace IHFM.VAF
             _vault = vault;
             _configuration = configuration;
         }
+        public void SetSiteFromResident(ObjVerEx objVerEx, ObjVerEx resident, MFIdentifier siteProperty)
+        {
+            int siteId = GetSiteIDFromResident(resident);
+            objVerEx.SetProperty(siteProperty, MFDataType.MFDatatypeLookup, siteId);
+            objVerEx.SaveProperties();
+        }
+
+        public int GetSiteIDFromResident(ObjVerEx resident)
+        {
+            return GetSiteID(resident);
+        }
+
+        public int GetSiteIDFromStaff(ObjVerEx staff)
+        {
+            return GetSiteID(staff);
+        }
+
+        public void SetSiteFromStaff(ObjVerEx objVerEx, ObjVerEx staff, MFIdentifier siteProperty)
+        {
+            int siteId = GetSiteIDFromStaff(staff);
+            objVerEx.SetProperty(siteProperty, MFDataType.MFDatatypeLookup, siteId);
+            objVerEx.SaveProperties();
+        }
 
         public void SetSiteFromStaffByUserID(ObjVerEx objVerEx, MFIdentifier siteProperty)
         {

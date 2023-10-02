@@ -74,6 +74,11 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier CostPrice = "MFiles.Property.Cost";
 
+        [MFPropertyDef]
+        public MFIdentifier AddIssueStock_Staff = "MFiles.Property.Staff";
+        [MFPropertyDef]
+        public MFIdentifier AddIssueStock_Resident = "MFiles.Property.Resident";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier NappyUsage_Month = "MFiles.Property.NappyUsageMonth";
         [MFPropertyDef(Required = true)]

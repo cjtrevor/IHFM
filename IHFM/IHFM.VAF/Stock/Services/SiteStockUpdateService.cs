@@ -26,8 +26,8 @@ namespace IHFM.VAF
 
             if (siteStockObjVer == null)
             {
-                if (quantity < 0)
-                    throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - 0");
+                //if (quantity < 0)
+                //    throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - 0");
 
                 CreateNewSiteStockObject(siteID,stockID,quantity);
                 return;
@@ -61,8 +61,8 @@ namespace IHFM.VAF
 
             double updatedStock = currentStock + quantity;
 
-            if (updatedStock < 0)
-                throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - {currentStock}");
+            //if (updatedStock < 0)
+            //    throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - {currentStock}");
 
             siteStockObjVer.SetProperty(_configuration.StockOnHand, MFDataType.MFDatatypeFloating, updatedStock);
         }

@@ -14,7 +14,27 @@ namespace IHFM.VAF
         public void SetStockIssueSite(EventHandlerEnvironment env)
         {
             SitePermissionService sitePermissionService = new SitePermissionService(env.Vault, Configuration);
-            sitePermissionService.SetSiteFromStaffByUserID(env.ObjVerEx, Configuration.VAFSite);
+            if (env.ObjVerEx.HasValue(Configuration.AddIssueStock_Resident))
+            {
+                //Resident
+                Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.AddIssueStock_Resident).TypedValue.GetValueAsLookup();
+                ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
+
+                sitePermissionService.SetSiteFromResident(env.ObjVerEx,resident, Configuration.VAFSite);
+            }
+            else if(env.ObjVerEx.HasValue(Configuration.AddIssueStock_Staff))
+            {
+                //Staff
+                Lookup staffLookup = env.ObjVerEx.GetProperty(Configuration.AddIssueStock_Staff).TypedValue.GetValueAsLookup();
+                ObjVerEx staff = new ObjVerEx(env.Vault, staffLookup);
+
+                sitePermissionService.SetSiteFromStaff(env.ObjVerEx,staff, Configuration.VAFSite);
+            }
+            else
+            {
+                //CreatedBy
+                sitePermissionService.SetSiteFromStaffByUserID(env.ObjVerEx, Configuration.VAFSite);
+            }        
         }
 
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize)]
