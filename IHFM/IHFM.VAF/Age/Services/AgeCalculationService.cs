@@ -18,17 +18,24 @@ namespace IHFM.VAF
 			int dayPart = IdNumberParser.GetDayPartFromIDNumber(idNumber);
 
 			int currentYearPart = IdNumberParser.GetCurrentYearPart();
+			DateTime birthDate;
 
 			if (yearPart > currentYearPart)
 			{
-				DateTime birthDate = new DateTime(1900 + yearPart, monthPart, dayPart);
-				return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
+				birthDate = new DateTime(1900 + yearPart, monthPart, dayPart);
 			}
 			else
 			{
-				DateTime birthDate = new DateTime(2000 + yearPart, monthPart, dayPart);
-				return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
+				birthDate = new DateTime(2000 + yearPart, monthPart, dayPart);
 			}
+
+			int YearsPassed = DateTime.Now.Year - birthDate.Year;
+			// Are we before the birth date this year? If so subtract one year from the mix
+			if (DateTime.Now.Month < birthDate.Month || (DateTime.Now.Month == birthDate.Month && DateTime.Now.Day < birthDate.Day))
+			{
+				YearsPassed--;
+			}
+			return YearsPassed.ToString();
 		}
 
 		public void RefreshAge(ObjVerEx objVerEx, Configuration configuration, bool doCheckout = true)
