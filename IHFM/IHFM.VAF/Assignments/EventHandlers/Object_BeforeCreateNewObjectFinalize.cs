@@ -48,7 +48,10 @@ namespace IHFM.VAF
                ObjVerEx staff = staffPropertyService.GetStaffObjVerExForUserId(createdById);
                ObjVerEx site = staffPropertyService.GetSiteObjectFromStaff(staff);
 
-               objVerEx.AddLookup(Configuration.Assignments_NotificationSite, site.ObjVer);
+                if(!objVerEx.HasValue(Configuration.Assignments_NotificationSite))
+                { 
+                    objVerEx.AddLookup(Configuration.Assignments_NotificationSite, site.ObjVer);
+                }
             }
         }
 
