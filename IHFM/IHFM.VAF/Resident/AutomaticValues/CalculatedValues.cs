@@ -95,5 +95,37 @@ namespace IHFM.VAF
             calculated.SetValue(MFDataType.MFDatatypeInteger, numOfDays);
             return calculated;
         }
+
+        [PropertyCustomValue("MFiles.Property.TotalDurationOfStayFacility")]
+        public TypedValue SetTotalDurationInFacility(PropertyEnvironment env)
+        {
+            TypedValue calculated = new TypedValue();
+            int numOfDays = 0;
+
+            if (env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFacility))
+            {            
+                DateTime admissionDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateAdmittedToFacility).GetValueAsLocalizedText());
+                numOfDays = (int)((DateTime.Now - admissionDate).Days / 30.4);
+            }
+
+            calculated.SetValue(MFDataType.MFDatatypeInteger, numOfDays);
+            return calculated;
+        }
+
+        [PropertyCustomValue("MFiles.Property.TotalDurationOfStayFrailcare")]
+        public TypedValue SetTotalDurationInFrailcare(PropertyEnvironment env)
+        {
+            TypedValue calculated = new TypedValue();
+            int numOfDays = 0;
+
+            if (env.ObjVerEx.HasValue(Configuration.Resident_DateAdmittedToFrailCare))
+            {
+                DateTime admissionDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateAdmittedToFrailCare).GetValueAsLocalizedText());
+                numOfDays = (int)((DateTime.Now - admissionDate).Days / 30.4);
+            }
+
+            calculated.SetValue(MFDataType.MFDatatypeInteger, numOfDays);
+            return calculated;
+        }
     }
 }

@@ -17,18 +17,21 @@ namespace IHFM.VAF
 			int monthPart = IdNumberParser.GetMonthPartFromIDNumber(idNumber);
 			int dayPart = IdNumberParser.GetDayPartFromIDNumber(idNumber);
 
-			int currentYearPart = IdNumberParser.GetCurrentYearPart();
+			//int currentYearPart = IdNumberParser.GetCurrentYearPart();
 
-			if (yearPart > currentYearPart)
-			{
-				DateTime birthDate = new DateTime(1900 + yearPart, monthPart, dayPart);
-				return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
-			}
-			else
-			{
-				DateTime birthDate = new DateTime(2000 + yearPart, monthPart, dayPart);
-				return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
-			}
+			DateTime birthDate = new DateTime(1900 + yearPart, monthPart, dayPart);
+			return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
+
+			//if (yearPart > currentYearPart)
+			//{
+			//	DateTime birthDate = new DateTime(1900 + yearPart, monthPart, dayPart);
+			//	return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
+			//}
+			//else
+			//{
+			//	DateTime birthDate = new DateTime(2000 + yearPart, monthPart, dayPart);
+			//	return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
+			//}
 		}
 
 		public void RefreshAge(ObjVerEx objVerEx, Configuration configuration, bool doCheckout = true)

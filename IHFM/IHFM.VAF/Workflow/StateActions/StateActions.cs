@@ -81,31 +81,10 @@ namespace IHFM.VAF
             env.ObjVerEx.RemoveProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefState);
             env.ObjVerEx.SaveProperties();
 
-            UpdateRoomResidentTariff(env.ObjVerEx, item.ID, env.Vault);
+            RoomPropertyService service = new RoomPropertyService(Configuration);
+            service.UpdateRoomResidentTariff(env.ObjVerEx, item.ID, env.Vault);
         }
 
-        public void UpdateRoomResidentTariff(ObjVerEx room, int tariff, Vault vault)
-        {
-            ResidentSearchService search = new ResidentSearchService(vault, Configuration);
-            List<ObjVerEx> roomResidents = search.GetResidentByRoom(room.ID);
-            ObjVerEx resident = new ObjVerEx();
-
-            bool roomHasResident = false;
-            foreach(ObjVerEx res in roomResidents)
-            {
-                if(res.HasValue(Configuration.Active) && res.GetProperty(Configuration.Active).GetValue<bool>())
-                {
-                    resident = res;
-                    roomHasResident = true;
-                    break;
-                }
-            }
-
-            if (roomHasResident)
-            {
-                ResidentPropertyService serv = new ResidentPropertyService(vault, Configuration);
-                serv.SetTariff(resident, tariff);
-            }
-        }
+        
     }
 }

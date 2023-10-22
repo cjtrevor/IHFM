@@ -18,8 +18,8 @@ namespace IHFM.VAF
             if(env.ObjVerEx.HasValue(Configuration.DailyCare_IsComplete) && changes.HasChanged(Configuration.DailyCare_IsComplete) 
                 && env.ObjVerEx.GetProperty(Configuration.DailyCare_IsComplete).GetValue<bool>())
             { 
-                UpdateResidentBathCount(env.Vault, env.ObjVerEx);
-                UpdateResidentBowelCount(env.Vault, env.ObjVerEx);
+                //UpdateResidentBathCount(env.Vault, env.ObjVerEx);
+                //UpdateResidentBowelCount(env.Vault, env.ObjVerEx);
                 //UpdateResidentEatCount(env.Vault, env.ObjVerEx);
             }
         }
