@@ -38,9 +38,11 @@ namespace IHFM.VAF
             //    throw new Exception("You should only specify a discount percentage or a discount amount. Both are currently specified.");
             //}
 
-            if (discountPercentage > 0)
+            bool applyDiscount = objVerEx.HasValue(_configuration.Resident_ApplyDiscount) && objVerEx.GetProperty(_configuration.Resident_ApplyDiscount).GetValue<bool>();
+
+            if (discountPercentage > 0 && applyDiscount)
                 amount = tariff * (100 - discountPercentage) / 100;
-            else if (discountRandValue > 0)
+            else if (discountRandValue > 0 && applyDiscount)
                 amount = tariff - discountRandValue;
             else
                 amount = tariff;

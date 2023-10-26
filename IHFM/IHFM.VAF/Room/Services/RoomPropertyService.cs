@@ -15,6 +15,24 @@ namespace IHFM.VAF
 
         public void SetRoomVacantStatus(bool Vacant, ObjVerEx room)
         {
+            ResidentSearchService search = new ResidentSearchService(room.Vault, _configuration);
+            List<ObjVerEx> roomResidents = search.GetResidentByRoom(room.ID);
+
+            bool roomHasActiveResident = false;
+            foreach (ObjVerEx res in roomResidents)
+            {
+                if (res.HasValue(_configuration.Active) && res.GetProperty(_configuration.Active).GetValue<bool>())
+                {
+                    roomHasActiveResident = true;
+                    break;
+                }
+            }
+
+            if(roomHasActiveResident && Vacant)
+            { 
+                return; 
+            }
+            
             room.SaveProperty(_configuration.Vacant, MFDataType.MFDatatypeBoolean, Vacant);
         }
 

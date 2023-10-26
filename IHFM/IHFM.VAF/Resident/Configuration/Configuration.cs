@@ -96,6 +96,9 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier Resident_DurationInFrailcare = "MFiles.Property.DurationOfStayInFrailcare";
 
+        [MFPropertyDef]
+        public MFIdentifier Resident_ApplyDiscount = "PD.Discount";
+
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
         public MFIdentifier DeceasedListItem = "{4930A454-50D9-47BC-9BE2-F08CBCF36D4E}";
 
