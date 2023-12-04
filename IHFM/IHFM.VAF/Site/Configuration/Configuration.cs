@@ -48,9 +48,22 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site_ReportSite = "MFiles.Property.ReportSite";
 
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_SiteTBCADL = "MFiles.Property.Sitetbcadl";
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_SiteTBCClinic = "MFiles.Property.SitetbcClinic";
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_TbcFromCarePlan = "MFiles.Property.TbcFromCarePlan";
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_SCDayOfWeek = "MFiles.Property.SCDayOfWeek";
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_SCDayOfMonth = "MFiles.Property.SCDayOfMonth";
+
         //Object Aliases
         [MFObjType(Required = true)]
         public MFIdentifier SiteObject = "MFiles.Object.Site";
+        [MFObjType(Required = true)]
+        public MFIdentifier SiteConfigObject = "MFiles.Object.SiteConfig";
 
         //ValuelistItems
         [MFValueListItem(Required = true, ValueList = "MFiles.Valuelist.Zones")]

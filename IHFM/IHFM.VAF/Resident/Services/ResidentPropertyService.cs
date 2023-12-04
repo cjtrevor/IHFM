@@ -153,5 +153,53 @@ namespace IHFM.VAF
         {
             resident.SaveProperty(_configuration.RoomTariff, MFDataType.MFDatatypeLookup, tariffId);
         }
+
+        public List<ObjVer> GetResidentTBCSForDay(Lookup residentLookup, bool useCareplan = false)
+        {
+            ObjVerEx STBCParent;
+            List<ObjVer> objVers = new List<ObjVer>();
+            ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
+
+            CarePlanSearchService searchService = new CarePlanSearchService(_vault, _configuration);
+            ObjVerEx careplan = searchService.GetResidentCarePlanExisting(residentLookup.Item);
+
+            //If the site is set to use careplan for scheduled care and one exists then pull care from there
+            if (useCareplan && careplan != null)
+            {
+                STBCParent = careplan;
+            }
+            else
+            {
+                STBCParent = resident;
+            }
+
+            //Get Daily Items
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyADLLookup));
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyClinicLookup));
+
+            //Get Weekly Items
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.WeekdaysADLLookup));
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.WeekdaysClinicLookup));
+
+            //Get Specific Day Items
+            objVers.AddRange(GetTBCSItems(STBCParent, GetADLAliasForDayOfWeek()));
+            objVers.AddRange(GetTBCSItems(STBCParent, GetClinicAliasForDayOfWeek()));
+
+            return objVers;
+        }
+
+        private List<ObjVer> GetTBCSItems(ObjVerEx resident, MFIdentifier alias)
+        {
+            List<ObjVer> objVers = new List<ObjVer>();
+
+            Lookups tbcScheduleItems = resident.GetLookups(alias);
+
+            foreach (Lookup item in tbcScheduleItems)
+            {
+                objVers.Add(item.GetAsObjVer());
+            }
+
+            return objVers;
+        }
     }
 }
