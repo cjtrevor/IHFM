@@ -119,73 +119,94 @@ namespace IHFM.VAF
         public MFIdentifier DailyCare_BackInResidenceNoteType = "{6CC30B8A-B93D-4FD3-97BF-79F94B3F2F17}";
 
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_0000 = "{05C0DE62-AB74-4FD6-8501-8A0C79A67E69}";
+        public MFIdentifier ScheduledCareTime_0000 = "{9C00FD34-5F17-4861-8ABE-3D9FFCFFD51E}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_0100 = "{AE9C7E63-7F7D-48AA-BC13-46C8EB9083ED}";
+        public MFIdentifier ScheduledCareTime_0100 = "{BF01A0B7-FA85-4F1F-98AF-10D6B8DB1B4B}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_0200 = "{68354390-E24A-43E8-B536-D9EA880662A8}";
+        public MFIdentifier ScheduledCareTime_0200 = "{FFC5620E-0D97-4F48-A40F-0A8C05DB8235}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_0300 = "{80FC4A0D-66B9-4F4A-A2C7-E20C9E8B3713}";
+        public MFIdentifier ScheduledCareTime_0300 = "{DF6C0B79-E23D-496D-968D-CBC46F88C997}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_0400 = "{7AFFBF81-9CCB-4AE6-8B1B-2B806EDFC66E}";
+        public MFIdentifier ScheduledCareTime_0400 = "{191761E3-5FB7-47A2-B32E-5DE79E176C5E}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_0500 = "{DAC5452D-CF27-4E04-B8F5-939DCE5B4A98}";
+        public MFIdentifier ScheduledCareTime_0500 = "{9D5D84BE-B548-4D3A-87CA-11BEA23F7090}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_0600 = "{D641088F-F3A3-402A-B4AF-FF8C7CBBF9F0}";
+        public MFIdentifier ScheduledCareTime_0600 = "{64C2DC19-9AD0-4603-975D-64FE93220E05}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_0700 = "{F4DD8F6A-7A56-4310-8192-223AC045A93E}";
+        public MFIdentifier ScheduledCareTime_0700 = "{64C627A0-FD03-4DDC-BE39-D5DB3657E651}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_0800 = "{B573B435-0BCE-47E7-B1A0-129AABBC6467}";
+        public MFIdentifier ScheduledCareTime_0800 = "{A5A9C230-EF73-4C8D-9186-1990FD1731E6}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_0900 = "{E554B184-8004-4F3F-9C38-B336C4121409}";
+        public MFIdentifier ScheduledCareTime_0900 = "{D147D48F-0B1E-48A3-9879-23BF58A1C968}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_1000 = "{C13FDCB7-887A-47E9-9A15-EE564D6AAB85}";
+        public MFIdentifier ScheduledCareTime_1000 = "{5AAF2982-E1BC-4C2C-89C4-A97EC1E8DF28}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_1100 = "{0818204D-4BC6-40B3-99AE-925D83703968}";
+        public MFIdentifier ScheduledCareTime_1100 = "{0D04692C-E138-46BC-8735-622C1D04D205}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_1200 = "{650243C7-16D4-49F1-A317-3CB5DA3341FD}";
+        public MFIdentifier ScheduledCareTime_1200 = "{69F68F86-21CE-4E4C-BB25-173AB1E003B2}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_1300 = "{095E0661-40C8-4B16-B038-66EBBA51E1FF}";
+        public MFIdentifier ScheduledCareTime_1300 = "{ED885BB2-D7FF-4953-BDBA-F41E0220ACFC}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_1400 = "{520332F8-814C-4D6C-B6F4-1A721AB9569D}";
+        public MFIdentifier ScheduledCareTime_1400 = "{89C31058-FA96-49B4-BABC-D31730C9E1D6}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_1500 = "{B4B1C762-0242-453F-A4B7-37E184D1C515}";
+        public MFIdentifier ScheduledCareTime_1500 = "{84612A76-64B9-435F-89E3-3753894F0FED}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_1600 = "{B4334103-CFA0-41AD-931A-9C5AF53C2A4B}";
+        public MFIdentifier ScheduledCareTime_1600 = "{E78B2339-540F-4F15-96B3-BC4F4A54E129}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_1700 = "{BA2832EB-6567-4BD1-A53E-EECEA3519BF3}";
+        public MFIdentifier ScheduledCareTime_1700 = "{46087BD5-74F0-4AAA-9A06-BD97D5E4F9F9}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_1800 = "{E45C6E8E-CBEB-4B50-BC18-A57AE54AD72D}";
+        public MFIdentifier ScheduledCareTime_1800 = "{775D6062-344A-4ECD-8BE1-FA1C25262537}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_1900 = "{3639F5F0-31BD-4DD2-BAD5-CF1FD3856011}";
+        public MFIdentifier ScheduledCareTime_1900 = "{E1A4E20A-D5F7-4161-BC25-87AF166460A6}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_2000 = "{DDCFD0F5-52D0-4B8D-83D0-8D60516D797B}";
+        public MFIdentifier ScheduledCareTime_2000 = "{83713AEC-08E7-41AF-8628-F3C069253750}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_2100 = "{321F69F3-958E-4A31-AD7B-4CC0C4DE03B1}";
+        public MFIdentifier ScheduledCareTime_2100 = "{FAFAB5B4-BF59-4393-8642-F46ABD46F7B9}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_2200 = "{E1AB9D17-6767-4506-93EE-79B63B3CADA3}";
+        public MFIdentifier ScheduledCareTime_2200 = "{FFFC7752-5AB7-4B8F-AB00-27A0ADC159F1}";
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
-        public MFIdentifier ScheduledCareTime_2300 = "{CD1AED45-FCB4-4646-8391-4640CAB3FF9A}";
+        public MFIdentifier ScheduledCareTime_2300 = "{834A8B36-53F2-4205-951A-D718BD34750D}";
 
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_SpecificTimes = "{1EB2646E-1FDD-42B6-9F97-B6DFF227FA00}";
+        public MFIdentifier Frequency_SpecificTimes = "{E33D8F4A-ABE3-4EEF-89ED-FA9E55E01A02}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_Hourly = "{FCBDB036-4154-4168-90C2-F429F16FA44F}";
+        public MFIdentifier Frequency_Hourly = "{E16A8F19-5915-49FB-B6A0-2A6CF81D058C}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_2Hourly = "{E88D695A-88F7-4A47-8913-1BF52F5D85A8}";
+        public MFIdentifier Frequency_2Hourly = "{B4195B0A-2843-4F00-97BF-96E8CCB3D62B}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_3Hourly = "{8EE0AAD5-E9AE-4773-B18A-295465E8C5D6}";
+        public MFIdentifier Frequency_3Hourly = "{65C77296-12D5-4A77-A8F9-714C4632F17D}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_4Hourly = "{F6F145EE-1308-4F7C-9A00-C371570001C5}";
+        public MFIdentifier Frequency_4Hourly = "{A0952BBD-4BFA-439B-B4BA-C7B54AA02AF4}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_6Hourly = "{DC4302EC-8179-4C16-A00E-8FB36FF2AB0E}";
+        public MFIdentifier Frequency_6Hourly = "{233AD1D4-A913-4BCE-AA83-1600361054CB}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_8Hourly = "{FC5EC8DF-9115-421C-8907-2A832547470C}";
+        public MFIdentifier Frequency_8Hourly = "{C17DCEB7-A94A-4CBD-AFA5-CBA5F4EE63F6}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_Daily = "{DC743AC4-05F9-4FB3-AF6D-02C5D2B79713}";
+        public MFIdentifier Frequency_Daily = "{92115D42-2ABD-4B26-9B14-43CDF4E98CC2}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_Weekly = "{AB2F45CA-4A79-42CD-B593-92470D1087AD}";
+        public MFIdentifier Frequency_Weekly = "{FA7F30EE-B3BC-4318-915D-8C87B00DF6DD}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
-        public MFIdentifier Frequency_Monthly = "{239936C2-65D6-4BA1-92A8-D6FB694C0072}";
+        public MFIdentifier Frequency_Monthly = "{F43CD844-3DDB-42BF-826A-2FEE01ECF0E7}" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "";
     }
 }
