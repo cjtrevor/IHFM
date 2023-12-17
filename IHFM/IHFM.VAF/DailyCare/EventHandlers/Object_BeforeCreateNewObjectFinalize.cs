@@ -19,11 +19,11 @@ namespace IHFM.VAF
                 throw new Exception("A daily care for this resident record for this shift already exists. Please refer to Daily Care not yet Complete.");
             }
 
-            SetScheduledTimeBasedCare(env);
+            //SetScheduledTimeBasedCare(env);
 
-            SetCarePlanNotes(env);
+            //SetCarePlanNotes(env);
 
-            env.ObjVerEx.SaveProperties();
+            //env.ObjVerEx.SaveProperties();
         }
 
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.DailyCareCopy")]
