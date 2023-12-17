@@ -116,6 +116,8 @@
     <Compile Include="Export\Services\TBCExportService.cs" />
     <Compile Include="Export\Services\VitalsRecordExportService.cs" />
     <Compile Include="Export\Services\WardStockExportService.cs" />
+    <Compile Include="Finance\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="Finance\Configuration\Configuration.cs" />
     <Compile Include="GCS\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="GCS\Configuration\Configuration.cs" />
     <Compile Include="GCS\Services\GcsCalculationService.cs" />
