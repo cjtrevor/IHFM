@@ -15,23 +15,23 @@ namespace IHFM.VAF
         {
             TypedValue value = new TypedValue();
             double tariff;
-            string totalText;
+            double total;
 
             string tariffText = env.ObjVerEx.GetProperty(Configuration.Finance_Lodgings).GetValueAsLocalizedText();
 
             if(!Double.TryParse(tariffText, out tariff))
             {
-                totalText = "Unable to calculate room tariff.";
+                total = -1;
             }
             else
             {
-                double familyContribution = env.ObjVerEx.GetProperty(Configuration.Finance_FamilyContribution).GetValue<double>();
-                double familyContributionDiscount = env.ObjVerEx.GetProperty(Configuration.Finance_FamilyContributionDiscount).GetValue<double>();
+                double familyContribution = env.ObjVerEx.HasValue(Configuration.Finance_FamilyContribution) ? env.ObjVerEx.GetProperty(Configuration.Finance_FamilyContribution).GetValue<double>() : 0;
+                double familyContributionDiscount = env.ObjVerEx.HasValue(Configuration.Finance_FamilyContributionDiscount) ? env.ObjVerEx.GetProperty(Configuration.Finance_FamilyContributionDiscount).GetValue<double>() : 0;
 
-                totalText = (tariff + familyContribution - familyContributionDiscount).ToString();
+                total = tariff + familyContribution - familyContributionDiscount;
             }
 
-            value.SetValue(MFDataType.MFDatatypeText, totalText);
+            value.SetValue(MFDataType.MFDatatypeFloating, total);
 
             return value;
         }
