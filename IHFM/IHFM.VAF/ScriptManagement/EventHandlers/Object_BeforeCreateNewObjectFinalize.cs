@@ -101,7 +101,7 @@ namespace IHFM.VAF
 
             if (medsToGive.Count == 0)
             {
-                throw new Exception("There is no medicine scheduled for the current time slot");
+                throw new Exception("There is no medicine scheduled for the current time");
             }
 
             //Add to meds dropdown

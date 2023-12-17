@@ -126,7 +126,7 @@ namespace IHFM.VAF
                 }
                 else
                 {
-                    if (med.HasValue(slotConfig) && med.GetProperty(slotConfig).GetValue<bool>() && 
+                    if (slotConfig != null && med.HasValue(slotConfig) && med.GetProperty(slotConfig).GetValue<bool>() && 
                         !(med.HasValue(configuration.PRNMedication) && med.GetProperty(configuration.PRNMedication).GetValue<bool>()))
                     {
                         medsToGive.Add(lookup);
