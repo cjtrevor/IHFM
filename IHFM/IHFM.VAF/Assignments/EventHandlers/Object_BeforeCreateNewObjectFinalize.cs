@@ -13,7 +13,8 @@ namespace IHFM.VAF
         {
             if (env.ObjVerEx.Class == 1180
                 || env.ObjVerEx.Class == Configuration.Site_Class.ID
-                || env.ObjVerEx.Class == Configuration.Staff.ID)
+                || env.ObjVerEx.Class == Configuration.Staff.ID
+                || env.ObjVerEx.Class == Configuration.MDDAuto_Class.ID)
                 return;
 
             StaffPropertyService staffPropertyService = new StaffPropertyService(env.ObjVerEx.Vault, Configuration);

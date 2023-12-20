@@ -32,6 +32,8 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site_SiteIdBySite = "MFiles.Property.SiteidBySite";
         [MFPropertyDef(Required = true)]
+        public MFIdentifier Site_SiteIdByResident = "MFiles.Property.SiteidByResident";
+        [MFPropertyDef(Required = true)]
         public MFIdentifier NumOfResidents = "MFiles.Property.NumOfResidents";
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site_Variance = "MFiles.Property.SiteVariance";

@@ -129,6 +129,8 @@
     <Compile Include="InputOutput\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="InputOutput\Services\InputOutputSearchService.cs" />
     <Compile Include="InputOutput\Services\InputOutputService.cs" />
+    <Compile Include="MedsGivenAuto\Configuration\Configuration.cs" />
+    <Compile Include="MedsGivenAuto\EventHanlders\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Menu\Configuration\Configuration.cs" />
     <Compile Include="Menu\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="ProgressNoteSummary\Configuration\Configuration.cs" />
@@ -198,7 +200,9 @@
     <None Include="install-application.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MedsGivenAuto\AutomaticValues\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="RunWhenBuildChanges" AfterTargets="CoreBuild">
     <Message Importance="High" Text="Cleaning old .mfappx file (if available)..." />

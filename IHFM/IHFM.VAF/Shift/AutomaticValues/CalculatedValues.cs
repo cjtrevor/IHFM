@@ -26,5 +26,16 @@ namespace IHFM.VAF
 
             return calculated;
         }
+
+        [PropertyCustomValue("MFiles.Property.AutoShift", Priority = 1)]
+        public TypedValue SetAutoShiftValue(PropertyEnvironment env)
+        {
+            ShiftCalculationService shiftCalculationService = new ShiftCalculationService(Configuration, env.Vault);
+
+            TypedValue calculated = new TypedValue();
+            calculated.SetValue(MFDataType.MFDatatypeText, shiftCalculationService.CalculateAutoShiftNumberBySiteIdByResident(env.ObjVerEx));
+
+            return calculated;
+        }
     }
 }
