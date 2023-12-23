@@ -9,6 +9,9 @@ namespace IHFM.VAF
 {
     public partial class Configuration
     {
+        [MFObjType]
+        public MFIdentifier MDDAuto_MDDObjectId = "OT.Medsdosagedispense";
+
         [MFPropertyDef]
         public MFIdentifier MDDAuto_Resident = "MFiles.Property.Resident";
         [MFPropertyDef]
