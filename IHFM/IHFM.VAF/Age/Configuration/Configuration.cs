@@ -13,10 +13,23 @@ namespace IHFM.VAF
         //Property Aliases
         [MFPropertyDef(Required = true)]
         public MFIdentifier IDNumber = "MFiles.Property.IDNumber";
+        [MFPropertyDef]
+        public MFIdentifier StaffIDNumber = "MFiles.Property.StaffIdNumber";
         [MFPropertyDef(Required = true)]
         public MFIdentifier Age = "MFiles.Property.Age";
         [MFPropertyDef(Required = true)]
         public MFIdentifier AverageSiteAge = "MFiles.Property.AverageSiteAge";
+        [MFPropertyDef]
+        public MFIdentifier DobDay = "MFiles.Property.DobDay";
+        [MFPropertyDef]
+        public MFIdentifier DobMonth = "MFiles.Property.DobMonth";
+
+        //Class Aliases
+        [MFClass]
+        public MFIdentifier Age_ResidentClass = "MFiles.Class.Resident";
+        [MFClass]
+        public MFIdentifier Age_StaffClass = "MFiles.Class.Staff";
+
 
         //Admin Configurations
         [DataMember]
