@@ -16,7 +16,25 @@ namespace IHFM.VAF
             if (CheckAlreadyExists(env))
             {
                 throw new Exception("A daily care for this resident record for this shift already exists. Please refer to report 1.5 under the browse section for the existing records.");
-            } 
+            }
+        }
+
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.DailyCare")]
+        public void BeforeCreateNewMedsDosageDispense(EventHandlerEnvironment env)
+        {
+            SetMedsDosageDispenseDefaults(env.Vault,env.ObjVerEx);
+        }
+
+        private void SetMedsDosageDispenseDefaults(Vault vault,ObjVerEx objVerEx)
+        {
+            Lookup medsListLookup = objVerEx.GetProperty(Configuration.MedicineList).TypedValue.GetValueAsLookup();
+            ObjVerEx medsList = new ObjVerEx(vault, medsListLookup);
+
+            string genericName = medsList.GetPropertyText(Configuration.MedsGiven_GenericName); 
+            string tradeName = medsList.GetPropertyText(Configuration.MedsGiven_TradeName);
+
+            objVerEx.SetProperty(Configuration.MedsGiven_GenericName, MFDataType.MFDatatypeText, genericName);
+            objVerEx.SetProperty(Configuration.MedsGiven_TradeName, MFDataType.MFDatatypeText, tradeName);
         }
 
         private void RunExports(ObjVerEx dailyCare)
