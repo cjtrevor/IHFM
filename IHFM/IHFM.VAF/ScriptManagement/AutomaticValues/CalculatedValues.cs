@@ -14,8 +14,22 @@ namespace IHFM.VAF
         [PropertyCustomValue("Mfiles.Property.Medsdosage", Priority = 1)]
         public TypedValue SetMedsDosageValue(PropertyEnvironment env)
         {
-            string medicineList = env.ObjVerEx.GetProperty(Configuration.MedicineList).GetValueAsLocalizedText();
-            string medsDosage = env.ObjVerEx.GetProperty(Configuration.MedsDosageProperty).GetValueAsLocalizedText();
+            Lookup medsListLookup = env.ObjVerEx.GetProperty(Configuration.MedicineList).TypedValue.GetValueAsLookup();
+            ObjVerEx medsList = new ObjVerEx(env.Vault, medsListLookup);
+
+            int id = env.ObjVerEx.GetLookupID(Configuration.MedsGiven_GenericOrTradeName);
+
+            string medicineList;
+
+            if(id == Configuration.MedsGiven_GenericListItem)
+            {
+                medicineList = medsList.GetPropertyText(Configuration.MedsGiven_GenericName);
+            }
+            else
+            {
+                medicineList = medsList.GetPropertyText(Configuration.MedsGiven_TradeName);
+            }
+
             string qtyDispensed = env.ObjVerEx.GetProperty(Configuration.QtyDispensed).GetValueAsLocalizedText();
             string daysOfWeek = "on All days";
                         

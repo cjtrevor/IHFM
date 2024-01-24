@@ -82,12 +82,25 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier MedsGiven_Adhoc = "MFiles.Property.Adhoc";
 
+        [MFPropertyDef]
+        public MFIdentifier MedsGiven_GenericOrTradeName = "MFiles.Property.UseGenericOrTradeName";
+
+        [MFPropertyDef]
+        public MFIdentifier MedsGiven_GenericName = "MFiles.Property.GenericName";
+
+        [MFPropertyDef]
+        public MFIdentifier MedsGiven_TradeName = "MFiles.Property.TradeName";
+
         //Class Definitions
         [MFClass(Required = true)]
         public MFIdentifier ScriptManagementClass = "MFiles.Class.ScriptManagement";
 
         [MFClass(Required = true)]
         public MFIdentifier MedsGiven = "MFiles.Class.MedsGiven";
+
+        //Valuelist Items
+        [MFValueListItem(Required = true, ValueList = "MFiles.Valuelist.Generictradename")]
+        public MFIdentifier MedsGiven_GenericListItem = "{9D9DA249-0502-43EF-ADC3-84710EA9D4AC}";
 
         //Admin Configurations
 
