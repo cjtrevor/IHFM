@@ -75,6 +75,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="72hrPatches\Configuration\Configuration.cs" />
+    <Compile Include="72hrPatches\EventHandler\Object_AfterCheckInChangesFinalize.cs" />
+    <Compile Include="72hrPatches\EventHandler\Object_AfterCreateNewObjectFinalize.cs" />
+    <Compile Include="72hrPatches\Services\72hrPatchesStagingService.cs" />
     <Compile Include="Age\BackgroundOperations\BackgroundOperations.cs" />
     <Compile Include="Age\Configuration\Configuration.cs" />
     <Compile Include="Age\EventHandlers\Object_BeforeCheckInChange.cs" />
