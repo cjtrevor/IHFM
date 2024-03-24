@@ -130,6 +130,9 @@
     <Compile Include="InputOutput\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="InputOutput\Services\InputOutputSearchService.cs" />
     <Compile Include="InputOutput\Services\InputOutputService.cs" />
+    <Compile Include="LaundryList\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="LaundryList\Configuration\Configuration.cs" />
+    <Compile Include="LaundryList\Services\LaundryCalculationService.cs" />
     <Compile Include="Menu\Configuration\Configuration.cs" />
     <Compile Include="Menu\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="ProgressNoteSummary\Configuration\Configuration.cs" />
