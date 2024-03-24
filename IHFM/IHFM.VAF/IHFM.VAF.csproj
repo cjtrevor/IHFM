@@ -116,6 +116,9 @@
     <Compile Include="Export\Services\TBCExportService.cs" />
     <Compile Include="Export\Services\VitalsRecordExportService.cs" />
     <Compile Include="Export\Services\WardStockExportService.cs" />
+    <Compile Include="FIMA\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="FIMA\Configuration\Configuration.cs" />
+    <Compile Include="FIMA\Services\FIMACalculationService.cs" />
     <Compile Include="GCS\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="GCS\Configuration\Configuration.cs" />
     <Compile Include="GCS\Services\GcsCalculationService.cs" />
@@ -141,7 +144,7 @@
     <Compile Include="Resident\Services\ResidentPropertyService.cs" />
     <Compile Include="Resident\Services\ResidentSearchService.cs" />
     <Compile Include="Room\Configuration\Configuration.cs" />
-    <Compile Include="Room\EventHandlers\Object_AfterCheckInChangesFinalize.cs.cs" />
+    <Compile Include="Room\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
     <Compile Include="Room\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Room\Services\RoomPropertyService.cs" />
     <Compile Include="Room\Services\RoomSearchService.cs" />
