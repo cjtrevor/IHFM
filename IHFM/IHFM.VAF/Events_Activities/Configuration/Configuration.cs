@@ -29,6 +29,15 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier Events_Month = "MFiles.Property.SpecificDayOfMonth";
 
+        [MFPropertyDef]
+        public MFIdentifier Attendance_WhichEvent = "MFiles.Property.WhichEvent";
+        [MFPropertyDef]
+        public MFIdentifier Attendance_Time = "MFiles.Property.Time";
+        [MFPropertyDef]
+        public MFIdentifier Attendance_ResidentsDropdown = "MFiles.Property.Residents";
+        [MFPropertyDef]
+        public MFIdentifier Attendance_Date = "MFiles.Property.Date";
+
 
     }
 }
