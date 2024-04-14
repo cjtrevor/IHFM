@@ -18,6 +18,8 @@ namespace IHFM.VAF
         public MFIdentifier MDDAuto_MedsOnScript = "Mfiles.Property.MedsOnScript";
         [MFPropertyDef]
         public MFIdentifier MDDAuto_MDDValues = "MFiles.Property.Mddvalues";
+        [MFPropertyDef]
+        public MFIdentifier MDDAuto_Allergies = "MFiles.Property.Allergies1";
 
         [MFClass]
         public MFIdentifier MDDAuto_Class = "MFiles.Class.MedsGivenAuto";

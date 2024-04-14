@@ -10,17 +10,13 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
-        //[EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.MedsGivenAuto")]
-        //public void AfterCreateNewMDDAutoFinaliza(EventHandlerEnvironment env)
-        //{
-        //    string pipes = env.ObjVerEx.GetPropertyText(Configuration.MDDAuto_MDDValues);
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.MedsGivenAuto")]
+        public void BeforeCreateNewMDDAutoFinalize(EventHandlerEnvironment env)
+        {
+            Lookup resLookup = env.ObjVerEx.GetProperty(Configuration.MDDAuto_Resident).TypedValue.GetValueAsLookup();
+            ObjVerEx resident = new ObjVerEx(env.Vault, resLookup);
 
-        //    foreach(string val in pipes.Split(new string[] { "|"},StringSplitOptions.RemoveEmptyEntries))
-        //    {
-        //        env.ObjVerEx.AddLookup(Configuration.MDDAuto_MedsOnScript, Int32.Parse(val));
-        //    }
-
-        //    //env.ObjVerEx.SaveProperties();
-        //}
+            env.ObjVerEx.SetProperty(Configuration.MDDAuto_Allergies, MFDataType.MFDatatypeText, resident.GetPropertyText(Configuration.MDDAuto_Allergies));
+        }
     }
 }
