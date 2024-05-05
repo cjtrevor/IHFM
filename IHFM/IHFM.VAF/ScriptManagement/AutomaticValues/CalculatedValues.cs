@@ -68,5 +68,20 @@ namespace IHFM.VAF
 
             return calculated;
         }
+
+        [PropertyCustomValue("MFiles.Property.ResidentAllergies", Priority = 1)]
+        public TypedValue SetResidentAllergies(PropertyEnvironment env)
+        {
+            string allergies = "";
+
+            Lookup resLookup = env.ObjVerEx.GetProperty(Configuration.MDDAuto_Resident).TypedValue.GetValueAsLookup();
+            ObjVerEx resident = new ObjVerEx(env.Vault, resLookup);
+            allergies = resident.GetPropertyText(Configuration.MDDAuto_Allergies);
+
+            TypedValue calculated = new TypedValue();
+            calculated.SetValue(MFDataType.MFDatatypeText, allergies);
+
+            return calculated;
+        }
     }
 }

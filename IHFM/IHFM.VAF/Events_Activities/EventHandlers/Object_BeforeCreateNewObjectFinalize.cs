@@ -23,7 +23,7 @@ namespace IHFM.VAF
                 env.ObjVerEx.AddLookup(Configuration.Attendance_ResidentsDropdown, item.ToLatestObjVer(env.Vault));
             }
 
-            env.ObjVerEx.SetProperty(Configuration.Attendance_Date, MFDataType.MFDatatypeDate, DateTime.Parse(date));
+            //env.ObjVerEx.SetProperty(Configuration.Attendance_Date, MFDataType.MFDatatypeDate, DateTime.Parse(date));
 
         }
     }
