@@ -15,6 +15,8 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier MDDAuto_Resident = "MFiles.Property.Resident";
         [MFPropertyDef]
+        public MFIdentifier MDDAuto_AutoMedsOnScript = "MFiles.Property.AutoMedsOnScript";
+        [MFPropertyDef]
         public MFIdentifier MDDAuto_MedsOnScript = "Mfiles.Property.MedsOnScript";
         [MFPropertyDef]
         public MFIdentifier MDDAuto_MDDValues = "MFiles.Property.Mddvalues";

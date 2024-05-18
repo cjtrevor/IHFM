@@ -136,6 +136,7 @@
     <Compile Include="InputOutput\Services\InputOutputService.cs" />
     <Compile Include="MedsGivenAuto\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="MedsGivenAuto\Configuration\Configuration.cs" />
+    <Compile Include="MedsGivenAuto\EventHanlders\Object_BeforeCheckInChanges.cs" />
     <Compile Include="MedsGivenAuto\EventHanlders\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Menu\Configuration\Configuration.cs" />
     <Compile Include="Menu\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
