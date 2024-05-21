@@ -21,7 +21,7 @@ namespace IHFM.VAF
         public void StageFutureRecords(ObjVerEx patchRecord)
         {
             int residentId = patchRecord.GetLookupID(_configuration.Patches_Resident);
-            int mddId = patchRecord.GetLookupID(_configuration.Patches_Patch);
+            int mddId = patchRecord.ObjID.ID; //patchRecord.GetLookupID(_configuration.Patches_Patch);
 
             string medsName = patchRecord.GetProperty(_configuration.Patches_Patch).GetValueAsLocalizedText();
             string timeslot = patchRecord.GetProperty(_configuration.Patches_Timeslot).GetValueAsLocalizedText();

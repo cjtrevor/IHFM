@@ -29,5 +29,19 @@ namespace IHFM.VAF
             ScriptControlExportService service = new ScriptControlExportService(env.Vault, Configuration);
             service.ExportScriptControl(env.ObjVerEx, siteId);
         }
+
+        [StateAction("WFS.Medsgivenauto.Populatemedsonscript")]
+        public void SetMedsGivenAutoMedsOnScript(StateEnvironment env)
+        {
+            Lookups medsLookups = env.ObjVerEx.GetLookups(Configuration.MDDAuto_AutoMedsOnScript);
+
+            foreach (Lookup lookup in medsLookups)
+            {
+                env.ObjVerEx.AddLookup(Configuration.MDDAuto_MedsOnScript, lookup.GetAsObjVer());
+            }
+
+            env.ObjVerEx.SaveProperties();
+        }
+
     }
 }
