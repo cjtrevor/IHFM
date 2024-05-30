@@ -22,7 +22,7 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier IncontinenceSupplies_StockOnHand = "MFiles.Property.IncontinenceStockOnHand";
         [MFPropertyDef(Required = true)]
-        public MFIdentifier IncontinenceSupplies_PackageSize = "MFiles.Property.PackageSize1";
+        public MFIdentifier IncontinenceSupplies_PackageSize = "MFiles.Property.PackageSize";
         [MFPropertyDef(Required = true)]
         public MFIdentifier IncontinenceSupplies_Quantity = "MFiles.Property.QtyDispensed";
     }
