@@ -134,6 +134,8 @@
     <Compile Include="InputOutput\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="InputOutput\Services\InputOutputSearchService.cs" />
     <Compile Include="InputOutput\Services\InputOutputService.cs" />
+    <Compile Include="MaintenanceRequest\Configuration\Configuration.cs" />
+    <Compile Include="MaintenanceRequest\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="MedsGivenAuto\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="MedsGivenAuto\Configuration\Configuration.cs" />
     <Compile Include="MedsGivenAuto\EventHanlders\Object_BeforeCheckInChanges.cs" />
@@ -207,7 +209,12 @@
     <None Include="install-application.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SSRS_Reporting\SSRS_Reporting.csproj">
+      <Project>{dcf21eee-00d2-4ad4-ba2d-938a7001f783}</Project>
+      <Name>SSRS_Reporting</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="RunWhenBuildChanges" AfterTargets="CoreBuild">
     <Message Importance="High" Text="Cleaning old .mfappx file (if available)..." />

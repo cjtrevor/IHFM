@@ -32,7 +32,7 @@ namespace SSRS_Reporting
             )
         {
             _reportServerExecutionService.ExecutionHeaderValue = new ExecutionHeader();
-
+            ExecutionInfo execInfo = _reportServerExecutionService.LoadReport($"/{reportDirectory}/{reportName}", null);
             _reportServerExecutionService.SetExecutionParameters(parameters, "en-us");
 
             string encoding;
@@ -41,7 +41,7 @@ namespace SSRS_Reporting
             Warning[] warnings;
             string[] streamIds;
 
-            var result = _reportServerExecutionService.Render(reportFormat, @"<DeviceInfo><Toolbar>False</Toolbar></DeviceInfo>", out extension, out encoding, out mimeType, out warnings, out streamIds);
+            var result = _reportServerExecutionService.Render(reportFormat, null, out extension, out encoding, out mimeType, out warnings, out streamIds);
 
             return result;
         }

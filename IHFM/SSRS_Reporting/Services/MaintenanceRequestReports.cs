@@ -14,10 +14,20 @@ namespace SSRS_Reporting.Services
             
         }
 
-        public byte[] GetMaintenanceRequestReport(int objectId)
+        public byte[] GetMaintenanceRequestReport(string objectId, string resident, string staff, string jobToBeDone, 
+            string jobDate, string timeStarted, string timeFinished, string comments)
         {
-            ParameterValue[] repParams = new ParameterValue[] { new ParameterValue { Name = "ObjectId", Value = objectId.ToString()} };
-            return reportManager.Render("Reports/Maintenance", "Maintenance", "PDF", repParams); ;
+            ParameterValue[] repParams = new ParameterValue[] { 
+                new ParameterValue { Name = "ObjectId", Value = objectId},
+                new ParameterValue { Name = "Resident", Value = resident},
+                new ParameterValue { Name = "Staff", Value = staff},
+                new ParameterValue { Name = "JobToBeDone", Value = jobToBeDone},
+                new ParameterValue { Name = "JobDate", Value = jobDate},
+                new ParameterValue { Name = "TimeStarted", Value = timeStarted},
+                new ParameterValue { Name = "TimeFinished", Value = timeFinished},
+                new ParameterValue { Name = "Comments", Value = comments}
+            };
+            return reportManager.Render("Reports/Trans50", "MaintReqPdf", "PDF", repParams);
         }
     }
 }
