@@ -17,14 +17,13 @@ namespace IHFM.VAF
             List<MFIdentifier> configs = new List<MFIdentifier>
             {
                 Configuration.FIMA_Eating
+                ,Configuration.FIMA_Grooming
                 ,Configuration.FIMA_Bathing
                 ,Configuration.FIMA_DressingUpper
                 ,Configuration.FIMA_DressingLower
                 ,Configuration.FIMA_Toileting
                 ,Configuration.FIMA_BladderManagement
                 ,Configuration.FIMA_BowelManagement
-                ,Configuration.FIMA_Eating_SC
-                ,Configuration.FIMA_Grooming_SC
                 ,Configuration.FIMA_TransferScore
                 ,Configuration.FIMA_Toilet
                 ,Configuration.FIMA_Tub

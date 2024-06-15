@@ -5,6 +5,7 @@ namespace IHFM.VAF
     public partial class Configuration
     {
         public MFIdentifier FIMA_Eating = "MFiles.Property.EatingA";
+        public MFIdentifier FIMA_Grooming = "MFiles.Property.GroomingA";
         public MFIdentifier FIMA_Bathing = "MFiles.Property.BathingA";
         public MFIdentifier FIMA_DressingUpper = "MFiles.Property.DressingUpperBodyA";
         public MFIdentifier FIMA_DressingLower = "MFiles.Property.DressingLowerBodyA";
