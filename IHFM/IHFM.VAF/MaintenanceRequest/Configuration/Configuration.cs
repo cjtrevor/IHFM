@@ -11,6 +11,9 @@ namespace IHFM.VAF
         public MFIdentifier MaintReq_Staff = "MFiles.Property.Staff";
 
         [MFPropertyDef]
+        public MFIdentifier MaintReq_JobAssignedTo = "MFiles.Property.JobAssignedTo";
+
+        [MFPropertyDef]
         public MFIdentifier MaintReq_JobToBeDone = "MFiles.Property.JobToBeDone";
 
         [MFPropertyDef]
@@ -24,6 +27,9 @@ namespace IHFM.VAF
 
         [MFPropertyDef]
         public MFIdentifier MaintReq_JobStatus = "MFiles.Property.JobStatus";
+
+        [MFPropertyDef]
+        public MFIdentifier MaintReq_PrintPDF = "MFiles.Property.GeneratePdfForSignature";
 
     }
 }

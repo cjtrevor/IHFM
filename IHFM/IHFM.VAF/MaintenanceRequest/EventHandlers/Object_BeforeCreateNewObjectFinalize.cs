@@ -15,7 +15,8 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Priority = -1, Class = "MFiles.Class.MaintenanceRequest")]
         public void BeforeNewMaintenanceRequestCheckinChangesFinalize(EventHandlerEnvironment env)
         {
-            if(!DevelopmentUtility.IsDevMode(env.ObjVerEx,Configuration))
+            if(!env.ObjVerEx.HasValue(Configuration.MaintReq_Resident) || 
+                (env.ObjVerEx.HasValue(Configuration.MaintReq_PrintPDF) && env.ObjVerEx.GetProperty(Configuration.MaintReq_PrintPDF).GetValue<bool>() == false))
             {
                 return;
             }
@@ -39,13 +40,14 @@ namespace IHFM.VAF
                 string objectId = env.ObjVer.ID.ToString();
                 string resident = env.ObjVerEx.GetProperty(Configuration.MaintReq_Resident).GetValueAsLocalizedText();
                 string staff = env.ObjVerEx.GetProperty(Configuration.MaintReq_Staff).GetValueAsLocalizedText();
+                string jobAssignedTo = env.ObjVerEx.GetProperty(Configuration.MaintReq_JobAssignedTo).GetValueAsLocalizedText();
                 string jobToBeDone = env.ObjVerEx.GetProperty(Configuration.MaintReq_JobToBeDone).GetValueAsLocalizedText();
                 string jobDate = DateTime.Now.ToShortDateString();
                 string timeStarted = env.ObjVerEx.GetProperty(Configuration.MaintReq_TimeStarted).GetValueAsLocalizedText();
                 string timeFinished = env.ObjVerEx.GetProperty(Configuration.MaintReq_TimeFinished).GetValueAsLocalizedText();
                 string comments = env.ObjVerEx.GetProperty(Configuration.MaintReq_CommentsNotes).GetValueAsLocalizedText();
 
-                byte[] rep = reports.GetMaintenanceRequestReport(objectId, resident, staff, jobToBeDone, jobDate, timeStarted, timeFinished, comments);
+                byte[] rep = reports.GetMaintenanceRequestReport(objectId, resident, staff, jobAssignedTo, jobToBeDone, jobDate, timeStarted, timeFinished, comments);
 
                 File.WriteAllBytes($"C:\\SSRS Temp Output\\{objectId}.pdf", rep);
 
