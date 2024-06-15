@@ -13,7 +13,7 @@ $appFilePath = "bin\Debug\IHFM.VAF.mfappx"
 $appGuid = "a496496c-90c7-4ca5-a191-266c1e2c79d9"
 
 # Target vault
-$vaultName = "TRANS50 IHFM"
+$vaultName = "IHFM_Jaffa"
 
 # Connection details 
 $authType = [MFilesAPI.MFAuthType]::MFAuthTypeSpecificMFilesUser

@@ -15,6 +15,8 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Priority = -1, Class = "MFiles.Class.MaintenanceRequest")]
         public void BeforeNewMaintenanceRequestCheckinChangesFinalize(EventHandlerEnvironment env)
         {
+            return;
+
             if(!env.ObjVerEx.HasValue(Configuration.MaintReq_Resident) || 
                 (env.ObjVerEx.HasValue(Configuration.MaintReq_PrintPDF) && env.ObjVerEx.GetProperty(Configuration.MaintReq_PrintPDF).GetValue<bool>() == false))
             {
