@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHFM.VAF", "IHFM.VAF\IHFM.V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSRS_Reporting", "SSRS_Reporting\SSRS_Reporting.csproj", "{DCF21EEE-00D2-4AD4-BA2D-938A7001F783}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "EmailService\EmailService.csproj", "{70BB62BB-CCF4-4B61-B5BD-EBE69B9E7135}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,12 @@ Global
 		{DCF21EEE-00D2-4AD4-BA2D-938A7001F783}.DebugWithoutDeployment|Any CPU.Build.0 = Debug|Any CPU
 		{DCF21EEE-00D2-4AD4-BA2D-938A7001F783}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCF21EEE-00D2-4AD4-BA2D-938A7001F783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70BB62BB-CCF4-4B61-B5BD-EBE69B9E7135}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70BB62BB-CCF4-4B61-B5BD-EBE69B9E7135}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70BB62BB-CCF4-4B61-B5BD-EBE69B9E7135}.DebugWithoutDeployment|Any CPU.ActiveCfg = Debug|Any CPU
+		{70BB62BB-CCF4-4B61-B5BD-EBE69B9E7135}.DebugWithoutDeployment|Any CPU.Build.0 = Debug|Any CPU
+		{70BB62BB-CCF4-4B61-B5BD-EBE69B9E7135}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70BB62BB-CCF4-4B61-B5BD-EBE69B9E7135}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

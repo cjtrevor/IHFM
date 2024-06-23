@@ -102,6 +102,7 @@
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
     <Compile Include="DQ98\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="DQ98\Configuration\Configuration.cs" />
+    <Compile Include="Email\Configuration\Configuration.cs" />
     <Compile Include="Events_Activities\Configuration\Configuration.cs" />
     <Compile Include="Events_Activities\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Events_Activities\Services\EventsActivitiesSearchService.cs" />
@@ -210,6 +211,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EmailService\EmailService.csproj">
+      <Project>{70bb62bb-ccf4-4b61-b5bd-ebe69b9e7135}</Project>
+      <Name>EmailService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SSRS_Reporting\SSRS_Reporting.csproj">
       <Project>{dcf21eee-00d2-4ad4-ba2d-938a7001f783}</Project>
       <Name>SSRS_Reporting</Name>
