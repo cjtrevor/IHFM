@@ -37,6 +37,9 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier MaintReq_Staff_Email = "MFiles.Property.EmailAddressStaff";
 
+        [MFPropertyDef]
+        public MFIdentifier MaintReq_SpecialInstructions = "MFiles.Property.SpecialInstruction";
+
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.EmployeeStatus")]
         public MFIdentifier MaintReq_Staff_ContractorStatus = "{72D62093-59DE-4E0E-9AA6-4A62B18F8163}";
         
