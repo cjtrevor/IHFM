@@ -10,7 +10,7 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
-        [PropertyCustomValue("MFiles.Property.AutoMedsOnScript")]
+        //[PropertyCustomValue("MFiles.Property.AutoMedsOnScript")]
         public TypedValue SetAutoMedsOnScriptValue(PropertyEnvironment env)
         {
             TypedValue calculated = new TypedValue();

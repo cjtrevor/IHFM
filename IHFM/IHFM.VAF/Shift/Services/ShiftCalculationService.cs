@@ -40,7 +40,7 @@ namespace IHFM.VAF
             return siteObj.GetProperty(_configuration.ShiftStartTime).TypedValue.GetValueAsLocalizedText();
         }
 
-        public string CalculateAutoShiftNumberBySiteIdByResident(ObjVerEx objVerEx)
+        public string CalculateAutoShiftNumberBySiteIdByResident(ObjVerEx objVerEx, string timeslot)
         {
             SiteSearchService siteSearchService = new SiteSearchService(_vault, _configuration);
             string siteNum = objVerEx.GetProperty(_configuration.Site_SiteIdByResident).GetValueAsLocalizedText();
@@ -51,12 +51,13 @@ namespace IHFM.VAF
             ObjVerEx siteObj = siteSearchService.GetSiteByNumber(siteNum);
             string shiftStartTime = siteObj.GetProperty(_configuration.ShiftStartTime).TypedValue.GetValueAsLocalizedText();
 
-            return CalculateShiftNumber(objVerEx, shiftStartTime);
+            return CalculateShiftNumber(objVerEx, shiftStartTime, timeslot);
         }
 
-        public string CalculateShiftNumber(ObjVerEx objVerEx, string shiftStartString = "")
+        public string CalculateShiftNumber(ObjVerEx objVerEx, string shiftStartString = "", string timeslot = "")
         {
-            string dateNow = objVerEx.GetPropertyText(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated);
+            string dateNow = string.IsNullOrEmpty(timeslot) ? objVerEx.GetPropertyText(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated)
+                : $"{DateTime.Now.ToShortDateString()} {timeslot}";
 
             if(string.IsNullOrEmpty(shiftStartString))
                 shiftStartString = GetShiftStartTimeFromSite(objVerEx);

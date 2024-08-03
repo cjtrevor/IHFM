@@ -22,6 +22,8 @@ namespace IHFM.VAF
         public MFIdentifier MDDAuto_MDDValues = "MFiles.Property.Mddvalues";
         [MFPropertyDef]
         public MFIdentifier MDDAuto_Allergies = "MFiles.Property.Allergies1";
+        [MFPropertyDef]
+        public MFIdentifier MDDAuto_Timeslot = "MFiles.Property.Timeslot";
 
         [MFClass]
         public MFIdentifier MDDAuto_Class = "MFiles.Class.MedsGivenAuto";

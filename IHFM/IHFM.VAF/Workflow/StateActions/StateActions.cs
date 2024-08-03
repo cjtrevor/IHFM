@@ -33,12 +33,25 @@ namespace IHFM.VAF
         [StateAction("WFS.Medsgivenauto.Populatemedsonscript")]
         public void SetMedsGivenAutoMedsOnScript(StateEnvironment env)
         {
-            Lookups medsLookups = env.ObjVerEx.GetLookups(Configuration.MDDAuto_AutoMedsOnScript);
+            List<int> addedValues = new List<int>();
 
-            foreach (Lookup lookup in medsLookups)
+            string pipes = env.ObjVerEx.GetPropertyText(Configuration.MDDAuto_MDDValues);
+
+            foreach (string val in pipes.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries))
             {
-                env.ObjVerEx.AddLookup(Configuration.MDDAuto_MedsOnScript, lookup.GetAsObjVer());
+                if (addedValues.Contains(Int32.Parse(val)))
+                    continue;
+
+                Lookup objLookup = new Lookup() { Item = Int32.Parse(val) };//GetLookupFromVal(env.Vault,Int32.Parse(val));
+
+                env.ObjVerEx.AddLookup(Configuration.MDDAuto_MedsOnScript, objLookup.GetAsObjVer());
+                addedValues.Add(Int32.Parse(val));
             }
+
+            string timeslot = env.ObjVerEx.GetPropertyText(Configuration.MDDAuto_Timeslot);
+
+            ShiftCalculationService shiftCalculationService = new ShiftCalculationService(Configuration, env.Vault);
+            env.ObjVerEx.SetProperty(Configuration.AutoShift, MFDataType.MFDatatypeText, shiftCalculationService.CalculateAutoShiftNumberBySiteIdByResident(env.ObjVerEx, timeslot));
 
             env.ObjVerEx.SaveProperties();
         }
