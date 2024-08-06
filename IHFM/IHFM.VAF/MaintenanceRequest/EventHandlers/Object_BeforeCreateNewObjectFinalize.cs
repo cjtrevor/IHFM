@@ -93,8 +93,7 @@ namespace IHFM.VAF
             }
             else
             {
-                if (!env.ObjVerEx.HasValue(Configuration.MaintReq_Resident) ||
-                (env.ObjVerEx.HasValue(Configuration.MaintReq_PrintPDF) && env.ObjVerEx.GetProperty(Configuration.MaintReq_PrintPDF).GetValue<bool>() == false))
+                if (env.ObjVerEx.HasValue(Configuration.MaintReq_PrintPDF) && env.ObjVerEx.GetProperty(Configuration.MaintReq_PrintPDF).GetValue<bool>() == false)
                 {
                     return;
                 }
