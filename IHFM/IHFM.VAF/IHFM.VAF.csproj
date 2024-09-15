@@ -88,7 +88,9 @@
     <Compile Include="Age\Validation\PropertyValidation.cs" />
     <Compile Include="Age\VaultExtensionMethods\VaultExtensionMethods.cs" />
     <Compile Include="Assignments\Configuration\Configuration.cs" />
+    <Compile Include="Assignments\EventHandlers\Object_BeforeCheckInChangesFinalize.cs" />
     <Compile Include="Assignments\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="Assignments\Services\SiteAssignmentService.cs" />
     <Compile Include="Base\Configuration.cs" />
     <Compile Include="CarePlan\Configuration\Configuration.cs" />
     <Compile Include="CarePlan\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
