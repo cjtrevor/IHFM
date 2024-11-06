@@ -113,10 +113,17 @@ namespace IHFM.VAF
             env.ObjVerEx.SaveProperties();
         }
 
-        [EventHandler(MFEventHandlerType.MFEventHandlerAfterCreateNewObjectFinalize, Class = "MFiles.Class.ScriptManagement", Priority = 100)]
-        public void AfterCreateNewScriptManagement(EventHandlerEnvironment env)
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.ScriptManagement", Priority = 100)]
+        public void BeforeCreateNewScriptManagementFinalize(EventHandlerEnvironment env)
         {
-            
+            //Copy resident allergies
+            Lookup lookupRes = env.ObjVerEx.GetProperty(Configuration.ScriptManagement_Resident).TypedValue.GetValueAsLookup();
+
+            ObjVerEx resident = new ObjVerEx(env.Vault, lookupRes);
+            string allergies = resident.GetProperty(Configuration.Resident_Allergies).GetValueAsLocalizedText();
+
+            env.ObjVerEx.SetProperty(Configuration.ScriptManagement_ResidentAllergies, MFDataType.MFDatatypeText, allergies);
+            env.ObjVerEx.SaveProperties();
         }
 
        

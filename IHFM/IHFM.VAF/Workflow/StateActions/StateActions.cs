@@ -10,6 +10,12 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
+        public readonly int[] PropertiesToRemove =
+        {
+            (int)MFBuiltInPropertyDef.MFBuiltInPropertyDefWorkflow,
+            (int)MFBuiltInPropertyDef.MFBuiltInPropertyDefState
+        };
+
         [StateAction("MFiles.WorkflowState.ScriptVerifiedCorrect")]
         public void SetItemSiteOnScriptVerifiedCorrect(StateEnvironment env)
         {
@@ -23,11 +29,51 @@ namespace IHFM.VAF
             env.ObjVerEx.SaveProperties();
 
             ExportScriptManagement(env, siteId);
+
+            
         }
         private void ExportScriptManagement(StateEnvironment env, int siteId)
         {
             ScriptControlExportService service = new ScriptControlExportService(env.Vault, Configuration);
             service.ExportScriptControl(env.ObjVerEx, siteId);
+        }
+
+        [StateAction("WFS.Medslistmaintenance.Createtradecopy")]
+        public void CreateTradeCopyMedsListItem(StateEnvironment env)
+        {
+            var newObjectPropertyValues = this.GetNewObjectPropertyValues(env.PropertyValues);
+
+            string tradeName = newObjectPropertyValues.GetProperty(Configuration.MedsGiven_TradeName.ID).GetValueAsLocalizedText();
+            newObjectPropertyValues.SetProperty(Configuration.MedsGiven_GenericName.ID, MFDataType.MFDatatypeText, tradeName);
+
+            env.Vault.ObjectOperations.CreateNewObjectExQuick(
+                env.ObjVer.Type,
+                newObjectPropertyValues,
+                null,
+                false,
+                CheckIn: true,
+                AccessControlList: null); ;
+        }
+
+        private PropertyValues GetNewObjectPropertyValues(PropertyValues cloneFrom)
+        {
+          // Sanity.
+            if (null == cloneFrom)
+                throw new ArgumentNullException(nameof(cloneFrom));
+            // Get a basic copy.
+            var propertyValues = cloneFrom.Clone();
+            // Remove the properties we don't want.
+            foreach (var propertyId in this.PropertiesToRemove)
+            {
+                // If the property is not in the collection then skip.
+                int index = propertyValues.IndexOf(propertyId);
+                if (-1 == index)
+                    continue;
+                // Remove it.
+                propertyValues.Remove(index);
+            }
+            // Return.
+            return propertyValues;
         }
     }
 }

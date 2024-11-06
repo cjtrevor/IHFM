@@ -19,7 +19,7 @@ namespace IHFM.VAF
             }
         }
 
-        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.DailyCare")]
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.MDD")]
         public void BeforeCreateNewMedsDosageDispense(EventHandlerEnvironment env)
         {
             SetMedsDosageDispenseDefaults(env.Vault,env.ObjVerEx);
@@ -35,6 +35,7 @@ namespace IHFM.VAF
 
             objVerEx.SetProperty(Configuration.MedsGiven_GenericName, MFDataType.MFDatatypeText, genericName);
             objVerEx.SetProperty(Configuration.MedsGiven_TradeName, MFDataType.MFDatatypeText, tradeName);
+            objVerEx.SaveProperties();
         }
 
         private void RunExports(ObjVerEx dailyCare)

@@ -91,6 +91,12 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier MedsGiven_TradeName = "MFiles.Property.TradeName";
 
+        [MFPropertyDef]
+        public MFIdentifier ScriptManagement_Resident = "MFiles.Property.Resident";
+
+        [MFPropertyDef]
+        public MFIdentifier ScriptManagement_ResidentAllergies = "MFiles.Property.ResidentAllergies";
+
         //Class Definitions
         [MFClass(Required = true)]
         public MFIdentifier ScriptManagementClass = "MFiles.Class.ScriptManagement";

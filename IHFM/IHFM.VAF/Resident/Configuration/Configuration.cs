@@ -96,6 +96,9 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier Resident_FirstName = "PD.FirstName";
 
+        [MFPropertyDef]
+        public MFIdentifier Resident_Allergies = "MFiles.Property.Allergies";
+
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
         public MFIdentifier DeceasedListItem = "{4930A454-50D9-47BC-9BE2-F08CBCF36D4E}";
 

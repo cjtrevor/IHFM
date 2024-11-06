@@ -20,14 +20,14 @@ namespace IHFM.VAF
 
                 if (change.PropertyDef == Configuration.RoomTariff.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {
-                    SetDiscountValueIfPercentage(env);
+                    //SetDiscountValueIfPercentage(env);
                 }          
                 
                 if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {
                     SetRoomNotVacant(env.ObjVerEx, env.Vault);
-                    UpdateRoomTariffOnRoomChange(env);
-                    SetDiscountValueIfPercentage(env);
+                    //UpdateRoomTariffOnRoomChange(env);
+                    //SetDiscountValueIfPercentage(env);
                 }
             }
         }
