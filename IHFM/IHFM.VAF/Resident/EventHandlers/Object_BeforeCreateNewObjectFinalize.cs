@@ -14,7 +14,11 @@ namespace IHFM.VAF
 
             SetRoomNotVacant(env.ObjVerEx, env.Vault);
         }
-
+        public void SetRoomVacancy(ObjVerEx room, Vault vault, bool isVacant)
+        {
+            RoomPropertyService roomPropertyService = new RoomPropertyService(Configuration);
+            roomPropertyService.SetRoomVacantStatus(isVacant, room);
+        }
         public void SetRoomNotVacant(ObjVerEx resident, Vault vault)
         {
             if(!resident.HasValue(Configuration.CurrentRoom))

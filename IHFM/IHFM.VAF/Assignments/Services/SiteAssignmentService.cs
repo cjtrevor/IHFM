@@ -1,4 +1,5 @@
 ﻿using MFiles.VAF.Common;
+using MFiles.VAF.Configuration;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace IHFM.VAF
             this.configuration = configuration;
         }
 
-        public void SetSiteAssignmentProperties(ObjVerEx toEdit)
+        public void SetSiteAssignmentProperties(EventHandlerEnvironment env)
         {
-            if (toEdit.Class == 1180
+            if (env.ObjVerEx.Class == 1180
                 || env.ObjVerEx.Class == configuration.Site_Class.ID
                 || env.ObjVerEx.Class == configuration.Staff.ID
                 || env.ObjVerEx.Class == configuration.MDDAuto_Class.ID)

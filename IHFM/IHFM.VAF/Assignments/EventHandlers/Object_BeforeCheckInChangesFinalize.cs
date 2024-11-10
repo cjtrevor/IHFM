@@ -6,11 +6,11 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
-        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize)]
-        public void SetAssignmentDropdownsOnEdit(EventHandlerEnvironment env)
-        {
-            SiteAssignmentService sas = new SiteAssignmentService(Configuration);
-            sas.SetSiteAssignmentProperties(env.ObjVerEx);
-        }
+    //    [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize)]
+    //    public void SetAssignmentDropdownsOnEdit(EventHandlerEnvironment env)
+    //    {
+    //        SiteAssignmentService sas = new SiteAssignmentService(Configuration);
+    //        sas.SetSiteAssignmentProperties(env);
+    //    }
     }
 }

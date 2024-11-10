@@ -12,7 +12,7 @@ namespace IHFM.VAF
         public void SetAssignmentDropdownsOnNew(EventHandlerEnvironment env)
         {
             SiteAssignmentService sas = new SiteAssignmentService(Configuration);
-            sas.SetSiteAssignmentProperties(env.ObjVerEx);
+            sas.SetSiteAssignmentProperties(env);
         }
 
         
