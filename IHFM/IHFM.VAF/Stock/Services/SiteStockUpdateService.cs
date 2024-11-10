@@ -1,4 +1,5 @@
 ﻿using MFiles.VAF.Common;
+using MFiles.VAF.Configuration;
 using MFilesAPI;
 using System;
 
@@ -106,6 +107,59 @@ namespace IHFM.VAF
 
             ObjectVersionAndProperties objectVersionAndProperties = _vault.ObjectOperations.CreateNewObject(siteStockObjectID, propertyValues);
             _vault.ObjectOperations.CheckIn(objectVersionAndProperties.ObjVer);
+        }
+
+        public void CreateNewStockIssue(int siteID, ObjVerEx issue)
+        {
+            SiteStockUpdateService siteStockUpdateService = new SiteStockUpdateService(_vault, _configuration);
+
+            string transfer = issue.HasProperty(_configuration.Transfer) ? issue.GetPropertyText(_configuration.Transfer) : "out";
+
+            int item1StockID = issue.GetLookupID(_configuration.Item1Stock);
+            if (item1StockID > -1)
+            {
+                string itemName = issue.GetPropertyText(_configuration.Item1Stock);
+                double item1Quantity = issue.GetProperty(_configuration.Item1StockQuantityIssued).GetValue<double>();
+                siteStockUpdateService.UpdateSiteStock(siteID, item1StockID, transfer.ToLower() == "in" ? item1Quantity : -item1Quantity, itemName);
+            }
+
+            int item2StockID = issue.GetLookupID(_configuration.Item2Stock);
+            if (item2StockID > -1)
+            {
+                string itemName = issue.GetPropertyText(_configuration.Item2Stock);
+                double item2Quantity = issue.GetProperty(_configuration.Item2StockQuantityIssued).GetValue<double>();
+                siteStockUpdateService.UpdateSiteStock(siteID, item2StockID, transfer.ToLower() == "in" ? item2Quantity : -item2Quantity, itemName);
+            }
+
+            int item3StockID = issue.GetLookupID(_configuration.Item3Stock);
+            if (item3StockID > -1)
+            {
+                string itemName = issue.GetPropertyText(_configuration.Item3Stock);
+                double item3Quantity = issue.GetProperty(_configuration.Item3StockQuantityIssued).GetValue<double>();
+                siteStockUpdateService.UpdateSiteStock(siteID, item3StockID, transfer.ToLower() == "in" ? item3Quantity : -item3Quantity, itemName);
+            }
+
+            int item4StockID = issue.GetLookupID(_configuration.Item4Stock);
+            if (item4StockID > -1)
+            {
+                string itemName = issue.GetPropertyText(_configuration.Item4Stock);
+                double item4Quantity = issue.GetProperty(_configuration.Item4StockQuantityIssued).GetValue<double>();
+                siteStockUpdateService.UpdateSiteStock(siteID, item4StockID, transfer.ToLower() == "in" ? item4Quantity : -item4Quantity, itemName);
+            }
+
+            int item5StockID = issue.GetLookupID(_configuration.Item5Stock);
+            if (item5StockID > -1)
+            {
+                string itemName = issue.GetPropertyText(_configuration.Item5Stock);
+                double item5Quantity = issue.GetProperty(_configuration.Item5StockQuantityIssued).GetValue<double>();
+                siteStockUpdateService.UpdateSiteStock(siteID, item5StockID, transfer.ToLower() == "in" ? item5Quantity : -item5Quantity, itemName);
+            }
+
+            if (transfer.ToLower() == "in")
+            {
+                issue.RemoveProperty(_configuration.ResidentLookup);
+                issue.SaveProperties();
+            }
         }
     }
 }

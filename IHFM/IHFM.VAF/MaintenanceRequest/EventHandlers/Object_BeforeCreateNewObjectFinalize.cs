@@ -123,6 +123,11 @@ namespace IHFM.VAF
                     File.Delete($"C:\\SSRS Temp Output\\{objectId}.pdf");
                 }
             }
+
+            int siteID = env.ObjVerEx.GetLookupID(Configuration.Site_SiteIdBySite);
+
+            SiteStockUpdateService service = new SiteStockUpdateService(env.Vault, Configuration);
+            service.CreateNewStockIssue(siteID, env.ObjVerEx);
         }
     }
 }
