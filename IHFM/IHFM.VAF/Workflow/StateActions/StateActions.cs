@@ -56,5 +56,14 @@ namespace IHFM.VAF
             env.ObjVerEx.SaveProperties();
         }
 
+        [StateAction("WFS.MaintenanceRequest.Adjuststocklevels")]
+        public void UpdateSiteStockFromMaintenanceRequest(StateEnvironment env)
+        {
+            int siteID = env.ObjVerEx.GetLookupID(Configuration.Site_SiteIdBySite);
+
+            SiteStockUpdateService service = new SiteStockUpdateService(env.Vault, Configuration);
+            service.CreateNewStockIssue(siteID, env.ObjVerEx);
+        }
+
     }
 }
