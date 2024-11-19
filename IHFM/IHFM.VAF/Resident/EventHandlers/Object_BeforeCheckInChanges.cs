@@ -28,7 +28,10 @@ namespace IHFM.VAF
                     if(!change.OldValue.TypedValue.IsNULL())
                     {
                         ObjVerEx oldRoom = new ObjVerEx(env.Vault, change.OldValue.TypedValue.GetValueAsLookup());
-                        SetRoomVacancy(oldRoom, env.Vault, true); //SetRoomVacancy old room vacant
+                        if(!oldRoom.IsDeleted)
+                        { 
+                            SetRoomVacancy(oldRoom, env.Vault, true); //SetRoomVacancy old room vacant
+                        }
                     }
 
                     SetRoomNotVacant(env.ObjVerEx, env.Vault);
