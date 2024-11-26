@@ -43,6 +43,9 @@ namespace IHFM.VAF
         public MFIdentifier Resident_ResidentDetail = "MFiles.Property.ResidentDetail";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_ResidentOrMember = "MFiles.Property.ResidentOrMember";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_Age = "MFiles.Property.Age";
 
         [MFPropertyDef(Required = true)]
