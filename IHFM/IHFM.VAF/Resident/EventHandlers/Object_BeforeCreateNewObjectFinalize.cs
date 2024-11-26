@@ -31,6 +31,10 @@ namespace IHFM.VAF
 
         public void CheckDuplicateResident(ObjVerEx resident, Vault vault)
         {
+            string resOrMemberProperty = resident.GetProperty(Configuration.Resident_ResidentOrMember).GetValueAsLocalizedText();
+            if (resOrMemberProperty == "Enquiry")
+                return;
+
             ResidentSearchService resSearch = new ResidentSearchService(vault, Configuration);
             string IdNumber = resident.GetProperty(Configuration.IDNumber).GetValueAsLocalizedText();
 
