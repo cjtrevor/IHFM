@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using IHFM.VAF.Utilities;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,13 +52,17 @@ namespace IHFM.VAF
                     }
                 }
                 //Check weeks of month
-                else if (x.HasValue(Configuration.Events_WeeksOfMonth))
+                else if (x.HasValue(Configuration.Events_WeeksOfMonth) && x.HasValue(Configuration.Events_Weekdays))
                 {
                     Calendar cal = new CultureInfo("en-ZA").Calendar;
                     string selectedWeeks = x.GetProperty(Configuration.Events_WeeksOfMonth).GetValueAsLocalizedText();
                     string[] values = selectedWeeks.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
 
-                    if (values.Any(y => y == cal.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay,DayOfWeek.Monday).ToString()))
+                    string selectedDays = x.GetProperty(Configuration.Events_Weekdays).GetValueAsLocalizedText();
+                    string[] dayValues = selectedDays.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (values.Any(y => y == DateTime.Now.GetWeekNumberOfMonth().ToString()
+                    && values.Any(z => z.ToLower() == DateTime.Now.ToString("dddd").ToLower())))
                     {
                         output += $"{x.GetPropertyText(Configuration.Events_EventSchedule)}{Environment.NewLine}";
                     }
