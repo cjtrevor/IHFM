@@ -2,6 +2,7 @@
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,18 @@ namespace IHFM.VAF
                     string[] values = selectedDays.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
 
                     if(values.Any(y => y.ToLower() == DateTime.Now.ToString("dddd").ToLower()))
+                    {
+                        output += $"{x.GetPropertyText(Configuration.Events_EventSchedule)}{Environment.NewLine}";
+                    }
+                }
+                //Check weeks of month
+                else if (x.HasValue(Configuration.Events_WeeksOfMonth))
+                {
+                    Calendar cal = new CultureInfo("en-ZA").Calendar;
+                    string selectedWeeks = x.GetProperty(Configuration.Events_WeeksOfMonth).GetValueAsLocalizedText();
+                    string[] values = selectedWeeks.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (values.Any(y => y == cal.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay,DayOfWeek.Monday).ToString()))
                     {
                         output += $"{x.GetPropertyText(Configuration.Events_EventSchedule)}{Environment.NewLine}";
                     }

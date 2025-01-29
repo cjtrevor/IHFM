@@ -27,6 +27,8 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier Events_Weekdays = "MFiles.Property.WeeklyDayOfWeek";
         [MFPropertyDef]
+        public MFIdentifier Events_WeeksOfMonth = "MFiles.Property.WeeklyWeeksOfMonth";
+        [MFPropertyDef]
         public MFIdentifier Events_Month = "MFiles.Property.SpecificDayOfMonth";
 
         [MFPropertyDef]
