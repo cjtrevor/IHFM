@@ -44,7 +44,7 @@ namespace IHFM.VAF
                     string selectedDays = x.GetProperty(Configuration.Events_Weekdays).GetValueAsLocalizedText();
                     string[] values = selectedDays.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
 
-                    if(values.Any(y => y.ToLower() == DateTime.Now.ToString("dddd").ToLower()))
+                    if(values.Any(y => y.Trim(new char[] {' '}).ToLower() == DateTime.Now.ToString("dddd").ToLower()))
                     {
                         output += $"{x.GetPropertyText(Configuration.Events_EventSchedule)}{Environment.NewLine}";
                     }
