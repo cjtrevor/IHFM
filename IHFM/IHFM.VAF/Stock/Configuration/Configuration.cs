@@ -81,5 +81,11 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier NappyUsage_NappyChange = "MFiles.Property.NappyChange";
 
+        [MFPropertyDef]
+        public MFIdentifier Stock_StockType = "MFiles.Property.StockType";
+
+        [MFValueListItem(Required = true, ValueList = "MFiles.Valuelist.Stocktype")]
+        public MFIdentifier Stock_StockType_MaintenanceStockItem = "{79F07679-1CA7-45B5-AC58-CCE95770F0E6}";
+
     }
 }
