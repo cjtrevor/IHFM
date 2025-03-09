@@ -82,16 +82,19 @@ namespace IHFM.VAF
         public List<ObjVer> GetResidentTBCItems(Lookup residentLookup)
         {
             List<ObjVer> objVers = new List<ObjVer>();
-            ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
-            
+            //ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
+
+            CarePlanSearchService carePlanSearchService = new CarePlanSearchService(_vault, _configuration);
+            var residentCarePlan = carePlanSearchService.GetResidentCarePlanExisting(residentLookup.Item);            
+
             //Get Daily Items
-            objVers.AddRange(GetTBCItems(resident,_configuration.DailyADLLookup));
+            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.DailyADLLookup));
 
             //Get Weekly Items
-            objVers.AddRange(GetTBCItems(resident, _configuration.WeekdaysADLLookup));
+            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.WeekdaysADLLookup));
 
             //Get Specific Day Items
-            objVers.AddRange(GetTBCItems(resident, GetADLAliasForDayOfWeek()));
+            objVers.AddRange(GetTBCItems(residentCarePlan, GetADLAliasForDayOfWeek()));
             
             return objVers;
         }
@@ -190,16 +193,19 @@ namespace IHFM.VAF
         public List<ObjVer> GetResidentTBCClinicItems(Lookup residentLookup)
         {
             List<ObjVer> objVers = new List<ObjVer>();
-            ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
+            //ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
+
+            CarePlanSearchService carePlanSearchService = new CarePlanSearchService(_vault, _configuration);
+            var residentCarePlan = carePlanSearchService.GetResidentCarePlanExisting(residentLookup.Item);
 
             //Get Daily Items
-            objVers.AddRange(GetTBCItems(resident, _configuration.DailyClinicLookup));
+            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.DailyClinicLookup));
 
             //Get Weekly Items
-            objVers.AddRange(GetTBCItems(resident, _configuration.WeekdaysClinicLookup));
+            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.WeekdaysClinicLookup));
 
             //Get Specific Day Items
-            objVers.AddRange(GetTBCItems(resident, GetClinicAliasForDayOfWeek()));
+            objVers.AddRange(GetTBCItems(residentCarePlan, GetClinicAliasForDayOfWeek()));
 
             return objVers;
         }
