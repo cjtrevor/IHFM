@@ -35,7 +35,8 @@ namespace IHFM.VAF
         [PropertyCustomValue("MFiles.Property.SiteidBySite", Priority = 5)]
         public TypedValue SetSiteIdBySite(PropertyEnvironment env)
         {
-            if (env.ObjVerEx.GetLookupID(Configuration.Stock_StockType) == Configuration.Stock_StockType_MaintenanceStockItem.ID)
+            if (env.ObjVerEx.Class != Configuration.MaintReq_Class.ID && 
+                env.ObjVerEx.GetLookupID(Configuration.Stock_StockType) == Configuration.Stock_StockType_MaintenanceStockItem.ID)
                 return null;
 
             TypedValue calculated = new TypedValue();

@@ -4,6 +4,9 @@ namespace IHFM.VAF
 {
     public partial class Configuration
     {
+        [MFClass]
+        public MFIdentifier MaintReq_Class = "MFiles.Class.MaintenanceRequest";
+
         [MFPropertyDef]
         public MFIdentifier MaintReq_Resident = "MFiles.Property.Resident";
 
