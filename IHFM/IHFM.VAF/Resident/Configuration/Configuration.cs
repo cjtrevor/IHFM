@@ -117,7 +117,30 @@ namespace IHFM.VAF
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.Deceaseddeparted")]
         public MFIdentifier ReturnedToResidenceListItem = "{844CEC6A-7BD8-4605-87AB-BAD3A1ED95EF}";
 
+        //250314
+        [MFPropertyDef]
+        public MFIdentifier Resident_EnquiryType = "MFiles.Property.EnquiryType";
+        [MFValueList(Required = true)]
+        public MFIdentifier Resident_EnquiryTypeValueList = "MFiles.ValueList.Enquirytype";
 
+        [MFPropertyDef]
+        public MFIdentifier Resident_LeadSource = "MFiles.Property.LeadSource";
+        [MFValueList(Required = true)]
+        public MFIdentifier Resident_LeadSourceValueList = "MFiles.ValueList.Leadsource";
 
+        [MFPropertyDef]
+        public MFIdentifier Resident_AccommodationUrgency = "MFiles.Property.AccommodationUrgency";//TODO: ADD ALIAS IN MFILES
+        [MFValueList(Required = true)]
+        public MFIdentifier Resident_AccommodationUrgencyValueList = "MFiles.Valuelist.AccommodationUrgency";
+
+        [MFPropertyDef]
+        public MFIdentifier Resident_ApplicationDate = "MFiles.Property.ApplicationDate"; //TODO: ADD ALIAS IN MFILES
+
+        [MFValueList(Required = true)]
+        public MFIdentifier Resident_AccomodationRequiredValueList = "MFiles.ValueList.RoomTypes"; //TODO: ADD ALIAS IN MFILES
+
+        [MFPropertyDef]
+        public MFIdentifier Resident_CellPhoneNumber = "PD.OwnCellPhone";
+        
     }
 }

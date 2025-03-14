@@ -17,8 +17,8 @@ $vaultName = "Badisa50"
 
 # Connection details 
 $authType = [MFilesAPI.MFAuthType]::MFAuthTypeSpecificMFilesUser
-$userName = "CBAadmin"
-$password = "Atalsl69210!2#4%6"
+$userName = "dev"
+$password = "dev"
 $domain = ""
 $spn = ""
 $protocolSequence = "ncacn_ip_tcp"

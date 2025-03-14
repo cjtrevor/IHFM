@@ -1,4 +1,5 @@
 ﻿using MFiles.VAF.Common;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,19 @@ namespace IHFM.VAF
             mFSearch.Deleted(false);
 
             return mFSearch.FindEx();
+        }
+
+        public ObjVerEx GetSiteByName(string siteName)
+        {
+            MFSearchBuilder mFSearch = new MFSearchBuilder(_vault);
+            mFSearch.ObjType(_configuration.SiteObject);
+            mFSearch.Deleted(false);
+            mFSearch.Property(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle, MFDataType.MFDatatypeText, siteName);
+
+
+            //mFSearch.Property(_configuration.BaseSiteID, MFDataType.MFDatatypeText, siteName);
+
+            return mFSearch.FindOneEx();
         }
 
         public List<ObjVerEx> GetAllSitesTemp()

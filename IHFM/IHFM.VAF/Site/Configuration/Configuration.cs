@@ -15,8 +15,8 @@ namespace IHFM.VAF
         public MFIdentifier Staff = "MFiles.Class.Staff";
 
         //Property Aliases
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier Site = "MFiles.Property.Site";
+        //[MFPropertyDef(Required = true)]
+        //public MFIdentifier Site = "MFiles.Property.Site";
         [MFPropertyDef(Required = true)]
         public MFIdentifier SiteList = "MFiles.Properties.SiteList";
         [MFPropertyDef(Required = true)]

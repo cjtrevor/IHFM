@@ -120,6 +120,7 @@
     <Compile Include="GCS\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="GCS\Configuration\Configuration.cs" />
     <Compile Include="GCS\Services\GcsCalculationService.cs" />
+    <Compile Include="Import\Classes\ResidentEnquiryForm.cs" />
     <Compile Include="IncidentReport\Configuration\Configuration.cs" />
     <Compile Include="IncidentReport\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="IncontinenceSupplies\Configuration\Configuration.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Resident\EventHandlers\Object_BeforeCheckInChanges.cs" />
     <Compile Include="Resident\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Resident\Services\ResidentAutomaticValueService.cs" />
+    <Compile Include="Resident\Services\ResidentCreationService.cs" />
     <Compile Include="Resident\Services\ResidentPropertyService.cs" />
     <Compile Include="Resident\Services\ResidentSearchService.cs" />
     <Compile Include="Resident\VaultExtensionMethods\VaultExtensionMethods.cs" />
@@ -199,9 +201,7 @@
     <None Include="install-application.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Import\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="RunWhenBuildChanges" AfterTargets="CoreBuild">
     <Message Importance="High" Text="Cleaning old .mfappx file (if available)..." />

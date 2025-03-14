@@ -23,8 +23,8 @@ namespace IHFM.VAF
         public MFIdentifier NappyUsage_MonthlyCountClass = "MFiles.Class.ResidentMonthlyNappyUsage";
 
         //Property Aliases
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier Stock = "MFiles.Property.Stock";
+        //[MFPropertyDef(Required = true)]
+        //public MFIdentifier Stock = "MFiles.Property.Stock";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Item1Stock = "MFiles.Property.Item1Stock";
@@ -41,8 +41,8 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Item5Stock = "MFiles.Property.Item5Stock";
 
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier StockQuantityIssued = "MFiles.Property.StockQuantityIssued";
+        //[MFPropertyDef(Required = true)]
+        //public MFIdentifier StockQuantityIssued = "MFiles.Property.StockQuantityIssued";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Item1StockQuantityIssued = "MFiles.Property.Item1StockQuantityIssued";
