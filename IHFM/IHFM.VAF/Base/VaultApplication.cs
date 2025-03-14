@@ -40,6 +40,14 @@ namespace IHFM.VAF
                         $"IHFM: RefreshSiteAverageAge completed. Next run: {DateTime.Now.AddHours(Configuration.SiteAverageAgeRunCheckInterval)}");
                 });
 
+                TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Import Resident Form Data",
+                    TimeSpan.FromHours(12), (job) =>
+                {
+                    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("ImportResidentFormData", "");
+                    SysUtils.ReportInfoToEventLog(
+                        $"IHFM: ImportResidentFormData completed. Next run: {DateTime.Now.AddHours(12)}");
+                });
+
                 ////Refresh Site Nominals
                 //TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Site Nominals Refresh",
                 //TimeSpan.FromHours(Configuration.SiteNominalRunCheckInterval), (job) =>
