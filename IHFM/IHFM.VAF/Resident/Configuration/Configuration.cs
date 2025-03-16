@@ -52,7 +52,13 @@ namespace IHFM.VAF
         public MFIdentifier Resident_MedicalConditions = "MFiles.Property.MedicalConditions";
 
         [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_FirstName = "PD.FirstName";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_Surname = "MFiles.Property.Surname";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Resident_CellNumber = "PD.OwnCellPhone";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_Initial = "MFiles.Property.Initial";

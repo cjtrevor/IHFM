@@ -14,10 +14,10 @@ namespace SSRS_Reporting.Services
         {
             reportManager = new ReportManager
                 (
-                    "http://t50cloud:8099/ReportServer/ReportExecution2005.asmx",
-                    "Reporting",
-                    "R3porting1!",
-                    "T50Cloud"
+                    "http://mfiles:8080/ReportServer_MSSQLWEB/ReportExecution2005.asmx",
+                    "Jaffa Reports",
+                    "JaffaReports1!",
+                    "mfiles"
                 );
         }
     }
