@@ -11,6 +11,7 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize)]
         public void SetAssignmentDropdowns(EventHandlerEnvironment env)
         {
+            return;
             if (env.ObjVerEx.Class == 1180 || env.ObjVerEx.Class == 124)
                 return;
 

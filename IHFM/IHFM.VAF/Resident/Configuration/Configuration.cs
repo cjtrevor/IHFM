@@ -123,6 +123,12 @@ namespace IHFM.VAF
         [MFValueList(Required = true)]
         public MFIdentifier Resident_EnquiryTypeValueList = "MFiles.ValueList.Enquirytype";
 
+        [MFValueList(Required = true)]
+        public MFIdentifier Resident_EnquiryTypeValueListItem_CareCentre = "{CA894CB2-4215-4D9A-8E3F-0BD2EF8ABCC8}";
+        [MFValueList(Required = true)]
+        public MFIdentifier Resident_EnquiryTypeValueListItem_IndependentLiving = "{22E3E268-18EF-41D3-833F-71ED7F486F09}";
+        
+
         [MFPropertyDef]
         public MFIdentifier Resident_LeadSource = "MFiles.Property.LeadSource";
         [MFValueList(Required = true)]
@@ -141,6 +147,13 @@ namespace IHFM.VAF
 
         [MFPropertyDef]
         public MFIdentifier Resident_CellPhoneNumber = "PD.OwnCellPhone";
-        
+
+        [MFClass(Required = true)]
+        public MFIdentifier ResidentClass = "MFiles.Class.Resident";
+
+        [MFValueList(Required = true)]
+        public MFIdentifier Resident_GendersValueList = "MFiles.Valuelist.Genders";
+
+
     }
 }

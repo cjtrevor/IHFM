@@ -45,6 +45,8 @@ namespace IHFM.VAF.Import.Classes
         public bool AllergiesFlag { get; set; }                             //bfQuickMode19077          --SELECT LIST
         public string AllergiesDetails { get; set; }                        //bfQuickMode96035          --TEXT
 
+        public DateTime ApplicationDate { get; set; }                             //submitted                 --DATETIME
+
 
         //PLACEHOLDER: FrailCare SingleRoom
         //PLACEHOLDER: FrailCare CoupleRoom
@@ -74,7 +76,7 @@ namespace IHFM.VAF.Import.Classes
 
         ///PLACEHOLDERS
         ///
-        private List<string> accommodationRequiredIdentifiers = new List<string> { "AssistedLivingSingleRoom", "AssistedLivingBachelor", "IndependantLifeRightOneBedroom", "IndependantRentOneBedroom" };
+        private List<string> accommodationRequiredIdentifiers = new List<string> { "AssistedLivingBachelor", "Liferight 1 Bedroom", "AssistedLivingSingleRoom", "IndependantLifeRightOneBedroom", "IndependantRentOneBedroom" };
         //private List<string> accommodationUrgencyIdentifiers = new List<string> { "Urgent30Days", "Urgent12Months" };
 
         private static readonly HashSet<string> accommodationUrgencyIdentifiers = new HashSet<string> { "Urgent30Days", "Urgent12Months" };
@@ -85,6 +87,8 @@ namespace IHFM.VAF.Import.Classes
             AccommodationRequired = new List<string>();
             AccommodationUrgency = new List<string>();
             Sites = new List<string>();
+
+            
 
             var elements = doc.Descendants("subrecord")
                               .Select(item => new
@@ -99,6 +103,8 @@ namespace IHFM.VAF.Import.Classes
                 //string name = item.Element("name")?.Value;
                 //string value = item.Element("value")?.Value;
 
+                string propertyValue = item.Value ?? string.Empty;
+
                 if (accommodationRequiredIdentifiers.Contains(item.Name))
                 {
                     AccommodationRequired.Add(item.Name);
@@ -107,13 +113,31 @@ namespace IHFM.VAF.Import.Classes
                 {
                     AccommodationUrgency.Add(item.Name);
                 }
-                if (item.Name == "bfQuickMode3908792" && !string.IsNullOrEmpty(item.Value))
+                if (item.Name == "bfQuickMode3908792" && !string.IsNullOrEmpty(propertyValue))
                 {
-                    Sites.Add(item.Value);
+                    Sites.Add(propertyValue);
+                }
+
+                switch (item.Name)
+                {
+                    case "bfQuickMode2644472":
+                        this.EmailAddress = propertyValue;
+                        break;
+                    case "bfQuickMode7543706":
+                        this.ContactNumber = propertyValue;
+                        break;
+                    default:
+                        break;
                 }
 
                 var property = typeof(ResidentEnquiryForm).GetProperty(item.Name);
-                property?.SetValue(this, item.Value);
+                property?.SetValue(this, propertyValue);
+            }
+
+            var submittedElement = doc.Descendants("submitted").FirstOrDefault();
+            if (submittedElement != null && DateTime.TryParse(submittedElement.Value, out DateTime submittedDate))
+            {
+                this.ApplicationDate = submittedDate;
             }
         }
 
