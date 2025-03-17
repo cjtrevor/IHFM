@@ -61,6 +61,7 @@ namespace IHFM.VAF
             var reportParam_Invoice = objectId;
             var reportParam_Reference = env.ObjVerEx.GetProperty(Configuration.MealBooking_Reference).GetValueAsLocalizedText();
             var reportParam_Email = env.ObjVerEx.GetProperty(Configuration.MealBooking_EmailAddress).GetValueAsLocalizedText();
+            var reportParam_CommentsNotes = env.ObjVerEx.GetProperty(Configuration.MealBooking_CommentsNotes).GetValueAsLocalizedText();
 
             MealBookingReports mealBookingReports = new MealBookingReports();
 
@@ -72,6 +73,7 @@ namespace IHFM.VAF
                 reportParam_Surname,
                 reportParam_Telephone,
                 reportParam_Email,
+                reportParam_CommentsNotes,
                 mealItem1,
                 mealItem2,
                 mealItem3,

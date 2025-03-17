@@ -71,7 +71,9 @@ namespace IHFM.VAF
         public MFIdentifier MealBooking_Discount = "MFiles.Property.DiscountR";
 
         [MFPropertyDef]
+        public MFIdentifier MealBooking_CommentsNotes = "MFiles.Property.CommentsNotes";
+
+        [MFPropertyDef]
         public MFIdentifier FoodItem_Price = "MFiles.Property.PriceMB";
-        
     }
 }
