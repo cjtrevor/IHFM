@@ -85,7 +85,10 @@ namespace IHFM.VAF
             //ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
 
             CarePlanSearchService carePlanSearchService = new CarePlanSearchService(_vault, _configuration);
-            var residentCarePlan = carePlanSearchService.GetResidentCarePlanExisting(residentLookup.Item);            
+            var residentCarePlan = carePlanSearchService.GetResidentCarePlanExisting(residentLookup.Item);
+
+            if (residentCarePlan == null)
+                throw new Exception($"No Care Plan exists for the Resident");
 
             //Get Daily Items
             objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.DailyADLLookup));
@@ -197,6 +200,9 @@ namespace IHFM.VAF
 
             CarePlanSearchService carePlanSearchService = new CarePlanSearchService(_vault, _configuration);
             var residentCarePlan = carePlanSearchService.GetResidentCarePlanExisting(residentLookup.Item);
+
+            if (residentCarePlan == null)
+                throw new Exception($"No Care Plan exists for the Resident");
 
             //Get Daily Items
             objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.DailyClinicLookup));
