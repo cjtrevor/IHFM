@@ -1,11 +1,5 @@
-using IHFM.VAF.Utilities;
-using MFiles.VAF;
 using MFiles.VAF.Common;
-using MFiles.VAF.Configuration;
-using MFiles.VAF.Core;
-using MFilesAPI;
 using System;
-using System.Diagnostics;
 
 namespace IHFM.VAF
 {
@@ -40,14 +34,14 @@ namespace IHFM.VAF
                         $"IHFM: RefreshSiteAverageAge completed. Next run: {DateTime.Now.AddHours(Configuration.SiteAverageAgeRunCheckInterval)}");
                 });
 
-                ////Refresh Site Nominals
-                //TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Site Nominals Refresh",
-                //TimeSpan.FromHours(Configuration.SiteNominalRunCheckInterval), (job) =>
-                //{
-                //    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("SetSiteNominals", "");
-                //    SysUtils.ReportInfoToEventLog(
-                //        $"IHFM: SetSiteNominals completed. Next run: {DateTime.Now.AddHours(Configuration.SiteNominalRunCheckInterval)}");
-                //});
+                TaskQueueBackgroundOperationManager.StartScheduledBackgroundOperation("Daily Resident Progress Note Generation",
+                Configuration.GenerateProgressNotesPerResidentSchedule, (job) =>
+                {
+                    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("GenerateProgressNotesPerResident", "");
+
+                    SysUtils.ReportInfoToEventLog(
+                        $"IHFM: GenerateProgressNotesPerResident completed");
+                });
             }
             catch (Exception e)
             {

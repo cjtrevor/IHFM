@@ -89,11 +89,13 @@
     <Compile Include="CarePlan\Configuration\Configuration.cs" />
     <Compile Include="CarePlan\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="CarePlan\Services\CarePlanSearchService.cs" />
+    <Compile Include="DailyCare\BackgroundOperations\BackgroundOperations.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_AfterCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
+    <Compile Include="DailyCare\VaultExtensionMethods\VaultExtensionMethods.cs" />
     <Compile Include="DeathReport\Configuration\Configuration.cs" />
     <Compile Include="DeathReport\EventHandlers\ObjectAfterCreateNewObjectFinalize.cs" />
     <Compile Include="Export\Services\DeathReportExportService.cs" />

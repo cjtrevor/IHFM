@@ -1,14 +1,16 @@
 ﻿using MFiles.VAF.Configuration;
-using System;
+using MFiles.VAF.Extensions.ScheduledExecution;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace IHFM.VAF
 {
     public partial class Configuration
     {
+        //Object Aliases
+        [MFObjType(Required = true)]
+        public MFIdentifier DailyCareObject = "MFiles.Object.DailyCare";
+
         //Property Aliases
         [MFPropertyDef(Required = true)]
         public MFIdentifier CareDoneForShift = "MFiles.Property.CareDoneForShift";
@@ -24,6 +26,12 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier DailyCare_BowelMovement = "MFiles.Properties.BowelMovement";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier DailyCare_CommentsNotes = "MFiles.Property.CommentsNotes";
+
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier DailyCare_CreatedBy = "MFiles.Property.CreatedBy";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier DailyCare_BathType = "MFiles.Property.BathType";
@@ -101,6 +109,11 @@ namespace IHFM.VAF
         public MFIdentifier DailyCare_DailyCareClass = "MFiles.Class.DailyCare";
         [MFClass(Required = true)]
         public MFIdentifier DailyCare_CareClass = "MFiles.Class.DailyCareCopy";
+        [MFClass(Required = true)]
+        public MFIdentifier DailyCare_ProgressNoteClass = "MFiles.Class.ProgressNote";
+
+        [MFValueList(Required = true)]
+        public MFIdentifier DailyCare_ProgressNoteTypeValueList = "MFiles.ValueList.ProgressNoteType";
 
         //ValueListItem Aliases
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.ProgressNoteType")]
@@ -117,6 +130,8 @@ namespace IHFM.VAF
         public MFIdentifier DailyCare_TempDischargeNoteType = "{18733FEB-189D-4F73-826B-BCBF41A94B53}";
         [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.ProgressNoteType")]
         public MFIdentifier DailyCare_BackInResidenceNoteType = "{6CC30B8A-B93D-4FD3-97BF-79F94B3F2F17}";
+        [MFValueListItem(Required = true, ValueList = "MFiles.ValueList.ProgressNoteType")]
+        public MFIdentifier DailyCare_InterimNoteType = "{2185F0D4-54BF-421E-A348-22E6EA06EB47}";
 
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
         public MFIdentifier ScheduledCareTime_0000 = "{9C00FD34-5F17-4861-8ABE-3D9FFCFFD51E}";
@@ -208,5 +223,21 @@ namespace IHFM.VAF
             "" +
             "" +
             "";
+
+        [DataMember]
+        public Schedule GenerateProgressNotesPerResidentSchedule { get; set; } = new Schedule()
+        {
+            Enabled = true,
+            Triggers = new List<Trigger>()
+            //{
+            //  new DailyTrigger()
+            //  {
+            //      TriggerTimes = new List<TimeSpan>()
+            //      {
+            //          new TimeSpan(5, 0, 0)
+			//      }
+            //  }
+            //}
+        };
     }
 }
