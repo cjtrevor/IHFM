@@ -7,7 +7,7 @@ namespace IHFM.VAF
 {
     public class DailyCareBackgroundOperations
     {
-        public void GenerateProgressNotesPerResident(Vault vault, Configuration configuration)
+        public void GenerateProgressNotesPerResident(VaultApplication vaultApplication, Vault vault, Configuration configuration)
         {
             ResidentSearchService residentSearchService = new ResidentSearchService(vault, configuration);
             SiteSearchService siteSearchService = new SiteSearchService(vault, configuration);
@@ -48,7 +48,13 @@ namespace IHFM.VAF
                         propertyValuesBuilder.Add(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreatedBy, MFDataType.MFDatatypeLookup, 73);
                         propertyValuesBuilder.Add(configuration.GCSRequired, MFDataType.MFDatatypeBoolean, false);
 
-                        vault.ObjectOperations.CreateNewObjectEx(configuration.DailyCareObject, propertyValuesBuilder.Values);
+                        var newObj = vault.ObjectOperations.CreateNewObjectEx(configuration.DailyCareObject, propertyValuesBuilder.Values);
+
+                        vaultApplication.AddItemToSequentialQueue(new EventHandlerEnvironment
+                        {
+                            Vault = vaultApplication.PermanentVault,
+                            Input = newObj.ToString()
+                        });
                     }
                 }
             }

@@ -8,7 +8,7 @@ namespace IHFM.VAF
         [VaultExtensionMethod("GenerateProgressNotesPerResident", RequiredVaultAccess = MFVaultAccess.MFVaultAccessNone)]
         public string GenerateProgressNotesPerResident(EventHandlerEnvironment env)
         {
-            new DailyCareBackgroundOperations().GenerateProgressNotesPerResident(env.Vault, Configuration);
+            //new DailyCareBackgroundOperations().GenerateProgressNotesPerResident(env.Vault, Configuration);
             return "Completed";
         }
     }
