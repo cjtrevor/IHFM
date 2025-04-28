@@ -10,10 +10,10 @@ $null = [System.Reflection.Assembly]::LoadWithPartialName("Interop.MFilesAPI")
 
 # Application details
 $appFilePath = "bin\Debug\IHFM.VAF.mfappx"
-$appGuid = "a496496c-90c7-4ca5-a191-266c1e2c79d9"
+$appGuid = "C1B792A3-179D-4A4C-B6ED-B1C802C3B575"
 
 # Target vault
-$vaultName = "IHFM_Medcrowd"
+$vaultName = "Huis_Uitsig"
 
 # Connection details 
 $authType = [MFilesAPI.MFAuthType]::MFAuthTypeSpecificMFilesUser
