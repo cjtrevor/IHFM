@@ -1,62 +1,97 @@
 ﻿using MFiles.VAF.Common;
 using MFilesAPI;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace IHFM.VAF
 {
     public class DailyCareBackgroundOperations
     {
-        public void GenerateProgressNotesPerResident(VaultApplication vaultApplication, Vault vault, Configuration configuration)
+        public void GenerateProgressNotesPerResident(Vault vault, Configuration configuration)
         {
-            ResidentSearchService residentSearchService = new ResidentSearchService(vault, configuration);
-            SiteSearchService siteSearchService = new SiteSearchService(vault, configuration);
+            if (IsValidPath(configuration.ProgressNotesExportPath))
+            {
+                if (!Directory.Exists(configuration.ProgressNotesExportPath))
+                {
+                    Directory.CreateDirectory(configuration.ProgressNotesExportPath);
+                }
+            }
+            else
+            {
+                throw new Exception("Invalid or empty path: " + configuration.ProgressNotesExportPath);
+            }
 
-            List<ObjVerEx> sites = siteSearchService.GetAllSites();
+            List<int> residentsToProcess = new List<int>();
+            ResidentSearchService residentSearchService = new ResidentSearchService(vault, configuration);
+
             List<ObjVerEx> residents = residentSearchService.GetAllActiveResidents();
 
             List<int> includedZoneIds = new List<int> { configuration.Zone_FrailCareItem.ID, configuration.Zone_MemoryCareItem.ID };
 
-            //Do we really need to loop over sites? This might be here because of a specific implementation at some point
-            //Technically, since permission seems to be linked to residents, we could just loop over residents
-            foreach (ObjVerEx site in sites)
+            var exportPath = configuration.ProgressNotesExportPath;
+
+            foreach (ObjVerEx resident in residents.Take(5))
             {
-                int baseSiteID = site.GetLookupID(configuration.BaseSiteID);
-                List<ObjVerEx> siteResidents = residents.Where(x => x.GetLookupID(configuration.BaseSiteID) == baseSiteID).ToList();
+                var currentRoomLookup = resident.GetProperty(configuration.CurrentRoom).TypedValue.GetValueAsLookup();
+                if (currentRoomLookup == null)
+                    continue;
 
-                foreach (ObjVerEx resident in siteResidents)
+                var roomObject = new ObjVerEx(vault, currentRoomLookup);
+                if (roomObject == null || roomObject.IsDeleted)
+                    continue;
+
+                var currentRoomZoneId = roomObject.GetLookupID(configuration.Room_Zone);
+
+                if (includedZoneIds.Contains(currentRoomZoneId))
+                    residentsToProcess.Add(resident.ObjID.ID);
+            }
+
+            CreateXMLFile(residentsToProcess, configuration);
+        }
+
+        private void CreateXMLFile(List<int> residents, Configuration configuration)
+        {
+            var importElement = new XElement("Import");
+
+            foreach (var item in residents)
+            {
+                var itemElement = new XElement("Item");
+
+                itemElement.Add(new XElement("Class", configuration.DailyCare_ProgressNoteClass.ID));
+                itemElement.Add(new XElement("Resident", item));
+                itemElement.Add(new XElement("NoteType", configuration.DailyCare_InterimNoteType.ID));
+                itemElement.Add(new XElement("CommentsNotes", "Temp Placeholder"));
+                itemElement.Add(new XElement("CreatedByCustom", 10113));
+
+                importElement.Add(itemElement);
+            }
+
+            var doc = new XDocument(new XDeclaration("1.0", "utf-8", null), importElement);
+
+            string filePath = Path.Combine(configuration.ProgressNotesExportPath, $"ProgressNotesExportPerResident_{DateTime.Now.ToString("yyyyMMdd_HH-mm-ss")}.xml");
+            doc.Save(filePath);
+        }
+
+        private bool IsValidPath(string path)
+        {
+            try
+            {
+                var fullPath = Path.GetFullPath(path);
+
+                char[] invalidChars = Path.GetInvalidPathChars();
+                if (path.IndexOfAny(invalidChars) >= 0)
                 {
-                    var currentRoomLookup = resident.GetProperty(configuration.CurrentRoom).TypedValue.GetValueAsLookup();
-                    if (currentRoomLookup == null)
-                        continue;
-
-                    var roomObject = new ObjVerEx(vault, currentRoomLookup);
-                    if (roomObject == null || roomObject.IsDeleted)
-                        continue;
-
-                    var currentRoomZoneId = roomObject.GetLookupID(configuration.Room_Zone);
-
-                    if (includedZoneIds.Contains(currentRoomZoneId))
-                    {
-                        MFPropertyValuesBuilder propertyValuesBuilder = new MFPropertyValuesBuilder(vault);
-                        propertyValuesBuilder.SetClass(configuration.DailyCare_ProgressNoteClass);
-
-                        propertyValuesBuilder.Add(configuration.DailyCare_Resident, MFDataType.MFDatatypeLookup, resident.ObjID.ID);
-                        propertyValuesBuilder.Add(configuration.DailyCare_NoteType, MFDataType.MFDatatypeLookup, configuration.DailyCare_InterimNoteType.ID);
-                        propertyValuesBuilder.Add(configuration.DailyCare_CommentsNotes, MFDataType.MFDatatypeMultiLineText, "To be completed.");
-                        propertyValuesBuilder.Add(configuration.DailyCare_CreatedBy, MFDataType.MFDatatypeLookup, 1);
-                        propertyValuesBuilder.Add(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreatedBy, MFDataType.MFDatatypeLookup, 73);
-                        propertyValuesBuilder.Add(configuration.GCSRequired, MFDataType.MFDatatypeBoolean, false);
-
-                        var newObj = vault.ObjectOperations.CreateNewObjectEx(configuration.DailyCareObject, propertyValuesBuilder.Values);
-
-                        vaultApplication.AddItemToSequentialQueue(new EventHandlerEnvironment
-                        {
-                            Vault = vaultApplication.PermanentVault,
-                            Input = newObj.ToString()
-                        });
-                    }
+                    return false;
                 }
+
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

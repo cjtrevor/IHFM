@@ -239,5 +239,8 @@ namespace IHFM.VAF
             //  }
             //}
         };
+
+        [DataMember]
+        public string ProgressNotesExportPath { get; set; }
     }
 }
