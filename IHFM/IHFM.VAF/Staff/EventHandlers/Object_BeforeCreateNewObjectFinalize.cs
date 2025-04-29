@@ -11,18 +11,16 @@ namespace IHFM.VAF
         {
             var pinVal = env.ObjVerEx.Properties.GetProperty(Configuration.StaffLookup_StaffPinCode);
 
-            //var hasCreatedByPropertyOnClass = env.ObjVerEx.HasProperty(Configuration.CreatedBy);
-
             if (pinVal == null)
                 return;
 
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
             mFSearchBuilder.Class(Configuration.Staff);
-            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeText, pinVal.GetValueAsLocalizedText());
+            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(pinVal.GetValueAsLocalizedText()));
             var staffUserObject = mFSearchBuilder.FindOneEx();
 
             if (staffUserObject == null)
-                throw new Exception($"incorrect pin");
+                throw new Exception($"Incorrect pin");
 
             env.ObjVerEx.SetProperty(Configuration.CreatedBy, MFDataType.MFDatatypeLookup, staffUserObject.ID);
         }

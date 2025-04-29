@@ -13,7 +13,7 @@ namespace IHFM.VAF
 
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
             mFSearchBuilder.Class(Configuration.Staff);
-            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeText, oldPinCode.GetValueAsLocalizedText());
+            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(oldPinCode.GetValueAsLocalizedText()));
             var staffUserRecord = mFSearchBuilder.FindOneEx();
 
             if (staffUserRecord == null)
@@ -28,7 +28,7 @@ namespace IHFM.VAF
                 throw new Exception($"New pin code and re-entered pin code do not match.");
 
 
-            staffUserRecord.SaveProperty(Configuration.Staff_PinCode, MFDataType.MFDatatypeText, newPinCode.GetValueAsLocalizedText());
+            staffUserRecord.SaveProperty(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(newPinCode.GetValueAsLocalizedText()));
         }
     }
 }
