@@ -33,7 +33,7 @@ namespace IHFM.VAF
 
             var exportPath = configuration.ProgressNotesExportPath;
 
-            foreach (ObjVerEx resident in residents.Take(5))
+            foreach (ObjVerEx resident in residents)
             {
                 var currentRoomLookup = resident.GetProperty(configuration.CurrentRoom).TypedValue.GetValueAsLookup();
                 if (currentRoomLookup == null)
