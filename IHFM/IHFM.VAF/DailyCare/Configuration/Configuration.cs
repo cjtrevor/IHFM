@@ -230,5 +230,8 @@ namespace IHFM.VAF
             Enabled = true,
             Triggers = new List<Trigger>()
         };
+
+        [DataMember]
+        public string ProgressNotesExportPath { get; set; }
     }
 }

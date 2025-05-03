@@ -40,14 +40,14 @@ namespace IHFM.VAF
                         $"IHFM: RefreshSiteAverageAge completed. Next run: {DateTime.Now.AddHours(Configuration.SiteAverageAgeRunCheckInterval)}");
                 });
 
-                //TaskQueueBackgroundOperationManager.StartScheduledBackgroundOperation("Daily Resident Progress Note Generation",
-                //Configuration.GenerateProgressNotesPerResidentSchedule, (job) =>
-                //{
-                //    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("GenerateProgressNotesPerResident", "");
+                TaskQueueBackgroundOperationManager.StartScheduledBackgroundOperation("Daily Resident Progress Note Generation",
+                Configuration.GenerateProgressNotesPerResidentSchedule, (job) =>
+                {
+                    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("GenerateProgressNotesPerResident", "");
 
-                //    SysUtils.ReportInfoToEventLog(
-                //        $"IHFM: GenerateProgressNotesPerResident completed");
-                //});
+                    SysUtils.ReportInfoToEventLog(
+                        $"IHFM: GenerateProgressNotesPerResident completed");
+                });
             }
             catch (Exception e)
             {
