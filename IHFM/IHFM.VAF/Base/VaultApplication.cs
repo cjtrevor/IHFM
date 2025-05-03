@@ -1,5 +1,11 @@
+using IHFM.VAF.Utilities;
+using MFiles.VAF;
 using MFiles.VAF.Common;
+using MFiles.VAF.Configuration;
+using MFiles.VAF.Core;
+using MFilesAPI;
 using System;
+using System.Diagnostics;
 
 namespace IHFM.VAF
 {
@@ -10,7 +16,6 @@ namespace IHFM.VAF
     public partial class VaultApplication
         : MFiles.VAF.Extensions.ConfigurableVaultApplicationBase<Configuration>
     {
-
         protected override void StartApplication()
         {
             try
@@ -35,14 +40,14 @@ namespace IHFM.VAF
                         $"IHFM: RefreshSiteAverageAge completed. Next run: {DateTime.Now.AddHours(Configuration.SiteAverageAgeRunCheckInterval)}");
                 });
 
-                TaskQueueBackgroundOperationManager.StartScheduledBackgroundOperation("Daily Resident Progress Note Generation",
-                Configuration.GenerateProgressNotesPerResidentSchedule, (job) =>
-                {
-                    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("GenerateProgressNotesPerResident", "");
+                //TaskQueueBackgroundOperationManager.StartScheduledBackgroundOperation("Daily Resident Progress Note Generation",
+                //Configuration.GenerateProgressNotesPerResidentSchedule, (job) =>
+                //{
+                //    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("GenerateProgressNotesPerResident", "");
 
-                    SysUtils.ReportInfoToEventLog(
-                        $"IHFM: GenerateProgressNotesPerResident completed");
-                });
+                //    SysUtils.ReportInfoToEventLog(
+                //        $"IHFM: GenerateProgressNotesPerResident completed");
+                //});
             }
             catch (Exception e)
             {

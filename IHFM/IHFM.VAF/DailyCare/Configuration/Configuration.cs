@@ -229,18 +229,6 @@ namespace IHFM.VAF
         {
             Enabled = true,
             Triggers = new List<Trigger>()
-            //{
-            //  new DailyTrigger()
-            //  {
-            //      TriggerTimes = new List<TimeSpan>()
-            //      {
-            //          new TimeSpan(5, 0, 0)
-			//      }
-            //  }
-            //}
         };
-
-        [DataMember]
-        public string ProgressNotesExportPath { get; set; }
     }
 }
