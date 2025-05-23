@@ -45,9 +45,11 @@ namespace IHFM.VAF
                     env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
                 }
 
+                var carePlanOptionalCheck = env.ObjVerEx.GetProperty(Configuration.MedsGiven_Adhoc).GetValue<bool>();
+
                 //TBC Items
                 Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
-                List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCItems(residentLookup);
+                List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCItems(residentLookup, carePlanOptionalCheck);
 
                 TBCADL.ForEach(x => {
                     env.ObjVerEx.AddLookup(Configuration.TBCADLLookup, x);
@@ -89,8 +91,10 @@ namespace IHFM.VAF
                 env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
             }
 
+            var carePlanOptionalCheck = env.ObjVerEx.GetProperty(Configuration.MedsGiven_Adhoc).GetValue<bool>();
+
             //TBC Clinic Items
-            List<ObjVer> TBCClinic = residentPropertyService.GetResidentTBCClinicItems(residentLookup);
+            List<ObjVer> TBCClinic = residentPropertyService.GetResidentTBCClinicItems(residentLookup, carePlanOptionalCheck);
 
             TBCClinic.ForEach(x => {
                 env.ObjVerEx.AddLookup(Configuration.TBCClinicLookup, x);

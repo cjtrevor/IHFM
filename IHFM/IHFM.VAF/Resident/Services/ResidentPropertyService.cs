@@ -23,8 +23,8 @@ namespace IHFM.VAF
         public bool GetResidentOnCarePackage(Lookup residentLookup)
         {
             ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
-            
-            if(!resident.HasValue(_configuration.OnCarePlan))
+
+            if (!resident.HasValue(_configuration.OnCarePlan))
             {
                 return false;
             }
@@ -41,7 +41,7 @@ namespace IHFM.VAF
             ObjVerEx careplan = searchService.GetResidentCarePlanExisting(residentLookup.Item);
 
             //If the site is set to use careplan for scheduled care and one exists then pull care from there
-            if(useCareplan && careplan != null)
+            if (useCareplan && careplan != null)
             {
                 STBCParent = careplan;
             }
@@ -79,7 +79,7 @@ namespace IHFM.VAF
             return objVers;
         }
 
-        public List<ObjVer> GetResidentTBCItems(Lookup residentLookup)
+        public List<ObjVer> GetResidentTBCItems(Lookup residentLookup, bool carePlanOptional)
         {
             List<ObjVer> objVers = new List<ObjVer>();
             //ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
@@ -88,7 +88,12 @@ namespace IHFM.VAF
             var residentCarePlan = carePlanSearchService.GetResidentCarePlanExisting(residentLookup.Item);
 
             if (residentCarePlan == null)
+            {
+                if (carePlanOptional)
+                    return objVers;
+
                 throw new Exception($"No Care Plan exists for the Resident");
+            }           
 
             //Get Daily Items
             objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.DailyADLLookup));
@@ -98,7 +103,7 @@ namespace IHFM.VAF
 
             //Get Specific Day Items
             objVers.AddRange(GetTBCItems(residentCarePlan, GetADLAliasForDayOfWeek()));
-            
+
             return objVers;
         }
 
@@ -160,16 +165,16 @@ namespace IHFM.VAF
 
                 Lookups times = scheduleItem.GetLookups(_configuration.TBCS_TbcScheduledTimes);
 
-                if(times.Count == 0)
+                if (times.Count == 0)
                 {
                     Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
                     objVers.Add(tbcItem.GetAsObjVer());
                 }
                 else
-                { 
-                    foreach(Lookup time in times)
+                {
+                    foreach (Lookup time in times)
                     {
-                        if(ScheduledItemIsInCurrentTimeSlot(time.DisplayValue))
+                        if (ScheduledItemIsInCurrentTimeSlot(time.DisplayValue))
                         {
                             Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
                             objVers.Add(tbcItem.GetAsObjVer());
@@ -190,10 +195,10 @@ namespace IHFM.VAF
             DateTime startSlot = timeslot.AddHours(-1);
             DateTime endSlot = timeslot.AddHours(1);
 
-            return DateTime.Compare(DateTime.Now, startSlot) > 0 && DateTime.Compare(DateTime.Now,endSlot) < 0;
+            return DateTime.Compare(DateTime.Now, startSlot) > 0 && DateTime.Compare(DateTime.Now, endSlot) < 0;
         }
 
-        public List<ObjVer> GetResidentTBCClinicItems(Lookup residentLookup)
+        public List<ObjVer> GetResidentTBCClinicItems(Lookup residentLookup, bool carePlanOptional)
         {
             List<ObjVer> objVers = new List<ObjVer>();
             //ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
@@ -202,7 +207,12 @@ namespace IHFM.VAF
             var residentCarePlan = carePlanSearchService.GetResidentCarePlanExisting(residentLookup.Item);
 
             if (residentCarePlan == null)
+            {
+                if (carePlanOptional)
+                    return objVers;
+
                 throw new Exception($"No Care Plan exists for the Resident");
+            }
 
             //Get Daily Items
             objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.DailyClinicLookup));
