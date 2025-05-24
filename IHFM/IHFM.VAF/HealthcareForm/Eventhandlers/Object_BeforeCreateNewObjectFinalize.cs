@@ -87,7 +87,7 @@ namespace IHFM.VAF
             {
                 Site = lookupSite.DisplayValue,
                 Resident = GetPropertyValueAsText(env.ObjVerEx, Configuration.ResidentLookup),
-                Date = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_Date),
+                Date = GetPropertyValueAsText(env.ObjVerEx, MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated),
                 ObjectId = objectId,
 
                 CompletedBy = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_CreatedBy).GetValueAsLocalizedText(),
