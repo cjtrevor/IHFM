@@ -6,60 +6,12 @@ using System.IO;
 using IHFM.EmailService;
 using System.Collections.Generic;
 using System.Security.Policy;
+using MFiles.VAF.Configuration;
 
 namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
-
-        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Priority = -1, ObjectType = "OT.IncidentReport")]
-        public void BeforeNewHealthcareFormCheckinChangesFinalize(EventHandlerEnvironment env)
-        {
-            return;
-            //List<int> pdfClasses = new List<int>
-            //{
-            //    Configuration.ConsentToMedia_Class.ID,
-            //    Configuration.RestraintRecord_Class.ID,
-            //    Configuration.ExclusionOfLI_Class.ID
-            //};
-
-            //if (!pdfClasses.Contains(env.ObjVerEx.Class))
-            //{
-            //    return;
-            //}
-
-            //byte[] rep;
-
-            //switch (env.ObjVerEx.Class)
-            //{
-            //    case var id when id == Configuration.ConsentToMedia_Class.ID:
-            //        rep = GetReport_ConsentToMedia(env.ObjVerEx);
-            //        break;
-            //    case var id when id == Configuration.RestraintRecord_Class.ID:
-            //        //rep = GetReport_RestraintRecord(env.ObjVerEx);
-            //        break;
-            //    case var id when id == Configuration.ExclusionOfLI_Class.ID:
-            //        //rep = GetReport_ExclusionOfLI(env.ObjVerEx);
-            //        break;
-            //    default:
-            //        return;
-            //}
-           
-            //Lookup resLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
-            //ObjVerEx resident = new ObjVerEx(env.Vault, resLookup);
-
-            //string objectId = env.ObjVer.ID.ToString();
-            //File.WriteAllBytes($"C:\\SSRS Temp Output\\01PranMan_{objectId}.pdf", rep);
-
-            //env.Vault.ObjectFileOperations.GetFilesForModificationInEventHandler(env.ObjVer);
-            //env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"MR{objectId}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}.pdf");
-
-            //File.Delete($"C:\\SSRS Temp Output\\{objectId}.pdf");
-
-
-            //throw new Exception("try again bruh");
-        }
-
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Priority = -1, Class = "MFiles.Class.ConsentToVideopictureRelease")]
         public void BeforeNewConsentToMediaCheckinChangesFinalize(EventHandlerEnvironment env)
         {
@@ -67,14 +19,14 @@ namespace IHFM.VAF
 
             var parameterJsonData = new
             {
-                Site = env.ObjVerEx.GetProperty(Configuration.BaseSite).GetValueAsLocalizedText(),
-                Resident = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).GetValueAsLocalizedText(),
-                Date = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_Date).GetValueAsLocalizedText(),
+                Site = GetPropertyValueAsText(env.ObjVerEx, Configuration.BaseSite),
+                Resident = GetPropertyValueAsText(env.ObjVerEx, Configuration.ResidentLookup),
+                Date = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_Date),
                 ObjectId = objectId,
 
-                Relationship = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_Relationship).GetValueAsLocalizedText(),
-                CompletedBy = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_CreatedBy).GetValueAsLocalizedText(),
-                FamilyPermissionDate = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_FamilyPermissionDate).GetValueAsLocalizedText()
+                Relationship = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_Relationship),
+                CompletedBy = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_CreatedBy),
+                FamilyPermissionDate = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_FamilyPermissionDate)
             };
 
             var serializedJson = Newtonsoft.Json.JsonConvert.SerializeObject(parameterJsonData);
@@ -95,18 +47,18 @@ namespace IHFM.VAF
 
             var parameterJsonData = new
             {
-                Site = env.ObjVerEx.GetProperty(Configuration.BaseSite).GetValueAsLocalizedText(),
-                Resident = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).GetValueAsLocalizedText(),
-                Date = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_Date).GetValueAsLocalizedText(),
+                Site = GetPropertyValueAsText(env.ObjVerEx, Configuration.BaseSite),
+                Resident = GetPropertyValueAsText(env.ObjVerEx, Configuration.ResidentLookup),
+                Date = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_Date),
                 ObjectId = objectId,
 
-                NextOfKin = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_NextOfKin).GetValueAsLocalizedText(),
-                NextOfKinIdNumber = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_NextOfKinIdNumber).GetValueAsLocalizedText(),
-                NextOfKinCellNumber = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_NextOfKinCellNumber).GetValueAsLocalizedText(),
-                Relationship = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_Relationship).GetValueAsLocalizedText(),
-                CareManagerAcknowledgement = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_CareManagerAcknowledgement).GetValueAsLocalizedText(),
-                ProposedSolutionsAcknowledgement = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_ProposedSolutionsAcknowledgement).GetValueAsLocalizedText(),
-                FamilyPermissionDate = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_FamilyPermissionDate).GetValueAsLocalizedText()
+                NextOfKin = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_NextOfKin),
+                NextOfKinIdNumber = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_NextOfKinIdNumber),
+                NextOfKinCellNumber = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_NextOfKinCellNumber),
+                Relationship = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_Relationship),
+                CareManagerAcknowledgement = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_CareManagerAcknowledgement),
+                ProposedSolutionsAcknowledgement = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_ProposedSolutionsAcknowledgement),
+                FamilyPermissionDate = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_FamilyPermissionDate)
             };
 
             var serializedJson = Newtonsoft.Json.JsonConvert.SerializeObject(parameterJsonData);
@@ -127,24 +79,24 @@ namespace IHFM.VAF
 
             var parameterJsonData = new
             {
-                Site = env.ObjVerEx.GetProperty(Configuration.BaseSite).GetValueAsLocalizedText(),
-                Resident = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).GetValueAsLocalizedText(),
-                Date = env.ObjVerEx.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated).GetValueAsLocalizedText(),
+                Site = GetPropertyValueAsText(env.ObjVerEx, Configuration.BaseSite),
+                Resident = GetPropertyValueAsText(env.ObjVerEx, Configuration.ResidentLookup),
+                Date = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_Date),
                 ObjectId = objectId,
 
-                RestraintType = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_RestraintType).GetValueAsLocalizedText(),
-                ReasonForRestraint = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_ReasonForResident).GetValueAsLocalizedText(),
-                FamilyMemberPermission = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_FamilyPermissionDate).GetValueAsLocalizedText(),
-                Relationship = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_Relationship).GetValueAsLocalizedText(),
-                FamilyPermissionDate = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_FamilyPermissionDate).GetValueAsLocalizedText(),
-                DoctorPermissionDate = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_DoctorPermissionDate).GetValueAsLocalizedText(),
-                RestraintsPermitted = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_RestraintsPermitted).GetValueAsLocalizedText(),
-                RestrictionPeriodsAllowed = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_RestrictionPeriodsAllowed).GetValueAsLocalizedText(),
-                RiskFactors = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_RiskFactors).GetValueAsLocalizedText(),
-                Notes = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_CommentsNotes).GetValueAsLocalizedText(),
-                NextOfKin = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_NextOfKin).GetValueAsLocalizedText(),
-                NextOfKinIdNumber = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_NextOfKinIdNumber).GetValueAsLocalizedText(),
-                NextOfKinCellNumber = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_NextOfKinCellNumber).GetValueAsLocalizedText()
+                RestraintType = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_RestraintType),
+                ReasonForRestraint = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_ReasonForResident),
+                FamilyMemberPermission = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_PermissionFromFamilyMember),
+                Relationship = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_Relationship),
+                FamilyPermissionDate = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_FamilyPermissionDate),
+                DoctorPermissionDate = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_DoctorPermissionDate),
+                RestraintsPermitted = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_RestraintsPermitted),
+                RestrictionPeriodsAllowed = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_RestrictionPeriodsAllowed),
+                RiskFactors = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_RiskFactors),
+                Notes = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_CommentsNotes),
+                NextOfKin = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_NextOfKin),
+                NextOfKinIdNumber = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_NextOfKinIdNumber),
+                NextOfKinCellNumber = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_NextOfKinCellNumber)
             };
 
             var serializedJson = Newtonsoft.Json.JsonConvert.SerializeObject(parameterJsonData);
@@ -158,5 +110,25 @@ namespace IHFM.VAF
             File.Delete($"C:\\SSRS Temp Output\\{objectId}.pdf");
         }
 
+        private string GetPropertyValueAsText(ObjVerEx objVerEx, MFIdentifier propertyDef)
+        {
+            string returnVal = string.Empty;
+
+            if (objVerEx.TryGetProperty(propertyDef, out PropertyValue prop))
+            {
+                if (prop.Value.DataType == MFDataType.MFDatatypeMultiSelectLookup)
+                {
+                    foreach (Lookup item in prop.TypedValue.GetValueAsLookups())
+                    {
+                        returnVal += $"{item.DisplayValue}{System.Environment.NewLine}";
+                    }
+                }
+                else
+                {
+                    returnVal = prop.GetValueAsLocalizedText();
+                }
+            }
+            return returnVal;
+        }
     }
 }
