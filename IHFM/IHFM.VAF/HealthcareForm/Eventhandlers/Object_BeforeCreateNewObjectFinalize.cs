@@ -78,9 +78,14 @@ namespace IHFM.VAF
         {
             string objectId = env.ObjVer.ID.ToString();
 
+            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+            ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
+
+            Lookup lookupSite = resident.GetProperty(Configuration.BaseSite).TypedValue.GetValueAsLookup();
+
             var parameterJsonData = new
             {
-                Site = GetPropertyValueAsText(env.ObjVerEx, Configuration.BaseSite),
+                Site = lookupSite.DisplayValue,
                 Resident = GetPropertyValueAsText(env.ObjVerEx, Configuration.ResidentLookup),
                 Date = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_Date),
                 ObjectId = objectId,
