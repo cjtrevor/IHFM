@@ -14,6 +14,8 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier HealthcareForm_Relationship = "MFiles.Property.Relationship";
         [MFPropertyDef]
+        public MFIdentifier HealthcareForm_OnBehalfOfResident = "MFiles.Property.OnBehalfOfResidentNamesurname";
+        [MFPropertyDef]
         public MFIdentifier HealthcareForm_CreatedBy = "MFiles.Property.CreatedBy";
         [MFPropertyDef]
         public MFIdentifier HealthcareForm_Date = "MFiles.Property.Date";
@@ -24,7 +26,7 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier HealthcareForm_ProposedSolutionsAcknowledgement = "MFiles.Property.TheFollowingSolutionsWaswereProposedAndIsareUnacceptableToMe";
         [MFPropertyDef]
-        public MFIdentifier HealthcareForm_NextOfKin = "MFiles.Property.NextOfKin"; //Non existant alias on server
+        public MFIdentifier HealthcareForm_NextOfKin = "MFiles.Property.NextOfKin";
         [MFPropertyDef]
         public MFIdentifier HealthcareForm_NextOfKinIdNumber = "MFiles.Property.NokIdNumber";
         [MFPropertyDef]

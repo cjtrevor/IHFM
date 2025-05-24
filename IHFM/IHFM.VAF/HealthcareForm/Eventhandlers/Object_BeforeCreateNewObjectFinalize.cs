@@ -25,6 +25,7 @@ namespace IHFM.VAF
                 ObjectId = objectId,
 
                 Relationship = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_Relationship),
+                OnBehalfOfResident = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_OnBehalfOfResident).GetValueAsLocalizedText(),
                 CompletedBy = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_CreatedBy),
                 FamilyPermissionDate = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_FamilyPermissionDate)
             };
@@ -32,11 +33,11 @@ namespace IHFM.VAF
             var serializedJson = Newtonsoft.Json.JsonConvert.SerializeObject(parameterJsonData);
 
             HealthcareFormReports reports = new HealthcareFormReports();
-            byte[] rep = reports.GetReport("Consent_to_media", serializedJson);
+            byte[] rep = reports.GetReport("Consent_to_media_Sites", serializedJson);
 
             File.WriteAllBytes($"C:\\SSRS Temp Output\\{objectId}.pdf", rep);
             env.Vault.ObjectFileOperations.GetFilesForModificationInEventHandler(env.ObjVer);
-            env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"MR{objectId}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}.pdf");
+            env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"CTV{objectId}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}.pdf");
             File.Delete($"C:\\SSRS Temp Output\\{objectId}.pdf");
         }
 
@@ -64,11 +65,11 @@ namespace IHFM.VAF
             var serializedJson = Newtonsoft.Json.JsonConvert.SerializeObject(parameterJsonData);
 
             HealthcareFormReports reports = new HealthcareFormReports();
-            byte[] rep = reports.GetReport("Exclusion_of_liability", serializedJson);
+            byte[] rep = reports.GetReport("Exclusion_of_liability_Sites", serializedJson);
 
             File.WriteAllBytes($"C:\\SSRS Temp Output\\{objectId}.pdf", rep);
             env.Vault.ObjectFileOperations.GetFilesForModificationInEventHandler(env.ObjVer);
-            env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"MR{objectId}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}.pdf");
+            env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"ELI{objectId}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}.pdf");
             File.Delete($"C:\\SSRS Temp Output\\{objectId}.pdf");
         }
 
@@ -84,6 +85,7 @@ namespace IHFM.VAF
                 Date = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_Date),
                 ObjectId = objectId,
 
+                CompletedBy = env.ObjVerEx.GetProperty(Configuration.HealthcareForm_CreatedBy).GetValueAsLocalizedText(),
                 RestraintType = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_RestraintType),
                 ReasonForRestraint = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_ReasonForResident),
                 FamilyMemberPermission = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_PermissionFromFamilyMember),
@@ -102,11 +104,11 @@ namespace IHFM.VAF
             var serializedJson = Newtonsoft.Json.JsonConvert.SerializeObject(parameterJsonData);
 
             HealthcareFormReports reports = new HealthcareFormReports();
-            byte[] rep = reports.GetReport("Exclusion_of_liability", serializedJson);
+            byte[] rep = reports.GetReport("Restraint_Sites", serializedJson);
 
             File.WriteAllBytes($"C:\\SSRS Temp Output\\{objectId}.pdf", rep);
             env.Vault.ObjectFileOperations.GetFilesForModificationInEventHandler(env.ObjVer);
-            env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"MR{objectId}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}.pdf");
+            env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"RR{objectId}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}.pdf");
             File.Delete($"C:\\SSRS Temp Output\\{objectId}.pdf");
         }
 

@@ -14,7 +14,7 @@ namespace SSRS_Reporting.Services
             ParameterValue[] repParams = new ParameterValue[] {
                 new ParameterValue { Name = "JsonData", Value = jsonData}
             };
-            return reportManager.Render("Reports/Trans50", reportName, "PDF", repParams);
+            return reportManager.Render("Reports/Trans50/Sites", reportName, "PDF", repParams);
         }
     }
 }
