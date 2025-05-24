@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="ReportManager.cs" />
     <Compile Include="Services\BaseReportService.cs" />
+    <Compile Include="Services\HealthcareFormReports.cs" />
     <Compile Include="Services\MaintenanceRequestReports.cs" />
     <Compile Include="Web References\SSRS_Reports\Reference.cs">
       <AutoGen>True</AutoGen>
