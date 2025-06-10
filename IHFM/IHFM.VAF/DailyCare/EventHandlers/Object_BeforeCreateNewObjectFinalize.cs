@@ -492,6 +492,7 @@ namespace IHFM.VAF
 
         public void ExportProgressNote(Vault vault, ObjVerEx note)
         {
+            return;
             IncidentExportService exportService = new IncidentExportService(vault, Configuration);
 
             if (note.GetLookupID(Configuration.DailyCare_NoteType) == Configuration.DailyCare_IncidentNoteType.ID)

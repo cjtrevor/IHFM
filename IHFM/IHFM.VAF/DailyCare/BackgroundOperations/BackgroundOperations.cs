@@ -54,6 +54,9 @@ namespace IHFM.VAF
 
         private void CreateXMLFile(List<int> residents, Configuration configuration)
         {
+            if (residents != null && !residents.Any())
+                return;
+
             var importElement = new XElement("Import");
 
             foreach (var item in residents)
@@ -63,11 +66,14 @@ namespace IHFM.VAF
                 itemElement.Add(new XElement("Class", configuration.DailyCare_ProgressNoteClass.ID));
                 itemElement.Add(new XElement("Resident", item));
                 itemElement.Add(new XElement("NoteType", configuration.DailyCare_InterimNoteType.ID));
-                itemElement.Add(new XElement("CommentsNotes", "Temp Placeholder"));
-                itemElement.Add(new XElement("CreatedByCustom", 10113));
+                itemElement.Add(new XElement("CommentsNotes", "Add comments here"));
+                itemElement.Add(new XElement("CreatedByCustom", 1));
 
                 importElement.Add(itemElement);
             }
+
+            if (!importElement.Elements("Item").Any())
+                return;
 
             var doc = new XDocument(new XDeclaration("1.0", "utf-8", null), importElement);
 
