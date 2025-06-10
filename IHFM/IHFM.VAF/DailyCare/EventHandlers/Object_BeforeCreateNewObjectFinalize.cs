@@ -446,7 +446,7 @@ namespace IHFM.VAF
             //ProgressNoteSummaryUpdateService service = new ProgressNoteSummaryUpdateService(env.Vault, Configuration);
             //service.LogProgressNoteCreation(env.ObjVerEx);
 
-            ExportProgressNote(env.Vault, env.ObjVerEx);
+            //ExportProgressNote(env.Vault, env.ObjVerEx);
         }
 
         private void UpdateResidentStatusFromProgressNote(Vault vault, ObjVerEx note)

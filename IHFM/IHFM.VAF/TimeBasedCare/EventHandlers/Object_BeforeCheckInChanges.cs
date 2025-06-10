@@ -23,7 +23,7 @@ namespace IHFM.VAF
                 }
 
                 TimeBasedCarePropertyService timeBasedCarePropertyService = new TimeBasedCarePropertyService(env.Vault, Configuration);
-                TBCExportService exportService = new TBCExportService(env.Vault, Configuration);
+                //TBCExportService exportService = new TBCExportService(env.Vault, Configuration);
                 SiteSearchService siteSearchService = new SiteSearchService(env.Vault, Configuration);
 
                 //Calculate time spent
@@ -75,7 +75,7 @@ namespace IHFM.VAF
                 env.ObjVerEx.SetProperty(Configuration.CostForService, MFDataType.MFDatatypeText, costForService.ToString("N2"));
                 env.ObjVerEx.SaveProperties();
 
-                exportService.ExportRecord(env.ObjVerEx, TBCExportService.TbcType.TBC);
+                //exportService.ExportRecord(env.ObjVerEx, TBCExportService.TbcType.TBC);
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace IHFM.VAF
             }
 
             TimeBasedCarePropertyService timeBasedCarePropertyService = new TimeBasedCarePropertyService(env.Vault, Configuration);
-            TBCExportService exportService = new TBCExportService(env.Vault, Configuration);
+            //TBCExportService exportService = new TBCExportService(env.Vault, Configuration);
             SiteSearchService siteSearchService = new SiteSearchService(env.Vault, Configuration);
 
             //Calculate time spent
@@ -144,7 +144,7 @@ namespace IHFM.VAF
             env.ObjVerEx.SetProperty(Configuration.CostForService, MFDataType.MFDatatypeText, costForService.ToString("N2"));
             env.ObjVerEx.SaveProperties();
 
-            exportService.ExportRecord(env.ObjVerEx, TBCExportService.TbcType.Clinic);
+            //exportService.ExportRecord(env.ObjVerEx, TBCExportService.TbcType.Clinic);
         }
     }
 }
