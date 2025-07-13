@@ -100,6 +100,55 @@ namespace IHFM.VAF
         public MFIdentifier TBCS_2300_0000Care = "MFiles.Property.23000000Care";
 
         [MFPropertyDef]
+        public MFIdentifier TBCS_0000_0100Care_new = "MFiles.Property.00000100Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_0100_0200Care_new = "MFiles.Property.01000200Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_0200_0300Care_new = "MFiles.Property.02000300Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_0300_0400Care_new = "MFiles.Property.03000400Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_0400_0500Care_new = "MFiles.Property.04000500Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_0500_0600Care_new = "MFiles.Property.05000600Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_0600_0700Care_new = "MFiles.Property.06000700Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_0700_0800Care_new = "MFiles.Property.07000800Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_0800_0900Care_new = "MFiles.Property.08000900Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_0900_1000Care_new = "MFiles.Property.09001000Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1000_1100Care_new = "MFiles.Property.10001100Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1100_1200Care_new = "MFiles.Property.11001200Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1200_1300Care_new = "MFiles.Property.12001300Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1300_1400Care_new = "MFiles.Property.13001400Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1400_1500Care_new = "MFiles.Property.14001500Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1500_1600Care_new = "MFiles.Property.15001600Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1600_1700Care_new = "MFiles.Property.16001700Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1700_1800Care_new = "MFiles.Property.17001800Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1800_1900Care_new = "MFiles.Property.18001900Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_1900_2000Care_new = "MFiles.Property.19002000Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_2000_2100Care_new = "MFiles.Property.20002100Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_2100_2200Care_new = "MFiles.Property.21002200Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_2200_2300Care_new = "MFiles.Property.22002300Care_new";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_2300_0000Care_new = "MFiles.Property.23000000Care_new";
+
+        [MFPropertyDef]
         public MFIdentifier TBCS_Frequency = "MFiles.Property.Frequency";
 
         //[MFPropertyDef]
