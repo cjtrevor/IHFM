@@ -44,6 +44,79 @@ namespace IHFM.VAF
             SetCarePlanNotes(env);          
         }
 
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.DailyCareCopy")]
+        public void BeforeCheckInChangesFinalizeDailyCareV2(EventHandlerEnvironment env)
+        {
+            ObjVerChanges changes = new ObjVerChanges(env.ObjVerEx);
+            var batch = new List<StoredProc>();
+
+            ShiftCalculationService shiftCalculationService = new ShiftCalculationService(Configuration, env.Vault);
+
+            Dictionary<int, string> timeSlotProps = new Dictionary<int, string>
+            {
+                { Configuration.TBCS_0000_0100Care.ID, "0000_0100" },
+                { Configuration.TBCS_0100_0200Care.ID, "0100_0200" },
+                { Configuration.TBCS_0200_0300Care.ID, "0200_0300" },
+                { Configuration.TBCS_0300_0400Care.ID, "0300_0400" },
+                { Configuration.TBCS_0400_0500Care.ID, "0400_0500" },
+                { Configuration.TBCS_0500_0600Care.ID, "0500_0600" },
+                { Configuration.TBCS_0600_0700Care.ID, "0600_0700" },
+                { Configuration.TBCS_0700_0800Care.ID, "0700_0800" },
+                { Configuration.TBCS_0800_0900Care.ID, "0800_0900" },
+                { Configuration.TBCS_0900_1000Care.ID, "0900_1000" },
+                { Configuration.TBCS_1000_1100Care.ID, "1000_1100" },
+                { Configuration.TBCS_1100_1200Care.ID, "1100_1200" },
+                { Configuration.TBCS_1200_1300Care.ID, "1200_1300" },
+                { Configuration.TBCS_1300_1400Care.ID, "1300_1400" },
+                { Configuration.TBCS_1400_1500Care.ID, "1400_1500" },
+                { Configuration.TBCS_1500_1600Care.ID, "1500_1600" },
+                { Configuration.TBCS_1600_1700Care.ID, "1600_1700" },
+                { Configuration.TBCS_1700_1800Care.ID, "1700_1800" },
+                { Configuration.TBCS_1800_1900Care.ID, "1800_1900" },
+                { Configuration.TBCS_1900_2000Care.ID, "1900_2000" },
+                { Configuration.TBCS_2000_2100Care.ID, "2000_2100" },
+                { Configuration.TBCS_2100_2200Care.ID, "2100_2200" },
+                { Configuration.TBCS_2200_2300Care.ID, "2200_2300" },
+                { Configuration.TBCS_2300_0000Care.ID, "2300_0000" }
+            };
+
+            foreach (PropertyValueChange changed in changes.Changed)
+            {
+                if (timeSlotProps.ContainsKey(changed.PropertyDef))
+                {
+                    if (changed.OldValue == null || changed.NewValue == null)
+                    {
+                        continue;
+                    }
+
+                    Lookups oldTbcs = changed.OldValue.TypedValue.GetValueAsLookups();
+                    Lookups newTbcs = changed.NewValue.TypedValue.GetValueAsLookups();
+
+                    foreach (Lookup old in oldTbcs)
+                    {
+                        if (newTbcs.GetLookupIndexByItem(old.Item) == -1)
+                        {
+                            var deletedItemObjVer = old.GetAsObjVer();
+
+                            batch.Add(new StoredProc
+                            {
+                                procedureName = "Insert_DeletedTBCItems",
+                                storedProcParams = new Dictionary<string, object>
+                                {
+                                    { "@ObjectID", deletedItemObjVer.ObjID.ID },
+                                    { "@TimeSlot", timeSlotProps[changed.PropertyDef] },
+                                    { "@DeletedDate", DateTime.UtcNow }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            DatabaseConnector connector = new DatabaseConnector(Configuration.SQLExport_Server, Configuration.SQLExport_Database);
+            connector.ExecuteStoredProcs(batch);           
+        }
+
         private void SetScheduledTimeSlots(EventHandlerEnvironment env)
         {
             List<ObjVer> slot_01 = new List<ObjVer>();

@@ -37,6 +37,35 @@ namespace IHFM.VAF
             sqlConnection = new SqlConnection(connectionString);
         }
 
+        public void ExecuteStoredProcs(IEnumerable<StoredProc> storedProcs)
+        {
+            try
+            {
+                sqlConnection.Open();
+
+                foreach (var storedProc in storedProcs)
+                {
+                    using (var cmd = new SqlCommand(storedProc.procedureName, sqlConnection))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        foreach (var kvp in storedProc.storedProcParams)
+                        {
+                            cmd.Parameters.Add(new SqlParameter(kvp.Key, kvp.Value));
+                        }
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SysUtils.ReportErrorToEventLog($"Export: Batch SP Error: {ex.Message}");
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
         public void ExecuteStoredProc(StoredProc storedProc)
         {
             sqlCommand = new SqlCommand(storedProc.procedureName,sqlConnection);
