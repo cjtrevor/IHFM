@@ -367,7 +367,9 @@ namespace IHFM.VAF
             string output = careplan == null ? "" : $"{careplan.GetPropertyText(Configuration.Careplan_CpDietAndFeeding)}" +
                 $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpToilet)}" +
                 $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpPsychosocialSummary)}" +
-                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpWalkingAids)}";
+                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpWalkingAids)}" +
+                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpAllergies)}" +
+                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpCommentsNotes)}";
 
             env.ObjVerEx.SaveProperty(Configuration.DailyCare_CarePlanNotes, MFDataType.MFDatatypeMultiLineText, output);
         }

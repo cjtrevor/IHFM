@@ -20,5 +20,10 @@ namespace IHFM.VAF
         public MFIdentifier Careplan_CpPsychosocialSummary = "MFiles.Property.CpPsychosocialSummary";
         [MFPropertyDef]
         public MFIdentifier Careplan_CpWalkingAids = "MFiles.Property.CpWalkingAids";
+        [MFPropertyDef]
+        public MFIdentifier Careplan_CpAllergies = "MFiles.Property.CpAllergies";
+        [MFPropertyDef]
+        public MFIdentifier Careplan_CpCommentsNotes = "MFiles.Property.CpCommentsNotes";
+
     }
 }
