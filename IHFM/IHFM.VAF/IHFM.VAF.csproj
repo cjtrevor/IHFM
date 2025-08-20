@@ -207,6 +207,7 @@
     <Content Include="appdef.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="SQL\20250820_ReportingExport.sql" />
     <Content Include="SQL\20250810_ReportingExport.sql" />
     <Content Include="SQL\20250809_ReportingExport.sql" />
     <Content Include="SQL\StoredProcedures.sql" />

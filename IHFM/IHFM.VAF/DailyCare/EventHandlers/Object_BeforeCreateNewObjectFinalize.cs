@@ -48,7 +48,10 @@ namespace IHFM.VAF
         public void BeforeCheckInChangesFinalizeDailyCareV2(EventHandlerEnvironment env)
         {
             ObjVerChanges changes = new ObjVerChanges(env.ObjVerEx);
-            int residentId = env.ObjVerEx.GetLookupID(Configuration.ResidentLookup);
+            var residentId = env.ObjVerEx.GetLookupID(Configuration.ResidentLookup);
+            var dailyCareObjectId = env.ObjVerEx.ObjVer.ObjID.ID;
+            var dailyCareCreatedDate = DateTime.Parse(env.ObjVerEx.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated).GetValueAsLocalizedText());
+
             var batch = new List<StoredProc>();
 
             ShiftCalculationService shiftCalculationService = new ShiftCalculationService(Configuration, env.Vault);
@@ -105,7 +108,9 @@ namespace IHFM.VAF
                                 procedureName = "Insert_DeletedTBCItems",
                                 storedProcParams = new Dictionary<string, object>
                                 {
-                                    { "@ObjectId", lookupValue.Item },
+                                    { "@TBCItemObjectId", lookupValue.Item },
+                                    { "@DailyCareObjectId", dailyCareObjectId },
+                                    { "@DailyCareCreatedDate", dailyCareCreatedDate },
                                     { "@ResidentId", residentId },
                                     { "@TimeSlot", timeSlotProps[changed.PropertyDef] },
                                     { "@DeletedDate", DateTime.UtcNow }
