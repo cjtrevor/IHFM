@@ -21,24 +21,24 @@ namespace IHFM.VAF
             try
             {
                 //Refresh Resident Ages
-                TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Resident Age Refresh",
-                TimeSpan.FromHours(Configuration.AgeRunCheckInterval), (job) =>
-                {
-                    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("RefreshResidentAges", "");
+                //TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Resident Age Refresh",
+                //TimeSpan.FromHours(Configuration.AgeRunCheckInterval), (job) =>
+                //{
+                //    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("RefreshResidentAges", "");
 
-                    SysUtils.ReportInfoToEventLog(
-                        $"IHFM: ResidentAgeRefresh completed. Next run: {DateTime.Now.AddHours(Configuration.AgeRunCheckInterval)}");
-                });
+                //    SysUtils.ReportInfoToEventLog(
+                //        $"IHFM: ResidentAgeRefresh completed. Next run: {DateTime.Now.AddHours(Configuration.AgeRunCheckInterval)}");
+                //});
 
                 //Refresh Average Site Age
-                TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Site Average Age Refresh",
-                TimeSpan.FromHours(Configuration.SiteAverageAgeRunCheckInterval), (job) =>
-                {
-                    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("RefreshSiteAverageAge", "");
+                //TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Site Average Age Refresh",
+                //TimeSpan.FromHours(Configuration.SiteAverageAgeRunCheckInterval), (job) =>
+                //{
+                //    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("RefreshSiteAverageAge", "");
 
-                    SysUtils.ReportInfoToEventLog(
-                        $"IHFM: RefreshSiteAverageAge completed. Next run: {DateTime.Now.AddHours(Configuration.SiteAverageAgeRunCheckInterval)}");
-                });
+                //    SysUtils.ReportInfoToEventLog(
+                //        $"IHFM: RefreshSiteAverageAge completed. Next run: {DateTime.Now.AddHours(Configuration.SiteAverageAgeRunCheckInterval)}");
+                //});
 
                 ////Refresh Site Nominals
                 //TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Site Nominals Refresh",

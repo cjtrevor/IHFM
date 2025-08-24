@@ -15,9 +15,9 @@ namespace SSRS_Reporting.Services
             reportManager = new ReportManager
                 (
                     "http://mfiles:8080/ReportServer_MSSQLWEB/ReportExecution2005.asmx",
-                    "Jaffa Reports",
-                    "JaffaReports1!",
-                    "mfiles"
+                    "",
+                    "",
+                    ""
                 );
         }
     }

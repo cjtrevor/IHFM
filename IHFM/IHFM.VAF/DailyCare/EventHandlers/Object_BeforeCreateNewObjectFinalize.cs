@@ -364,12 +364,12 @@ namespace IHFM.VAF
 
             ObjVerEx careplan = searchService.GetResidentCarePlanExisting(lookupId);
 
-            string output = careplan == null ? "" : $"{careplan.GetPropertyText(Configuration.Careplan_CpDietAndFeeding)}" +
-                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpToilet)}" +
-                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpPsychosocialSummary)}" +
-                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpWalkingAids)}" +
-                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpAllergies)}" +
-                $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpCommentsNotes)}";
+            string output = careplan == null ? "" : $"{careplan.GetPropertyText(Configuration.Careplan_CpCommentsNotes)}" +
+                $"\n\n{careplan.GetPropertyText(Configuration.Careplan_CpAllergies)}" +
+                $"\n\n{careplan.GetPropertyText(Configuration.Careplan_CpDietAndFeeding)}" +
+                $"\n\n{careplan.GetPropertyText(Configuration.Careplan_CpToilet)}" +
+                $"\n\n{careplan.GetPropertyText(Configuration.Careplan_CpPsychosocialSummary)}" +
+                $"\n\n{careplan.GetPropertyText(Configuration.Careplan_CpWalkingAids)}";
 
             env.ObjVerEx.SaveProperty(Configuration.DailyCare_CarePlanNotes, MFDataType.MFDatatypeMultiLineText, output);
         }
