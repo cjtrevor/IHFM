@@ -25,28 +25,43 @@ namespace IHFM.VAF
             }
 
             List<int> residentsToProcess = new List<int>();
+
+            SiteSearchService siteSearchService = new SiteSearchService(vault, configuration);
             ResidentSearchService residentSearchService = new ResidentSearchService(vault, configuration);
 
+            List<ObjVerEx> sites = siteSearchService.GetAllSites();
             List<ObjVerEx> residents = residentSearchService.GetAllActiveResidents();
 
             List<int> includedZoneIds = new List<int> { configuration.Zone_FrailCareItem.ID, configuration.Zone_MemoryCareItem.ID };
 
             var exportPath = configuration.ProgressNotesExportPath;
 
-            foreach (ObjVerEx resident in residents)
+            foreach (ObjVerEx site in sites)
             {
-                var currentRoomLookup = resident.GetProperty(configuration.CurrentRoom).TypedValue.GetValueAsLookup();
-                if (currentRoomLookup == null)
-                    continue;
+                int baseSiteID = site.ObjID.ID;
 
-                var roomObject = new ObjVerEx(vault, currentRoomLookup);
-                if (roomObject == null || roomObject.IsDeleted)
-                    continue;
+                ObjVerEx siteConfig = siteSearchService.GetSiteConfig(baseSiteID);
 
-                var currentRoomZoneId = roomObject.GetLookupID(configuration.Room_Zone);
+                if (siteConfig != null && siteConfig.HasValue(configuration.SiteConfig_GenerateAutoInterim) && siteConfig.GetProperty(configuration.SiteConfig_GenerateAutoInterim).GetValue<bool>())
+                {
+                    List<ObjVerEx> siteResidents = residents.Where(x => x.GetLookupID(configuration.BaseSiteID) == baseSiteID).ToList();
 
-                if (includedZoneIds.Contains(currentRoomZoneId))
-                    residentsToProcess.Add(resident.ObjID.ID);
+                    foreach (ObjVerEx resident in siteResidents)
+                    {
+                        var currentRoomLookup = resident.GetProperty(configuration.CurrentRoom).TypedValue.GetValueAsLookup();
+                        if (currentRoomLookup == null)
+                            continue;
+
+                        var roomObject = new ObjVerEx(vault, currentRoomLookup);
+                        if (roomObject == null || roomObject.IsDeleted)
+                            continue;
+
+                        var currentRoomZoneId = roomObject.GetLookupID(configuration.Room_Zone);
+
+                        if (includedZoneIds.Contains(currentRoomZoneId))
+                            residentsToProcess.Add(resident.ObjID.ID);
+                    }
+                }
             }
 
             CreateXMLFile(residentsToProcess, configuration);
