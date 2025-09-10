@@ -13,10 +13,10 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.MedsGivenAuto", Priority = 100)]
         public void BeforeCheckInChangesMedsGivenAuto(EventHandlerEnvironment env)
         {
-            LogMissedMedsGivenAuto(env.ObjVerEx);
+            LogMissedMedsGivenAuto(env.Vault, env.ObjVerEx);
         }
 
-        private void LogMissedMedsGivenAuto(ObjVerEx medsGiven)
+        private void LogMissedMedsGivenAuto(Vault vault, ObjVerEx medsGiven)
         {
             ObjVerChanges changes = new ObjVerChanges(medsGiven);
             foreach (PropertyValueChange changed in changes.Changed)
@@ -35,6 +35,10 @@ namespace IHFM.VAF
                     {
                         if (newMeds.GetLookupIndexByItem(old.Item) == -1)
                         {
+                            var oldItemObjVerEx = new ObjVerEx(vault, old.GetAsObjVer());
+                            if (oldItemObjVerEx.HasValue(Configuration.PRNMedication) && oldItemObjVerEx.GetProperty(Configuration.PRNMedication).GetValue<bool>())
+                                continue;
+                                
                             medsGiven.AddLookup(Configuration.ScriptControl_MissedMeds, old.GetAsObjVer());
                         }
                     }
