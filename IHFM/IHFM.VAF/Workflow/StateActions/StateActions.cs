@@ -22,7 +22,7 @@ namespace IHFM.VAF
             env.ObjVerEx.SetProperty(Configuration.VAFSite, MFDataType.MFDatatypeLookup, vafSiteId);
             env.ObjVerEx.SaveProperties();
 
-            ExportScriptManagement(env, siteId);
+            //ExportScriptManagement(env, siteId);
         }
         private void ExportScriptManagement(StateEnvironment env, int siteId)
         {
