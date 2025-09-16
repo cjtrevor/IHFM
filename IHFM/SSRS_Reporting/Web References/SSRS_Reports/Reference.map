@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<DiscoveryClientResultsFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Results>
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://singh/ReportServer/ReportExecution2005.asmx?wsdl" filename="ReportExecution2005.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://win-l5vs4ah5tl5:8099/ReportServer/ReportExecution2005.asmx" filename="ReportExecution2005.wsdl" />
   </Results>
 </DiscoveryClientResultsFile>

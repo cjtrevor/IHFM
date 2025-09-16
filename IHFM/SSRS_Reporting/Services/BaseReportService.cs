@@ -14,7 +14,7 @@ namespace SSRS_Reporting.Services
         {
             reportManager = new ReportManager
                 (
-                    "http://singh/ReportServer/ReportExecution2005.asmx",
+                    "http://win-l5vs4ah5tl5:8099/ReportServer/ReportExecution2005.asmx",
                     "username",
                     "password",
                     "domain"

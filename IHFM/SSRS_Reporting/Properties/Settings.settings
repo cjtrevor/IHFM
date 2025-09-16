@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SSRS_Reporting_SSRS_Reports_ReportExecutionService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://singh:80/ReportServer/ReportExecution2005.asmx</Value>
+      <Value Profile="(Default)">http://win-l5vs4ah5tl5:8099/ReportServer/ReportExecution2005.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -17,7 +17,8 @@ namespace SSRS_Reporting
             _reportServerExecutionService = new ReportExecutionService
             {
                 Url = reportServerWsdlUrl,
-                Credentials = new NetworkCredential(username, password, domain)
+                UseDefaultCredentials = true
+                //Credentials = new NetworkCredential(username, password, domain)
             };
         }
 
