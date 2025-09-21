@@ -9,5 +9,6 @@ namespace IHFM.VAF
 
         public MFIdentifier Staff_SiteId = "MFiles.Property.BaseSiteId";
 
+        public MFIdentifier Staff_GenderTitle = "MFiles.Property.GenderTitle";
     }
 }

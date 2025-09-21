@@ -166,6 +166,8 @@
     <Compile Include="Site\Services\SiteSearchService.cs" />
     <Compile Include="Site\ValueOptionProviders\ClassTypesOptionsProvider.cs" />
     <Compile Include="Site\VaultExtensionMethods\VaultExtensionMethods.cs" />
+    <Compile Include="StaffProcessManagement\Configuration\Configuration.cs" />
+    <Compile Include="StaffProcessManagement\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Staff\Configuration\Configuration.cs" />
     <Compile Include="Staff\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Staff\Services\StaffPropertyService.cs" />
@@ -201,7 +203,12 @@
     <None Include="install-application.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SSRS_Reporting\SSRS_Reporting.csproj">
+      <Project>{c7f100ef-eb49-4b0a-ab45-d76a74fc72c8}</Project>
+      <Name>SSRS_Reporting</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="RunWhenBuildChanges" AfterTargets="CoreBuild">
     <Message Importance="High" Text="Cleaning old .mfappx file (if available)..." />
