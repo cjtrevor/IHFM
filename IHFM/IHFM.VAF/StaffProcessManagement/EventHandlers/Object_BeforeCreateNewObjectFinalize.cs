@@ -14,6 +14,7 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.PolicyAcknowledgement")]
         public void BeforePolicyAcknowledgementCheckInChangesFizalize(EventHandlerEnvironment env)
         {
+            string reportFileOutputDir = "C:\\ReportingConfigurator\\SSRS Temp Output\\";
             string objectId = env.ObjVer.ID.ToString();
             var staffObjects = env.ObjVerEx.GetProperty(Configuration.StaffProcessManagement_Staffs).TypedValue.GetValueAsLookups().ToObjVerExs(env.Vault);
             var policyDocumentsLookups = env.ObjVerEx.GetProperty(Configuration.StaffProcessManagement_PolicyDocuments).TypedValue.GetValueAsLookups();
@@ -38,12 +39,14 @@ namespace IHFM.VAF
                     Date = env.ObjVerEx.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated).GetValueAsLocalizedText()
                 });
 
+                var fileNameStaffIdentifier = $"{staff.GetPropertyText(Configuration.Staff_Name)} {staff.GetPropertyText(Configuration.Staff_Surname)}({staff.ObjID.ID})" ;
+
                 var staffReportFile = reportService.GetReport("PolicyCompliance", staffReportJsonData);
 
-                File.WriteAllBytes($"C:\\SSRS Temp Output\\{objectId}_{staff.ObjID.ID}.pdf", staffReportFile);
+                File.WriteAllBytes($"{reportFileOutputDir}{objectId}_{fileNameStaffIdentifier}.pdf", staffReportFile);
                 env.Vault.ObjectFileOperations.GetFilesForModificationInEventHandler(env.ObjVer);
-                env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"PoS{objectId}_{staff.ObjID.ID}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}_{staff.ObjID.ID}.pdf");
-                File.Delete($"C:\\SSRS Temp Output\\{objectId}_{staff.ObjID.ID}.pdf");
+                env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"PoS{objectId}_{fileNameStaffIdentifier}-{env.ObjVerEx.Version}", "pdf", $"{reportFileOutputDir}{objectId}_{fileNameStaffIdentifier}.pdf");
+                File.Delete($"{reportFileOutputDir}{objectId}_{fileNameStaffIdentifier}.pdf");
             }
 
             if (staffObjects.Count > 1)
@@ -70,32 +73,11 @@ namespace IHFM.VAF
 
                 var allStaffReportFile = reportService.GetReport("PolicyCompliances", allStaffReportJsonData);
 
-                File.WriteAllBytes($"C:\\SSRS Temp Output\\{objectId}.pdf", allStaffReportFile);
+                File.WriteAllBytes($"{reportFileOutputDir}{objectId}.pdf", allStaffReportFile);
                 env.Vault.ObjectFileOperations.GetFilesForModificationInEventHandler(env.ObjVer);
-                env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"PoS{objectId}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}.pdf");
-                File.Delete($"C:\\SSRS Temp Output\\{objectId}.pdf");
+                env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"PoS{objectId}-{env.ObjVerEx.Version}", "pdf", $"{reportFileOutputDir}{objectId}.pdf");
+                File.Delete($"{reportFileOutputDir}{objectId}.pdf");
             }
-        }
-
-        private string GetPropertyValueAsText(ObjVerEx objVerEx, MFIdentifier propertyDef)
-        {
-            string returnVal = string.Empty;
-
-            if (objVerEx.TryGetProperty(propertyDef, out PropertyValue prop))
-            {
-                if (prop.Value.DataType == MFDataType.MFDatatypeMultiSelectLookup)
-                {
-                    foreach (Lookup item in prop.TypedValue.GetValueAsLookups())
-                    {
-                        returnVal += $"{item.DisplayValue}{System.Environment.NewLine}";
-                    }
-                }
-                else
-                {
-                    returnVal = prop.GetValueAsLocalizedText();
-                }
-            }
-            return returnVal;
         }
     }
 }
