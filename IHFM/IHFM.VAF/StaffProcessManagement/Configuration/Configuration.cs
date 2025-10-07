@@ -10,5 +10,8 @@ namespace IHFM.VAF
         public MFIdentifier StaffProcessManagement_PolicyDocuments = "MFiles.Property.PolicyDocument";
         [MFPropertyDef(Required = true)]
         public MFIdentifier StaffProcessManagement_CommentsNotes = "MFiles.Property.CommentsNotes";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier StaffProcessManagement_GenerateIndividualPdfs = "MFiles.Property.GenerateIndividualPdfs";
+        
     }
 }

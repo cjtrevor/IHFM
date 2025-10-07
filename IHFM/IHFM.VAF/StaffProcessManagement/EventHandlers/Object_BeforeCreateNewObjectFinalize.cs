@@ -26,30 +26,35 @@ namespace IHFM.VAF
 
             ProofOfSeenReportService reportService = new ProofOfSeenReportService();
 
-            foreach (var staff in staffObjects)
+
+            if (staffObjects.Count == 1 ||
+                (env.ObjVerEx.HasValue(Configuration.StaffProcessManagement_GenerateIndividualPdfs) && env.ObjVerEx.GetProperty(Configuration.StaffProcessManagement_GenerateIndividualPdfs).GetValue<bool>())
+            )
             {
-                var staffReportJsonData = JsonConvert.SerializeObject(new
+                foreach (var staff in staffObjects)
                 {
-                    Name = staff.Title,
-                    GenderTitle = staff.GetProperty(Configuration.Staff_GenderTitle).GetValueAsLocalizedText(),
-                    Site = staff.GetProperty(Configuration.Staff_Site).GetValueAsLocalizedText(),
-                    PolicyDocuments = policyDocumentsNames,
-                    ObjectName = env.ObjVerEx.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle).GetValueAsLocalizedText(),
-                    ObjectId = objectId,
-                    Date = env.ObjVerEx.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated).GetValueAsLocalizedText()
-                });
+                    var staffReportJsonData = JsonConvert.SerializeObject(new
+                    {
+                        Name = staff.Title,
+                        GenderTitle = staff.GetProperty(Configuration.Staff_GenderTitle).GetValueAsLocalizedText(),
+                        Site = staff.GetProperty(Configuration.Staff_Site).GetValueAsLocalizedText(),
+                        PolicyDocuments = policyDocumentsNames,
+                        ObjectName = env.ObjVerEx.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle).GetValueAsLocalizedText(),
+                        ObjectId = objectId,
+                        Date = env.ObjVerEx.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated).GetValueAsLocalizedText()
+                    });
 
-                var fileNameStaffIdentifier = $"{staff.GetPropertyText(Configuration.Staff_Name)} {staff.GetPropertyText(Configuration.Staff_Surname)}({staff.ObjID.ID})" ;
+                    var fileNameStaffIdentifier = $"{staff.GetPropertyText(Configuration.Staff_Name)} {staff.GetPropertyText(Configuration.Staff_Surname)} ({staff.ObjID.ID})";
 
-                var staffReportFile = reportService.GetReport("PolicyCompliance", staffReportJsonData);
+                    var staffReportFile = reportService.GetReport("PolicyCompliance", staffReportJsonData);
 
-                File.WriteAllBytes($"{reportFileOutputDir}{objectId}_{fileNameStaffIdentifier}.pdf", staffReportFile);
-                env.Vault.ObjectFileOperations.GetFilesForModificationInEventHandler(env.ObjVer);
-                env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"PoS{objectId}_{fileNameStaffIdentifier}-{env.ObjVerEx.Version}", "pdf", $"{reportFileOutputDir}{objectId}_{fileNameStaffIdentifier}.pdf");
-                File.Delete($"{reportFileOutputDir}{objectId}_{fileNameStaffIdentifier}.pdf");
+                    File.WriteAllBytes($"{reportFileOutputDir}{fileNameStaffIdentifier}_{objectId}.pdf", staffReportFile);
+                    env.Vault.ObjectFileOperations.GetFilesForModificationInEventHandler(env.ObjVer);
+                    env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"{fileNameStaffIdentifier}_PoS{objectId}-{env.ObjVerEx.Version}", "pdf", $"{reportFileOutputDir}{fileNameStaffIdentifier}_{objectId}.pdf");
+                    File.Delete($"{reportFileOutputDir}{fileNameStaffIdentifier}_{objectId}.pdf");
+                }
             }
-
-            if (staffObjects.Count > 1)
+            else
             {
                 var allStaffReportJsonData = JsonConvert.SerializeObject(new
                 {
@@ -64,7 +69,7 @@ namespace IHFM.VAF
                             Site = site
                         };
                     }
-                    ),
+                ),
                     PolicyDocuments = policyDocumentsNames,
                     ObjectName = env.ObjVerEx.GetProperty(MFBuiltInPropertyDef.MFBuiltInPropertyDefNameOrTitle).GetValueAsLocalizedText(),
                     ObjectId = objectId,
