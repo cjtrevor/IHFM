@@ -45,5 +45,16 @@ namespace IHFM.VAF
 
             return mFSearch.FindEx().Where(x=> x.ID == 4).ToList();
         }
+
+        public ObjVerEx GetSiteConfig(int siteId)
+        {
+            MFSearchBuilder mFSearch = new MFSearchBuilder(_vault);
+            mFSearch.ObjType(_configuration.SiteConfigObject);
+            mFSearch.Deleted(false);
+            mFSearch.Property(_configuration.BaseSite, MFDataType.MFDatatypeLookup, siteId);
+
+            return mFSearch.FindOneEx();
+        }
+
     }
 }

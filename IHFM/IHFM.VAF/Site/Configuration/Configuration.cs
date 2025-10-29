@@ -13,10 +13,12 @@ namespace IHFM.VAF
         //Class Aliases
         [MFClass(Required = true)]
         public MFIdentifier Staff = "MFiles.Class.Staff";
+        [MFClass(Required = true)]
+        public MFIdentifier Site_Class = "MFiles.Class.Site";
 
         //Property Aliases
-        [MFPropertyDef(Required = true)]
-        public MFIdentifier Site = "MFiles.Property.Site";
+        //[MFPropertyDef(Required = true)]
+        //public MFIdentifier Site = "MFiles.Property.Site";
         [MFPropertyDef(Required = true)]
         public MFIdentifier SiteList = "MFiles.Properties.SiteList";
         [MFPropertyDef(Required = true)]
@@ -46,9 +48,19 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site_ReportSite = "MFiles.Property.ReportSite";
 
+        // Site Config Properties for Scheduled Care
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_TbcFromCarePlan = "MFiles.Property.TbcFromCarePlan";
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_SCDayOfWeek = "MFiles.Property.SCDayOfWeek";
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_SCDayOfMonth = "MFiles.Property.SCDayOfMonth";
+
         //Object Aliases
         [MFObjType(Required = true)]
         public MFIdentifier SiteObject = "MFiles.Object.Site";
+        [MFObjType(Required = true)]
+        public MFIdentifier SiteConfigObject = "MFiles.Object.SiteConfig";
 
         //ValuelistItems
         [MFValueListItem(Required = true, ValueList = "MFiles.Valuelist.Zones")]

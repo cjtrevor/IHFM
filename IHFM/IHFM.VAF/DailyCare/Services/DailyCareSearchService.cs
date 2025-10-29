@@ -1,5 +1,6 @@
-﻿using MFilesAPI;
-using MFiles.VAF.Common;
+﻿using MFiles.VAF.Common;
+using MFiles.VAF.Configuration;
+using MFilesAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +20,17 @@ namespace IHFM.VAF
             this.configuration = configuration;
         }
 
-        public ObjVerEx GetDailyCareByResidentAndShift(int residentId, string shift)
+        public ObjVerEx GetDailyCareByResidentAndShift(int residentId, string shift, MFIdentifier classToCheck)
         {
             MFSearchBuilder search = new MFSearchBuilder(vault);
-            search.Class(configuration.DailyCareClass);
+            search.Class(classToCheck);
             search.Property(configuration.Shift, MFDataType.MFDatatypeText, shift);
             search.Property(configuration.ResidentLookup, MFDataType.MFDatatypeLookup, residentId);
 
             if (search.FindEx().Count > 1)
                 return search.FindOneEx();
 
-            return null;         
+            return null;
         }
     }
 }

@@ -3,6 +3,7 @@ using MFiles.VAF.Configuration;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,8 +23,8 @@ namespace IHFM.VAF
         public bool GetResidentOnCarePackage(Lookup residentLookup)
         {
             ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
-            
-            if(!resident.HasValue(_configuration.OnCarePlan))
+
+            if (!resident.HasValue(_configuration.OnCarePlan))
             {
                 return false;
             }
@@ -31,20 +32,30 @@ namespace IHFM.VAF
             return resident.GetProperty(_configuration.OnCarePlan).GetValue<bool>();
         }
 
-        public List<ObjVer> GetResidentTBCItems(Lookup residentLookup)
+        public List<ObjVer> GetResidentTBCItems(Lookup residentLookup, bool carePlanOptional = false)
         {
             List<ObjVer> objVers = new List<ObjVer>();
-            ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
-            
+
+            CarePlanSearchService carePlanSearchService = new CarePlanSearchService(_vault, _configuration);
+            var residentCarePlan = carePlanSearchService.GetResidentCarePlanExisting(residentLookup.Item);
+
+            if (residentCarePlan == null)
+            {
+                if (carePlanOptional)
+                    return objVers;
+
+                throw new Exception($"No Care Plan exists for the Resident");
+            }
+
             //Get Daily Items
-            objVers.AddRange(GetTBCItems(resident,_configuration.DailyADLLookup));
+            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.DailyADLLookup));
 
             //Get Weekly Items
-            objVers.AddRange(GetTBCItems(resident, _configuration.WeekdaysADLLookup));
+            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.WeekdaysADLLookup));
 
             //Get Specific Day Items
-            objVers.AddRange(GetTBCItems(resident, GetADLAliasForDayOfWeek()));
-            
+            objVers.AddRange(GetTBCItems(residentCarePlan, GetADLAliasForDayOfWeek()));
+
             return objVers;
         }
 
@@ -98,11 +109,30 @@ namespace IHFM.VAF
         {
             List<ObjVer> objVers = new List<ObjVer>();
 
-            Lookups tbcItems = resident.GetLookups(alias);
+            Lookups tbcScheduleItems = resident.GetLookups(alias);
 
-            foreach (Lookup item in tbcItems)
+            foreach (Lookup item in tbcScheduleItems)
             {
-                objVers.Add(item.GetAsObjVer());
+                ObjVerEx scheduleItem = new ObjVerEx(_vault, item);
+
+                Lookups times = scheduleItem.GetLookups(_configuration.TBCS_TbcScheduledTimes);
+
+                if (times.Count == 0)
+                {
+                    Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
+                    objVers.Add(tbcItem.GetAsObjVer());
+                }
+                else
+                {
+                    foreach (Lookup time in times)
+                    {
+                        if (ScheduledItemIsInCurrentTimeSlot(time.DisplayValue))
+                        {
+                            Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
+                            objVers.Add(tbcItem.GetAsObjVer());
+                        }
+                    }
+                }
             }
 
             return objVers;
@@ -148,5 +178,65 @@ namespace IHFM.VAF
             int currentCount = resident.HasValue(_configuration.Resident_NoBathCount) ? resident.GetProperty(_configuration.Resident_NoBathCount).GetValue<int>() : 0;
             resident.SaveProperty(_configuration.Resident_NoBathCount, MFDataType.MFDatatypeInteger, reset ? 0 : currentCount + 1);
         }
+
+        public List<ObjVer> GetResidentTBCSForDay(Lookup residentLookup, bool useCareplan = false)
+        {
+            ObjVerEx STBCParent;
+            List<ObjVer> objVers = new List<ObjVer>();
+            ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
+
+            CarePlanSearchService searchService = new CarePlanSearchService(_vault, _configuration);
+            ObjVerEx careplan = searchService.GetResidentCarePlanExisting(residentLookup.Item);
+
+            if (useCareplan && careplan != null)
+            {
+                STBCParent = careplan;
+            }
+            else
+            {
+                STBCParent = resident;
+            }
+
+            //Get Daily Items
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyADLLookup));
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyClinicLookup));
+
+            //Get Weekly Items
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.WeekdaysADLLookup));
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.WeekdaysClinicLookup));
+
+            //Get Specific Day Items
+            objVers.AddRange(GetTBCSItems(STBCParent, GetADLAliasForDayOfWeek()));
+            objVers.AddRange(GetTBCSItems(STBCParent, GetClinicAliasForDayOfWeek()));
+
+            return objVers;
+        }
+
+        private List<ObjVer> GetTBCSItems(ObjVerEx resident, MFIdentifier alias)
+        {
+            List<ObjVer> objVers = new List<ObjVer>();
+
+            Lookups tbcScheduleItems = resident.GetLookups(alias);
+
+            foreach (Lookup item in tbcScheduleItems)
+            {
+                objVers.Add(item.GetAsObjVer());
+            }
+
+            return objVers;
+        }
+
+        private bool ScheduledItemIsInCurrentTimeSlot(string time)
+        {
+            string today = DateTime.Today.ToString("dd-MM-yyyy");
+
+            DateTime timeslot = DateTime.ParseExact($"{today} {time}", "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+
+            DateTime startSlot = timeslot.AddHours(-1);
+            DateTime endSlot = timeslot.AddHours(1);
+
+            return DateTime.Compare(DateTime.Now, startSlot) > 0 && DateTime.Compare(DateTime.Now, endSlot) < 0;
+        }
+
     }
 }
