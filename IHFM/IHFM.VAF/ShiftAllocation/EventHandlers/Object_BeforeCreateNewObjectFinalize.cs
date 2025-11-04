@@ -24,7 +24,7 @@ namespace IHFM.VAF
             List<ObjVer> objVers = new List<ObjVer>();
 
             objVers.AddRange(GetTBCSItemsByResident(resident, Configuration.DailyADLLookup));
-            objVers.AddRange(GetTBCSItemsByResident(resident, Configuration.WednesdayADLLookup));
+            //objVers.AddRange(GetTBCSItemsByResident(resident, Configuration.WeekdaysADLLookup));
             objVers.AddRange(GetTBCSItemsByResident(resident, GetADLAliasForDayOfWeek(selectedDate)));
 
             int totalTimeInMinutes = 0;
