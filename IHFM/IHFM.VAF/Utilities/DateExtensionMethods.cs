@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MFiles.VAF.Common;
+using MFiles.VAF.Configuration;
+using MFilesAPI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +11,21 @@ namespace IHFM.VAF.Utilities
 {
     public static class DateExtensionMethods
     {
+        // South Africa Standard Time - GMT+2
+        private static readonly TimeZoneInfo ApplicationTimeZone = TimeZoneInfo.FindSystemTimeZoneById("South Africa Standard Time");
+
+        public static DateTime ToLocalDateTime(this Timestamp timestamp)
+        {
+            DateTime utcDateTime = timestamp.ToDateTime(DateTimeKind.Utc);
+            return TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, ApplicationTimeZone);
+        }
+
+        public static Timestamp ToUtcTimestamp(this DateTime localDateTime)
+        {
+            DateTime utcDateTime = TimeZoneInfo.ConvertTimeToUtc(localDateTime, ApplicationTimeZone);
+            return utcDateTime.ToTimestamp(DateTimeKind.Utc);
+        }
+
         public static int QuarterDecStart(this DateTime date)
         {
             switch(date.Month)

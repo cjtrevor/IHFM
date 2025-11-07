@@ -3,6 +3,8 @@ using MFiles.VAF.Configuration;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
+using IHFM.VAF.Utilities;
+using IHFM.VAF.Email.Services;
 
 namespace IHFM.VAF
 {
@@ -10,12 +12,11 @@ namespace IHFM.VAF
     {
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.ShiftAllocation")]
         public void BeforeCreateNewShiftAllocation(EventHandlerEnvironment env)
-        {
-            var shiftAllocationDatePart = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_StartDate);
-            var shiftAllocationTimePart = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_Time);
-            DateTime selectedDate = DateTime.Parse($"{shiftAllocationDatePart} {shiftAllocationTimePart}");
+        {           
+            var server_Start_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StartDateTime).TypedValue.GetValueAsTimestamp();
+            var local_Start_DateTime = server_Start_Timestamp.ToLocalDateTime();
 
-            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
             ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
             
             CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
@@ -24,8 +25,7 @@ namespace IHFM.VAF
             List<ObjVer> objVers = new List<ObjVer>();
 
             objVers.AddRange(GetTBCSItemsByResident(resident, Configuration.DailyADLLookup));
-            //objVers.AddRange(GetTBCSItemsByResident(resident, Configuration.WeekdaysADLLookup));
-            objVers.AddRange(GetTBCSItemsByResident(resident, GetADLAliasForDayOfWeek(selectedDate)));
+            objVers.AddRange(GetTBCSItemsByResident(resident, GetADLAliasForDayOfWeek(local_Start_DateTime)));
 
             int totalTimeInMinutes = 0;
 
@@ -41,13 +41,136 @@ namespace IHFM.VAF
                 totalTimeInMinutes += time;
             }
 
-            var calculatedEndDate = selectedDate.AddMinutes(totalTimeInMinutes);
-            env.ObjVerEx.SetProperty(Configuration.ShiftAllocation_EndDate, MFDataType.MFDatatypeText, calculatedEndDate.ToString());
+            var local_End_DateTime = local_Start_DateTime.AddMinutes(totalTimeInMinutes);
+            var server_End_Timestamp = local_End_DateTime.ToUtcTimestamp();
 
+            Lookups staffAttendingLookups = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StaffAttending).TypedValue.GetValueAsLookups();
+
+
+            List<string> conflictMessages = new List<string>();
+            
+            foreach (Lookup staffLookup in staffAttendingLookups)
+            {
+                ShiftAllocationSearchService shiftAllocationSearchService = new ShiftAllocationSearchService(env.Vault, Configuration);
+                var existingAllocations = shiftAllocationSearchService.SearchForExistingStaffShiftAllocations(
+                    staffLookup.Item,
+                    local_Start_DateTime, 
+                    env.ObjVer.ID
+                );
+
+                foreach (var existingAllocation in existingAllocations)
+                {
+                    var server_existingStart_Timestamp = existingAllocation.GetProperty(Configuration.ShiftAllocation_StartDateTime).TypedValue.GetValueAsTimestamp();
+                    var server_existingEnd_Timestamp = existingAllocation.GetProperty(Configuration.ShiftAllocation_EndDateTime).TypedValue.GetValueAsTimestamp();
+                    
+                    var local_existingStart = server_existingStart_Timestamp.ToLocalDateTime();
+                    var local_existingEnd = server_existingEnd_Timestamp.ToLocalDateTime();
+
+                    bool hasOverlap = local_Start_DateTime < local_existingEnd && local_existingStart < local_End_DateTime;
+
+                    if (hasOverlap)
+                    {
+                        string staffName = staffLookup.DisplayValue;
+                        string conflictMsg = string.Format(
+                            "CONFLICT: {0}\n" +
+                            "  Existing Shift: {1} at {2} - {3}\n" +
+                            "  New Shift:      {4} at {5} - {6}\n",
+                            staffName,
+                            local_existingStart.ToString("dd MMM yyyy"),
+                            local_existingStart.ToString("HH:mm"),
+                            local_existingEnd.ToString("HH:mm"),
+                            local_Start_DateTime.ToString("dd MMM yyyy"),
+                            local_Start_DateTime.ToString("HH:mm"),
+                            local_End_DateTime.ToString("HH:mm")
+                        );
+                        conflictMessages.Add(conflictMsg);
+                    }
+                }
+            }
+
+            if (conflictMessages.Count > 0)
+            {
+                string fullMessage = "Cannot create shift allocation - scheduling conflicts detected:\n\n" + string.Join("\n", conflictMessages) + "\n";
+                throw new Exception(fullMessage);
+            }
+
+            env.ObjVerEx.SetProperty(Configuration.ShiftAllocation_EndDateTime, MFDataType.MFDatatypeTimestamp, server_End_Timestamp);
             env.ObjVerEx.SaveProperties();
         }
 
+        [EventHandler(MFEventHandlerType.MFEventHandlerAfterCreateNewObjectFinalize, Class = "MFiles.Class.ShiftAllocation")]
+        public void AfterCreateNewShiftAllocation(EventHandlerEnvironment env)
+        {
+            try
+            {
+                var server_Start_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StartDateTime).TypedValue.GetValueAsTimestamp();
+                var local_Start_DateTime = server_Start_Timestamp.ToLocalDateTime();
+                
+                var server_End_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_EndDateTime).TypedValue.GetValueAsTimestamp();
+                var local_End_DateTime = server_End_Timestamp.ToLocalDateTime();
 
+                Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
+                Lookups staffAttendingLookups = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StaffAttending).TypedValue.GetValueAsLookups();
+
+                TimeSpan duration = local_End_DateTime - local_Start_DateTime;
+                int totalTimeInMinutes = (int)duration.TotalMinutes;
+
+                var staffEmailAddresses = new List<string>();
+                foreach (Lookup staffLookup in staffAttendingLookups)
+                {
+                    var staffObjVer = new ObjVerEx(env.Vault, staffLookup);
+                    var emailAddress = staffObjVer.GetPropertyText(Configuration.Staff_EmailAddress);
+                    
+                    if (!string.IsNullOrEmpty(emailAddress))
+                    {
+                        staffEmailAddresses.Add(emailAddress);
+                    }
+                }
+
+                if (staffEmailAddresses.Count > 0)
+                {
+                    EmailService emailService = new EmailService(Configuration);
+                    
+                    string residentName = residentLookup.DisplayValue;
+                    string subject = $"Shift Allocation - {residentName}";
+                    string location = ""; // Get location from resident or site????
+                    
+                    string body = $"You have been assigned to a shift:\n\n" +
+                                 $"Resident: {residentName}\n" +
+                                 $"Date: {local_Start_DateTime.ToString("dddd, dd MMMM yyyy")}\n" +
+                                 $"Time: {local_Start_DateTime.ToString("HH:mm")} - {local_End_DateTime.ToString("HH:mm")}\n" +
+                                 $"Duration: {totalTimeInMinutes} minutes\n\n" +
+                                 $"Please confirm your attendance.";
+
+                    foreach (string emailAddress in staffEmailAddresses)
+                    {
+                        try
+                        {
+                            emailService.SendEmailWithCalendarInvite(
+                                emailAddress,
+                                subject,
+                                body,
+                                location,
+                                local_Start_DateTime,
+                                local_End_DateTime
+                            );
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log stuffzz but don't fail the shift allocation (it's already created)
+                            SysUtils.ReportErrorToEventLog("IHFM.VAF", 
+                                $"Failed to send shift allocation email to {emailAddress}: {ex.Message}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log stuffzz but don't throw - the shift allocation is already created
+                SysUtils.ReportErrorToEventLog("IHFM.VAF", 
+                    $"Error in AfterCreateNewShiftAllocation email notification: {ex.Message}");
+            }
+        }
 
         private List<ObjVer> GetTBCSItemsByResident(ObjVerEx resident, MFIdentifier alias)
         {
@@ -65,7 +188,6 @@ namespace IHFM.VAF
 
         private MFIdentifier GetADLAliasForDayOfWeek(DateTime dateToCheck)
         {
-
             var dayOfWeek = dateToCheck.DayOfWeek;
 
             switch (dateToCheck.DayOfWeek)
@@ -88,6 +210,5 @@ namespace IHFM.VAF
                     return Configuration.SundayADLLookup;
             }
         }
-
     }
 }

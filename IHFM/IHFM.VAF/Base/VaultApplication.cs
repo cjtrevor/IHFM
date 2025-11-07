@@ -3,8 +3,10 @@ using MFiles.VAF;
 using MFiles.VAF.Common;
 using MFiles.VAF.Configuration;
 using MFiles.VAF.Core;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace IHFM.VAF
@@ -24,7 +26,7 @@ namespace IHFM.VAF
                 TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Resident Age Refresh",
                 TimeSpan.FromHours(Configuration.AgeRunCheckInterval), (job) =>
                 {
-                    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("RefreshResidentAges", "");
+                    //base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("RefreshResidentAges", "");
 
                     SysUtils.ReportInfoToEventLog(
                         $"IHFM: ResidentAgeRefresh completed. Next run: {DateTime.Now.AddHours(Configuration.AgeRunCheckInterval)}");
@@ -34,7 +36,7 @@ namespace IHFM.VAF
                 TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Site Average Age Refresh",
                 TimeSpan.FromHours(Configuration.SiteAverageAgeRunCheckInterval), (job) =>
                 {
-                    base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("RefreshSiteAverageAge", "");
+                    //base.PermanentVault.ExtensionMethodOperations.ExecuteVaultExtensionMethod("RefreshSiteAverageAge", "");
 
                     SysUtils.ReportInfoToEventLog(
                         $"IHFM: RefreshSiteAverageAge completed. Next run: {DateTime.Now.AddHours(Configuration.SiteAverageAgeRunCheckInterval)}");
@@ -54,5 +56,6 @@ namespace IHFM.VAF
                 SysUtils.ReportErrorToEventLog("Exception starting background operations", e);
             }
         }
+
     }
 }

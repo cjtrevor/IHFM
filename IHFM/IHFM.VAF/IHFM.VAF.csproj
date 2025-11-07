@@ -89,6 +89,8 @@
     <Compile Include="CarePlan\Configuration\Configuration.cs" />
     <Compile Include="CarePlan\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="CarePlan\Services\CarePlanSearchService.cs" />
+    <Compile Include="ChangePincode\Configuration\Configuration.cs" />
+    <Compile Include="ChangePincode\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_AfterCreateNewObjectFinalize.cs" />
@@ -96,6 +98,8 @@
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
     <Compile Include="DeathReport\Configuration\Configuration.cs" />
     <Compile Include="DeathReport\EventHandlers\ObjectAfterCreateNewObjectFinalize.cs" />
+    <Compile Include="Email\Configuration\Configuration.cs" />
+    <Compile Include="Email\Services\EmailService.cs" />
     <Compile Include="Export\Services\DeathReportExportService.cs" />
     <Compile Include="DQ98\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="DQ98\Configuration\Configuration.cs" />
@@ -154,6 +158,7 @@
     <Compile Include="ScriptManagement\Services\ScriptManagementUtilityService.cs" />
     <Compile Include="ShiftAllocation\Configuration\Configuration.cs" />
     <Compile Include="ShiftAllocation\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="ShiftAllocation\Services\ShiftAllocationSearchService.cs" />
     <Compile Include="Shift\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Shift\Configuration\Configuration.cs" />
     <Compile Include="Shift\Services\ShiftCalculationService.cs" />
@@ -165,6 +170,8 @@
     <Compile Include="Site\Services\SiteSearchService.cs" />
     <Compile Include="Site\ValueOptionProviders\ClassTypesOptionsProvider.cs" />
     <Compile Include="Site\VaultExtensionMethods\VaultExtensionMethods.cs" />
+    <Compile Include="Staff\Configuration\Configuration.cs" />
+    <Compile Include="Staff\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Staff\Services\StaffPropertyService.cs" />
     <Compile Include="Stock\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="Stock\Configuration\Configuration.cs" />
