@@ -115,6 +115,9 @@ namespace IHFM.VAF
                 TimeSpan duration = local_End_DateTime - local_Start_DateTime;
                 int totalTimeInMinutes = (int)duration.TotalMinutes;
 
+                if (totalTimeInMinutes < 20)
+                    return;
+
                 var staffEmailAddresses = new List<string>();
                 foreach (Lookup staffLookup in staffAttendingLookups)
                 {
