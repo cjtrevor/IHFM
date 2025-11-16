@@ -91,6 +91,17 @@ namespace IHFM.VAF
         public MFIdentifier TBCS_TbcScheduledTimes = "MFiles.Property.TbcScheduledTimes";
 
         [MFPropertyDef]
+        public MFIdentifier TBCI_TBCType = "PD.Tbctype";
+
+        [MFPropertyDef]
         public MFIdentifier TBCS_TimeBasedCareScheduleDropdown = "MFiles.Property.TimeBasedCareScedule";
+
+        [MFValueListItem(ValueList = "VL.Tbctype")]
+        public MFIdentifier TBCType_ADL = "{20AFCF10-748F-46EE-B1F6-AAC9459FEB29}";
+        [MFValueListItem(ValueList = "VL.Tbctype")]
+        public MFIdentifier TBCType_Clinic = "{960ABD51-3598-4526-B465-9C23FCA14955}";
+        [MFValueListItem(ValueList = "VL.Tbctype")]
+        public MFIdentifier TBCType_WoundCare = "{7987B617-86DD-49F4-94E7-2B8B7521B4F0}";
+
     }
 }
