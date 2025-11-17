@@ -28,7 +28,7 @@ namespace SSRS_Reporting.Services
                 new ParameterValue { Name = "TimeFinished", Value = timeFinished},
                 new ParameterValue { Name = "Comments", Value = comments}
             };
-            return reportManager.Render("Reports/Trans50", "MaintReqPdf", "PDF", repParams);
+            return reportManager.Render("Reports/GAS", "MaintReqPdf", "PDF", repParams);
         }
     }
 }
