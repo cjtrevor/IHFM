@@ -9,14 +9,13 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.ChangePincode")]
         public void ChangeStaffPinCode(EventHandlerEnvironment env)
         {
+            var staffLookup = env.ObjVerEx.Properties.GetProperty(Configuration.ChangePincode_StaffName).TypedValue.GetValueAsLookup();
+            ObjVerEx staff = new ObjVerEx(env.Vault, staffLookup);
+
+            var currentStaffPinCode = staff.Properties.GetProperty(Configuration.Staff_PinCode);
             var oldPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.ChangePincode_OldPinCode);
 
-            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
-            mFSearchBuilder.Class(Configuration.Staff);
-            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(oldPinCode.GetValueAsLocalizedText()));
-            var staffUserRecord = mFSearchBuilder.FindOneEx();
-
-            if (staffUserRecord == null)
+            if (currentStaffPinCode.GetValueAsLocalizedText() != oldPinCode.GetValueAsLocalizedText())
                 throw new Exception($"Incorrect pin(Old Pin)");
 
 
@@ -35,7 +34,7 @@ namespace IHFM.VAF
                 throw new Exception($"Invalid New Pin, please try a different pin");
 
 
-            staffUserRecord.SaveProperty(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(newPinCode.GetValueAsLocalizedText()));
+            staff.SaveProperty(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(newPinCode.GetValueAsLocalizedText()));
         }
     }
 }
