@@ -31,6 +31,13 @@ namespace IHFM.VAF
             if (newPinCode.GetValueAsLocalizedText() != reEnterNewPinCode.GetValueAsLocalizedText())
                 throw new Exception($"New pin code and re-entered pin code do not match.");
 
+            MFSearchBuilder existingPincodeSearch = new MFSearchBuilder(env.ObjVerEx.Vault);
+            existingPincodeSearch.Class(Configuration.Staff);
+            existingPincodeSearch.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(newPinCode.GetValueAsLocalizedText()));
+            var existingObjectsWithSamePincode = existingPincodeSearch.FindEx();
+
+            if (existingObjectsWithSamePincode.Count > 1)
+                throw new Exception($"Invalid New Pin, please try a different pin");
 
             staffUserRecord.SaveProperty(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, newPinCode.GetValueAsLocalizedText());
         }

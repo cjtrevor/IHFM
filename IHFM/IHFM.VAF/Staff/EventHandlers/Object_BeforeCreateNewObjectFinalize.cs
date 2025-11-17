@@ -31,5 +31,19 @@ namespace IHFM.VAF
 
             env.ObjVerEx.SetProperty(Configuration.CreatedBy, MFDataType.MFDatatypeLookup, staffUserObject.ID);
         }
+
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.Staff")]
+        public void BeforeCheckInChanges_EnsureUniqueStaffPinCode(EventHandlerEnvironment env)
+        {
+            var staffPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.Staff_PinCode);
+
+            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
+            mFSearchBuilder.Class(Configuration.Staff);
+            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(staffPinCode.GetValueAsLocalizedText()));
+            var existingObjectsWithSamePincode = mFSearchBuilder.FindEx();
+
+            if (existingObjectsWithSamePincode.Count > 1)
+                throw new Exception($"Invalid pin, please try a different pin");
+        }
     }
 }
