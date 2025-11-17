@@ -13,16 +13,19 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.ChangePincode")]
         public void ChangeStaffPinCode(EventHandlerEnvironment env)
         {
+            var staffLookup = env.ObjVerEx.Properties.GetProperty(Configuration.ChangePincode_StaffName).TypedValue.GetValueAsLookup();
+            ObjVerEx staff = new ObjVerEx(env.Vault, staffLookup);
+
+            var currentStaffPinCode = staff.Properties.GetProperty(Configuration.Staff_PinCode);
             var oldPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.ChangePincode_OldPinCode);
 
-            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
-            mFSearchBuilder.Class(Configuration.Staff);
-            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, oldPinCode.GetValueAsLocalizedText());
-            var staffUserRecord = mFSearchBuilder.FindOneEx();
+            //MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
+            //mFSearchBuilder.Class(Configuration.Staff);
+            //mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, oldPinCode.GetValueAsLocalizedText());
+            //var staffUserRecord = mFSearchBuilder.FindOneEx();
 
-            if (staffUserRecord == null)
+            if (currentStaffPinCode.GetValueAsLocalizedText() != oldPinCode.GetValueAsLocalizedText())
                 throw new Exception($"Incorrect pin(Old Pin)");
-
 
             var newPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.ChangePincode_NewPinCode);
             var reEnterNewPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.ChangePincode_ReEnterNewPinCode);
@@ -39,7 +42,7 @@ namespace IHFM.VAF
             if (existingObjectsWithSamePincode.Count > 1)
                 throw new Exception($"Invalid New Pin, please try a different pin");
 
-            staffUserRecord.SaveProperty(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, newPinCode.GetValueAsLocalizedText());
+            staff.SaveProperty(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, newPinCode.GetValueAsLocalizedText());
         }
     }
 }
