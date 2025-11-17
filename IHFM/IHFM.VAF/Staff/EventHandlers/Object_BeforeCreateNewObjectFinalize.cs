@@ -31,12 +31,13 @@ namespace IHFM.VAF
             foreach (var saItem in siteAdministrators)
             {
                 env.ObjVerEx.AddLookup(Configuration.SiteAdministrators, saItem.ToObjID().ID);
-            }
+        }
 
             foreach (var stlItem in siteTeamLeaders)
-            {
+        {
                 env.ObjVerEx.AddLookup(Configuration.SiteTeamLeaders, stlItem.ToObjID().ID);
             }
         }
+
     }
 }

@@ -89,6 +89,9 @@
     <Compile Include="CarePlan\Configuration\Configuration.cs" />
     <Compile Include="CarePlan\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="CarePlan\Services\CarePlanSearchService.cs" />
+    <Compile Include="ChangePincode\Configuration\Configuration.cs" />
+    <Compile Include="ChangePincode\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="DailyCare\Automatic Values\CalculatedValues.cs" />
     <Compile Include="DailyCare\BackgroundOperations\BackgroundOperations.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
@@ -169,6 +172,8 @@
     <Compile Include="Site\Services\SiteSearchService.cs" />
     <Compile Include="Site\ValueOptionProviders\ClassTypesOptionsProvider.cs" />
     <Compile Include="Site\VaultExtensionMethods\VaultExtensionMethods.cs" />
+    <Compile Include="Staff\Configuration\Configuration.cs" />
+    <Compile Include="Staff\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="SistersInstructions\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Staff\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Staff\Services\StaffPropertyService.cs" />
