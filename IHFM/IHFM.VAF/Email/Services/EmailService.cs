@@ -100,7 +100,7 @@ namespace IHFM.VAF.Email.Services
                         // Production mode - uses SMTP server
                         smtp.Host = _configuration.Email_SMTP;
                         smtp.Port = _configuration.Email_Port;
-                        smtp.EnableSsl = _configuration.Email_EnableSsl;
+                        smtp.EnableSsl = true;
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                         smtp.UseDefaultCredentials = false;
 
