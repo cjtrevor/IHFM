@@ -119,6 +119,8 @@ namespace IHFM.VAF
                     return;
 
                 var staffEmailAddresses = new List<string>();
+                staffEmailAddresses.AddRange(Configuration.ShiftAllocation_MailLising.Split(';'));
+
                 foreach (Lookup staffLookup in staffAttendingLookups)
                 {
                     var staffObjVer = new ObjVerEx(env.Vault, staffLookup);

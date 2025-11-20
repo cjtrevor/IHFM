@@ -24,11 +24,5 @@ namespace IHFM.VAF
 
         [DataMember]
         public int Email_Port { get; set; }
-
-        [DataMember]
-        public bool Email_EnableSsl { get; set; }
-
-        [DataMember]
-        public string Email_PickupDirectoryLocation { get; set; }
     }
 }

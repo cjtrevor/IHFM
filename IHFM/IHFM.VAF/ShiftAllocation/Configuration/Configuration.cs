@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,5 +24,8 @@ namespace IHFM.VAF
 
         [MFPropertyDef]
         public MFIdentifier ShiftAllocation_StaffAttending = "MFiles.Property.StaffAttending";
+
+        [DataMember]
+        public string ShiftAllocation_MailLising { get; set; }
     }
 }

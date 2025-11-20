@@ -90,25 +90,16 @@ namespace IHFM.VAF.Email.Services
             {
                 using (SmtpClient smtp = new SmtpClient())
                 {
-                    //if (!string.IsNullOrEmpty(_configuration.Email_PickupDirectoryLocation))
-                    //{
-                    //    smtp.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-                    //    smtp.PickupDirectoryLocation = _configuration.Email_PickupDirectoryLocation;
-                    //}
-                    //else
-                    //{
-                        // Production mode - uses SMTP server
-                        smtp.Host = _configuration.Email_SMTP;
-                        smtp.Port = _configuration.Email_Port;
-                        smtp.EnableSsl = true;
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.UseDefaultCredentials = false;
+                    smtp.Host = _configuration.Email_SMTP;
+                    smtp.Port = _configuration.Email_Port;
+                    smtp.EnableSsl = true;
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtp.UseDefaultCredentials = false;
 
-                        if (!string.IsNullOrEmpty(_configuration.Email_Username))
-                        {
-                            smtp.Credentials = new NetworkCredential(_configuration.Email_Username, _configuration.Email_Password);
-                        }
-                    //}
+                    if (!string.IsNullOrEmpty(_configuration.Email_Username))
+                    {
+                        smtp.Credentials = new NetworkCredential(_configuration.Email_Username, _configuration.Email_Password);
+                    }
 
                     smtp.Send(mail);
                 }
