@@ -14,7 +14,7 @@ namespace IHFM.VAF
         public void CalculateAge(EventHandlerEnvironment env)
         {
             AgeCalculationService ageCalculationService = new AgeCalculationService();
-            ageCalculationService.RefreshAge(env.ObjVerEx, Configuration, false);
+            ageCalculationService.RefreshAge(env.ObjVerEx, Configuration);
         }
     }
 }

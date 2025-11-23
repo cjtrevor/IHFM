@@ -31,7 +31,7 @@ namespace IHFM.VAF
 			}
 		}
 
-		public void RefreshAge(ObjVerEx objVerEx, Configuration configuration, bool doCheckout = true)
+		public void RefreshAge(ObjVerEx objVerEx, Configuration configuration)
         {
 			string idNumber = objVerEx.GetPropertyText(configuration.IDNumber);
 			if (!IdNumberParser.ValidateIDNumber(idNumber))
@@ -39,14 +39,14 @@ namespace IHFM.VAF
 						
 			string age = CalculateAge(idNumber);
 
-			if(doCheckout)
-				objVerEx.CheckOut();
+			//if(doCheckout)
+			//	objVerEx.CheckOut();
 			
 			objVerEx.SetProperty(configuration.Age, MFilesAPI.MFDataType.MFDatatypeText, age);
 			objVerEx.SaveProperties();
 			
-			if(doCheckout)
-				objVerEx.CheckIn();
+			//if(doCheckout)
+			//	objVerEx.CheckIn();
         }
 
 		

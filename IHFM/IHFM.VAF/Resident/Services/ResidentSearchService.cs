@@ -2,6 +2,7 @@
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace IHFM.VAF
@@ -20,6 +21,20 @@ namespace IHFM.VAF
         {
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(_vault);
             mFSearchBuilder.ObjType(_configuration.ResidentObject);
+            mFSearchBuilder.Deleted(false);
+            return mFSearchBuilder.FindEx();
+        }
+
+        public List<ObjVerEx> GetAllResidentsWithDobToday()
+        {
+            DateTime today = DateTime.Today;
+            int currentDay = today.Day;
+            int currentMonth = today.Month;
+
+            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(_vault);
+            mFSearchBuilder.ObjType(_configuration.ResidentObject);
+            mFSearchBuilder.Property(_configuration.DobDay, MFDataType.MFDatatypeText, currentDay);
+            mFSearchBuilder.Property(_configuration.DobMonth, MFDataType.MFDatatypeText, CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(currentMonth));
             mFSearchBuilder.Deleted(false);
             return mFSearchBuilder.FindEx();
         }

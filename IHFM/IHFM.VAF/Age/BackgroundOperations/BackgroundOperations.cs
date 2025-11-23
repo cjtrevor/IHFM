@@ -15,7 +15,7 @@ namespace IHFM.VAF
             ResidentSearchService residentSearchService = new ResidentSearchService(vault,configuration);
             AgeCalculationService ageCalculationService = new AgeCalculationService();
 
-            List<ObjVerEx> residents = residentSearchService.GetAllResidents();
+            List<ObjVerEx> residents = residentSearchService.GetAllResidentsWithDobToday();
             residents.ForEach(x => {
                 ageCalculationService.RefreshAge(x, configuration);
             });
