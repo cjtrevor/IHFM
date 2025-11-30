@@ -85,17 +85,6 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier AverageCost = "MFiles.Property.AverageCost";
 
-        [MFPropertyDef]
-        public MFIdentifier TBCS_TimeBasedCareItem = "MFiles.Property.TimeBasedCareItem";
-        [MFPropertyDef]
-        public MFIdentifier TBCS_TbcScheduledTimes = "MFiles.Property.TbcScheduledTimes";
-
-        [MFPropertyDef]
-        public MFIdentifier TBCI_TBCType = "PD.Tbctype";
-
-        [MFPropertyDef]
-        public MFIdentifier TBCS_TimeBasedCareScheduleDropdown = "MFiles.Property.TimeBasedCareScedule";
-
         [MFValueListItem(ValueList = "VL.Tbctype")]
         public MFIdentifier TBCType_ADL = "{20AFCF10-748F-46EE-B1F6-AAC9459FEB29}";
         [MFValueListItem(ValueList = "VL.Tbctype")]

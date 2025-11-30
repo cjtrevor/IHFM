@@ -17,7 +17,7 @@ namespace IHFM.VAF
 			return "Completed";
 		}
 
-		[VaultExtensionMethod("RefreshSiteAverageAge",RequiredVaultAccess = MFVaultAccess.MFVaultAccessNone)]
+        [VaultExtensionMethod("RefreshSiteAverageAge",RequiredVaultAccess = MFVaultAccess.MFVaultAccessNone)]
 		public string RefreshSiteAverageAge(EventHandlerEnvironment env)
         {
 			new AgeBackgroundOperations().SetAverageSiteAges(env.Vault, Configuration);

@@ -52,7 +52,7 @@ namespace IHFM.VAF
             return calculated;
         }
 
-        [PropertyCustomValue("MFiles.Property.DurationOfStayInFrailcare")]
+        //[PropertyCustomValue("MFiles.Property.DurationOfStayInFrailcare")]
         public TypedValue SetDurationInFrailcare(PropertyEnvironment env)
         {
             TypedValue calculated = new TypedValue();
@@ -67,14 +67,14 @@ namespace IHFM.VAF
                     DateTime admissionDate = DateTime.Parse(env.ObjVerEx.GetProperty(Configuration.Resident_DateAdmittedToFrailCare).GetValueAsLocalizedText());
 
                     numOfDays = (deceasedDate - admissionDate).Days;
-                }             
+                }
             }
 
             calculated.SetValue(MFDataType.MFDatatypeInteger, numOfDays);
             return calculated;
         }
 
-        [PropertyCustomValue("MFiles.Property.DurationOfStayInFacility")]
+        //[PropertyCustomValue("MFiles.Property.DurationOfStayInFacility")]
         public TypedValue SetDurationInFacility(PropertyEnvironment env)
         {
             TypedValue calculated = new TypedValue();

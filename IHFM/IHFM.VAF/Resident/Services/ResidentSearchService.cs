@@ -1,4 +1,5 @@
 ﻿using MFiles.VAF.Common;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,30 @@ namespace IHFM.VAF
             mFSearchBuilder.Property(_configuration.DobMonth, MFDataType.MFDatatypeText, CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(currentMonth));
             mFSearchBuilder.Deleted(false);
             return mFSearchBuilder.FindEx();
+        }
+
+        public List<ObjVerEx> GetAllResidentsBeforeDurationLastUpdatedDateByBatch(DateTime durationLastUpdatedDate, int batchValue)
+        {
+            var residentList = new List<ObjVerEx>();
+
+            MFSearchBuilder mFSearchBuilderEmpty = new MFSearchBuilder(_vault);
+            mFSearchBuilderEmpty.ObjType(_configuration.ResidentObject);
+            mFSearchBuilderEmpty.Property(_configuration.Base_BatchProcessingConfiguration, batchValue);
+            mFSearchBuilderEmpty.PropertyEmpty(_configuration.Resident_DurationsLastUpdated);
+            mFSearchBuilderEmpty.PropertyEmpty(_configuration.Resident_DateDeceased);
+            mFSearchBuilderEmpty.Deleted(false);
+
+            MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(_vault);
+            mFSearchBuilder.ObjType(_configuration.ResidentObject);
+            mFSearchBuilder.Property(_configuration.Base_BatchProcessingConfiguration, batchValue);
+            mFSearchBuilder.PropertyEmpty(_configuration.Resident_DateDeceased);
+            mFSearchBuilder.Date(_configuration.Resident_DurationsLastUpdated, durationLastUpdatedDate, MFConditionType.MFConditionTypeLessThanOrEqual);
+            mFSearchBuilder.Deleted(false);
+
+            residentList.AddRange(mFSearchBuilderEmpty.FindEx());
+            residentList.AddRange(mFSearchBuilder.FindEx());
+
+            return residentList;
         }
 
         public List<ObjVerEx> GetAllActiveResidents()

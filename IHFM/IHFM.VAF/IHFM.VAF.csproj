@@ -91,6 +91,8 @@
     <Compile Include="Assignments\EventHandlers\Object_BeforeCheckInChangesFinalize.cs" />
     <Compile Include="Assignments\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Assignments\Services\SiteAssignmentService.cs" />
+    <Compile Include="Base\BatchProcessingHelper.cs" />
+    <Compile Include="Base\CalculatedValues.cs" />
     <Compile Include="Base\Configuration.cs" />
     <Compile Include="CarePlan\Configuration\Configuration.cs" />
     <Compile Include="CarePlan\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
@@ -186,6 +188,8 @@
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="IncontinenceSupplies\Services\NappyUsageService.cs" />
     <Compile Include="Stock\Services\SiteStockUpdateService.cs" />
+    <Compile Include="TimeBasedCareSchedule\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="TimeBasedCareSchedule\Configuration\Configuration.cs" />
     <Compile Include="TimeBasedCare\Configuration\Configuration.cs" />
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCheckInChanges.cs" />
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />

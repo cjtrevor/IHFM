@@ -2,7 +2,9 @@ using IHFM.VAF.Utilities;
 using MFiles.VAF;
 using MFiles.VAF.Common;
 using MFiles.VAF.Configuration;
+using MFiles.VAF.Configuration.Domain.Dashboards;
 using MFiles.VAF.Core;
+using MFiles.VAF.Extensions.ScheduledExecution;
 using MFilesAPI;
 using System;
 using System.Diagnostics;
@@ -16,10 +18,17 @@ namespace IHFM.VAF
     public partial class VaultApplication
         : MFiles.VAF.Extensions.ConfigurableVaultApplicationBase<Configuration>
     {
+
         protected override void StartApplication()
         {
             try
             {
+                TaskQueueBackgroundOperationManager.StartScheduledBackgroundOperation("Monthly Resident Duration Property Updates", Residen_DuratioPropertyUpdates_ProcessingSchedule(), (job) =>
+                {
+                    new AgeBackgroundOperations().UpdateResidentDurationProperties(job.Vault, Configuration);
+                    SysUtils.ReportInfoToEventLog($"IHFM: UpdateResidentDurationProperties completed.");
+                });
+
                 //Refresh Resident Ages
                 TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Resident Age Refresh",
                 TimeSpan.FromHours(Configuration.AgeRunCheckInterval), (job) =>
@@ -54,5 +63,42 @@ namespace IHFM.VAF
                 SysUtils.ReportErrorToEventLog("Exception starting background operations", e);
             }
         }
+
+
+        private Schedule Residen_DuratioPropertyUpdates_ProcessingSchedule()
+        {
+            var processingTrigger = new Trigger(ScheduleTriggerType.Monthly);
+            processingTrigger.DayOfMonthTriggerConfiguration.TriggerDays.Add(1);
+
+            //First time processing each batch gets done every hour, then every 30 minutes, then every 20 minutes
+            for (int x = 0; x < 18; x++)
+            {
+                if (x <= 9)
+                {
+                    processingTrigger.DayOfMonthTriggerConfiguration.TriggerTimes.Add(new TimeSpan(x, 0, 0));
+                }
+                else if (x <= 14)
+                {
+                    processingTrigger.DayOfMonthTriggerConfiguration.TriggerTimes.Add(new TimeSpan(x, 0, 0));
+                    processingTrigger.DayOfMonthTriggerConfiguration.TriggerTimes.Add(new TimeSpan(x, 30, 0));
+                }
+                else
+                {
+                    for (int i = 0; i < 60; i += 20)
+                    {
+                        processingTrigger.DayOfMonthTriggerConfiguration.TriggerTimes.Add(new TimeSpan(x, i, 0));
+                    }
+                }
+
+            }
+
+            var processingSchedule = new Schedule();
+            processingSchedule.Triggers.Add(processingTrigger);
+
+            processingSchedule.Enabled = true;
+
+            return processingSchedule;
+        }
+
     }
 }

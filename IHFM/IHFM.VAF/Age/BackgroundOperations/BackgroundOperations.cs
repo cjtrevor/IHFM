@@ -1,4 +1,5 @@
-﻿using MFiles.VAF.Common;
+﻿using IHFM.VAF.Base;
+using MFiles.VAF.Common;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,39 @@ namespace IHFM.VAF
 {
     public class AgeBackgroundOperations
     {
+        public void UpdateResidentDurationProperties(Vault vault, Configuration configuration)
+        {
+            ResidentSearchService residentSearchService = new ResidentSearchService(vault, configuration);
+
+            DateTime now = DateTime.Now;
+            DateTime durationLastUpdatedDate = new DateTime(now.Year, now.Month, 2).AddMonths(-1);
+
+            var batchValue = BatchProcessingHelper.GetNextBatchValue("UpdateResidentDurationProperties");
+            var residentsToUpdate = residentSearchService.GetAllResidentsBeforeDurationLastUpdatedDateByBatch(durationLastUpdatedDate, batchValue);
+
+            foreach (var resident in residentsToUpdate)
+            {
+                if (resident.HasValue(configuration.Resident_DateAdmittedToFrailCare))
+                {
+                    DateTime admissionDate_FrailCare = DateTime.Parse(resident.GetProperty(configuration.Resident_DateAdmittedToFrailCare).GetValueAsLocalizedText());
+                    var days_FrailCare = (now - admissionDate_FrailCare).Days;
+
+                    resident.SetProperty(configuration.Resident_DurationOfStayInFrailcare, MFDataType.MFDatatypeInteger, days_FrailCare);
+                }
+
+                if (resident.HasValue(configuration.Resident_DateAdmittedToFacility))
+                {
+                    DateTime admissionDate_Facility = DateTime.Parse(resident.GetProperty(configuration.Resident_DateAdmittedToFacility).GetValueAsLocalizedText());
+                    var days_Facility = (now - admissionDate_Facility).Days;
+
+                    resident.SetProperty(configuration.Resident_DurationOfStayInFacility, MFDataType.MFDatatypeInteger, days_Facility);
+                }
+                   
+                resident.SetProperty(configuration.Resident_DurationsLastUpdated, MFDataType.MFDatatypeTimestamp, DateTime.Now);
+                resident.SaveProperties();
+            }
+        }
+
         public void RefreshResidentAge(Vault vault, Configuration configuration)
         {
             ResidentSearchService residentSearchService = new ResidentSearchService(vault,configuration);

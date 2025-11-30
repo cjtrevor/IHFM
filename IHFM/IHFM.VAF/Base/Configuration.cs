@@ -5,6 +5,8 @@ namespace IHFM.VAF
 {
     [DataContract]
     public partial class Configuration
-    { 
+    {
+        [MFPropertyDef]
+        public MFIdentifier Base_BatchProcessingConfiguration = "MFiles.Property.BatchProcessingConfiguration";
     }
 }
