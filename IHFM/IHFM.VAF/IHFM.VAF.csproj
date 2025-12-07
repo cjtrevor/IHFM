@@ -130,6 +130,8 @@
     <Compile Include="GCS\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="GCS\Configuration\Configuration.cs" />
     <Compile Include="GCS\Services\GcsCalculationService.cs" />
+    <Compile Include="HealthAndSafety\Configuration\Configuration.cs" />
+    <Compile Include="HealthAndSafety\Eventhandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="HealthcareForm\Configuration\Configuration.cs" />
     <Compile Include="HealthcareForm\Eventhandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="IncidentReport\Configuration\Configuration.cs" />
