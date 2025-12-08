@@ -37,6 +37,9 @@ namespace IHFM.VAF
         {
             var staffPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.Staff_PinCode);
 
+            if (string.IsNullOrWhiteSpace(staffPinCode.GetValueAsLocalizedText()))
+                return;
+
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
             mFSearchBuilder.Class(Configuration.Staff);
             mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(staffPinCode.GetValueAsLocalizedText()));
