@@ -12,7 +12,7 @@ namespace IHFM.VAF
     {
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.ShiftAllocation")]
         public void BeforeCreateNewShiftAllocation(EventHandlerEnvironment env)
-        {           
+        {
             var server_Start_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StartDateTime).TypedValue.GetValueAsTimestamp();
             var local_Start_DateTime = server_Start_Timestamp.ToLocalDateTime();
 
@@ -118,6 +118,7 @@ namespace IHFM.VAF
                 if (totalTimeInMinutes < 20)
                     return;
 
+                string staffMembers = "";
                 var staffEmailAddresses = new List<string>();
                 staffEmailAddresses.AddRange(Configuration.ShiftAllocation_MailLising.Split(';'));
 
@@ -125,12 +126,14 @@ namespace IHFM.VAF
                 {
                     var staffObjVer = new ObjVerEx(env.Vault, staffLookup);
                     var emailAddress = staffObjVer.GetPropertyText(Configuration.Staff_EmailAddress);
-                    
+                    staffMembers += $"{staffLookup.DisplayValue}\n";
+
                     if (!string.IsNullOrEmpty(emailAddress))
                     {
                         staffEmailAddresses.Add(emailAddress);
                     }
                 }
+
 
                 if (staffEmailAddresses.Count > 0)
                 {
@@ -140,8 +143,9 @@ namespace IHFM.VAF
                     string subject = $"Shift Allocation - {residentName}";
                     string location = ""; // Get location from resident or site????
                     
-                    string body = $"You have been assigned to a shift:\n\n" +
+                    string body = $"You have been assigned to a shift\n\n" +
                                  $"Resident: {residentName}\n" +
+                                 $"\nStaff Assigned:\n{staffMembers}\n" +
                                  $"Date: {local_Start_DateTime.ToString("dddd, dd MMMM yyyy")}\n" +
                                  $"Time: {local_Start_DateTime.ToString("HH:mm")} - {local_End_DateTime.ToString("HH:mm")}\n" +
                                  $"Duration: {totalTimeInMinutes} minutes\n\n" +
