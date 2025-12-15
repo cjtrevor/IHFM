@@ -26,5 +26,7 @@ namespace IHFM.VAF
         public MFIdentifier PanicButtonTest_ReportToMaintenanceManager = "MFiles.Property.ReportToMaintenanceManager";
         [MFPropertyDef]
         public MFIdentifier PanicButtonTest_CreatedBy = "MFiles.Property.CreatedBy";
+        [MFPropertyDef]
+        public MFIdentifier PanicButtonTest_PrintPDF = "MFiles.Property.GeneratePdfForSignature";
     }
 }

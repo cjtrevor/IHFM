@@ -13,8 +13,11 @@ namespace IHFM.VAF
     public partial class VaultApplication
     {
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.PanicButtonTest")]
-        public void PranTest(EventHandlerEnvironment env)
+        public void BeforeNewPanicButtonTestCheckinChangesFinalize(EventHandlerEnvironment env)
         {
+            if (env.ObjVerEx.HasValue(Configuration.PanicButtonTest_PrintPDF) && env.ObjVerEx.GetProperty(Configuration.PanicButtonTest_PrintPDF).GetValue<bool>() == false)
+                return;
+
             string objectId = env.ObjVer.ID.ToString();
 
             var parameterJsonData = new
@@ -38,7 +41,7 @@ namespace IHFM.VAF
 
             File.WriteAllBytes($"C:\\SSRS Temp Output\\{objectId}.pdf", rep);
             env.Vault.ObjectFileOperations.GetFilesForModificationInEventHandler(env.ObjVer);
-            env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"PB{objectId}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}.pdf");
+            env.Vault.ObjectFileOperations.AddFile(env.ObjVer, $"PBT{objectId}-{env.ObjVerEx.Version}", "pdf", $"C:\\SSRS Temp Output\\{objectId}.pdf");
             File.Delete($"C:\\SSRS Temp Output\\{objectId}.pdf");
         }
         
