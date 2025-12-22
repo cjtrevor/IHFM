@@ -32,7 +32,7 @@ namespace IHFM.VAF
             return resident.GetProperty(_configuration.OnCarePlan).GetValue<bool>();
         }
 
-        public List<ObjVer> GetResidentTBCItems(Lookup residentLookup, bool carePlanOptional = false)
+        public List<ObjVer> GetResidentTBCItems(Lookup residentLookup, int itemTypeFilter = -1, bool carePlanOptional = false)
         {
             List<ObjVer> objVers = new List<ObjVer>();
 
@@ -48,13 +48,13 @@ namespace IHFM.VAF
             }
 
             //Get Daily Items
-            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.DailyADLLookup));
+            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.DailyADLLookup, itemTypeFilter));
 
             //Get Weekly Items
-            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.WeekdaysADLLookup));
+            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.WeekdaysADLLookup, itemTypeFilter));
 
             //Get Specific Day Items
-            objVers.AddRange(GetTBCItems(residentCarePlan, GetADLAliasForDayOfWeek()));
+            objVers.AddRange(GetTBCItems(residentCarePlan, GetADLAliasForDayOfWeek(), itemTypeFilter));
 
             return objVers;
         }
@@ -105,7 +105,7 @@ namespace IHFM.VAF
             }
         }
 
-        private List<ObjVer> GetTBCItems(ObjVerEx resident, MFIdentifier alias)
+        private List<ObjVer> GetTBCItems(ObjVerEx resident, MFIdentifier alias, int itemTypeFilter = -1)
         {
             List<ObjVer> objVers = new List<ObjVer>();
 
@@ -117,9 +117,14 @@ namespace IHFM.VAF
 
                 Lookups times = scheduleItem.GetLookups(_configuration.TBCS_TbcScheduledTimes);
 
+                Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
+                ObjVerEx tbcItemObj = new ObjVerEx(_vault, tbcItem);
+
+                if (itemTypeFilter >= 0 && !(tbcItemObj.HasValue(_configuration.TBCItem_StaffType) && tbcItemObj.GetLookupID(_configuration.TBCItem_StaffType) == itemTypeFilter))
+                    continue;
+
                 if (times.Count == 0)
                 {
-                    Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
                     objVers.Add(tbcItem.GetAsObjVer());
                 }
                 else
@@ -128,7 +133,6 @@ namespace IHFM.VAF
                     {
                         if (ScheduledItemIsInCurrentTimeSlot(time.DisplayValue))
                         {
-                            Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
                             objVers.Add(tbcItem.GetAsObjVer());
                         }
                     }

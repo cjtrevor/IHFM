@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using MFiles.VAF.Common;
+﻿using MFiles.VAF.Common;
 using MFilesAPI;
+using System;
+using System.Collections.Generic;
 
 namespace IHFM.VAF
 {
@@ -37,18 +37,16 @@ namespace IHFM.VAF
                     }
                 }
 
-                
-
                 //Start Time
                 if (ShouldAddStartTime(env))
                 { 
                     env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
                 }
-                
-                //var carePlanOptionalCheck = env.ObjVerEx.GetProperty(Configuration.MedsGiven_Adhoc).GetValue<bool>();
+
+                var tbcStaffTyeLookupId = env.ObjVerEx.GetLookupID(Configuration.TBCItem_StaffType);
                 //TBC Items
                 Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
-                List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCItems(residentLookup);
+                List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCItems(residentLookup, tbcStaffTyeLookupId);
 
                 TBCADL.ForEach(x => {
                     env.ObjVerEx.AddLookup(Configuration.TBCADLLookup, x);
