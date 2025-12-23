@@ -25,6 +25,26 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier ShiftAllocation_StaffAttending = "MFiles.Property.StaffAttending";
 
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_RecurrenceFrequency = "MFiles.Property.RecurrenceFrequency";
+
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_DayOfMonth = "MFiles.Property.DayOfMonth2";
+
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_DaysOfWeek = "MFiles.Property.DaysOfWeek";
+
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_RecurrenceEndDate = "MFiles.Property.RecurrenceEndDate";
+
+
+        [MFValueListItem(ValueList = "MFiles.Valuelist.RecurrenceFrequincy")]
+        public MFIdentifier EmailFrequency_Daily = "{B4DFC279-35D6-47F3-BC41-850473B5A918}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.RecurrenceFrequincy")]
+        public MFIdentifier EmailFrequency_Weekly = "{3FB5767D-13FF-4529-8E29-396A3777DCFD}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.RecurrenceFrequincy")]
+        public MFIdentifier EmailFrequency_Monthly = "{D203262F-87C1-4205-943D-BF8F1B6D7469}";
+
         [DataMember]
         public string ShiftAllocation_MailLising { get; set; }
     }

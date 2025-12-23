@@ -45,6 +45,9 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_Age = "MFiles.Property.Age";
 
+        [MFPropertyDef]
+        public MFIdentifier Resident_HomeAddress = "MFiles.Property.HomeAddress";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier Resident_GenderTitle = "MFiles.Property.GenderTitle";
 

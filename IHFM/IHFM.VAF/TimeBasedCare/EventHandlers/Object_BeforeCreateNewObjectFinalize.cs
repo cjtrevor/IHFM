@@ -43,7 +43,11 @@ namespace IHFM.VAF
                     env.ObjVerEx.SetProperty(Configuration.StartTimeTBC, MFilesAPI.MFDataType.MFDatatypeTime, DateTime.Now);
                 }
 
-                var tbcStaffTyeLookupId = env.ObjVerEx.GetLookupID(Configuration.TBCItem_StaffType);
+                var staffObj = env.ObjVerEx.GetProperty(Configuration.DailyCareTBC_Staff).TypedValue.GetValueAsLookup();
+                var staffObjEx = new ObjVerEx(env.Vault, staffObj);
+
+                var tbcStaffTyeLookupId = staffObjEx.GetLookupID(Configuration.Staff_TBCStaffType);
+
                 //TBC Items
                 Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
                 List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCItems(residentLookup, tbcStaffTyeLookupId);

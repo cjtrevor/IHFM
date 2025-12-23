@@ -1,10 +1,13 @@
-﻿using MFiles.VAF.Common;
+﻿using IHFM.VAF.Email.Services;
+using IHFM.VAF.Utilities;
+using MFiles.VAF.Common;
 using MFiles.VAF.Configuration;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
-using IHFM.VAF.Utilities;
-using IHFM.VAF.Email.Services;
+using System.Linq;
+using System.Net;
 
 namespace IHFM.VAF
 {
@@ -18,7 +21,7 @@ namespace IHFM.VAF
 
             Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
             ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
-            
+
             CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
             ObjVerEx careplan = searchService.GetResidentCarePlanExisting(residentLookup.Item);
 
@@ -48,13 +51,13 @@ namespace IHFM.VAF
 
 
             List<string> conflictMessages = new List<string>();
-            
+
             foreach (Lookup staffLookup in staffAttendingLookups)
             {
                 ShiftAllocationSearchService shiftAllocationSearchService = new ShiftAllocationSearchService(env.Vault, Configuration);
                 var existingAllocations = shiftAllocationSearchService.SearchForExistingStaffShiftAllocations(
                     staffLookup.Item,
-                    local_Start_DateTime, 
+                    local_Start_DateTime,
                     env.ObjVer.ID
                 );
 
@@ -62,7 +65,7 @@ namespace IHFM.VAF
                 {
                     var server_existingStart_Timestamp = existingAllocation.GetProperty(Configuration.ShiftAllocation_StartDateTime).TypedValue.GetValueAsTimestamp();
                     var server_existingEnd_Timestamp = existingAllocation.GetProperty(Configuration.ShiftAllocation_EndDateTime).TypedValue.GetValueAsTimestamp();
-                    
+
                     var local_existingStart = server_existingStart_Timestamp.ToLocalDateTime();
                     var local_existingEnd = server_existingEnd_Timestamp.ToLocalDateTime();
 
@@ -105,7 +108,7 @@ namespace IHFM.VAF
             {
                 var server_Start_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StartDateTime).TypedValue.GetValueAsTimestamp();
                 var local_Start_DateTime = server_Start_Timestamp.ToLocalDateTime();
-                
+
                 var server_End_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_EndDateTime).TypedValue.GetValueAsTimestamp();
                 var local_End_DateTime = server_End_Timestamp.ToLocalDateTime();
 
@@ -138,46 +141,80 @@ namespace IHFM.VAF
                 if (staffEmailAddresses.Count > 0)
                 {
                     EmailService emailService = new EmailService(Configuration);
-                    
+
+                    var residentObjVer = new ObjVerEx(env.Vault, residentLookup);
+
                     string residentName = residentLookup.DisplayValue;
+                    string residentAddress = residentObjVer.GetPropertyText(Configuration.Resident_HomeAddress);
                     string subject = $"Shift Allocation - {residentName}";
                     string location = ""; // Get location from resident or site????
-                    
+
                     string body = $"You have been assigned to a shift\n\n" +
                                  $"Resident: {residentName}\n" +
+                                 $"Address: {residentAddress}\n" +
                                  $"\nStaff Assigned:\n{staffMembers}\n" +
                                  $"Date: {local_Start_DateTime.ToString("dddd, dd MMMM yyyy")}\n" +
                                  $"Time: {local_Start_DateTime.ToString("HH:mm")} - {local_End_DateTime.ToString("HH:mm")}\n" +
                                  $"Duration: {totalTimeInMinutes} minutes\n\n" +
                                  $"Please confirm your attendance.";
 
+                    var emailFreq = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_RecurrenceFrequency).TypedValue.GetValueAsLookup();
+                    var recurrenceEndDate = env.ObjVerEx.HasValue(Configuration.ShiftAllocation_RecurrenceEndDate) ? env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_RecurrenceEndDate).TypedValue.GetValueAsTimestamp().ToDateTime() : local_Start_DateTime.AddYears(1);
+
+                    var recurrence = new RecurrencePattern() { Until = recurrenceEndDate };
+
+                    //Can't use Configuration.EmailFrequency_Daily.Guid because not const at compile time
+                    switch (emailFreq?.ItemGUID)
+                    {
+                        //Daily
+                        case "{D4A54681-F64B-48F3-8A79-C6D6F2C7C2CA}":
+                            recurrence.Frequency = RecurrenceFrequency.Daily;
+                            break;
+                        //Weekly
+                        case "{63756B57-94B0-42D8-9202-0659A3EA8996}":
+                            if (!env.ObjVerEx.HasValue(Configuration.ShiftAllocation_DaysOfWeek))
+                                throw new Exception("Days of Week must have at least 1 value specified for the selected Email Frequency.");
+
+                            recurrence.Frequency = RecurrenceFrequency.Weekly;
+                            var daysOfWeek = env.ObjVerEx.GetPropertyAsValueListItems(Configuration.ShiftAllocation_DaysOfWeek);
+                            foreach (var dow in daysOfWeek)
+                            {
+                                recurrence.DaysOfWeek.Add((DayOfWeek)Enum.Parse(typeof(DayOfWeek), dow.Name));
+                            }
+
+                            break;
+                        //Monthly
+                        case "{B433BB8B-71C5-4FEC-BA3B-AC5AA692EF8B}":
+                            if (!env.ObjVerEx.HasValue(Configuration.ShiftAllocation_DayOfMonth))
+                                throw new Exception("Day of Month must be specified for the selected Email Frequency.");
+
+                            recurrence.Frequency = RecurrenceFrequency.Monthly;
+                            var dayOfMonth = env.ObjVerEx.GetPropertyAsValueListItem(Configuration.ShiftAllocation_DayOfMonth);
+                            recurrence.DayOfMonth = int.Parse(dayOfMonth.Name);
+
+                            break;
+                        default:
+                            recurrence.Frequency = RecurrenceFrequency.None;
+                            break;
+                    }
+
                     foreach (string emailAddress in staffEmailAddresses)
                     {
-                        try
-                        {
-                            emailService.SendEmailWithCalendarInvite(
+                        emailService.SendEmailWithCalendarInvite(
                                 emailAddress,
                                 subject,
                                 body,
                                 location,
                                 local_Start_DateTime,
-                                local_End_DateTime
+                                local_End_DateTime,
+                                recurrence
                             );
-                        }
-                        catch (Exception ex)
-                        {
-                            // Log stuffzz but don't fail the shift allocation (it's already created)
-                            SysUtils.ReportErrorToEventLog("IHFM.VAF", 
-                                $"Failed to send shift allocation email to {emailAddress}: {ex.Message}");
-                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Log stuffzz but don't throw - the shift allocation is already created
-                SysUtils.ReportErrorToEventLog("IHFM.VAF", 
-                    $"Error in AfterCreateNewShiftAllocation email notification: {ex.Message}");
+                throw;
             }
         }
 

@@ -120,7 +120,7 @@ namespace IHFM.VAF
                 Lookup tbcItem = scheduleItem.GetProperty(_configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
                 ObjVerEx tbcItemObj = new ObjVerEx(_vault, tbcItem);
 
-                if (itemTypeFilter >= 0 && !(tbcItemObj.HasValue(_configuration.TBCItem_StaffType) && tbcItemObj.GetLookupID(_configuration.TBCItem_StaffType) == itemTypeFilter))
+                if (itemTypeFilter >= 0 && !(tbcItemObj.HasValue(_configuration.TBCItem_TBCStaffType) && tbcItemObj.GetLookupID(_configuration.TBCItem_TBCStaffType) == itemTypeFilter))
                     continue;
 
                 if (times.Count == 0)

@@ -10,6 +10,9 @@ namespace IHFM.VAF
     public partial class Configuration
     {
         [MFPropertyDef]
+        public MFIdentifier Staff_TBCStaffType = "MFiles.Property.TBCStaffType";
+
+        [MFPropertyDef]
         public MFIdentifier StaffLookup_StaffPinCode = "MFiles.Property.StaffPinCode";
 
         [MFPropertyDef]

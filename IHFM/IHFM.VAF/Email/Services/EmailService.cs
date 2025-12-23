@@ -11,6 +11,61 @@ using System.Threading.Tasks;
 
 namespace IHFM.VAF.Email.Services
 {
+    /// <summary>
+    /// Defines the recurrence frequency for calendar events
+    /// </summary>
+    public enum RecurrenceFrequency
+    {
+        None,
+        Daily,
+        Weekly,
+        Monthly,
+        Yearly
+    }
+
+    /// <summary>
+    /// Represents a recurrence pattern for calendar events
+    /// </summary>
+    public class RecurrencePattern
+    {
+        /// <summary>
+        /// Frequency of recurrence (Daily, Weekly, Monthly, Yearly)
+        /// </summary>
+        public RecurrenceFrequency Frequency { get; set; }
+
+        /// <summary>
+        /// Interval between recurrences (e.g., every 2 weeks = Interval: 2)
+        /// </summary>
+        public int Interval { get; set; } = 1;
+
+        /// <summary>
+        /// Days of the week for weekly recurrence (e.g., Sunday, Wednesday, Thursday)
+        /// Use DayOfWeek enum values
+        /// </summary>
+        public List<DayOfWeek> DaysOfWeek { get; set; }
+
+        /// <summary>
+        /// Day of month for monthly recurrence (1-31)
+        /// </summary>
+        public int? DayOfMonth { get; set; }
+
+        /// <summary>
+        /// Number of occurrences before ending (optional)
+        /// </summary>
+        public int? Count { get; set; }
+
+        /// <summary>
+        /// End date for recurrence (optional)
+        /// </summary>
+        public DateTime? Until { get; set; }
+
+        public RecurrencePattern()
+        {
+            Frequency = RecurrenceFrequency.None;
+            DaysOfWeek = new List<DayOfWeek>();
+        }
+    }
+
     internal class EmailService
     {
         private Configuration _configuration;
@@ -22,14 +77,14 @@ namespace IHFM.VAF.Email.Services
 
         #region Public Email Methods
 
-        public void SendEmailWithCalendarInvite(string toAddress, string subject, string body, string location, DateTime startTime, DateTime endTime)
+        public void SendEmailWithCalendarInvite(string toAddress, string subject, string body, string location, DateTime startTime, DateTime endTime, RecurrencePattern recurrence = null)
         {
             using (MailMessage mail = new MailMessage(_configuration.Email_FromAddress, toAddress))
             {
                 mail.Subject = subject;
 
                 // Add calendar invite to email
-                AddCalendarInviteToEmail(mail, subject, body, location, startTime, endTime, toAddress);
+                AddCalendarInviteToEmail(mail, subject, body, location, startTime, endTime, toAddress, recurrence);
 
                 SendEmail(mail);
             }
@@ -66,10 +121,10 @@ namespace IHFM.VAF.Email.Services
 
         #region Private Helper Methods
 
-        private void AddCalendarInviteToEmail(MailMessage mail, string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail)
+        private void AddCalendarInviteToEmail(MailMessage mail, string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail, RecurrencePattern recurrence = null)
         {
             // Create the calendar entry
-            byte[] calendarData = CreateCalendarEntry(summary, description, location, startTime, endTime, attendeeEmail);
+            byte[] calendarData = CreateCalendarEntry(summary, description, location, startTime, endTime, attendeeEmail, recurrence);
 
             // Create AlternateView with proper MIME type for calendar
             ContentType calendarType = new ContentType("text/calendar");
@@ -110,7 +165,7 @@ namespace IHFM.VAF.Email.Services
             }
         }
 
-        private byte[] CreateCalendarEntry(string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail)
+        private byte[] CreateCalendarEntry(string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail, RecurrencePattern recurrence = null)
         {
             StringBuilder calendar = new StringBuilder();
 
@@ -159,6 +214,16 @@ namespace IHFM.VAF.Email.Services
             // Attendee
             calendar.AppendLine($"ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT:mailto:{attendeeEmail}");
 
+            // Add recurrence rule if specified
+            if (recurrence != null && recurrence.Frequency != RecurrenceFrequency.None)
+            {
+                string rrule = BuildRecurrenceRule(recurrence);
+                if (!string.IsNullOrEmpty(rrule))
+                {
+                    calendar.AppendLine($"RRULE:{rrule}");
+                }
+            }
+
             // Status
             calendar.AppendLine("STATUS:CONFIRMED");
             calendar.AppendLine("SEQUENCE:0");
@@ -170,6 +235,72 @@ namespace IHFM.VAF.Email.Services
             calendar.AppendLine("END:VCALENDAR");
 
             return Encoding.UTF8.GetBytes(calendar.ToString());
+        }
+
+        private string BuildRecurrenceRule(RecurrencePattern recurrence)
+        {
+            if (recurrence == null || recurrence.Frequency == RecurrenceFrequency.None)
+                return string.Empty;
+
+            StringBuilder rrule = new StringBuilder();
+            
+            // Add frequency
+            rrule.Append($"FREQ={recurrence.Frequency.ToString().ToUpper()}");
+
+            // Add interval if not 1
+            if (recurrence.Interval > 1)
+            {
+                rrule.Append($";INTERVAL={recurrence.Interval}");
+            }
+
+            // Add day of week for weekly recurrence
+            if (recurrence.Frequency == RecurrenceFrequency.Weekly && recurrence.DaysOfWeek != null && recurrence.DaysOfWeek.Count > 0)
+            {
+                var days = recurrence.DaysOfWeek.Select(d => ConvertDayOfWeekToICalFormat(d));
+                rrule.Append($";BYDAY={string.Join(",", days)}");
+            }
+
+            // Add day of month for monthly recurrence
+            if (recurrence.Frequency == RecurrenceFrequency.Monthly && recurrence.DayOfMonth.HasValue)
+            {
+                rrule.Append($";BYMONTHDAY={recurrence.DayOfMonth.Value}");
+            }
+
+            // Add count or until date
+            if (recurrence.Count.HasValue)
+            {
+                rrule.Append($";COUNT={recurrence.Count.Value}");
+            }
+            else if (recurrence.Until.HasValue)
+            {
+                string untilDate = recurrence.Until.Value.ToUniversalTime().ToString("yyyyMMddTHHmmssZ");
+                rrule.Append($";UNTIL={untilDate}");
+            }
+
+            return rrule.ToString();
+        }
+
+        private string ConvertDayOfWeekToICalFormat(DayOfWeek day)
+        {
+            switch (day)
+            {
+                case DayOfWeek.Sunday:
+                    return "SU";
+                case DayOfWeek.Monday:
+                    return "MO";
+                case DayOfWeek.Tuesday:
+                    return "TU";
+                case DayOfWeek.Wednesday:
+                    return "WE";
+                case DayOfWeek.Thursday:
+                    return "TH";
+                case DayOfWeek.Friday:
+                    return "FR";
+                case DayOfWeek.Saturday:
+                    return "SA";
+                default:
+                    return string.Empty;
+            }
         }
 
         private string EscapeCalendarText(string text)

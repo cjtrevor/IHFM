@@ -97,11 +97,10 @@ namespace IHFM.VAF
         public MFIdentifier TBCS_TbcScheduledTimes = "MFiles.Property.TbcScheduledTimes";
 
         [MFPropertyDef]
-        public MFIdentifier TBCItem_StaffType = "MFiles.Property.TBCStafftype";
+        public MFIdentifier TBCItem_TBCStaffType = "MFiles.Property.TBCStaffType";
 
-        //[MFValueListItem(ValueList = "MFiles.Valuelist.TbcStafftype")]
-        //public MFIdentifier TBCStaffType_Doctor = "{011A13BD-7216-49E0-BDD7-02B8AB5EF6F6}"; //TO BE UPDATED BEFORE DEPLOYMENT IF USED 
-        //[MFValueListItem(ValueList = "MFiles.Valuelist.TbcStafftype")]
-        //public MFIdentifier TBCStaffType_Physio = "{4F63F584-49EA-42EA-BBD3-949C74002DB3}"; //TO BE UPDATED BEFORE DEPLOYMENT IF USED 
+        [MFPropertyDef]
+        public MFIdentifier DailyCareTBC_Staff = "MFiles.Property.Staff";
+
     }
 }
