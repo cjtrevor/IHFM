@@ -24,7 +24,8 @@ namespace IHFM.VAF
             MFSearchBuilder searchBuilder = new MFSearchBuilder(vault);
             searchBuilder.Class(configuration.Events_ActivitiesEventsClass);
             searchBuilder.Property(configuration.Events_ResidentsDropdown, MFDataType.MFDatatypeMultiSelectLookup, residentId);
- 
+            searchBuilder.Property(configuration.Events_IsComplete, MFDataType.MFDatatypeBoolean, false);
+
             return searchBuilder.FindEx();
         }
     }

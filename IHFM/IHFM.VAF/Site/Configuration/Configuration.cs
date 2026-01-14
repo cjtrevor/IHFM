@@ -51,6 +51,9 @@ namespace IHFM.VAF
         public MFIdentifier Site_LastDataUpdate = "MFiles.Property.LastDataUpdate";
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site_ReportSite = "MFiles.Property.ReportSite";
+        [MFPropertyDef]
+        public MFIdentifier Site_SiteMaintenanceManagers = "MFiles.Property.SiteMaintenanceManagers";
+        
 
         [MFPropertyDef]
         public MFIdentifier SiteConfig_SiteTBCADL = "MFiles.Property.Sitetbcadl";

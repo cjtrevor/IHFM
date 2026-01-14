@@ -30,6 +30,8 @@ namespace IHFM.VAF
         public MFIdentifier Events_WeeksOfMonth = "MFiles.Property.WeeklyWeeksOfMonth";
         [MFPropertyDef]
         public MFIdentifier Events_Month = "MFiles.Property.SpecificDayOfMonth";
+        [MFPropertyDef]
+        public MFIdentifier Events_IsComplete = "MFiles.Property.isComplete";
 
         [MFPropertyDef]
         public MFIdentifier Attendance_WhichEvent = "MFiles.Property.WhichEvent";

@@ -1,5 +1,6 @@
 ﻿using MFiles.VAF.Common;
 using MFiles.VAF.Configuration;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,37 @@ namespace IHFM.VAF
 
             //Site Team Leaders
             SetAssignmentUsers(staffPropertyService, configuration.SiteTeamLeaders, env.ObjVerEx, createdByID);
+
+            if (env.ObjVerEx.HasProperty(configuration.PanicButtonTest_ReportToMaintenanceManager))
+            {
+                var reportToMaintenanceManager = env.ObjVerEx.GetPropertyAsBoolean(configuration.PanicButtonTest_ReportToMaintenanceManager);
+
+                if (reportToMaintenanceManager ?? false)
+                {
+                    if (env.ObjVerEx.HasProperty(configuration.BaseSite) && env.ObjVerEx.HasValue(configuration.BaseSite))
+                    {
+                        var siteLookup = env.ObjVerEx.GetProperty(configuration.BaseSite).TypedValue.GetValueAsLookup();
+                        var site = new ObjVerEx(env.Vault, siteLookup);
+
+                        var siteMaintenanceManagers = site.GetLookupsFromProperty(configuration.Site_SiteMaintenanceManagers)
+                            .Select(x => x.GetAsObjVer())
+                            .ToList();
+
+                        foreach (var item in siteMaintenanceManagers)
+                        {
+                            env.ObjVerEx.AddLookup(configuration.Site_SiteMaintenanceManagers, item);
+                        }
+                    }
+                    else
+                    {
+                        staffPropertyService.GetAssignmentUsersByTypeForCreatedByUser(createdByID, configuration.Site_SiteMaintenanceManagers)
+                            .ForEach(x =>
+                            {
+                                env.ObjVerEx.AddLookup(configuration.Site_SiteMaintenanceManagers, x);
+                            });
+                    }
+                }
+            }
 
             //Notification Site
             SetNotificationSite(staffPropertyService, env.ObjVerEx, createdByID);
