@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MFiles.VAF.Common;
 using MFilesAPI;
+using MFiles.VAF.Extensions;
 
 namespace IHFM.VAF
 {
@@ -109,6 +110,19 @@ namespace IHFM.VAF
             env.ObjVerEx.SaveProperties();
 
             exportService.ExportRecord(env.ObjVerEx, TBCExportService.TbcType.Clinic);
+        }
+
+        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.CareItemsSchedule")]
+        public void TimeBasedCareScheduleValidation(EventHandlerEnvironment env)
+        {
+            var hasFrequency = env.ObjVerEx.HasProperty(Configuration.TBCS_Frequency) && env.ObjVerEx.HasValue(Configuration.TBCS_Frequency);
+
+            if (hasFrequency && env.ObjVerEx.GetLookupID(Configuration.TBCS_Frequency) == Configuration.Frequency_OnceOff.ID)
+            {
+                var hasOnceOffDate = env.ObjVerEx.HasProperty(Configuration.TBCS_OnceOffDate) && env.ObjVerEx.HasValue(Configuration.TBCS_OnceOffDate);
+                if (!hasOnceOffDate)
+                    throw new Exception("Once Off Date is required when Frequency is set to Once Off.");
+            }
         }
     }
 }

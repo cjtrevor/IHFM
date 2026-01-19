@@ -1,5 +1,6 @@
 ﻿using MFiles.VAF.Common;
 using MFiles.VAF.Configuration;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
@@ -241,9 +242,21 @@ namespace IHFM.VAF
                 var timeBasedCareItemLookup = careItem.GetProperty(Configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
                 ObjVer timeBasedCareItem = timeBasedCareItemLookup.GetAsObjVer();
 
-                // Check if the schedule item has a frequency property
-                if (careItem.HasProperty(Configuration.TBCS_Frequency) && careItem.HasValue(Configuration.TBCS_Frequency)
-                    && !(careItem.GetLookupID(Configuration.TBCS_Frequency) == Configuration.Frequency_SpecificTimes.ID))
+                var hasFrequency = careItem.HasProperty(Configuration.TBCS_Frequency) && careItem.HasValue(Configuration.TBCS_Frequency);
+
+                if (hasFrequency && careItem.GetLookupID(Configuration.TBCS_Frequency) == Configuration.Frequency_OnceOff.ID)
+                {
+                    var onceOffDate = careItem.GetPropertyAsDateTime(Configuration.TBCS_OnceOffDate);
+
+                    if (onceOffDate == null)
+                        continue;
+
+                    if (onceOffDate.Value.Date == DateTime.Now.Date)
+                    {
+                        slot_89.Add(timeBasedCareItem);
+                    }
+                }
+                else if (hasFrequency && !(careItem.GetLookupID(Configuration.TBCS_Frequency) == Configuration.Frequency_SpecificTimes.ID))
                 {
                     int frequencyId = careItem.GetLookupID(Configuration.TBCS_Frequency);
 

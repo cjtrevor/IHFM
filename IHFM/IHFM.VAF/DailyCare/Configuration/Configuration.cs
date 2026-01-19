@@ -46,6 +46,8 @@ namespace IHFM.VAF
 
         [MFPropertyDef]
         public MFIdentifier TBCS_Frequency = "MFiles.Property.Frequency";
+        [MFPropertyDef]
+        public MFIdentifier TBCS_OnceOffDate = "MFiles.Property.Date";
 
 
         [MFPropertyDef]
@@ -191,6 +193,8 @@ namespace IHFM.VAF
         public MFIdentifier Frequency_DaysOfWeek = "{0B6B75C2-F067-49D8-A435-66631DA567C1}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
         public MFIdentifier Frequency_SpecificTimes = "{1EB2646E-1FDD-42B6-9F97-B6DFF227FA00}";
+        [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
+        public MFIdentifier Frequency_OnceOff = "{8D97DAC3-BEE1-4442-903B-2C36C3E4CF37}";
 
 
     }
