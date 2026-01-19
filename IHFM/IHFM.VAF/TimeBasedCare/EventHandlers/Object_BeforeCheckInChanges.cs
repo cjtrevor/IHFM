@@ -122,6 +122,10 @@ namespace IHFM.VAF
                 var hasOnceOffDate = env.ObjVerEx.HasProperty(Configuration.TBCS_OnceOffDate) && env.ObjVerEx.HasValue(Configuration.TBCS_OnceOffDate);
                 if (!hasOnceOffDate)
                     throw new Exception("Once Off Date is required when Frequency is set to Once Off.");
+
+                var hasTimeSlot = env.ObjVerEx.HasProperty(Configuration.TBCS_TbcScheduledTimes) && env.ObjVerEx.HasValue(Configuration.TBCS_TbcScheduledTimes);
+                if (!hasTimeSlot)
+                    throw new Exception("At least one Time Slot is required when Frequency is set to Once Off.");
             }
         }
     }

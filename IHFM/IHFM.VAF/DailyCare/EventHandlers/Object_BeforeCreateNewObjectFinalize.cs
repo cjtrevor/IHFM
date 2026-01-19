@@ -253,7 +253,7 @@ namespace IHFM.VAF
 
                     if (onceOffDate.Value.Date == DateTime.Now.Date)
                     {
-                        slot_89.Add(timeBasedCareItem);
+                        AddSpecificTimeSlots(careItem, timeBasedCareItem, slot_01, slot_12, slot_23, slot_34, slot_45, slot_56, slot_67, slot_78, slot_89, slot_910, slot_1011, slot_1112, slot_1213, slot_1314, slot_1415, slot_1516, slot_1617, slot_1718, slot_1819, slot_1920, slot_2021, slot_2122, slot_2223, slot_2300);
                     }
                 }
                 else if (hasFrequency && !(careItem.GetLookupID(Configuration.TBCS_Frequency) == Configuration.Frequency_SpecificTimes.ID))
