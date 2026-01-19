@@ -27,8 +27,8 @@ namespace IHFM.VAF
 
             List<ObjVer> objVers = new List<ObjVer>();
 
-            objVers.AddRange(GetTBCSItemsByResident(resident, Configuration.DailyADLLookup));
-            objVers.AddRange(GetTBCSItemsByResident(resident, GetADLAliasForDayOfWeek(local_Start_DateTime)));
+            objVers.AddRange(GetTBCSItemsByResident(careplan, Configuration.DailyADLLookup));
+            objVers.AddRange(GetTBCSItemsByResident(careplan, GetADLAliasForDayOfWeek(local_Start_DateTime)));
 
             int totalTimeInMinutes = 0;
 
@@ -167,11 +167,11 @@ namespace IHFM.VAF
                     switch (emailFreq?.ItemGUID)
                     {
                         //Daily
-                        case "{D4A54681-F64B-48F3-8A79-C6D6F2C7C2CA}":
+                        case "{B4DFC279-35D6-47F3-BC41-850473B5A918}":
                             recurrence.Frequency = RecurrenceFrequency.Daily;
                             break;
                         //Weekly
-                        case "{63756B57-94B0-42D8-9202-0659A3EA8996}":
+                        case "{3FB5767D-13FF-4529-8E29-396A3777DCFD}":
                             if (!env.ObjVerEx.HasValue(Configuration.ShiftAllocation_DaysOfWeek))
                                 throw new Exception("Days of Week must have at least 1 value specified for the selected Email Frequency.");
 
@@ -184,7 +184,7 @@ namespace IHFM.VAF
 
                             break;
                         //Monthly
-                        case "{B433BB8B-71C5-4FEC-BA3B-AC5AA692EF8B}":
+                        case "{D203262F-87C1-4205-943D-BF8F1B6D7469}":
                             if (!env.ObjVerEx.HasValue(Configuration.ShiftAllocation_DayOfMonth))
                                 throw new Exception("Day of Month must be specified for the selected Email Frequency.");
 
