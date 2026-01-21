@@ -68,6 +68,9 @@ namespace IHFM.VAF
         public MFIdentifier SundayClinicLookup = "MFiles.Property.SundayTBCClinic";
         
         [MFPropertyDef(Required = true)]
+        public MFIdentifier DailyWoundCareLookup = "MFiles.Property.EveryDayWoundcare";
+
+        [MFPropertyDef(Required = true)]
         public MFIdentifier TBCClinicLookup = "MFiles.Property.TBCClinic";
 
         [MFPropertyDef(Required = true)]

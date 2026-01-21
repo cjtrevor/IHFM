@@ -53,6 +53,7 @@ namespace IHFM.VAF
             //Get Daily Items
             objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyADLLookup));
             objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyClinicLookup));
+            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyWoundCareLookup));
 
             //Get Weekly Items
             objVers.AddRange(GetTBCSItems(STBCParent, _configuration.WeekdaysADLLookup));
