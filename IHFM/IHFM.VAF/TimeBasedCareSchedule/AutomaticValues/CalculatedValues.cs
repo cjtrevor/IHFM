@@ -6,7 +6,7 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
-        [PropertyCustomValue("MFiles.Property.Tbcscis")]
+        [PropertyCustomValue("MFiles.Property.Tbcs")]
         public TypedValue SetTimeBasedCareScheduleName(PropertyEnvironment env)
         {
             var tbcItem = env.ObjVerEx.GetProperty(Configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
