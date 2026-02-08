@@ -94,6 +94,8 @@ namespace IHFM.VAF
         public MFIdentifier TBCType_Clinic = "{960ABD51-3598-4526-B465-9C23FCA14955}";
         [MFValueListItem(ValueList = "VL.Tbctype")]
         public MFIdentifier TBCType_WoundCare = "{7987B617-86DD-49F4-94E7-2B8B7521B4F0}";
+        [MFValueListItem(ValueList = "VL.Tbctype")]
+        public MFIdentifier TBCType_CostedADL = "{79669709-CBB6-4338-97B4-E582A045A5D7}";
 
     }
 }

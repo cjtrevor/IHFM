@@ -723,6 +723,11 @@ namespace IHFM.VAF
                 if (tbcType.Item != classFilter.ID)
                     continue;
 
+                    if (classFilter == Configuration.TBCType_ADL && resident.GetLookupID(Configuration.Room_Zone) == Configuration.Zone_FrailCareItem.ID)
+                    {
+                        classFilter = Configuration.TBCType_CostedADL;
+                    }
+
                 if (careItem.HasProperty(Configuration.TBCS_Frequency) && careItem.HasValue(Configuration.TBCS_Frequency)
                     && !(careItem.GetLookupID(Configuration.TBCS_Frequency) == Configuration.Frequency_SpecificTimes.ID))
                 {
