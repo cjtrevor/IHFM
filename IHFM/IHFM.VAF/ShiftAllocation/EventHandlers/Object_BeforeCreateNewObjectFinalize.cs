@@ -166,14 +166,27 @@ namespace IHFM.VAF
                     //Can't use Configuration.EmailFrequency_Daily.Guid because not const at compile time
                     switch (emailFreq?.ItemGUID)
                     {
-                        //Daily
-                        case "{D4A54681-F64B-48F3-8A79-C6D6F2C7C2CA}":
+                        case Configuration.EmailFrequency_DailyGUID:
                             recurrence.Frequency = RecurrenceFrequency.Daily;
                             break;
-                        //Weekly
-                        case "{63756B57-94B0-42D8-9202-0659A3EA8996}":
+                        case Configuration.EmailFrequency_WeeklyGUID:
                             if (!env.ObjVerEx.HasValue(Configuration.ShiftAllocation_DaysOfWeek))
                                 throw new Exception("Days of Week must have at least 1 value specified for the selected Email Frequency.");
+
+                            var emailRecurrenceInterval = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_RecurrenceInterval).TypedValue.GetValueAsLookup();
+
+                            switch (emailRecurrenceInterval?.ItemGUID)
+                            {
+                                case Configuration.Email_RecurrenceInterval_BiWeeklyGUID:
+                                    recurrence.Interval = 2;
+                                    break;
+                                case Configuration.Email_RecurrenceInterval_TriWeeklyGUID:
+                                    recurrence.Interval = 3;
+                                    break;
+                                default:
+                                    recurrence.Interval = 1;
+                                    break;
+                            }
 
                             recurrence.Frequency = RecurrenceFrequency.Weekly;
                             var daysOfWeek = env.ObjVerEx.GetPropertyAsValueListItems(Configuration.ShiftAllocation_DaysOfWeek);
@@ -183,8 +196,7 @@ namespace IHFM.VAF
                             }
 
                             break;
-                        //Monthly
-                        case "{B433BB8B-71C5-4FEC-BA3B-AC5AA692EF8B}":
+                        case Configuration.EmailFrequency_MonthlyGUID:
                             if (!env.ObjVerEx.HasValue(Configuration.ShiftAllocation_DayOfMonth))
                                 throw new Exception("Day of Month must be specified for the selected Email Frequency.");
 
