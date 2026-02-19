@@ -53,12 +53,12 @@ namespace IHFM.VAF
         public MFIdentifier EmailFrequency_Monthly = EmailFrequency_MonthlyGUID;
 
 
-        public const string Email_RecurrenceInterval_WeeklyGUID = "{BB5E7AD8-7590-4E6A-8482-25E7D828AE6A}";
-        public const string Email_RecurrenceInterval_BiWeeklyGUID = "{3B1178C6-69CC-4B58-B002-2F398C81E5C7}";
-        public const string Email_RecurrenceInterval_TriWeeklyGUID = "{9665EC2F-19E4-44BE-AE08-F8E806EF1EF2}";
+        public const string Email_RecurrenceInterval_WeeklyGUID = "{810B4E9C-CA2D-4A96-99B2-D4CADCA27993}";
+        public const string Email_RecurrenceInterval_BiWeeklyGUID = "{52C3E143-D492-4D93-A5E4-45A95F8D5E39}";
+        public const string Email_RecurrenceInterval_TriWeeklyGUID = "{861978A1-3A9F-4078-ACFB-28AD9CBFED69}";
 
         [MFValueListItem(ValueList = "MFiles.Valuelist.RecurrenceInterval")]
-        public MFIdentifier Email_RecurrenceInterval_Weekly = "{BB5E7AD8-7590-4E6A-8482-25E7D828AE6A}";
+        public MFIdentifier Email_RecurrenceInterval_Weekly = Email_RecurrenceInterval_WeeklyGUID;
         [MFValueListItem(ValueList = "MFiles.Valuelist.RecurrenceInterval")]
         public MFIdentifier Email_RecurrenceInterval_BiWeekly = Email_RecurrenceInterval_BiWeeklyGUID;
         [MFValueListItem(ValueList = "MFiles.Valuelist.RecurrenceInterval")]
