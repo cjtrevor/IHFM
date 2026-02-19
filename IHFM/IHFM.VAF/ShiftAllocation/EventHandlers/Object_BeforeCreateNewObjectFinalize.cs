@@ -27,8 +27,11 @@ namespace IHFM.VAF
 
             List<ObjVer> objVers = new List<ObjVer>();
 
-            objVers.AddRange(GetTBCSItemsByResident(careplan, Configuration.DailyADLLookup));
-            objVers.AddRange(GetTBCSItemsByResident(careplan, GetADLAliasForDayOfWeek(local_Start_DateTime)));
+            if (careplan != null)
+            {
+                objVers.AddRange(GetTBCSItemsByResident(careplan, Configuration.DailyADLLookup));
+                objVers.AddRange(GetTBCSItemsByResident(careplan, GetADLAliasForDayOfWeek(local_Start_DateTime)));
+            }
 
             int totalTimeInMinutes = 0;
 
@@ -166,14 +169,27 @@ namespace IHFM.VAF
                     //Can't use Configuration.EmailFrequency_Daily.Guid because not const at compile time
                     switch (emailFreq?.ItemGUID)
                     {
-                        //Daily
-                        case "{B4DFC279-35D6-47F3-BC41-850473B5A918}":
+                        case Configuration.EmailFrequency_DailyGUID:
                             recurrence.Frequency = RecurrenceFrequency.Daily;
                             break;
-                        //Weekly
-                        case "{3FB5767D-13FF-4529-8E29-396A3777DCFD}":
+                        case Configuration.EmailFrequency_WeeklyGUID:
                             if (!env.ObjVerEx.HasValue(Configuration.ShiftAllocation_DaysOfWeek))
                                 throw new Exception("Days of Week must have at least 1 value specified for the selected Email Frequency.");
+
+                            var emailRecurrenceInterval = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_RecurrenceInterval).TypedValue.GetValueAsLookup();
+
+                            switch (emailRecurrenceInterval?.ItemGUID)
+                            {
+                                case Configuration.Email_RecurrenceInterval_BiWeeklyGUID:
+                                    recurrence.Interval = 2;
+                                    break;
+                                case Configuration.Email_RecurrenceInterval_TriWeeklyGUID:
+                                    recurrence.Interval = 3;
+                                    break;
+                                default:
+                                    recurrence.Interval = 1;
+                                    break;
+                            }
 
                             recurrence.Frequency = RecurrenceFrequency.Weekly;
                             var daysOfWeek = env.ObjVerEx.GetPropertyAsValueListItems(Configuration.ShiftAllocation_DaysOfWeek);
@@ -183,8 +199,7 @@ namespace IHFM.VAF
                             }
 
                             break;
-                        //Monthly
-                        case "{D203262F-87C1-4205-943D-BF8F1B6D7469}":
+                        case Configuration.EmailFrequency_MonthlyGUID:
                             if (!env.ObjVerEx.HasValue(Configuration.ShiftAllocation_DayOfMonth))
                                 throw new Exception("Day of Month must be specified for the selected Email Frequency.");
 
