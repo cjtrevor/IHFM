@@ -29,8 +29,8 @@ namespace IHFM.VAF
 
             if (careplan != null)
             {
-                objVers.AddRange(GetTBCSItemsByResident(resident, Configuration.DailyADLLookup));
-                objVers.AddRange(GetTBCSItemsByResident(resident, GetADLAliasForDayOfWeek(local_Start_DateTime)));
+                objVers.AddRange(GetTBCSItemsByResident(careplan, Configuration.DailyADLLookup));
+                objVers.AddRange(GetTBCSItemsByResident(careplan, GetADLAliasForDayOfWeek(local_Start_DateTime)));
             }
 
             int totalTimeInMinutes = 0;
