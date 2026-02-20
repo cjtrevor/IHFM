@@ -10,6 +10,44 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.Resident")]
         public void BeforeCheckInRoomChanges(EventHandlerEnvironment env)
         {
+
+            //ObjVerChanges changes1 = new ObjVerChanges(env.ObjVerEx);
+
+            //foreach (PropertyValueChange change in changes1.Changed)
+            //{
+            //    if (change.PropertyDef == Configuration.Resident_RoomSwap.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap))
+            //    {
+            //        change.NewValue.TypedValue.SetValue(MFDataType.MFDatatypeLookup, null);
+            //    }
+            //}
+
+            //var residentRoomSwap1 = env.ObjVerEx.GetProperty(Configuration.Resident_RoomSwap).TypedValue.GetValueAsLookup();
+
+            //env.ObjVerEx.RemoveLookup(Configuration.Resident_RoomSwap, residentRoomSwap1.Item);
+
+            //env.ObjVerEx.SetLookup(Configuration.Resident_RoomSwap, null);
+            //env.ObjVerEx.SetProperty();
+
+
+            var residentName = env.ObjVerEx.GetProperty(Configuration.Resident_ResidentDetail).GetValueAsLocalizedText();
+
+            var currentRoomLookup = env.ObjVerEx.GetProperty(Configuration.CurrentRoom).TypedValue.GetValueAsLookup();
+            var isResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
+
+            if (isResidentRoomSwap)
+            {
+                var residentRoomSwap = env.ObjVerEx.GetProperty(Configuration.Resident_RoomSwap).TypedValue.GetValueAsLookup();
+                ObjVerEx residentRoomSwapObjVerEx = new ObjVerEx(env.Vault, residentRoomSwap);
+
+                var residentRoomSwapCurrentRoomLookup = residentRoomSwapObjVerEx.GetProperty(Configuration.CurrentRoom).TypedValue.GetValueAsLookup();
+
+                env.ObjVerEx.SaveProperty(Configuration.CurrentRoom, MFDataType.MFDatatypeLookup, residentRoomSwapCurrentRoomLookup);
+                residentRoomSwapObjVerEx.SaveProperty(Configuration.CurrentRoom, MFDataType.MFDatatypeLookup, currentRoomLookup);
+            }
+
+            //return;
+            //throw new Exception("dev test");
+
             ObjVerChanges changes = new ObjVerChanges(env.ObjVerEx);
 
             var holdRoom = env.ObjVerEx.GetPropertyAsBoolean(Configuration.Resident_HoldRoom) ?? false;
@@ -17,7 +55,7 @@ namespace IHFM.VAF
 
             foreach (PropertyValueChange change in changes.Changed)
             {
-                if(change.PropertyDef == Configuration.Active.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
+                if (change.PropertyDef == Configuration.Active.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {
                     SetRoomVacantWhenInactive(env);
                 }
@@ -25,9 +63,9 @@ namespace IHFM.VAF
                 if (change.PropertyDef == Configuration.RoomTariff.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {
                     SetDiscountValueIfPercentage(env);
-                }          
-                
-                if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
+                }
+
+                if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom) && isResidentRoomSwap)
                 {
                     if (hasHeldRoom)
                     {
@@ -60,8 +98,6 @@ namespace IHFM.VAF
 
             if (!holdRoom && hasHeldRoom)
             {
-
-                var currentRoomLookup = env.ObjVerEx.GetProperty(Configuration.CurrentRoom).TypedValue.GetValueAsLookup();
                 ObjVerEx currentRoom = new ObjVerEx(env.Vault, currentRoomLookup);
 
                 if (!currentRoom.IsDeleted)
@@ -73,6 +109,81 @@ namespace IHFM.VAF
                 env.ObjVerEx.SaveProperty(Configuration.CurrentRoom, MFDataType.MFDatatypeLookup, heldRoomLookup);
                 env.ObjVerEx.SaveProperty(Configuration.Resident_HeldRoom, MFDataType.MFDatatypeLookup, null);
             }
+
+            //env.ObjVerEx.SaveProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
+
+        }
+
+        //[EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.Resident")]
+        //public void AfterCheckInRoomChanges(EventHandlerEnvironment env)
+        //{
+        //    var hasResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
+
+        //    if (hasResidentRoomSwap)
+        //    {
+        //        env.ObjVerEx.SaveProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
+        //        //env.ObjVerEx.RemoveProperty(Configuration.Resident_RoomSwap);
+        //    }
+        //}
+
+        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerAfterCheckInChangesFinalize, Class = "MFiles.Class.Resident")]
+        public void MFEventHandlerAfterCheckInChangesFinalize(EventHandlerEnvironment env)
+        {
+            //return;
+            var hasResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
+
+            if (hasResidentRoomSwap)
+            {
+                env.ObjVerEx.SaveProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
+                //env.ObjVerEx.RemoveProperty(Configuration.Resident_RoomSwap);
+            }
+        }
+
+        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerAfterCheckInChanges, Class = "MFiles.Class.Resident")]
+        public void MFEventHandlerAfterCheckInChanges(EventHandlerEnvironment env)
+        {
+            return;
+            var hasResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
+
+            if (hasResidentRoomSwap)
+            {
+                env.ObjVerEx.SaveProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
+                //env.ObjVerEx.RemoveProperty(Configuration.Resident_RoomSwap);
+            }
+        }
+
+
+        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.Resident")]
+        public void AfterCheckInRoomChangesFinalize(EventHandlerEnvironment env)
+        {
+            return;
+
+
+            //var hasResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
+
+            //if (hasResidentRoomSwap)
+            //{
+            //    env.ObjVerEx.SetProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
+            //    env.ObjVerEx.RemoveLookup(Configuration.Resident_RoomSwap);
+            //    env.ObjVerEx.SaveProperties();
+            //}
+
+
+
+
+
+
+
+
+
+
+            var hasResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
+
+            if (hasResidentRoomSwap)
+            {
+                env.ObjVerEx.SaveProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
+                //env.ObjVerEx.RemoveProperty(Configuration.Resident_RoomSwap);
+            }
         }
 
         public void UpdateRoomTariffOnRoomChange(EventHandlerEnvironment env)
@@ -82,7 +193,7 @@ namespace IHFM.VAF
             ObjVerEx room = new ObjVerEx(env.Vault, roomLookup);
             Lookup selectedTariff = room.GetProperty(Configuration.RoomTariff).TypedValue.GetValueAsLookup();
 
-            if(selectedTariff != null)
+            if (selectedTariff != null)
                 env.ObjVerEx.SaveProperty(Configuration.RoomTariff, MFDataType.MFDatatypeLookup, selectedTariff.Item);
         }
 
@@ -100,12 +211,12 @@ namespace IHFM.VAF
         public void SetDiscountValueIfPercentage(EventHandlerEnvironment env)
         {
             double tariff;
-            if(!double.TryParse(env.ObjVerEx.GetProperty(Configuration.RoomTariff).GetValueAsLocalizedText(),out tariff))
+            if (!double.TryParse(env.ObjVerEx.GetProperty(Configuration.RoomTariff).GetValueAsLocalizedText(), out tariff))
             {
                 throw new Exception("The currently selected tariff value is not in a valid format. Please remove any characters from the value (R,spaces, etc), This value may only contain numeric digits");
             }
 
-            if(env.ObjVerEx.HasValue(Configuration.DiscountPercentage) && env.ObjVerEx.HasValue(Configuration.RoomTariff)
+            if (env.ObjVerEx.HasValue(Configuration.DiscountPercentage) && env.ObjVerEx.HasValue(Configuration.RoomTariff)
                 && env.ObjVerEx.GetProperty(Configuration.DiscountPercentage).GetValue<double>() != 0)
             {
                 double discountPerc = env.ObjVerEx.GetProperty(Configuration.DiscountPercentage).GetValue<double>();
