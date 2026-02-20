@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MFiles.VAF.Common;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 namespace IHFM.VAF
 {
@@ -10,6 +11,9 @@ namespace IHFM.VAF
         public void BeforeCheckInRoomChanges(EventHandlerEnvironment env)
         {
             ObjVerChanges changes = new ObjVerChanges(env.ObjVerEx);
+
+            var holdRoom = env.ObjVerEx.GetPropertyAsBoolean(Configuration.Resident_HoldRoom) ?? false;
+            var hasHeldRoom = env.ObjVerEx.HasValue(Configuration.Resident_HeldRoom);
 
             foreach (PropertyValueChange change in changes.Changed)
             {
@@ -24,13 +28,27 @@ namespace IHFM.VAF
                 }          
                 
                 if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
-                {                   
-                    if(!change.OldValue.TypedValue.IsNULL())
+                {
+                    if (hasHeldRoom)
                     {
-                        ObjVerEx oldRoom = new ObjVerEx(env.Vault, change.OldValue.TypedValue.GetValueAsLookup());
-                        if(!oldRoom.IsDeleted)
-                        { 
-                            SetRoomVacancy(oldRoom, env.Vault, true); //SetRoomVacancy old room vacant
+                        throw new Exception("You cannot change the room while there is a held room. Please clear the held room before changing the current room.");
+                    }
+
+                    if (!change.OldValue.TypedValue.IsNULL())
+                    {
+                        var oldRoomLookup = change.OldValue.TypedValue.GetValueAsLookup();
+
+                        if (holdRoom)
+                        {
+                            env.ObjVerEx.SaveProperty(Configuration.Resident_HeldRoom, MFDataType.MFDatatypeLookup, oldRoomLookup);
+                        }
+                        else
+                        {
+                            ObjVerEx oldRoom = new ObjVerEx(env.Vault, oldRoomLookup);
+                            if (!oldRoom.IsDeleted)
+                            {
+                                SetRoomVacancy(oldRoom, env.Vault, true); //SetRoomVacancy old room vacant
+                            }
                         }
                     }
 
@@ -38,6 +56,22 @@ namespace IHFM.VAF
                     UpdateRoomTariffOnRoomChange(env);
                     SetDiscountValueIfPercentage(env);
                 }
+            }
+
+            if (!holdRoom && hasHeldRoom)
+            {
+
+                var currentRoomLookup = env.ObjVerEx.GetProperty(Configuration.CurrentRoom).TypedValue.GetValueAsLookup();
+                ObjVerEx currentRoom = new ObjVerEx(env.Vault, currentRoomLookup);
+
+                if (!currentRoom.IsDeleted)
+                {
+                    SetRoomVacancy(currentRoom, env.Vault, true); //SetRoomVacancy old room vacant
+                }
+
+                var heldRoomLookup = env.ObjVerEx.GetProperty(Configuration.Resident_HeldRoom).TypedValue.GetValueAsLookup();
+                env.ObjVerEx.SaveProperty(Configuration.CurrentRoom, MFDataType.MFDatatypeLookup, heldRoomLookup);
+                env.ObjVerEx.SaveProperty(Configuration.Resident_HeldRoom, MFDataType.MFDatatypeLookup, null);
             }
         }
 
