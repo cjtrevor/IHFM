@@ -71,7 +71,7 @@ namespace IHFM.VAF
                     { Configuration.QRCode_Resident.ID, residentLookupId.ToString() },
                 };
 
-                var qrCodeImageBytes = qrCodeGenerationService.GenerateQRCodeImage(mfilesVaultGuid, Configuration.QRCode_DailyCareObject.ID, properties);
+                var qrCodeImageBytes = qrCodeGenerationService.GenerateQRCodeImage(mfilesVaultGuid, Configuration.QRCode_Object.ID, properties);
 
                 var objectId = env.ObjVerEx.ID;
                 File.WriteAllBytes($"C:\\QRGenerationTempOutput\\{objectId}.jpg", qrCodeImageBytes);

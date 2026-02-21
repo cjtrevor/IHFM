@@ -9,12 +9,10 @@ namespace IHFM.VAF
 
         //Objects
         [MFObjType]
-        public MFIdentifier QRCode_DailyCareObject = "MFiles.Object.DailyCare";
+        public MFIdentifier QRCode_Object = "MFiles.Object.Hourlyroundqr";
 
         //Classes
         [MFClass]
         public MFIdentifier QRCode_DailyCareObject_HourlyRoundsClass = "MFiles.Class.HourlyRounds_QR";
-
-
     }
 }
