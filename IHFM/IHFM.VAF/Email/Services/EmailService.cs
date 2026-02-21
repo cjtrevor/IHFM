@@ -124,19 +124,31 @@ namespace IHFM.VAF.Email.Services
         private void AddCalendarInviteToEmail(MailMessage mail, string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail, RecurrencePattern recurrence = null)
         {
             // Create the calendar entry
-            byte[] calendarData = CreateCalendarEntry(summary, description, location, startTime, endTime, attendeeEmail, recurrence);
+            string calendarString = Encoding.UTF8.GetString(CreateCalendarEntry(summary, description, location, startTime, endTime, attendeeEmail, recurrence));
 
-            // Create AlternateView with proper MIME type for calendar
+            // Add plain text view (required for Outlook)
+            AlternateView plainView = AlternateView.CreateAlternateViewFromString(
+                mail.Body ?? description,
+                Encoding.UTF8,
+                MediaTypeNames.Text.Plain
+            );
+            mail.AlternateViews.Add(plainView);
+
+            // Add calendar view with proper ContentType
             ContentType calendarType = new ContentType("text/calendar");
             calendarType.Parameters.Add("method", "REQUEST");
-            calendarType.Parameters.Add("name", "invite.ics");
+            calendarType.Parameters.Add("charset", "UTF-8");
 
             AlternateView calendarView = AlternateView.CreateAlternateViewFromString(
-                Encoding.UTF8.GetString(calendarData),
+                calendarString,
                 calendarType
             );
-            calendarView.TransferEncoding = TransferEncoding.Base64;
             mail.AlternateViews.Add(calendarView);
+
+            // Also attach .ics file for better Outlook compatibility
+            Attachment icsAttachment = Attachment.CreateAttachmentFromString(calendarString, "invite.ics");
+            icsAttachment.ContentType = new ContentType("text/calendar; method=REQUEST; charset=UTF-8");
+            mail.Attachments.Add(icsAttachment);
         }
 
         private void SendEmail(MailMessage mail)
