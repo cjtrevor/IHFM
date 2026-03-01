@@ -156,6 +156,9 @@
     <Compile Include="ScriptManagement\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="ScriptManagement\Services\ScriptManagementSearchService.cs" />
     <Compile Include="ScriptManagement\Services\ScriptManagementUtilityService.cs" />
+    <Compile Include="Vehicle Management\Configuration\Configuration.cs" />
+    <Compile Include="Vehicle Management\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="Vehicle Management\Services\VehicleManagementService.cs" />
     <Compile Include="ShiftAllocation\Configuration\Configuration.cs" />
     <Compile Include="ShiftAllocation\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="ShiftAllocation\Services\ShiftAllocationSearchService.cs" />
