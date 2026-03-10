@@ -15,6 +15,8 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier TBCS_TimeBasedCareItem = "MFiles.Property.TimeBasedCareItem";
         [MFPropertyDef]
+        public MFIdentifier TBCS_TimeBasedCareItemItemName = "MFiles.Property.ItemName";
+        [MFPropertyDef]
         public MFIdentifier TBCS_TbcScheduledTimes = "MFiles.Property.TbcScheduledTimes";
 
         [MFPropertyDef]

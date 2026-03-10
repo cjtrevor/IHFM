@@ -30,8 +30,8 @@ namespace IHFM.VAF
         //[MFPropertyDef]
         //public MFIdentifier Resident_HeldRoom = "MFiles.Property.HeldRoom";
 
-        [MFPropertyDef]
-        public MFIdentifier Resident_RoomSwap = "MFiles.Property.ResidentRoomSwap";
+        //[MFPropertyDef]
+        //public MFIdentifier Resident_RoomSwap = "MFiles.Property.ResidentRoomSwap";
 
         [MFPropertyDef]
         public MFIdentifier Resident_HasDiscount = "PD.Discount";
