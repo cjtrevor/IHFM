@@ -50,8 +50,12 @@ namespace IHFM.VAF
                 STBCParent = resident;
             }
 
+            int zoneId = resident.GetLookupID(_configuration.Room_Zone);
+            bool isFrailOrMemoryCare = zoneId == _configuration.Zone_FrailCareItem.ID || zoneId == _configuration.Zone_MemoryCareItem.ID;
+            var adlLookup = isFrailOrMemoryCare ? _configuration.DailyADLLookup : _configuration.DailyCostedADLLookup;
+
             //Get Daily Items
-            objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyADLLookup));
+            objVers.AddRange(GetTBCSItems(STBCParent, adlLookup));
             objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyClinicLookup));
             objVers.AddRange(GetTBCSItems(STBCParent, _configuration.DailyWoundCareLookup));
 
@@ -83,7 +87,7 @@ namespace IHFM.VAF
         public List<ObjVer> GetResidentTBCItems(Lookup residentLookup, bool carePlanOptional)
         {
             List<ObjVer> objVers = new List<ObjVer>();
-            //ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
+            ObjVerEx resident = new ObjVerEx(_vault, residentLookup);
 
             CarePlanSearchService carePlanSearchService = new CarePlanSearchService(_vault, _configuration);
             var residentCarePlan = carePlanSearchService.GetResidentCarePlanExisting(residentLookup.Item);
@@ -94,10 +98,14 @@ namespace IHFM.VAF
                     return objVers;
 
                 throw new Exception($"No Care Plan exists for the Resident");
-            }           
+            }
+
+            int zoneId = resident.GetLookupID(_configuration.Room_Zone);
+            bool isFrailOrMemoryCare = zoneId == _configuration.Zone_FrailCareItem.ID || zoneId == _configuration.Zone_MemoryCareItem.ID;
+            var adlLookup = isFrailOrMemoryCare ? _configuration.DailyADLLookup : _configuration.DailyCostedADLLookup;
 
             //Get Daily Items
-            objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.DailyADLLookup));
+            objVers.AddRange(GetTBCItems(residentCarePlan, adlLookup));
 
             //Get Weekly Items
             objVers.AddRange(GetTBCItems(residentCarePlan, _configuration.WeekdaysADLLookup));

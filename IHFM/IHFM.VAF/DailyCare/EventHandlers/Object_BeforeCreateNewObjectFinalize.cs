@@ -565,8 +565,6 @@ namespace IHFM.VAF
             TBCADL.ForEach(x => {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_TimeBasedCareScheduleDropdown, x);
             });
-
-            
         }
 
         private void RunExports(ObjVerEx dailyCare)
@@ -711,6 +709,10 @@ namespace IHFM.VAF
             SiteSearchService siteSearchService = new SiteSearchService(env.Vault, Configuration);
             ObjVerEx siteConfig = siteSearchService.GetSiteConfig(resident.GetLookupID(Configuration.Resident_Site));
 
+            int zoneId = resident.GetLookupID(Configuration.Room_Zone);
+            bool isFrailOrMemoryCare = zoneId == Configuration.Zone_FrailCareItem.ID || zoneId == Configuration.Zone_MemoryCareItem.ID;
+            classFilter = classFilter == Configuration.TBCType_ADL && isFrailOrMemoryCare ? classFilter : Configuration.TBCType_CostedADL;
+
             Lookups items = env.ObjVerEx.GetProperty(Configuration.TBCS_TimeBasedCareScheduleDropdown).TypedValue.GetValueAsLookups();
             foreach (Lookup item in items)
             {
@@ -722,11 +724,6 @@ namespace IHFM.VAF
 
                 if (tbcType.Item != classFilter.ID)
                     continue;
-
-                    if (classFilter == Configuration.TBCType_ADL && resident.GetLookupID(Configuration.Room_Zone) == Configuration.Zone_FrailCareItem.ID)
-                    {
-                        classFilter = Configuration.TBCType_CostedADL;
-                    }
 
                 if (careItem.HasProperty(Configuration.TBCS_Frequency) && careItem.HasValue(Configuration.TBCS_Frequency)
                     && !(careItem.GetLookupID(Configuration.TBCS_Frequency) == Configuration.Frequency_SpecificTimes.ID))

@@ -32,6 +32,8 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier DailyADLLookup = "MFiles.Property.EveryDayTBCADL";
         [MFPropertyDef(Required = true)]
+        public MFIdentifier DailyCostedADLLookup = "MFiles.Property.EveryDayCostedAdl";
+        [MFPropertyDef(Required = true)]
         public MFIdentifier WeekdaysADLLookup = "MFiles.Property.WeekdaysTBCADL";
         [MFPropertyDef(Required = true)]
         public MFIdentifier MondayADLLookup = "MFiles.Property.MondayTBCADL";
