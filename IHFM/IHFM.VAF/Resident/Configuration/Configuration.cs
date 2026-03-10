@@ -24,11 +24,11 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier CurrentRoom = "MFiles.Property.CurrentRoom";
 
-        [MFPropertyDef]
-        public MFIdentifier Resident_HoldRoom = "MFiles.Property.HoldRoom";
+        //[MFPropertyDef]
+        //public MFIdentifier Resident_HoldRoom = "MFiles.Property.HoldRoom";
 
-        [MFPropertyDef]
-        public MFIdentifier Resident_HeldRoom = "MFiles.Property.HeldRoom";
+        //[MFPropertyDef]
+        //public MFIdentifier Resident_HeldRoom = "MFiles.Property.HeldRoom";
 
         [MFPropertyDef]
         public MFIdentifier Resident_RoomSwap = "MFiles.Property.ResidentRoomSwap";

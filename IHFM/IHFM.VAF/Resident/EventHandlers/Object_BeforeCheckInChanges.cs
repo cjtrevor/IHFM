@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using MFiles.VAF.Common;
-using MFiles.VAF.Extensions;
 using MFilesAPI;
 namespace IHFM.VAF
 {
@@ -10,48 +9,7 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.Resident")]
         public void BeforeCheckInRoomChanges(EventHandlerEnvironment env)
         {
-
-            //ObjVerChanges changes1 = new ObjVerChanges(env.ObjVerEx);
-
-            //foreach (PropertyValueChange change in changes1.Changed)
-            //{
-            //    if (change.PropertyDef == Configuration.Resident_RoomSwap.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap))
-            //    {
-            //        change.NewValue.TypedValue.SetValue(MFDataType.MFDatatypeLookup, null);
-            //    }
-            //}
-
-            //var residentRoomSwap1 = env.ObjVerEx.GetProperty(Configuration.Resident_RoomSwap).TypedValue.GetValueAsLookup();
-
-            //env.ObjVerEx.RemoveLookup(Configuration.Resident_RoomSwap, residentRoomSwap1.Item);
-
-            //env.ObjVerEx.SetLookup(Configuration.Resident_RoomSwap, null);
-            //env.ObjVerEx.SetProperty();
-
-
-            var residentName = env.ObjVerEx.GetProperty(Configuration.Resident_ResidentDetail).GetValueAsLocalizedText();
-
-            var currentRoomLookup = env.ObjVerEx.GetProperty(Configuration.CurrentRoom).TypedValue.GetValueAsLookup();
-            var isResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
-
-            if (isResidentRoomSwap)
-            {
-                var residentRoomSwap = env.ObjVerEx.GetProperty(Configuration.Resident_RoomSwap).TypedValue.GetValueAsLookup();
-                ObjVerEx residentRoomSwapObjVerEx = new ObjVerEx(env.Vault, residentRoomSwap);
-
-                var residentRoomSwapCurrentRoomLookup = residentRoomSwapObjVerEx.GetProperty(Configuration.CurrentRoom).TypedValue.GetValueAsLookup();
-
-                env.ObjVerEx.SaveProperty(Configuration.CurrentRoom, MFDataType.MFDatatypeLookup, residentRoomSwapCurrentRoomLookup);
-                residentRoomSwapObjVerEx.SaveProperty(Configuration.CurrentRoom, MFDataType.MFDatatypeLookup, currentRoomLookup);
-            }
-
-            //return;
-            //throw new Exception("dev test");
-
             ObjVerChanges changes = new ObjVerChanges(env.ObjVerEx);
-
-            var holdRoom = env.ObjVerEx.GetPropertyAsBoolean(Configuration.Resident_HoldRoom) ?? false;
-            var hasHeldRoom = env.ObjVerEx.HasValue(Configuration.Resident_HeldRoom);
 
             foreach (PropertyValueChange change in changes.Changed)
             {
@@ -65,28 +23,14 @@ namespace IHFM.VAF
                     SetDiscountValueIfPercentage(env);
                 }
 
-                if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom) && isResidentRoomSwap)
+                if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {
-                    if (hasHeldRoom)
-                    {
-                        throw new Exception("You cannot change the room while there is a held room. Please clear the held room before changing the current room.");
-                    }
-
                     if (!change.OldValue.TypedValue.IsNULL())
                     {
-                        var oldRoomLookup = change.OldValue.TypedValue.GetValueAsLookup();
-
-                        if (holdRoom)
+                        ObjVerEx oldRoom = new ObjVerEx(env.Vault, change.OldValue.TypedValue.GetValueAsLookup());
+                        if (!oldRoom.IsDeleted)
                         {
-                            env.ObjVerEx.SaveProperty(Configuration.Resident_HeldRoom, MFDataType.MFDatatypeLookup, oldRoomLookup);
-                        }
-                        else
-                        {
-                            ObjVerEx oldRoom = new ObjVerEx(env.Vault, oldRoomLookup);
-                            if (!oldRoom.IsDeleted)
-                            {
-                                SetRoomVacancy(oldRoom, env.Vault, true); //SetRoomVacancy old room vacant
-                            }
+                            SetRoomVacancy(oldRoom, env.Vault, true); //SetRoomVacancy old room vacant
                         }
                     }
 
@@ -94,95 +38,6 @@ namespace IHFM.VAF
                     UpdateRoomTariffOnRoomChange(env);
                     SetDiscountValueIfPercentage(env);
                 }
-            }
-
-            if (!holdRoom && hasHeldRoom)
-            {
-                ObjVerEx currentRoom = new ObjVerEx(env.Vault, currentRoomLookup);
-
-                if (!currentRoom.IsDeleted)
-                {
-                    SetRoomVacancy(currentRoom, env.Vault, true); //SetRoomVacancy old room vacant
-                }
-
-                var heldRoomLookup = env.ObjVerEx.GetProperty(Configuration.Resident_HeldRoom).TypedValue.GetValueAsLookup();
-                env.ObjVerEx.SaveProperty(Configuration.CurrentRoom, MFDataType.MFDatatypeLookup, heldRoomLookup);
-                env.ObjVerEx.SaveProperty(Configuration.Resident_HeldRoom, MFDataType.MFDatatypeLookup, null);
-            }
-
-            //env.ObjVerEx.SaveProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
-
-        }
-
-        //[EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.Resident")]
-        //public void AfterCheckInRoomChanges(EventHandlerEnvironment env)
-        //{
-        //    var hasResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
-
-        //    if (hasResidentRoomSwap)
-        //    {
-        //        env.ObjVerEx.SaveProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
-        //        //env.ObjVerEx.RemoveProperty(Configuration.Resident_RoomSwap);
-        //    }
-        //}
-
-        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerAfterCheckInChangesFinalize, Class = "MFiles.Class.Resident")]
-        public void MFEventHandlerAfterCheckInChangesFinalize(EventHandlerEnvironment env)
-        {
-            //return;
-            var hasResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
-
-            if (hasResidentRoomSwap)
-            {
-                env.ObjVerEx.SaveProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
-                //env.ObjVerEx.RemoveProperty(Configuration.Resident_RoomSwap);
-            }
-        }
-
-        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerAfterCheckInChanges, Class = "MFiles.Class.Resident")]
-        public void MFEventHandlerAfterCheckInChanges(EventHandlerEnvironment env)
-        {
-            return;
-            var hasResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
-
-            if (hasResidentRoomSwap)
-            {
-                env.ObjVerEx.SaveProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
-                //env.ObjVerEx.RemoveProperty(Configuration.Resident_RoomSwap);
-            }
-        }
-
-
-        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.Resident")]
-        public void AfterCheckInRoomChangesFinalize(EventHandlerEnvironment env)
-        {
-            return;
-
-
-            //var hasResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
-
-            //if (hasResidentRoomSwap)
-            //{
-            //    env.ObjVerEx.SetProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
-            //    env.ObjVerEx.RemoveLookup(Configuration.Resident_RoomSwap);
-            //    env.ObjVerEx.SaveProperties();
-            //}
-
-
-
-
-
-
-
-
-
-
-            var hasResidentRoomSwap = env.ObjVerEx.HasValue(Configuration.Resident_RoomSwap);
-
-            if (hasResidentRoomSwap)
-            {
-                env.ObjVerEx.SaveProperty(Configuration.Resident_RoomSwap, MFDataType.MFDatatypeLookup, null);
-                //env.ObjVerEx.RemoveProperty(Configuration.Resident_RoomSwap);
             }
         }
 
