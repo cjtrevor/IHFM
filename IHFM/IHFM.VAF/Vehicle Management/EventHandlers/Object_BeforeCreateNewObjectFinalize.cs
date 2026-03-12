@@ -56,15 +56,6 @@ namespace IHFM.VAF
             }
         }
 
-        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.Vehicle")]
-        public void VehicleManagement_Vehicle_BeforeCreateNewObjectFinalize(EventHandlerEnvironment env)
-        {
-            var lastServiceOdometerReading = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_LastServiceOdometerReading) ?? 0;
-            var serviceInterval = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_LastServiceOdometerReading) ?? 0;
-
-
-        }
-
         //UPDATE - BEFORE FINALIZE
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.Fines")]
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.VehicleInspection")]
@@ -107,7 +98,7 @@ namespace IHFM.VAF
                     currentTyreCondition = Configuration.CurrentTyreCondition_Good.ID;
                 }
 
-                vehicle.SetLookup(Configuration.VehicleManagement_CurrentTyreCondition, currentTyreCondition);
+                vehicle.SaveProperty(Configuration.VehicleManagement_CurrentTyreCondition, MFDataType.MFDatatypeLookup, currentTyreCondition);
             }
             else if (classId == Configuration.VehicleManagement_VehicleMaintenanceClass.ID)
             {
@@ -166,13 +157,15 @@ namespace IHFM.VAF
                 return;
 
             var serviceIntervalMonths = vehicle.GetPropertyAsInteger(Configuration.VehicleManagement_ServiceIntervalMonths) ?? 0;
-            var odometerReading = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_OdometerReading) ?? 0;
-            var serviceIntervalKmsText = env.ObjVerEx.GetPropertyText(Configuration.VehicleManagement_ServiceIntervalKm);
+            var vehicleOdometerReading = vehicle.GetPropertyAsDouble(Configuration.VehicleManagement_OdometerReading) ?? 0;
+            var serviceIntervalKmsText = vehicle.GetPropertyText(Configuration.VehicleManagement_ServiceIntervalKm);
             Int32.TryParse(serviceIntervalKmsText, out int serviceIntervalKms);
+
+            var odometerReading = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_OdometerReading) ?? 0;
 
             vehicle.SetProperty(Configuration.VehicleManagement_LastServiceDate, MFDataType.MFDatatypeDate, currentServiceDate);
             vehicle.SetProperty(Configuration.VehicleManagement_NextServiceDate, MFDataType.MFDatatypeDate, currentServiceDate.AddMonths(serviceIntervalMonths));
-            vehicle.SetProperty(Configuration.VehicleManagement_LastServiceOdometerReading, MFDataType.MFDatatypeFloating, odometerReading);
+            vehicle.SetProperty(Configuration.VehicleManagement_LastServiceOdometerReading, MFDataType.MFDatatypeFloating, vehicleOdometerReading);
             vehicle.SetProperty(Configuration.VehicleManagement_NextServicekm, MFDataType.MFDatatypeFloating, odometerReading + serviceIntervalKms);
 
             vehicle.SaveProperties();
