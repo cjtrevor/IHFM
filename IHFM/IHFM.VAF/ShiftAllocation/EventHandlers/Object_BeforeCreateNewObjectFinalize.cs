@@ -115,11 +115,21 @@ namespace IHFM.VAF
                 var server_End_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_EndDateTime).TypedValue.GetValueAsTimestamp();
                 var local_End_DateTime = server_End_Timestamp.ToLocalDateTime();
 
+                var unobtrusiveDevTest = env.ObjVerEx.HasProperty(Configuration.IncidentInvestigation_CommentsNotes) ? env.ObjVerEx.GetPropertyText(Configuration.IncidentInvestigation_CommentsNotes) : "";
+
+                bool devOverride = unobtrusiveDevTest == "dev 1@3$";
+
+                if (devOverride)
+                {
+                    local_End_DateTime = local_End_DateTime.AddMinutes(31);
+                }
+
                 Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
                 Lookups staffAttendingLookups = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StaffAttending).TypedValue.GetValueAsLookups();
 
                 TimeSpan duration = local_End_DateTime - local_Start_DateTime;
                 int totalTimeInMinutes = (int)duration.TotalMinutes;
+                
 
                 if (totalTimeInMinutes < 20)
                     return;
@@ -128,18 +138,24 @@ namespace IHFM.VAF
                 var staffEmailAddresses = new List<string>();
                 staffEmailAddresses.AddRange(Configuration.ShiftAllocation_MailLising.Split(';'));
 
+                
+
                 foreach (Lookup staffLookup in staffAttendingLookups)
                 {
                     var staffObjVer = new ObjVerEx(env.Vault, staffLookup);
                     var emailAddress = staffObjVer.GetPropertyText(Configuration.Staff_EmailAddress);
                     staffMembers += $"{staffLookup.DisplayValue}\n";
 
-                    if (!string.IsNullOrEmpty(emailAddress))
+                    if (!string.IsNullOrEmpty(emailAddress) && !devOverride)
                     {
                         staffEmailAddresses.Add(emailAddress);
                     }
                 }
 
+                if (devOverride)
+                {
+                    staffEmailAddresses.Add("singhpranesh3@gmail.com");
+                }
 
                 if (staffEmailAddresses.Count > 0)
                 {

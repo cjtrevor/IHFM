@@ -24,7 +24,7 @@ namespace IHFM.VAF
         {
             ObjVerEx vehicle = new ObjVerEx(_vault, vehicleLookup);
 
-            var currentTotalRunningCosts = vehicle.GetPropertyAsDouble(_configuration.VehicleManagement_TotalRunningCosts);
+            var currentTotalRunningCosts = vehicle.GetPropertyAsDouble(_configuration.VehicleManagement_TotalRunningCosts) ?? 0;
             vehicle.SetProperty(_configuration.VehicleManagement_TotalRunningCosts, MFDataType.MFDatatypeFloating, currentTotalRunningCosts + amount);
             vehicle.SaveProperties();
         }

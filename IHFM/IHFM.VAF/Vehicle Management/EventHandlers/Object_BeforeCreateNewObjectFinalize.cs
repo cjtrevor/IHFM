@@ -56,6 +56,15 @@ namespace IHFM.VAF
             }
         }
 
+        [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.Vehicle")]
+        public void VehicleManagement_Vehicle_BeforeCreateNewObjectFinalize(EventHandlerEnvironment env)
+        {
+            var lastServiceOdometerReading = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_LastServiceOdometerReading) ?? 0;
+            var serviceInterval = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_LastServiceOdometerReading) ?? 0;
+
+
+        }
+
         //UPDATE - BEFORE FINALIZE
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.Fines")]
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.VehicleInspection")]
@@ -65,10 +74,40 @@ namespace IHFM.VAF
         {
             MFIdentifier propertyIdentifier;
 
+            var vehicleLookup = env.ObjVerEx.GetProperty(Configuration.VehicleManagement_Vehicle).TypedValue.GetValueAsLookup();
+            ObjVerEx vehicle = new ObjVerEx(env.Vault, vehicleLookup);
+
             var classId = env.GetObjectClass();
             if (classId == Configuration.VehicleManagement_VehicleInspectionClass.ID)
             {
                 propertyIdentifier = Configuration.VehicleManagement_DefectsCost;
+
+                var tyreLf = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_TyreLf) ?? 0;
+                var tyreLr = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_TyreLr) ?? 0;
+                var tyreRf = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_TyreRf) ?? 0;
+                var tyreRr = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_TyreRr) ?? 0;
+
+                var lowestTyreThread = Math.Min(
+                    Math.Min(tyreLf, tyreLr),
+                    Math.Min(tyreRf, tyreRr)
+                    );
+
+                var currentTyreCondition = Configuration.CurrentTyreCondition_New.ID;
+
+                if (lowestTyreThread <= 2)
+                {
+                    currentTyreCondition = Configuration.CurrentTyreCondition_Urgent.ID;
+                }
+                else if (lowestTyreThread > 2 && lowestTyreThread <= 4)
+                {
+                    currentTyreCondition = Configuration.CurrentTyreCondition_Fair.ID;
+                }
+                else if(lowestTyreThread > 4 && lowestTyreThread <= 6)
+                {
+                    currentTyreCondition = Configuration.CurrentTyreCondition_Good.ID;
+                }
+
+                vehicle.SetLookup(Configuration.VehicleManagement_CurrentTyreCondition, currentTyreCondition);
             }
             else if (classId == Configuration.VehicleManagement_VehicleMaintenanceClass.ID)
             {
@@ -79,7 +118,7 @@ namespace IHFM.VAF
                 propertyIdentifier = Configuration.VehicleManagement_AmountR;
             }
 
-            UpdateVehicleTotalRunningCostsByProperty(env, propertyIdentifier);
+            UpdateVehicleTotalRunningCostsByProperty(env, propertyIdentifier, vehicleLookup);
         }
 
         //CREATE - BEFORE FINALIZE - CLASS_FUEL_SLIP
@@ -126,20 +165,22 @@ namespace IHFM.VAF
             if (vehicleLastServiceDate.HasValue && currentServiceDate < vehicleLastServiceDate.Value)
                 return;
 
-            var serviceInterval = vehicle.GetPropertyAsInteger(Configuration.VehicleManagement_ServiceIntervalMonths) ?? 0;
+            var serviceIntervalMonths = vehicle.GetPropertyAsInteger(Configuration.VehicleManagement_ServiceIntervalMonths) ?? 0;
             var odometerReading = env.ObjVerEx.GetPropertyAsDouble(Configuration.VehicleManagement_OdometerReading) ?? 0;
+            var serviceIntervalKmsText = env.ObjVerEx.GetPropertyText(Configuration.VehicleManagement_ServiceIntervalKm);
+            Int32.TryParse(serviceIntervalKmsText, out int serviceIntervalKms);
 
             vehicle.SetProperty(Configuration.VehicleManagement_LastServiceDate, MFDataType.MFDatatypeDate, currentServiceDate);
-            vehicle.SetProperty(Configuration.VehicleManagement_NextServiceDate, MFDataType.MFDatatypeDate, currentServiceDate.AddMonths(serviceInterval));
+            vehicle.SetProperty(Configuration.VehicleManagement_NextServiceDate, MFDataType.MFDatatypeDate, currentServiceDate.AddMonths(serviceIntervalMonths));
             vehicle.SetProperty(Configuration.VehicleManagement_LastServiceOdometerReading, MFDataType.MFDatatypeFloating, odometerReading);
+            vehicle.SetProperty(Configuration.VehicleManagement_NextServicekm, MFDataType.MFDatatypeFloating, odometerReading + serviceIntervalKms);
+
             vehicle.SaveProperties();
         }
 
-        private void UpdateVehicleTotalRunningCostsByProperty(EventHandlerEnvironment env, MFIdentifier costProperty)
+        private void UpdateVehicleTotalRunningCostsByProperty(EventHandlerEnvironment env, MFIdentifier costProperty, Lookup vehicleLookup)
         {
             var vehicleManagementService = new VehicleManagementService(env.Vault, Configuration);
-
-            var vehicleLookup = env.ObjVerEx.GetProperty(Configuration.VehicleManagement_Vehicle).TypedValue.GetValueAsLookup();
 
             ObjVerChanges changes = new ObjVerChanges(env.ObjVerEx);
             foreach (PropertyValueChange change in changes.Changed)
