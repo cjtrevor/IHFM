@@ -20,5 +20,15 @@ namespace IHFM.VAF
         public MFIdentifier Careplan_CpPsychosocialSummary = "MFiles.Property.CpPsychosocialSummary";
         [MFPropertyDef]
         public MFIdentifier Careplan_CpWalkingAids = "MFiles.Property.CpWalkingAids";
+
+        [MFPropertyDef]
+        public MFIdentifier Careplan_EventsActivitiesOnceOff = "MFiles.Property.Aeonceoff";
+        [MFPropertyDef]
+        public MFIdentifier Careplan_EventsActivitiesDaily = "MFiles.Property.Aedaily";
+        [MFPropertyDef]
+        public MFIdentifier Careplan_EventsActivitiesWeekly = "MFiles.Property.Aeweekly";
+        [MFPropertyDef]
+        public MFIdentifier Careplan_EventsActivitiesMonthly = "MFiles.Property.Aemonthly";
+
     }
 }
