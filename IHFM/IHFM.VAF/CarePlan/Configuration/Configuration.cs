@@ -22,13 +22,13 @@ namespace IHFM.VAF
         public MFIdentifier Careplan_CpWalkingAids = "MFiles.Property.CpWalkingAids";
 
         [MFPropertyDef]
-        public MFIdentifier Careplan_EventsActivitiesOnceOff = "MFiles.Property.Aeonceoff";
+        public MFIdentifier Careplan_EventsActivitiesOnceOff = "MFiles.Property.ActivitieseventsOnceoff";
         [MFPropertyDef]
-        public MFIdentifier Careplan_EventsActivitiesDaily = "MFiles.Property.Aedaily";
+        public MFIdentifier Careplan_EventsActivitiesDaily = "MFiles.Property.ActivitieseventsDaily";
         [MFPropertyDef]
-        public MFIdentifier Careplan_EventsActivitiesWeekly = "MFiles.Property.Aeweekly";
+        public MFIdentifier Careplan_EventsActivitiesWeekly = "MFiles.Property.ActivitieseventsWeekly";
         [MFPropertyDef]
-        public MFIdentifier Careplan_EventsActivitiesMonthly = "MFiles.Property.Aemonthly";
+        public MFIdentifier Careplan_EventsActivitiesMonthly = "MFiles.Property.ActivitieseventsMonthly";
 
     }
 }
