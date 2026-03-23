@@ -16,6 +16,32 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerAfterCheckInChangesFinalize, Class = "MFiles.Class.ActivitieseventSchedule")]
         public void AfterChangeActivitiesEventsSchedule(EventHandlerEnvironment env)
         {
+            MFIdentifier careplanMFLookup;
+
+            if (env.ObjVerEx.HasValue(Configuration.Events_OnceOnly) && (env.ObjVerEx.HasValue(Configuration.Events_Date))
+            && env.ObjVerEx.GetProperty(Configuration.Events_OnceOnly).GetValue<bool>())
+            {
+                careplanMFLookup = Configuration.Careplan_EventsActivitiesOnceOff;
+            }
+            else if (env.ObjVerEx.HasValue(Configuration.Events_Daily)
+            && env.ObjVerEx.GetProperty(Configuration.Events_Daily).GetValue<bool>())
+            {
+                careplanMFLookup = Configuration.Careplan_EventsActivitiesDaily;
+            }
+            else if (env.ObjVerEx.HasValue(Configuration.Events_Weekdays))
+            {
+                careplanMFLookup = Configuration.Careplan_EventsActivitiesWeekly;
+            }
+            else if (env.ObjVerEx.HasValue(Configuration.Events_WeeksOfMonth) || env.ObjVerEx.HasValue(Configuration.Events_Month))
+            {
+                careplanMFLookup = Configuration.Careplan_EventsActivitiesMonthly;
+            }
+            else
+            {
+                return;
+            }
+
+            var activityCompleted = env.ObjVerEx.GetPropertyAsBoolean(Configuration.DailyCare_IsComplete) ?? false;
             var residents = env.ObjVerEx.GetLookups(Configuration.Events_ResidentsDropdown);
             CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
 
@@ -25,32 +51,6 @@ namespace IHFM.VAF
                 if (careplan == null)
                     continue;
 
-                MFIdentifier careplanMFLookup;
-
-                if (env.ObjVerEx.HasValue(Configuration.Events_OnceOnly) && (env.ObjVerEx.HasValue(Configuration.Events_Date))
-                && env.ObjVerEx.GetProperty(Configuration.Events_OnceOnly).GetValue<bool>())
-                {
-                    careplanMFLookup = Configuration.Careplan_EventsActivitiesOnceOff;
-                }
-                else if (env.ObjVerEx.HasValue(Configuration.Events_Daily)
-                && env.ObjVerEx.GetProperty(Configuration.Events_Daily).GetValue<bool>())
-                {
-                    careplanMFLookup = Configuration.Careplan_EventsActivitiesDaily;
-                }
-                else if (env.ObjVerEx.HasValue(Configuration.Events_Weekdays))
-                {
-                    careplanMFLookup = Configuration.Careplan_EventsActivitiesWeekly;
-                }
-                else if (env.ObjVerEx.HasValue(Configuration.Events_WeeksOfMonth) || env.ObjVerEx.HasValue(Configuration.Events_Month))
-                {
-                    careplanMFLookup = Configuration.Careplan_EventsActivitiesMonthly;
-                }
-                else
-                {
-                    continue;
-                }
-
-                var activityCompleted = env.ObjVerEx.GetPropertyAsBoolean(Configuration.DailyCare_IsComplete) ?? false;
                 if (activityCompleted)
                 {
                     careplan.RemoveLookup(careplanMFLookup, env.ObjVerEx.ID);
