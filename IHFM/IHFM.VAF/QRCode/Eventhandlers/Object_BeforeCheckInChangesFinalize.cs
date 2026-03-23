@@ -9,7 +9,7 @@ namespace IHFM.VAF
 {
     public partial class VaultApplication
     {
-        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.QRCode")]
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.QrHourlyRounds")]
         public void BeforeQRCodeHourlyRounds_CheckinChangesFinalize(EventHandlerEnvironment env)
         {
             try
