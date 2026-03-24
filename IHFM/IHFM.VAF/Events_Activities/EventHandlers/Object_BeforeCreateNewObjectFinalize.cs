@@ -21,6 +21,10 @@ namespace IHFM.VAF
             if (env.ObjVerEx.HasValue(Configuration.Events_OnceOnly) && (env.ObjVerEx.HasValue(Configuration.Events_Date))
             && env.ObjVerEx.GetProperty(Configuration.Events_OnceOnly).GetValue<bool>())
             {
+                var eventDate = env.ObjVerEx.GetPropertyAsDateTime(Configuration.Events_Date)?.Date;
+                if (eventDate < new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1))
+                    return;
+
                 careplanMFLookup = Configuration.Careplan_EventsActivitiesOnceOff;
             }
             else if (env.ObjVerEx.HasValue(Configuration.Events_Daily)
