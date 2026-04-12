@@ -100,6 +100,7 @@ namespace IHFM.VAF
                 RestraintsPermitted = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_RestraintsPermitted),
                 RestrictionPeriodsAllowed = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_RestrictionPeriodsAllowed),
                 RiskFactors = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_RiskFactors),
+                AssociatedRiskFactors = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_AssociatedRiskFactors),
                 Notes = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_CommentsNotes),
                 NextOfKin = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_NextOfKin),
                 NextOfKinIdNumber = GetPropertyValueAsText(env.ObjVerEx, Configuration.HealthcareForm_NextOfKinIdNumber),

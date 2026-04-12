@@ -46,6 +46,8 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier HealthcareForm_RiskFactors = "MFiles.Property.RiskFactors";
         [MFPropertyDef]
+        public MFIdentifier HealthcareForm_AssociatedRiskFactors = "MFiles.Property.AssociatedRiskFactors";
+        [MFPropertyDef]
         public MFIdentifier HealthcareForm_CommentsNotes = "MFiles.Property.CommentsNotes";
     }
 }
