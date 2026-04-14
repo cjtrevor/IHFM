@@ -9,8 +9,8 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, ObjectType = "MFiles.Object.Resident")]
         public void SetAge(EventHandlerEnvironment env)
         {
-            AgeCalculationService ageCalculationService = new AgeCalculationService();
-            ageCalculationService.RefreshAge(env.ObjVerEx, Configuration, false);
+            //AgeCalculationService ageCalculationService = new AgeCalculationService();
+            //ageCalculationService.RefreshAge(env.ObjVerEx, Configuration, false);
         }
     }
 }

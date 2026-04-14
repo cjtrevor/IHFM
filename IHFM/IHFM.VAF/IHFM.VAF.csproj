@@ -92,7 +92,6 @@
     <Compile Include="CarePlan\Services\CarePlanSearchService.cs" />
     <Compile Include="ChangePincode\Configuration\Configuration.cs" />
     <Compile Include="ChangePincode\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
-    <Compile Include="DailyCare\Automatic Values\CalculatedValues.cs" />
     <Compile Include="DailyCare\BackgroundOperations\BackgroundOperations.cs" />
     <Compile Include="DailyCare\Configuration\Configuration.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
