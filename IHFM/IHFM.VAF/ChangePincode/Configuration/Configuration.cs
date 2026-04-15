@@ -12,13 +12,21 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier ChangePincode_StaffName = "MFiles.Property.Staffname";
 
-        [MFPropertyDef(Required = true)]
+        [MFPropertyDef]
         public MFIdentifier ChangePincode_OldPinCode = "MFiles.Property.OldPinCode";
-
-        [MFPropertyDef(Required = true)]
+        [MFPropertyDef]
         public MFIdentifier ChangePincode_NewPinCode = "MFiles.Property.NewPinCode";
-
-        [MFPropertyDef(Required = true)]
+        [MFPropertyDef]
         public MFIdentifier ChangePincode_ReEnterNewPinCode = "MFiles.Property.ReenterNewPinCode";
+
+        [MFPropertyDef]
+        public MFIdentifier ChangePincode_OldPassword = "MFiles.Property.OldPassword";
+        [MFPropertyDef]
+        public MFIdentifier ChangePincode_NewPassword = "MFiles.Property.NewPassword";
+        [MFPropertyDef]
+        public MFIdentifier ChangePincode_ReEnterNewPassword = "MFiles.Property.ReenterNewPassword";
+        
+
+        
     }
 }

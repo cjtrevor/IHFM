@@ -13,17 +13,17 @@ namespace IHFM.VAF
         [EventHandler(MFilesAPI.MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Priority = 100)]
         public void CheckPinCode(EventHandlerEnvironment env)
         {
-            var pinVal = env.ObjVerEx.Properties.GetProperty(Configuration.StaffLookup_StaffPinCode);
+            var pinVal = env.ObjVerEx.Properties.GetProperty(Configuration.StaffLookup_StaffPassword);
 
             if (pinVal == null)
                 return;
 
             if (string.IsNullOrEmpty(pinVal.GetValueAsLocalizedText()))
-                throw new Exception($"Staff Pin Code required");
+                throw new Exception($"Staff Password required");
 
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
             mFSearchBuilder.Class(Configuration.Staff);
-            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeText, pinVal.GetValueAsLocalizedText());
+            mFSearchBuilder.Property(Configuration.Staff_Password, MFDataType.MFDatatypeText, pinVal.GetValueAsLocalizedText());
             var staffUserObject = mFSearchBuilder.FindOneEx();
 
             if (staffUserObject == null)
@@ -35,18 +35,18 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChangesFinalize, Class = "MFiles.Class.Staff")]
         public void BeforeCheckInChanges_EnsureUniqueStaffPinCode(EventHandlerEnvironment env)
         {
-            var staffPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.Staff_PinCode);
+            var staffPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.Staff_Password);
 
             if (string.IsNullOrWhiteSpace(staffPinCode.GetValueAsLocalizedText()))
                 return;
 
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
             mFSearchBuilder.Class(Configuration.Staff);
-            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeText, staffPinCode.GetValueAsLocalizedText());
+            mFSearchBuilder.Property(Configuration.Staff_Password, MFDataType.MFDatatypeText, staffPinCode.GetValueAsLocalizedText());
             var existingObjectsWithSamePincode = mFSearchBuilder.FindEx();
 
             if (existingObjectsWithSamePincode.Count > 1)
-                throw new Exception($"Invalid pin, please try a different pin");
+                throw new Exception($"Invalid password, please try a different password");
         }
 
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.Staff")]
