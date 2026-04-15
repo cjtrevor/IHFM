@@ -23,7 +23,7 @@ namespace IHFM.VAF
 
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
             mFSearchBuilder.Class(Configuration.Staff);
-            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(pinVal.GetValueAsLocalizedText()));
+            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeText, pinVal.GetValueAsLocalizedText());
             var staffUserObject = mFSearchBuilder.FindOneEx();
 
             if (staffUserObject == null)
@@ -42,7 +42,7 @@ namespace IHFM.VAF
 
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
             mFSearchBuilder.Class(Configuration.Staff);
-            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(staffPinCode.GetValueAsLocalizedText()));
+            mFSearchBuilder.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeText, staffPinCode.GetValueAsLocalizedText());
             var existingObjectsWithSamePincode = mFSearchBuilder.FindEx();
 
             if (existingObjectsWithSamePincode.Count > 1)

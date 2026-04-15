@@ -27,14 +27,14 @@ namespace IHFM.VAF
 
             MFSearchBuilder existingPincodeSearch = new MFSearchBuilder(env.ObjVerEx.Vault);
             existingPincodeSearch.Class(Configuration.Staff);
-            existingPincodeSearch.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(newPinCode.GetValueAsLocalizedText()));
+            existingPincodeSearch.Property(Configuration.Staff_PinCode, MFDataType.MFDatatypeText, newPinCode.GetValueAsLocalizedText());
             var existingObjectsWithSamePincode = existingPincodeSearch.FindEx();
 
             if (existingObjectsWithSamePincode.Count > 1)
                 throw new Exception($"Invalid New Pin, please try a different pin");
 
 
-            staff.SaveProperty(Configuration.Staff_PinCode, MFDataType.MFDatatypeInteger, int.Parse(newPinCode.GetValueAsLocalizedText()));
+            staff.SaveProperty(Configuration.Staff_PinCode, MFDataType.MFDatatypeText, newPinCode.GetValueAsLocalizedText());
         }
     }
 }
