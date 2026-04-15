@@ -1,6 +1,8 @@
 ﻿using MFiles.VAF.Common;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +29,7 @@ namespace IHFM.VAF
             var staffUserObject = mFSearchBuilder.FindOneEx();
 
             if (staffUserObject == null)
-                throw new Exception($"Incorrect pin");
+                throw new Exception($"Incorrect password");
 
             env.ObjVerEx.SetProperty(Configuration.CreatedBy, MFDataType.MFDatatypeLookup, staffUserObject.ID);
         }
@@ -39,6 +41,14 @@ namespace IHFM.VAF
 
             if (string.IsNullOrWhiteSpace(staffPinCode.GetValueAsLocalizedText()))
                 return;
+
+            SiteSearchService siteSearchService = new SiteSearchService(env.Vault, Configuration);
+            ObjVerEx siteConfig = siteSearchService.GetSiteConfig(env.ObjVerEx.GetLookupID(Configuration.Staff_Site));
+
+            var minimumPasswordLength = siteConfig.GetPropertyAsInteger(Configuration.SiteConfig_PinpasswordLength);
+
+            if (minimumPasswordLength != null && staffPinCode.GetValueAsLocalizedText().Length < minimumPasswordLength)
+                throw new Exception($"Password must be at least {minimumPasswordLength} characters long");
 
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(env.ObjVerEx.Vault);
             mFSearchBuilder.Class(Configuration.Staff);

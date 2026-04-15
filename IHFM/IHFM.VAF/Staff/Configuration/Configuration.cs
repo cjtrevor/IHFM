@@ -17,5 +17,8 @@ namespace IHFM.VAF
         public MFIdentifier Staff_PinCode = "MFiles.Property.PinCode";
         [MFPropertyDef]
         public MFIdentifier Staff_Password = "MFiles.Property.Password";
+
+        [MFPropertyDef]
+        public MFIdentifier Staff_Site = "MFiles.Property.BaseSite";
     }
 }

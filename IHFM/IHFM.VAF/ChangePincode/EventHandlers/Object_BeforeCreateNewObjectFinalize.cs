@@ -1,4 +1,5 @@
 ﻿using MFiles.VAF.Common;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
 
@@ -13,7 +14,7 @@ namespace IHFM.VAF
             ObjVerEx staff = new ObjVerEx(env.Vault, staffLookup);
 
             var currentStaffPinCode = staff.Properties.GetProperty(Configuration.Staff_Password);
-            var oldPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.ChangePincode_OldPassword);
+            var oldPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.ChangePincode_OldPassword);                       
 
             if (currentStaffPinCode.GetValueAsLocalizedText() != oldPinCode.GetValueAsLocalizedText())
                 throw new Exception($"Incorrect password(Old password)");
@@ -21,6 +22,14 @@ namespace IHFM.VAF
 
             var newPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.ChangePincode_NewPassword);
             var reEnterNewPinCode = env.ObjVerEx.Properties.GetProperty(Configuration.ChangePincode_ReEnterNewPassword);
+
+            SiteSearchService siteSearchService = new SiteSearchService(env.Vault, Configuration);
+            ObjVerEx siteConfig = siteSearchService.GetSiteConfig(staff.GetLookupID(Configuration.Staff_Site));
+
+            var minimumPasswordLength = siteConfig.GetPropertyAsInteger(Configuration.SiteConfig_PinpasswordLength);
+
+            if (minimumPasswordLength != null && newPinCode.GetValueAsLocalizedText().Length < minimumPasswordLength)
+                throw new Exception($"Password must be at least {minimumPasswordLength} characters long");
 
             if (newPinCode.GetValueAsLocalizedText() != reEnterNewPinCode.GetValueAsLocalizedText())
                 throw new Exception($"New password and re-entered password do not match.");

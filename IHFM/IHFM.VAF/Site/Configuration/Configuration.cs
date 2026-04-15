@@ -58,6 +58,8 @@ namespace IHFM.VAF
         public MFIdentifier SiteConfig_SCDayOfWeek = "MFiles.Property.SCDayOfWeek";
         [MFPropertyDef]
         public MFIdentifier SiteConfig_SCDayOfMonth = "MFiles.Property.SCDayOfMonth";
+        [MFPropertyDef]
+        public MFIdentifier SiteConfig_PinpasswordLength = "MFiles.Property.PinpasswordLength";
 
         //Object Aliases
         [MFObjType(Required = true)]
