@@ -74,7 +74,7 @@ namespace IHFM.VAF
 
                     bool hasOverlap = local_Start_DateTime < local_existingEnd && local_existingStart < local_End_DateTime;
 
-                    if (hasOverlap)
+                    if (true)
                     {
                         string staffName = staffLookup.DisplayValue;
                         string conflictMsg = string.Format(
@@ -128,11 +128,7 @@ namespace IHFM.VAF
                 Lookups staffAttendingLookups = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StaffAttending).TypedValue.GetValueAsLookups();
 
                 TimeSpan duration = local_End_DateTime - local_Start_DateTime;
-                int totalTimeInMinutes = (int)duration.TotalMinutes;
-                
-
-                if (totalTimeInMinutes < 20)
-                    return;
+                int totalTimeInMinutes = 60; //(int)duration.TotalMinutes
 
                 string staffMembers = "";
                 var staffEmailAddresses = new List<string>();
