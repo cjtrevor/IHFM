@@ -19,33 +19,33 @@ namespace IHFM.VAF
             var server_Start_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StartDateTime).TypedValue.GetValueAsTimestamp();
             var local_Start_DateTime = server_Start_Timestamp.ToLocalDateTime();
 
-            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
-            ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
+            //Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
+            //ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
 
-            CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
-            ObjVerEx careplan = searchService.GetResidentCarePlanExisting(residentLookup.Item);
+            //CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
+            //ObjVerEx careplan = searchService.GetResidentCarePlanExisting(residentLookup.Item);
 
-            List<ObjVer> objVers = new List<ObjVer>();
+            //List<ObjVer> objVers = new List<ObjVer>();
 
-            if (careplan != null)
-            {
-                objVers.AddRange(GetTBCSItemsByResident(careplan, Configuration.DailyADLLookup));
-                objVers.AddRange(GetTBCSItemsByResident(careplan, GetADLAliasForDayOfWeek(local_Start_DateTime)));
-            }
+            //if (careplan != null)
+            //{
+            //    objVers.AddRange(GetTBCSItemsByResident(careplan, Configuration.DailyADLLookup));
+            //    objVers.AddRange(GetTBCSItemsByResident(careplan, GetADLAliasForDayOfWeek(local_Start_DateTime)));
+            //}
 
-            int totalTimeInMinutes = 0;
+            int totalTimeInMinutes = 60;
 
-            foreach (ObjVer item in objVers)
-            {
-                var objVerEx = new ObjVerEx(env.Vault, item);
+            //foreach (ObjVer item in objVers)
+            //{
+            //    var objVerEx = new ObjVerEx(env.Vault, item);
 
-                var timeBasedCareItemLookup = objVerEx.GetProperty(Configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
-                ObjVer timeBasedCareItem = timeBasedCareItemLookup.GetAsObjVer();
-                var timeBasedCareItemVerEx = new ObjVerEx(env.Vault, timeBasedCareItem);
+            //    var timeBasedCareItemLookup = objVerEx.GetProperty(Configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
+            //    ObjVer timeBasedCareItem = timeBasedCareItemLookup.GetAsObjVer();
+            //    var timeBasedCareItemVerEx = new ObjVerEx(env.Vault, timeBasedCareItem);
 
-                Int32.TryParse(timeBasedCareItemVerEx.GetPropertyText(Configuration.AverageTime), out int time);
-                totalTimeInMinutes += time;
-            }
+            //    Int32.TryParse(timeBasedCareItemVerEx.GetPropertyText(Configuration.AverageTime), out int time);
+            //    totalTimeInMinutes += time;
+            //}
 
             var local_End_DateTime = local_Start_DateTime.AddMinutes(totalTimeInMinutes);
             var server_End_Timestamp = local_End_DateTime.ToUtcTimestamp();
@@ -74,7 +74,7 @@ namespace IHFM.VAF
 
                     bool hasOverlap = local_Start_DateTime < local_existingEnd && local_existingStart < local_End_DateTime;
 
-                    if (true)
+                    if (hasOverlap)
                     {
                         string staffName = staffLookup.DisplayValue;
                         string conflictMsg = string.Format(
@@ -115,26 +115,15 @@ namespace IHFM.VAF
                 var server_End_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_EndDateTime).TypedValue.GetValueAsTimestamp();
                 var local_End_DateTime = server_End_Timestamp.ToLocalDateTime();
 
-                var unobtrusiveDevTest = env.ObjVerEx.HasProperty(Configuration.IncidentInvestigation_CommentsNotes) ? env.ObjVerEx.GetPropertyText(Configuration.IncidentInvestigation_CommentsNotes) : "";
-
-                bool devOverride = unobtrusiveDevTest == "dev 1@3$";
-
-                if (devOverride)
-                {
-                    local_End_DateTime = local_End_DateTime.AddMinutes(31);
-                }
-
                 Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
                 Lookups staffAttendingLookups = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StaffAttending).TypedValue.GetValueAsLookups();
 
                 TimeSpan duration = local_End_DateTime - local_Start_DateTime;
-                int totalTimeInMinutes = 60; //(int)duration.TotalMinutes
+                int totalTimeInMinutes = (int)duration.TotalMinutes;
 
                 string staffMembers = "";
                 var staffEmailAddresses = new List<string>();
                 staffEmailAddresses.AddRange(Configuration.ShiftAllocation_MailLising.Split(';'));
-
-                
 
                 foreach (Lookup staffLookup in staffAttendingLookups)
                 {
@@ -142,15 +131,10 @@ namespace IHFM.VAF
                     var emailAddress = staffObjVer.GetPropertyText(Configuration.Staff_EmailAddress);
                     staffMembers += $"{staffLookup.DisplayValue}\n";
 
-                    if (!string.IsNullOrEmpty(emailAddress) && !devOverride)
+                    if (!string.IsNullOrEmpty(emailAddress))
                     {
                         staffEmailAddresses.Add(emailAddress);
                     }
-                }
-
-                if (devOverride)
-                {
-                    staffEmailAddresses.Add("singhpranesh3@gmail.com");
                 }
 
                 if (staffEmailAddresses.Count > 0)
