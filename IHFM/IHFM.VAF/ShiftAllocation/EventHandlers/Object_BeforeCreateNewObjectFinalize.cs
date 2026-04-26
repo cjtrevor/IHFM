@@ -209,7 +209,9 @@ namespace IHFM.VAF
                             break;
                     }
 
-                    foreach (string emailAddress in staffEmailAddresses)
+                    var testCategories = new List<string>() { "Shift Allocation"};
+
+                    foreach (string emailAddress in staffEmailAddresses.Distinct())
                     {
                         emailService.SendEmailWithCalendarInvite(
                                 emailAddress,
@@ -218,7 +220,8 @@ namespace IHFM.VAF
                                 location,
                                 local_Start_DateTime,
                                 local_End_DateTime,
-                                recurrence
+                                recurrence,
+                                testCategories
                             );
                     }
                 }

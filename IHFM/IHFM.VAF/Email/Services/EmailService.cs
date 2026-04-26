@@ -77,14 +77,14 @@ namespace IHFM.VAF.Email.Services
 
         #region Public Email Methods
 
-        public void SendEmailWithCalendarInvite(string toAddress, string subject, string body, string location, DateTime startTime, DateTime endTime, RecurrencePattern recurrence = null)
+        public void SendEmailWithCalendarInvite(string toAddress, string subject, string body, string location, DateTime startTime, DateTime endTime, RecurrencePattern recurrence = null, IEnumerable<string> categories = null)
         {
             using (MailMessage mail = new MailMessage(_configuration.Email_FromAddress, toAddress))
             {
                 mail.Subject = subject;
 
                 // Add calendar invite to email
-                AddCalendarInviteToEmail(mail, subject, body, location, startTime, endTime, toAddress, recurrence);
+                AddCalendarInviteToEmail(mail, subject, body, location, startTime, endTime, toAddress, recurrence, categories);
 
                 SendEmail(mail);
             }
@@ -117,14 +117,24 @@ namespace IHFM.VAF.Email.Services
             }
         }
 
+        public void SendOutlookMeetingInvite(string toAddress, string subject, string body, string location, DateTime startTime, DateTime endTime, RecurrencePattern recurrence = null, IEnumerable<string> categories = null)
+        {
+            using (MailMessage mail = new MailMessage(_configuration.Email_FromAddress, toAddress))
+            {
+                mail.Subject = subject;
+                AddOutlookCalendarInviteToEmail(mail, subject, body, location, startTime, endTime, toAddress, recurrence, categories);
+                SendEmail(mail);
+            }
+        }
+
         #endregion
 
         #region Private Helper Methods
 
-        private void AddCalendarInviteToEmail(MailMessage mail, string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail, RecurrencePattern recurrence = null)
+        private void AddCalendarInviteToEmail(MailMessage mail, string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail, RecurrencePattern recurrence = null, IEnumerable<string> categories = null)
         {
             // Create the calendar entry
-            string calendarString = Encoding.UTF8.GetString(CreateCalendarEntry(summary, description, location, startTime, endTime, attendeeEmail, recurrence));
+            string calendarString = Encoding.UTF8.GetString(CreateCalendarEntry(summary, description, location, startTime, endTime, attendeeEmail, recurrence, categories));
 
             // Add plain text view (required for Outlook)
             AlternateView plainView = AlternateView.CreateAlternateViewFromString(
@@ -148,6 +158,37 @@ namespace IHFM.VAF.Email.Services
             // Also attach .ics file for better Outlook compatibility
             Attachment icsAttachment = Attachment.CreateAttachmentFromString(calendarString, "invite.ics");
             icsAttachment.ContentType = new ContentType("text/calendar; method=REQUEST; charset=UTF-8");
+            mail.Attachments.Add(icsAttachment);
+        }
+
+        private void AddOutlookCalendarInviteToEmail(MailMessage mail, string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail, RecurrencePattern recurrence = null, IEnumerable<string> categories = null)
+        {
+            string calendarString = Encoding.UTF8.GetString(CreateOutlookCalendarEntry(summary, description, location, startTime, endTime, attendeeEmail, recurrence, categories));
+
+            // Add HTML view for Outlook
+            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(
+                mail.Body ?? description,
+                Encoding.UTF8,
+                MediaTypeNames.Text.Html
+            );
+            mail.AlternateViews.Add(htmlView);
+
+            // Add calendar view with proper ContentType
+            ContentType calendarType = new ContentType("text/calendar");
+            calendarType.Parameters.Add("method", "REQUEST");
+            calendarType.Parameters.Add("name", "invite.ics");
+            calendarType.Parameters.Add("charset", "UTF-8");
+
+            AlternateView calendarView = AlternateView.CreateAlternateViewFromString(
+                calendarString,
+                calendarType
+            );
+            calendarView.TransferEncoding = TransferEncoding.Base64;
+            mail.AlternateViews.Add(calendarView);
+
+            // Attach .ics file
+            Attachment icsAttachment = Attachment.CreateAttachmentFromString(calendarString, "invite.ics");
+            icsAttachment.ContentType = new ContentType("text/calendar; method=REQUEST; name=invite.ics; charset=UTF-8");
             mail.Attachments.Add(icsAttachment);
         }
 
@@ -177,7 +218,7 @@ namespace IHFM.VAF.Email.Services
             }
         }
 
-        private byte[] CreateCalendarEntry(string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail, RecurrencePattern recurrence = null)
+        private byte[] CreateCalendarEntry(string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail, RecurrencePattern recurrence = null, IEnumerable<string> categories = null)
         {
             StringBuilder calendar = new StringBuilder();
 
@@ -220,6 +261,13 @@ namespace IHFM.VAF.Email.Services
                 calendar.AppendLine($"LOCATION:{EscapeCalendarText(location)}");
             }
 
+            // Add categories if provided
+            if (categories != null && categories.Any())
+            {
+                var catString = string.Join(",", categories.Select(EscapeCalendarText));
+                calendar.AppendLine($"CATEGORIES:{catString}");
+            }
+
             // Organizer
             calendar.AppendLine($"ORGANIZER:mailto:{_configuration.Email_FromAddress}");
 
@@ -246,6 +294,56 @@ namespace IHFM.VAF.Email.Services
             calendar.AppendLine("END:VEVENT");
             calendar.AppendLine("END:VCALENDAR");
 
+            return Encoding.UTF8.GetBytes(calendar.ToString());
+        }
+
+        private byte[] CreateOutlookCalendarEntry(string summary, string description, string location, DateTime startTime, DateTime endTime, string attendeeEmail, RecurrencePattern recurrence = null, IEnumerable<string> categories = null)
+        {
+            StringBuilder calendar = new StringBuilder();
+            calendar.AppendLine("BEGIN:VCALENDAR");
+            calendar.AppendLine("PRODID:-//IHFM//VAF Calendar//EN");
+            calendar.AppendLine("VERSION:2.0");
+            calendar.AppendLine("METHOD:REQUEST");
+            calendar.AppendLine("CALSCALE:GREGORIAN");
+            calendar.AppendLine("BEGIN:VEVENT");
+            string uid = Guid.NewGuid().ToString();
+            calendar.AppendLine($"UID:{uid}");
+            string dateStamp = DateTime.UtcNow.ToString("yyyyMMddTHHmmssZ");
+            calendar.AppendLine($"DTSTAMP:{dateStamp}");
+            string startUtc = startTime.ToUniversalTime().ToString("yyyyMMddTHHmmssZ");
+            string endUtc = endTime.ToUniversalTime().ToString("yyyyMMddTHHmmssZ");
+            calendar.AppendLine($"DTSTART:{startUtc}");
+            calendar.AppendLine($"DTEND:{endUtc}");
+            calendar.AppendLine($"SUMMARY:{EscapeCalendarText(summary)}");
+            if (!string.IsNullOrEmpty(description))
+                calendar.AppendLine($"DESCRIPTION:{EscapeCalendarText(description)}");
+            if (!string.IsNullOrEmpty(location))
+                calendar.AppendLine($"LOCATION:{EscapeCalendarText(location)}");
+            if (categories != null && categories.Any())
+            {
+                var catString = string.Join(",", categories.Select(EscapeCalendarText));
+                calendar.AppendLine($"CATEGORIES:{catString}");
+            }
+            calendar.AppendLine($"ORGANIZER;CN=Organizer:mailto:{_configuration.Email_FromAddress}");
+            calendar.AppendLine($"ATTENDEE;CN=Attendee;RSVP=TRUE:mailto:{attendeeEmail}");
+            if (recurrence != null && recurrence.Frequency != RecurrenceFrequency.None)
+            {
+                string rrule = BuildRecurrenceRule(recurrence);
+                if (!string.IsNullOrEmpty(rrule))
+                    calendar.AppendLine($"RRULE:{rrule}");
+            }
+            calendar.AppendLine("SEQUENCE:0");
+            calendar.AppendLine("STATUS:CONFIRMED");
+            calendar.AppendLine("TRANSP:OPAQUE");
+            calendar.AppendLine("CLASS:PUBLIC");
+            calendar.AppendLine("PRIORITY:5");
+            // Outlook-specific X-MICROSOFT-CDO properties
+            calendar.AppendLine("X-MICROSOFT-CDO-IMPORTANCE:1");
+            calendar.AppendLine("X-MICROSOFT-CDO-BUSYSTATUS:BUSY");
+            calendar.AppendLine("X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY");
+            calendar.AppendLine("X-MICROSOFT-DISALLOW-COUNTER:FALSE");
+            calendar.AppendLine("END:VEVENT");
+            calendar.AppendLine("END:VCALENDAR");
             return Encoding.UTF8.GetBytes(calendar.ToString());
         }
 
