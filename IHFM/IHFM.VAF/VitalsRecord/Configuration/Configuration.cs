@@ -9,6 +9,10 @@ namespace IHFM.VAF
 {
     public partial class Configuration
     {
+        //TODO : Resident Site Change in progress, need to change to Class and actual Alias when raaaadeee
+        [MFObjType(Required = true)]
+        public MFIdentifier VitalsRecordObject = "MFiles.Object.VitalsRecord";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier Vitals_Temperature = "MFiles.Property.Temperature";
 

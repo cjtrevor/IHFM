@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using IHFM.VAF.Resident.Services;
 using MFiles.VAF.Common;
 using MFiles.VAF.Extensions;
 using MFilesAPI;
@@ -48,6 +49,15 @@ namespace IHFM.VAF
                 {
                     SetDiscountValueIfPercentage(env);
                 }
+
+                //TODO : Resident Site Change in progress
+                //if (change.PropertyDef == Configuration.Resident_Site.ID && change.ChangeType == PropertyValueChangeType.Modified && !change.NewValue.TypedValue.IsNULL())
+                //{
+                //    int residentObjId = env.ObjVerEx.ObjVer.ID;
+                //    int newSiteId = change.NewValue.TypedValue.GetValueAsLookup().Item;
+                //    var enqueueService = new ResidentSiteChangeEnqueueService(env.Vault, Configuration);
+                //    enqueueService.EnqueueRelatedObjectsForResident(residentObjId, newSiteId);
+                //}
 
                 if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {

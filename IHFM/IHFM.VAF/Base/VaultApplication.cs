@@ -1,3 +1,4 @@
+using IHFM.VAF.Resident.BackgroundOperations;
 using IHFM.VAF.Utilities;
 using MFiles.VAF;
 using MFiles.VAF.Common;
@@ -57,6 +58,15 @@ namespace IHFM.VAF
                 //    SysUtils.ReportInfoToEventLog(
                 //        $"IHFM: SetSiteNominals completed. Next run: {DateTime.Now.AddHours(Configuration.SiteNominalRunCheckInterval)}");
                 //});
+
+                //TODO : Resident Site Change in progress
+                //Process Resident Site Changes (one item per run to avoid concurrency issues)
+                //TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Resident Site Change Propagation",
+                //TimeSpan.FromMinutes(1), (job) =>
+                //{
+                //    new ResidentSiteChangeBackgroundOperation().ProcessNextQueueItem(job.Vault, Configuration);
+                //});
+
             }
             catch (Exception e)
             {
