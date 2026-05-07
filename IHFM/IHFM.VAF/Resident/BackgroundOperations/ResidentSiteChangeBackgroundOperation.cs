@@ -32,7 +32,9 @@ namespace IHFM.VAF.Resident.BackgroundOperations
                     return;
                 }
 
-                objVerEx.SaveProperty(configuration.Site, MFDataType.MFDatatypeLookup, item.NewSiteId);
+                objVerEx.SaveProperty(configuration.SiteList, MFDataType.MFDatatypeLookup, item.NewSiteId);
+
+                //objVerEx.SaveProperty(configuration.Site, MFDataType.MFDatatypeLookup, item.NewSiteId);
 
                 SysUtils.ReportInfoToEventLog(
                     $"IHFM: ResidentSiteChange updated Site on ObjType={item.ObjType} ObjId={item.ObjId} for ResidentId={item.ResidentObjId}. Queue remaining: {ResidentSiteChangeQueueService.Count()}.");

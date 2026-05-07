@@ -32,8 +32,8 @@ namespace IHFM.VAF.Resident.Services
 
             //PRAN NOTES
             //will Want to chang this to something more dynamic like a MFilesAdmin config or something?
-            items.AddRange(FindRelatedItems(residentObjId, newSiteId, _configuration.CarePlanObject));
-            items.AddRange(FindRelatedItems(residentObjId, newSiteId, _configuration.VitalsRecordObject));
+            items.AddRange(FindRelatedItems(residentObjId, newSiteId, _configuration.CarePlanClass));
+            items.AddRange(FindRelatedItems(residentObjId, newSiteId, _configuration.VitalsRecordClass));
 
             if (items.Count > 0)
             {
@@ -43,26 +43,26 @@ namespace IHFM.VAF.Resident.Services
             }
         }
 
-        private List<ResidentSiteChangeQueueItem> FindRelatedItems(int residentObjId, int newSiteId, MFiles.VAF.Configuration.MFIdentifier objTypeIdentifier)
+        private List<ResidentSiteChangeQueueItem> FindRelatedItems(int residentObjId, int newSiteId, MFiles.VAF.Configuration.MFIdentifier classIdentifier)
         {
             var results = new List<ResidentSiteChangeQueueItem>();
 
             MFSearchBuilder search = new MFSearchBuilder(_vault);
-            search.ObjType(objTypeIdentifier);
+            search.Class(classIdentifier);
             search.Property(_configuration.ResidentLookup, MFDataType.MFDatatypeLookup, residentObjId);
+            search.PropertyNotMissing(_configuration.SiteList);
             search.Deleted(false);
 
             var found = search.FindEx();
             foreach (var obj in found)
             {
-                //PRAN NOTES
-                //Class will be added in future
                 results.Add(new ResidentSiteChangeQueueItem
                 {
                     ObjId = obj.ObjVer.ID,
                     ObjType = obj.ObjVer.Type,
+                    //ClassType = obj.Class,
                     NewSiteId = newSiteId,
-                    ResidentObjId = residentObjId
+                    //ResidentObjId = residentObjId
                 });
             }
 

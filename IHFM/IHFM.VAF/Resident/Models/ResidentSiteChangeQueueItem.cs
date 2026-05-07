@@ -17,6 +17,9 @@ namespace IHFM.VAF.Resident.Models
         [JsonProperty("objType")]
         public int ObjType { get; set; }
 
+        [JsonProperty("classType")]
+        public int ClassType { get; set; }
+
         [JsonProperty("newSiteId")]
         public int NewSiteId { get; set; }
 

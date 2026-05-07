@@ -50,14 +50,20 @@ namespace IHFM.VAF
                     SetDiscountValueIfPercentage(env);
                 }
 
-                //TODO : Resident Site Change in progress
-                //if (change.PropertyDef == Configuration.Resident_Site.ID && change.ChangeType == PropertyValueChangeType.Modified && !change.NewValue.TypedValue.IsNULL())
-                //{
-                //    int residentObjId = env.ObjVerEx.ObjVer.ID;
-                //    int newSiteId = change.NewValue.TypedValue.GetValueAsLookup().Item;
-                //    var enqueueService = new ResidentSiteChangeEnqueueService(env.Vault, Configuration);
-                //    enqueueService.EnqueueRelatedObjectsForResident(residentObjId, newSiteId);
-                //}
+                if (change.PropertyDef == Configuration.Resident_Site.ID && change.ChangeType == PropertyValueChangeType.Modified && !change.NewValue.TypedValue.IsNULL())
+                {
+                    Lookup newSiteLookup = change.NewValue.TypedValue.GetValueAsLookup();
+                    ObjVerEx newSiteObj = new ObjVerEx(env.Vault, newSiteLookup);
+                    var newSiteId = newSiteObj.GetLookupID(Configuration.BaseSiteID);
+
+
+                    //int newSiteId = change.NewValue.TypedValue.GetValueAsLookup().Item;
+
+
+                    int residentObjId = env.ObjVerEx.ObjVer.ID;
+                    var enqueueService = new ResidentSiteChangeEnqueueService(env.Vault, Configuration);
+                    enqueueService.EnqueueRelatedObjectsForResident(residentObjId, newSiteId);
+                }
 
                 if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {

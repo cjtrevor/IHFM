@@ -12,6 +12,8 @@ namespace IHFM.VAF
         [MFObjType(Required = true)]
         public MFIdentifier CarePlanObject = "MFiles.Object.CarePlan";
 
+        public MFIdentifier CarePlanClass = "MFiles.Class.CarePloon";
+
         [MFPropertyDef]
         public MFIdentifier Careplan_CpDietAndFeeding = "MFiles.Property.CpDietAndFeeding";
         [MFPropertyDef]
