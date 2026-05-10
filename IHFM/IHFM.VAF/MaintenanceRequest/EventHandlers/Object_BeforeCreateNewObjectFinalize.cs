@@ -17,8 +17,7 @@ namespace IHFM.VAF
         {
             //return;
 
-            if(!env.ObjVerEx.HasValue(Configuration.MaintReq_Resident) || 
-                (env.ObjVerEx.HasValue(Configuration.MaintReq_PrintPDF) && env.ObjVerEx.GetProperty(Configuration.MaintReq_PrintPDF).GetValue<bool>() == false))
+            if(env.ObjVerEx.HasValue(Configuration.MaintReq_PrintPDF) && env.ObjVerEx.GetProperty(Configuration.MaintReq_PrintPDF).GetValue<bool>() == false)
             {
                 return;
             }
@@ -35,7 +34,7 @@ namespace IHFM.VAF
                 }
             }
 
-            if (statusChanged && env.ObjVerEx.GetProperty(Configuration.MaintReq_JobStatus).GetValueAsLocalizedText().Contains("Completed"))
+            if (env.ObjVerEx.GetProperty(Configuration.MaintReq_JobStatus).GetValueAsLocalizedText().Contains("Completed"))
             { 
                 MaintenanceRequestReports reports = new MaintenanceRequestReports();
 
