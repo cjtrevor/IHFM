@@ -101,6 +101,7 @@
     <Compile Include="DailyCare\VaultExtensionMethods\VaultExtensionMethods.cs" />
     <Compile Include="DeathReport\Configuration\Configuration.cs" />
     <Compile Include="DeathReport\EventHandlers\ObjectAfterCreateNewObjectFinalize.cs" />
+    <Compile Include="Enquiry\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="Export\Services\DeathReportExportService.cs" />
     <Compile Include="DQ98\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="DQ98\Configuration\Configuration.cs" />
@@ -148,6 +149,8 @@
     <Compile Include="Resident\Services\ResidentAutomaticValueService.cs" />
     <Compile Include="Resident\Services\ResidentPropertyService.cs" />
     <Compile Include="Resident\Services\ResidentSearchService.cs" />
+    <Compile Include="Enquiry\Configuration\Configuration.cs" />
+    <Compile Include="Enquiry\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
     <Compile Include="Room\Configuration\Configuration.cs" />
     <Compile Include="Room\EventHandlers\Object_AfterCheckInChangesFinalize.cs" />
     <Compile Include="Room\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
