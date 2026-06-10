@@ -1,6 +1,7 @@
 ﻿using MFiles.VAF.Common;
 using MFiles.VAF.Extensions;
 using MFilesAPI;
+using System;
 
 namespace IHFM.VAF
 {
@@ -14,15 +15,35 @@ namespace IHFM.VAF
 
             var tbcItemName = tbcItemObj.GetPropertyText(Configuration.TBCS_TimeBasedCareItemItemName);
             var averageTime = tbcItemObj.GetPropertyText(Configuration.AverageTime);
-            var frequency = env.ObjVerEx.GetPropertyText(Configuration.TBCS_Frequency);
+            var frequencyText = "";
             var scheduledTimes = env.ObjVerEx.GetPropertyText(Configuration.TBCS_TbcScheduledTimes);
-            var assistance = env.ObjVerEx.GetPropertyAsBoolean(Configuration.TBCS_Assistant)??false ? "+A" : "";
+            var assistance = env.ObjVerEx.GetPropertyAsBoolean(Configuration.TBCS_Assistant) ?? false ? "+A" : "";
+
+            var frequency = env.ObjVerEx.GetProperty(Configuration.TBCS_Frequency).TypedValue.GetValueAsLookup();
+            switch (frequency?.ItemGUID)
+            {
+                case Configuration.ScheduleFrequency_DaysOfWeekGUID:
+                    var daysOfWeek = env.ObjVerEx.GetProperty(Configuration.DaysOfWeek).TypedValue.GetValueAsLookups();
+                    bool firstInstance = true;
+                    foreach (Lookup item in daysOfWeek)
+                    {
+                        var dayName = item.DisplayValue;
+                        var first3Chars = dayName.Substring(0, Math.Min(3, dayName.Length));
+                        frequencyText += (firstInstance ? "" : ";") + first3Chars;
+                        firstInstance = false;
+                    }
+
+                    break;
+                default:
+                    frequencyText = env.ObjVerEx.GetPropertyText(Configuration.TBCS_Frequency);
+                    break;
+            }
 
             var tbcType = tbcItemObj.GetProperty(Configuration.TBCI_TBCType).TypedValue.GetValueAsLookup();
 
             var timeAssistance = tbcType?.Item == Configuration.TBCType_CostedADL ? $" ({averageTime}{assistance})" : "";
 
-            var name = $"{tbcItemName}{timeAssistance} {frequency} {scheduledTimes}";
+            var name = $"{tbcItemName}{timeAssistance} {frequencyText} {scheduledTimes}";
 
             TypedValue calculated = new TypedValue();
             calculated.SetValue(MFDataType.MFDatatypeText, name);

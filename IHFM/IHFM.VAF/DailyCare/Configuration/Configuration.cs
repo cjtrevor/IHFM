@@ -227,6 +227,8 @@ namespace IHFM.VAF
         [MFValueListItem(ValueList = "MFiles.Property.TbcScheduledTimes")]
         public MFIdentifier ScheduledCareTime_2300 = "{CD1AED45-FCB4-4646-8391-4640CAB3FF9A}";
 
+        public const string ScheduleFrequency_DaysOfWeekGUID = "{0B6B75C2-F067-49D8-A435-66631DA567C1}";
+
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
         public MFIdentifier Frequency_SpecificTimes = "{1EB2646E-1FDD-42B6-9F97-B6DFF227FA00}";
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
