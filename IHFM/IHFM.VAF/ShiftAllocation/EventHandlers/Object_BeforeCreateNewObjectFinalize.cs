@@ -121,6 +121,7 @@ namespace IHFM.VAF
                 TimeSpan duration = local_End_DateTime - local_Start_DateTime;
                 int totalTimeInMinutes = (int)duration.TotalMinutes;
 
+                List<string> calendarCategories = new List<string>();
                 string staffMembers = "";
                 var staffEmailAddresses = new List<string>();
                 staffEmailAddresses.AddRange(Configuration.ShiftAllocation_MailLising.Split(';'));
@@ -129,6 +130,32 @@ namespace IHFM.VAF
                 {
                     var staffObjVer = new ObjVerEx(env.Vault, staffLookup);
                     var emailAddress = staffObjVer.GetPropertyText(Configuration.Staff_EmailAddress);
+                    
+
+                    if (staffObjVer.HasProperty(Configuration.ShiftAllocation_CalendarCategory) && staffObjVer.HasValue(Configuration.ShiftAllocation_CalendarCategory))
+                    {
+                        var staffCalendarCategory = staffObjVer.GetProperty(Configuration.ShiftAllocation_CalendarCategory).TypedValue.GetValueAsLookup();
+
+                        switch(staffCalendarCategory?.ItemGUID)
+                        {
+                            case Configuration.CalendarCategory_DoctorGUID:
+                                calendarCategories.Add("Doctor");
+                                break;
+                            case Configuration.CalendarCategory_PhysioGUID:
+                                calendarCategories.Add("Physio");
+                                break;
+                            case Configuration.CalendarCategory_BiokineticistGUID:
+                                calendarCategories.Add("Biokineticist");
+                                break;
+                            case Configuration.CalendarCategory_CarerGUID:
+                                calendarCategories.Add("Carer");
+                                break;
+                            case Configuration.CalendarCategory_SisterGUID:
+                                calendarCategories.Add("Sister");
+                                break;
+                        }
+                    }
+
                     staffMembers += $"{staffLookup.DisplayValue}\n";
 
                     if (!string.IsNullOrEmpty(emailAddress))
@@ -209,8 +236,6 @@ namespace IHFM.VAF
                             break;
                     }
 
-                    var testCategories = new List<string>() { "Shift Allocation"};
-
                     foreach (string emailAddress in staffEmailAddresses.Distinct())
                     {
                         emailService.SendEmailWithCalendarInvite(
@@ -221,7 +246,7 @@ namespace IHFM.VAF
                                 local_Start_DateTime,
                                 local_End_DateTime,
                                 recurrence,
-                                testCategories
+                                calendarCategories.Distinct().ToList()
                             );
                     }
                 }
