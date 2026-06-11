@@ -60,14 +60,14 @@ namespace IHFM.VAF
                 //});
 
                 //Process Resident Site Changes (one item per run to avoid concurrency issues)
-                TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Resident Site Change Propagation",
-                TimeSpan.FromMinutes(1), (job) =>
-                {
+                //TaskQueueBackgroundOperationManager.StartRecurringBackgroundOperation("Resident Site Change Propagation",
+                //TimeSpan.FromMinutes(1), (job) =>
+                //{
                     //Potentially move to DB, add retry logic and find better way to run sequentially without having to wait the full minute between each item when there are multiple items in the queue
                     //But this is a start and works for now since site changes should be relatively infrequent
 
                     //new ResidentSiteChangeBackgroundOperation().ProcessNextQueueItem(job.Vault, Configuration);
-                });
+                //});
 
             }
             catch (Exception e)

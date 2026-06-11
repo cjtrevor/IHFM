@@ -2,6 +2,7 @@
 using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
+using System.Linq;
 
 namespace IHFM.VAF
 {
@@ -24,14 +25,9 @@ namespace IHFM.VAF
             {
                 case Configuration.ScheduleFrequency_DaysOfWeekGUID:
                     var daysOfWeek = env.ObjVerEx.GetProperty(Configuration.DaysOfWeek).TypedValue.GetValueAsLookups();
-                    bool firstInstance = true;
-                    foreach (Lookup item in daysOfWeek)
-                    {
-                        var dayName = item.DisplayValue;
-                        var first3Chars = dayName.Substring(0, Math.Min(3, dayName.Length));
-                        frequencyText += (firstInstance ? "" : ";") + first3Chars;
-                        firstInstance = false;
-                    }
+                    var selectedDays = daysOfWeek.Cast<Lookup>().Select(item => item.DisplayValue.Substring(0, Math.Min(3, item.DisplayValue.Length))).ToArray();
+                    var daysOrder = new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+                    frequencyText = string.Join(";", daysOrder.Where(d => selectedDays.Contains(d)));
 
                     break;
                 default:
