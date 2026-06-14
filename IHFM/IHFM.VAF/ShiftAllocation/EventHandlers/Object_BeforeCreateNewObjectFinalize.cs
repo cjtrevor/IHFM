@@ -136,24 +136,63 @@ namespace IHFM.VAF
                     {
                         var staffCalendarCategory = staffObjVer.GetProperty(Configuration.ShiftAllocation_CalendarCategory).TypedValue.GetValueAsLookup();
 
-                        switch(staffCalendarCategory?.ItemGUID)
-                        {
-                            case Configuration.CalendarCategory_DoctorGUID:
-                                calendarCategories.Add("Doctor");
-                                break;
-                            case Configuration.CalendarCategory_PhysioGUID:
-                                calendarCategories.Add("Physio");
-                                break;
-                            case Configuration.CalendarCategory_BiokineticistGUID:
-                                calendarCategories.Add("Biokineticist");
-                                break;
-                            case Configuration.CalendarCategory_CarerGUID:
-                                calendarCategories.Add("Carer");
-                                break;
-                            case Configuration.CalendarCategory_SisterGUID:
-                                calendarCategories.Add("Sister");
-                                break;
-                        }
+                        if (staffCalendarCategory != null)
+                            calendarCategories.Add(staffCalendarCategory.DisplayValue);
+
+                        //switch(staffCalendarCategory?.ItemGUID)
+                        //{
+                        //    case Configuration.CalendarCategory_DuduzileGUID:
+                        //        calendarCategories.Add("Duduzile");
+                        //        break;
+                        //    case Configuration.CalendarCategory_GavinGUID:
+                        //        calendarCategories.Add("Gavin");
+                        //        break;
+                        //    case Configuration.CalendarCategory_BevGUID:
+                        //        calendarCategories.Add("Bev");
+                        //        break;
+                        //    case Configuration.CalendarCategory_DaylaGUID:
+                        //        calendarCategories.Add("Dayla");
+                        //        break;
+                        //    case Configuration.CalendarCategory_GeoffreyGUID:
+                        //        calendarCategories.Add("Geoffrey");
+                        //        break;
+                        //    case Configuration.CalendarCategory_GeorgeSubGUID:
+                        //        calendarCategories.Add("George - Sub");
+                        //        break;
+                        //    case Configuration.CalendarCategory_IlanaGUID:
+                        //        calendarCategories.Add("Ilana");
+                        //        break;
+                        //    case Configuration.CalendarCategory_JarredGUID:
+                        //        calendarCategories.Add("Jarred");
+                        //        break;
+                        //    case Configuration.CalendarCategory_JolandeGUID:
+                        //        calendarCategories.Add("Jolande");
+                        //        break;
+                        //    case Configuration.CalendarCategory_KatGUID:
+                        //        calendarCategories.Add("Kat");
+                        //        break;
+                        //    case Configuration.CalendarCategory_LizzieGUID:
+                        //        calendarCategories.Add("Lizzie");
+                        //        break;
+                        //    case Configuration.CalendarCategory_MandyGUID:
+                        //        calendarCategories.Add("Mandy");
+                        //        break;
+                        //    case Configuration.CalendarCategory_MellisaGUID:
+                        //        calendarCategories.Add("Mellisa");
+                        //        break;
+                        //    case Configuration.CalendarCategory_SharleneGUID:
+                        //        calendarCategories.Add("Sharlene");
+                        //        break;
+                        //    case Configuration.CalendarCategory_TrustGUID:
+                        //        calendarCategories.Add("Trust");
+                        //        break;
+                        //    case Configuration.CalendarCategory_CancellationGUID:
+                        //        calendarCategories.Add("Cancellation");
+                        //        break;
+                        //    case Configuration.CalendarCategory_PurpleCategoryGUID:
+                        //        calendarCategories.Add("Purple category");
+                        //        break;
+                        //}
                     }
 
                     staffMembers += $"{staffLookup.DisplayValue}\n";
