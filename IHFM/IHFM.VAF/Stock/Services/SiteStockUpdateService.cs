@@ -15,7 +15,7 @@ namespace IHFM.VAF
             _configuration = configuration;
         }
 
-        public void UpdateSiteStock(int siteID, int stockID, double quantity, string itemName, int stockTypeId)
+        public void UpdateSiteStock(int siteID, int stockID, double quantity, string itemName, int stockTypeId, bool negativeOverride = false)
         {
             ObjVerEx siteStockObjVer = FindSiteStock(siteID, stockID);
 
@@ -27,14 +27,14 @@ namespace IHFM.VAF
 
             if (siteStockObjVer == null)
             {
-                if (quantity < 0)
+                if (quantity < 0 && !negativeOverride)
                     throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - 0");
 
                 CreateNewSiteStockObject(siteID,stockID,quantity, stockTypeId);
                 return;
             }
 
-            UpdateStockOnHand(quantity, siteStockObjVer,itemName, stockTypeId);
+            UpdateStockOnHand(quantity, siteStockObjVer, itemName, stockTypeId);
             siteStockObjVer.SaveProperties();
         }
 
@@ -55,14 +55,15 @@ namespace IHFM.VAF
             return convertedQuantity;
         }
 
-        private void UpdateStockOnHand(double quantity, ObjVerEx siteStockObjVer, string itemName, int stockTypeId)
+        private void UpdateStockOnHand(double quantity, ObjVerEx siteStockObjVer, string itemName, int stockTypeId, bool negativeOverride = false)
         {
 
             double currentStock = siteStockObjVer.GetProperty(_configuration.StockOnHand).GetValue<double>();
 
             double updatedStock = currentStock + quantity;
 
-            if (updatedStock < 0)
+            // TODO: Confirm with client whether an existing record with insufficient stock should also be allowed to go negative when negativeOverride is true.
+            if (updatedStock < 0 && !negativeOverride)
                 throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - {currentStock}");
 
             siteStockObjVer.SetProperty(_configuration.StockOnHand, MFDataType.MFDatatypeFloating, updatedStock);
@@ -130,7 +131,7 @@ namespace IHFM.VAF
             _vault.ObjectOperations.CheckIn(objectVersionAndProperties.ObjVer);
         }
 
-        public void CreateNewStockIssue(int siteID, ObjVerEx issue)
+        public void CreateNewStockIssue(int siteID, ObjVerEx issue, bool negativeOverride = false)
         {
             SiteStockUpdateService siteStockUpdateService = new SiteStockUpdateService(_vault, _configuration);
 
@@ -142,7 +143,7 @@ namespace IHFM.VAF
             {
                 string itemName = issue.GetPropertyText(_configuration.Item1Stock);
                 double item1Quantity = issue.GetProperty(_configuration.Item1StockQuantityIssued).GetValue<double>();
-                siteStockUpdateService.UpdateSiteStock(siteID, item1StockID, transfer.ToLower() == "in" ? item1Quantity : -item1Quantity, itemName, stockTypeId);
+                siteStockUpdateService.UpdateSiteStock(siteID, item1StockID, transfer.ToLower() == "in" ? item1Quantity : -item1Quantity, itemName, stockTypeId, negativeOverride);
             }
 
             int item2StockID = issue.GetLookupID(_configuration.Item2Stock);
@@ -150,7 +151,7 @@ namespace IHFM.VAF
             {
                 string itemName = issue.GetPropertyText(_configuration.Item2Stock);
                 double item2Quantity = issue.GetProperty(_configuration.Item2StockQuantityIssued).GetValue<double>();
-                siteStockUpdateService.UpdateSiteStock(siteID, item2StockID, transfer.ToLower() == "in" ? item2Quantity : -item2Quantity, itemName, stockTypeId);
+                siteStockUpdateService.UpdateSiteStock(siteID, item2StockID, transfer.ToLower() == "in" ? item2Quantity : -item2Quantity, itemName, stockTypeId, negativeOverride);
             }
 
             int item3StockID = issue.GetLookupID(_configuration.Item3Stock);
@@ -158,7 +159,7 @@ namespace IHFM.VAF
             {
                 string itemName = issue.GetPropertyText(_configuration.Item3Stock);
                 double item3Quantity = issue.GetProperty(_configuration.Item3StockQuantityIssued).GetValue<double>();
-                siteStockUpdateService.UpdateSiteStock(siteID, item3StockID, transfer.ToLower() == "in" ? item3Quantity : -item3Quantity, itemName, stockTypeId);
+                siteStockUpdateService.UpdateSiteStock(siteID, item3StockID, transfer.ToLower() == "in" ? item3Quantity : -item3Quantity, itemName, stockTypeId, negativeOverride);
             }
 
             int item4StockID = issue.GetLookupID(_configuration.Item4Stock);
@@ -166,7 +167,7 @@ namespace IHFM.VAF
             {
                 string itemName = issue.GetPropertyText(_configuration.Item4Stock);
                 double item4Quantity = issue.GetProperty(_configuration.Item4StockQuantityIssued).GetValue<double>();
-                siteStockUpdateService.UpdateSiteStock(siteID, item4StockID, transfer.ToLower() == "in" ? item4Quantity : -item4Quantity, itemName, stockTypeId);
+                siteStockUpdateService.UpdateSiteStock(siteID, item4StockID, transfer.ToLower() == "in" ? item4Quantity : -item4Quantity, itemName, stockTypeId, negativeOverride);
             }
 
             int item5StockID = issue.GetLookupID(_configuration.Item5Stock);
@@ -174,7 +175,7 @@ namespace IHFM.VAF
             {
                 string itemName = issue.GetPropertyText(_configuration.Item5Stock);
                 double item5Quantity = issue.GetProperty(_configuration.Item5StockQuantityIssued).GetValue<double>();
-                siteStockUpdateService.UpdateSiteStock(siteID, item5StockID, transfer.ToLower() == "in" ? item5Quantity : -item5Quantity, itemName, stockTypeId);
+                siteStockUpdateService.UpdateSiteStock(siteID, item5StockID, transfer.ToLower() == "in" ? item5Quantity : -item5Quantity, itemName, stockTypeId, negativeOverride);
             }
 
             if (transfer.ToLower() == "in")
