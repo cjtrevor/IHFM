@@ -97,13 +97,13 @@ namespace IHFM.VAF
                 if (addedValues.Contains(Int32.Parse(val)))
                     continue;
 
-                //Lookup objLookup = new Lookup() { Item = Int32.Parse(val) }; //GetLookupFromVal(env.Vault,Int32.Parse(val));
-                Lookup objLookup = GetLookupFromVal11(env.Vault, Int32.Parse(val));
+                Lookup objLookup = new Lookup() { Item = Int32.Parse(val) }; //GetLookupFromVal(env.Vault,Int32.Parse(val));
+                //Lookup objLookup = GetLookupFromVal11(env.Vault, Int32.Parse(val));
 
-                if (objLookup == null)
-                {
-                    continue;
-                }
+                //if (objLookup == null)
+                //{
+                //    continue;
+                //}
 
                 env.ObjVerEx.AddLookup(Configuration.MDDAuto_MedsOnScript, objLookup.GetAsObjVer());
                 addedValues.Add(Int32.Parse(val));
