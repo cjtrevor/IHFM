@@ -85,6 +85,52 @@ namespace IHFM.VAF
             service.UpdateRoomResidentTariff(env.ObjVerEx, item.ID, env.Vault);
         }
 
-        
+        [StateAction("WFS.Medsgivenauto.Populatemedsonscript")]
+        public void SetMedsGivenAutoMedsOnScript(StateEnvironment env)
+        {
+            List<int> addedValues = new List<int>();
+
+            string pipes = env.ObjVerEx.GetPropertyText(Configuration.MDDAuto_MDDValues);
+
+            foreach (string val in pipes.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (addedValues.Contains(Int32.Parse(val)))
+                    continue;
+
+                //Lookup objLookup = new Lookup() { Item = Int32.Parse(val) }; //GetLookupFromVal(env.Vault,Int32.Parse(val));
+                Lookup objLookup = GetLookupFromVal11(env.Vault, Int32.Parse(val));
+
+                if (objLookup == null)
+                {
+                    continue;
+                }
+
+                env.ObjVerEx.AddLookup(Configuration.MDDAuto_MedsOnScript, objLookup.GetAsObjVer());
+                addedValues.Add(Int32.Parse(val));
+            }
+
+            string timeslot = env.ObjVerEx.GetPropertyText(Configuration.MDDAuto_Timeslot);
+
+            ShiftCalculationService shiftCalculationService = new ShiftCalculationService(Configuration, env.Vault);
+            env.ObjVerEx.SetProperty(Configuration.AutoShift, MFDataType.MFDatatypeText, shiftCalculationService.CalculateAutoShiftNumberBySiteIdByResident(env.ObjVerEx, timeslot));
+
+            env.ObjVerEx.SaveProperties();
+        }
+
+        private Lookup GetLookupFromVal11(Vault vault, int val)
+        {
+            MFSearchBuilder search = new MFSearchBuilder(vault);
+            search.ObjType(Configuration.MDDAuto_MDDObjectId.ID);
+
+            SearchCondition byId = new SearchCondition();
+            byId.Expression.SetStatusValueExpression(MFStatusType.MFStatusTypeObjectID);
+            byId.ConditionType = MFConditionType.MFConditionTypeEqual;
+            byId.TypedValue.SetValue(MFDataType.MFDatatypeInteger, val);
+            search.Conditions.Add(-1, byId);
+
+            ObjVerEx found = search.FindOneEx();
+            return found?.ToLookup();
+        }
+
     }
 }

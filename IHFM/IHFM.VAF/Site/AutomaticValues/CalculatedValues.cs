@@ -31,5 +31,25 @@ namespace IHFM.VAF
 
             return calculated;
         }
+
+        [PropertyCustomValue("MFiles.Property.SiteidByResident", Priority = 5)]
+        public TypedValue SetSiteIdByResident(PropertyEnvironment env)
+        {
+            TypedValue calculated = new TypedValue();
+
+            if (!env.ObjVerEx.HasProperty(Configuration.ResidentLookup) || !env.ObjVerEx.HasValue(Configuration.ResidentLookup))
+            {
+                return calculated;
+            }
+
+            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
+            ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
+
+            Lookup lookupSite = resident.GetProperty(Configuration.BaseSite).TypedValue.GetValueAsLookup();
+            ObjVerEx site = new ObjVerEx(env.Vault, lookupSite);
+
+            calculated.SetValue(MFDataType.MFDatatypeLookup, site.GetLookupID(Configuration.BaseSiteID));
+            return calculated;
+        }
     }
 }

@@ -50,6 +50,8 @@ namespace IHFM.VAF
         public MFIdentifier Site_ReportSite = "MFiles.Property.ReportSite";
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site_BaseSiteDropdown = "MFiles.Property.BaseSite";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Site_SiteIdByResident = "MFiles.Property.SiteidByResident";
 
         [MFPropertyDef]
         public MFIdentifier SiteConfig_LevyIncrPerc = "MFiles.Property.Levyincrperc";
