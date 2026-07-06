@@ -39,11 +39,12 @@ namespace IHFM.VAF
             ObjVerEx siteObj = siteSearchService.GetSiteByNumber(siteNum);
             return siteObj.GetProperty(_configuration.ShiftStartTime).TypedValue.GetValueAsLocalizedText();
         }
-        public string CalculateShiftNumber(ObjVerEx objVerEx)
+        public string CalculateShiftNumber(ObjVerEx objVerEx, string shiftStartString = "", string timeslot = "")
         {
-            string dateNow = objVerEx.GetPropertyText(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated);
+            string dateNow = string.IsNullOrEmpty(timeslot) ? objVerEx.GetPropertyText(MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated) : $"{DateTime.Now.ToShortDateString()} {timeslot}";
 
-            string shiftStartString = GetShiftStartTimeFromSite(objVerEx);
+            if (string.IsNullOrEmpty(shiftStartString))
+                shiftStartString = GetShiftStartTimeFromSite(objVerEx);
 
             DateTime shiftStartTime = DateTime.Parse($"01/01/2000 {shiftStartString}"); //Lookup from site object
             DateTime created = DateTime.Parse(dateNow);
@@ -90,5 +91,19 @@ namespace IHFM.VAF
 
             return $"{dayPart}{monthPart}{yearPart}-{ShiftIndicator}";
         }
+        public string CalculateAutoShiftNumberBySiteIdByResident(ObjVerEx objVerEx, string timeslot)
+        {
+            SiteSearchService siteSearchService = new SiteSearchService(_vault, _configuration);
+            string siteNum = objVerEx.GetProperty(_configuration.Site_SiteIdByResident).GetValueAsLocalizedText();
+
+            if (string.IsNullOrEmpty(siteNum))
+                return "No sitenum available";
+
+            ObjVerEx siteObj = siteSearchService.GetSiteByNumber(siteNum);
+            string shiftStartTime = siteObj.GetProperty(_configuration.ShiftStartTime).TypedValue.GetValueAsLocalizedText();
+
+            return CalculateShiftNumber(objVerEx, shiftStartTime, timeslot);
+        }
+
     }
 }

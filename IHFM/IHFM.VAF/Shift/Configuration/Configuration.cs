@@ -15,5 +15,8 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier Shift = "MFiles.Property.Shift";
+
+        [MFPropertyDef]
+        public MFIdentifier AutoShift = "MFiles.Property.Autoshift";
     }
 }

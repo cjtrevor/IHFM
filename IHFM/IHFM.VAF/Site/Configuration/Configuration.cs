@@ -47,6 +47,8 @@ namespace IHFM.VAF
         public MFIdentifier Site_LastDataUpdate = "MFiles.Property.LastDataUpdate";
         [MFPropertyDef(Required = true)]
         public MFIdentifier Site_ReportSite = "MFiles.Property.ReportSite";
+        [MFPropertyDef(Required = true)]
+        public MFIdentifier Site_SiteIdByResident = "MFiles.Property.SiteidByResident";
 
         // Site Config Properties for Scheduled Care
         [MFPropertyDef]
