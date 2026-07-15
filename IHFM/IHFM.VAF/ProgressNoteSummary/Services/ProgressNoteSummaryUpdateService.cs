@@ -21,27 +21,17 @@ namespace IHFM.VAF
 
         public void LogProgressNoteCreation(ObjVerEx progressNote)
         {
-            DailyCareLogger.Log($"ProgressNoteSummaryUpdateService.LogProgressNoteCreation START — ObjID={progressNote.ObjID.ID}");
-            var sw = System.Diagnostics.Stopwatch.StartNew();
-
-            DailyCareLogger.Log("ProgressNoteSummaryUpdateService.LogProgressNoteCreation — searching for existing month summary");
             ObjVerEx currentSummary = GetExistingMonthSummary(progressNote);
 
             if(currentSummary == null)
             {
-                DailyCareLogger.Log("ProgressNoteSummaryUpdateService.LogProgressNoteCreation — no summary found, creating new");
                 CreateNewProgressNoteSummary(progressNote);
-                sw.Stop();
-                DailyCareLogger.Log($"ProgressNoteSummaryUpdateService.LogProgressNoteCreation END — elapsed={sw.ElapsedMilliseconds}ms");
                 return;
             }
 
             int currentAmount = currentSummary.GetProperty(_configuration.ProgressNoteSummary_ProgressNoteCount).GetValue<int>();
-            DailyCareLogger.Log($"ProgressNoteSummaryUpdateService.LogProgressNoteCreation — updating count from {currentAmount} to {currentAmount + 1}");
-            currentSummary.SaveProperty(_configuration.ProgressNoteSummary_ProgressNoteCount, MFDataType.MFDatatypeInteger, ++currentAmount);
 
-            sw.Stop();
-            DailyCareLogger.Log($"ProgressNoteSummaryUpdateService.LogProgressNoteCreation END — elapsed={sw.ElapsedMilliseconds}ms");
+            currentSummary.SaveProperty(_configuration.ProgressNoteSummary_ProgressNoteCount, MFDataType.MFDatatypeInteger, ++currentAmount);
         }
 
         private ObjVerEx GetExistingMonthSummary(ObjVerEx progressNote)

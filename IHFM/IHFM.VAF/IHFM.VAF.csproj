@@ -187,7 +187,6 @@
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCheckInChanges.cs" />
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="TimeBasedCare\Services\TimeBasedCarePropertyService.cs" />
-    <Compile Include="Utilities\DailyCareLogger.cs" />
     <Compile Include="Utilities\DatabaseConnector.cs" />
     <Compile Include="Utilities\DateExtensionMethods.cs" />
     <Compile Include="Utilities\DayOfWeekParser.cs" />

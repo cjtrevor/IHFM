@@ -22,25 +22,15 @@ namespace IHFM.VAF
 
         public ObjVerEx GetDailyCareByResidentAndShift(int residentId, string shift, MFIdentifier classToCheck)
         {
-            DailyCareLogger.Log($"DailyCareSearchService.GetDailyCareByResidentAndShift START — resident={residentId}, shift={shift}");
-            var sw = System.Diagnostics.Stopwatch.StartNew();
-
             MFSearchBuilder search = new MFSearchBuilder(vault);
             search.Class(classToCheck);
             search.Property(configuration.Shift, MFDataType.MFDatatypeText, shift);
             search.Property(configuration.ResidentLookup, MFDataType.MFDatatypeLookup, residentId);
 
-            DailyCareLogger.Log("DailyCareSearchService.GetDailyCareByResidentAndShift — executing search (FindEx)");
-            var results = search.FindEx();
-            DailyCareLogger.Log($"DailyCareSearchService.GetDailyCareByResidentAndShift — found={results.Count}");
+            if (search.FindEx().Count > 1)
+                return search.FindOneEx();
 
-            ObjVerEx result = null;
-            if (results.Count > 1)
-                result = search.FindOneEx();
-
-            sw.Stop();
-            DailyCareLogger.Log($"DailyCareSearchService.GetDailyCareByResidentAndShift END — elapsed={sw.ElapsedMilliseconds}ms");
-            return result;
+            return null;
         }
     }
 }
