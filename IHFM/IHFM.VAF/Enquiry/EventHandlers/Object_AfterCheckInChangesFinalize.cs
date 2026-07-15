@@ -17,7 +17,7 @@ namespace IHFM.VAF
 
             foreach (PropertyValueChange change in changes.Changed)
             {
-                if (change.PropertyDef == Configuration.EnquirySupportDocuments_ExistingClient.ID && change.ChangeType == PropertyValueChangeType.Modified))
+                if (change.PropertyDef == Configuration.EnquirySupportDocuments_ExistingClient.ID && change.ChangeType == PropertyValueChangeType.Modified)
                 {
                     //Might need to handle this scenario, leaving logic here for now
                     //Can move EnquirySupportDocuments_AfterCreateNewObjectFinalize to service and call it from both places if needed

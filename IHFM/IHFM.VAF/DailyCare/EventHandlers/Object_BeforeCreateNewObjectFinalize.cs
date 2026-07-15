@@ -14,8 +14,13 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.DailyCare")]
         public void BeforeCreateNewDailyCare(EventHandlerEnvironment env)
         {
+            DailyCareLogger.Log($"BeforeCreateNewDailyCare START — ObjID={env.ObjVerEx.ObjID.ID}");
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
+            DailyCareLogger.Log("BeforeCreateNewDailyCare — calling CheckAlreadyExists");
             if (CheckAlreadyExists(env, Configuration.DailyCare_DailyCareClass))
             {
+                DailyCareLogger.Log("BeforeCreateNewDailyCare — duplicate found, throwing");
                 throw new Exception("A daily care for this resident record for this shift already exists. Please refer to Daily Care not yet Complete.");
             }
 
@@ -24,27 +29,44 @@ namespace IHFM.VAF
             //SetCarePlanNotes(env);
 
             //env.ObjVerEx.SaveProperties();
+            sw.Stop();
+            DailyCareLogger.Log($"BeforeCreateNewDailyCare END — elapsed={sw.ElapsedMilliseconds}ms");
         }
 
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.DailyCareCopy")]
         public void BeforeCreateNewDailyCareV2(EventHandlerEnvironment env)
         {
+            DailyCareLogger.Log($"BeforeCreateNewDailyCareV2 START — ObjID={env.ObjVerEx.ObjID.ID}");
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
+            DailyCareLogger.Log("BeforeCreateNewDailyCareV2 — calling CheckAlreadyExists");
             if (CheckAlreadyExists(env, Configuration.DailyCare_CareClass))
             {
+                DailyCareLogger.Log("BeforeCreateNewDailyCareV2 — duplicate found, throwing");
                 throw new Exception("A daily care for this resident record for this shift already exists. Please refer to Daily Care not yet Complete.");
             }
 
+            DailyCareLogger.Log("BeforeCreateNewDailyCareV2 — calling SetScheduledTimeBasedCare");
             SetScheduledTimeBasedCare(env);
+            DailyCareLogger.Log("BeforeCreateNewDailyCareV2 — SaveProperties #1");
             env.ObjVerEx.SaveProperties();
 
+            DailyCareLogger.Log("BeforeCreateNewDailyCareV2 — calling SetScheduledTimeSlots");
             SetScheduledTimeSlots(env);
+            DailyCareLogger.Log("BeforeCreateNewDailyCareV2 — SaveProperties #2");
             env.ObjVerEx.SaveProperties();
 
+            DailyCareLogger.Log("BeforeCreateNewDailyCareV2 — calling SetCarePlanNotes");
             SetCarePlanNotes(env);
+
+            sw.Stop();
+            DailyCareLogger.Log($"BeforeCreateNewDailyCareV2 END — elapsed={sw.ElapsedMilliseconds}ms");
         }
 
         private void SetScheduledTimeSlots(EventHandlerEnvironment env)
         {
+            DailyCareLogger.Log("SetScheduledTimeSlots START");
+            var sw = System.Diagnostics.Stopwatch.StartNew();
             List<ObjVer> slot_01 = new List<ObjVer>();
             List<ObjVer> slot_12 = new List<ObjVer>();
             List<ObjVer> slot_23 = new List<ObjVer>();
@@ -355,14 +377,22 @@ namespace IHFM.VAF
             slot_2300.ForEach(x => {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_2300_0000Care, x);
             });
+
+            sw.Stop();
+            DailyCareLogger.Log($"SetScheduledTimeSlots END — elapsed={sw.ElapsedMilliseconds}ms");
         }
 
         private void SetCarePlanNotes(EventHandlerEnvironment env)
         {
+            DailyCareLogger.Log("SetCarePlanNotes START");
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
             int lookupId = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetLookupID();
 
+            DailyCareLogger.Log($"SetCarePlanNotes — searching care plan for resident={lookupId}");
             ObjVerEx careplan = searchService.GetResidentCarePlanExisting(lookupId);
+            DailyCareLogger.Log($"SetCarePlanNotes — care plan found={careplan != null}");
 
             string output = careplan == null ? "" : $"{careplan.GetPropertyText(Configuration.Careplan_CpDietAndFeeding)}" +
                 $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpToilet)}" +
@@ -370,25 +400,35 @@ namespace IHFM.VAF
                 $"{Environment.NewLine}{careplan.GetPropertyText(Configuration.Careplan_CpWalkingAids)}";
 
             env.ObjVerEx.SaveProperty(Configuration.DailyCare_CarePlanNotes, MFDataType.MFDatatypeMultiLineText, output);
+
+            sw.Stop();
+            DailyCareLogger.Log($"SetCarePlanNotes END — elapsed={sw.ElapsedMilliseconds}ms");
         }
         private void SetScheduledTimeBasedCare(EventHandlerEnvironment env)
         {
+            DailyCareLogger.Log("SetScheduledTimeBasedCare START");
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             ResidentPropertyService residentPropertyService = new ResidentPropertyService(env.Vault, Configuration);
             Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup();
             ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
 
+            DailyCareLogger.Log("SetScheduledTimeBasedCare — fetching site config");
             SiteSearchService siteSearchService = new SiteSearchService(env.Vault, Configuration);
             ObjVerEx siteConfig = siteSearchService.GetSiteConfig(resident.GetLookupID(Configuration.Resident_Site));
             bool useCarePlan = siteConfig.HasValue(Configuration.SiteConfig_TbcFromCarePlan)
                 && siteConfig.GetProperty(Configuration.SiteConfig_TbcFromCarePlan).GetValue<bool>();
 
+            DailyCareLogger.Log($"SetScheduledTimeBasedCare — useCarePlan={useCarePlan}, calling GetResidentTBCSForDay");
             List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCSForDay(residentLookup, useCarePlan);
+            DailyCareLogger.Log($"SetScheduledTimeBasedCare — TBC items retrieved={TBCADL.Count}");
 
             TBCADL.ForEach(x => {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_TimeBasedCareScheduleDropdown, x);
             });
 
-
+            sw.Stop();
+            DailyCareLogger.Log($"SetScheduledTimeBasedCare END — elapsed={sw.ElapsedMilliseconds}ms");
         }
 
         private void RunExports(ObjVerEx dailyCare)
@@ -404,11 +444,18 @@ namespace IHFM.VAF
         }
         private bool CheckAlreadyExists(EventHandlerEnvironment env, MFIdentifier classToCheck)
         {
+            DailyCareLogger.Log("CheckAlreadyExists START");
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             int residentId = env.ObjVerEx.GetLookupID(Configuration.ResidentLookup);
             string shift = env.ObjVerEx.GetPropertyText(Configuration.Shift);
 
+            DailyCareLogger.Log($"CheckAlreadyExists — resident={residentId}, shift={shift}");
             DailyCareSearchService searchService = new DailyCareSearchService(env.Vault, Configuration);
             ObjVerEx dailyCare = searchService.GetDailyCareByResidentAndShift(residentId, shift, classToCheck);
+
+            sw.Stop();
+            DailyCareLogger.Log($"CheckAlreadyExists END — found={dailyCare != null}, elapsed={sw.ElapsedMilliseconds}ms");
 
             if (dailyCare != null)
             {
@@ -429,6 +476,9 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerAfterCreateNewObjectFinalize, Class = "MFiles.Class.ProgressNote")]
         public void AfterCreateNewProgressNote(EventHandlerEnvironment env)
         {
+            DailyCareLogger.Log($"AfterCreateNewProgressNote START — ObjID={env.ObjVerEx.ObjID.ID}");
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             List<int> residentUpdateTypes = new List<int>
             {
                 Configuration.DailyCare_BackInResidenceNoteType.ID,
@@ -438,25 +488,39 @@ namespace IHFM.VAF
                 Configuration.DailyCare_TempDischargeNoteType.ID
             };
 
+            DailyCareLogger.Log("AfterCreateNewProgressNote — checking note type for resident status update");
             if(residentUpdateTypes.Contains(env.ObjVerEx.GetLookupID(Configuration.DailyCare_NoteType)))
             {
+                DailyCareLogger.Log("AfterCreateNewProgressNote — calling UpdateResidentStatusFromProgressNote");
                 UpdateResidentStatusFromProgressNote(env.Vault, env.ObjVerEx);
+                DailyCareLogger.Log("AfterCreateNewProgressNote — UpdateResidentStatusFromProgressNote done");
             }
 
+            DailyCareLogger.Log("AfterCreateNewProgressNote — calling LogProgressNoteCreation");
             ProgressNoteSummaryUpdateService service = new ProgressNoteSummaryUpdateService(env.Vault, Configuration);
             service.LogProgressNoteCreation(env.ObjVerEx);
+            DailyCareLogger.Log("AfterCreateNewProgressNote — LogProgressNoteCreation done");
 
+            DailyCareLogger.Log("AfterCreateNewProgressNote — calling ExportProgressNote");
             ExportProgressNote(env.Vault, env.ObjVerEx);
+
+            sw.Stop();
+            DailyCareLogger.Log($"AfterCreateNewProgressNote END — elapsed={sw.ElapsedMilliseconds}ms");
         }
 
         private void UpdateResidentStatusFromProgressNote(Vault vault, ObjVerEx note)
         {
+            DailyCareLogger.Log("UpdateResidentStatusFromProgressNote START");
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
             ObjVerEx resident = new ObjVerEx(vault, note.GetProperty(Configuration.ResidentLookup).TypedValue.GetValueAsLookup());
 
             int typeId = note.GetLookupID(Configuration.DailyCare_NoteType);
+            DailyCareLogger.Log($"UpdateResidentStatusFromProgressNote — typeId={typeId}");
 
             if (typeId == Configuration.DailyCare_BackInResidenceNoteType.ID)
             {
+                DailyCareLogger.Log("UpdateResidentStatusFromProgressNote — setting BackInResidence");
                 resident.SetProperty(Configuration.Resident_DeceasedDeparted, MFDataType.MFDatatypeLookup, Configuration.ReturnedToResidenceListItem.ID);
                 resident.SetProperty(Configuration.Resident_DateDeceased, MFDataType.MFDatatypeDate, DateTime.Now);
                 resident.SaveProperties();
@@ -464,6 +528,7 @@ namespace IHFM.VAF
             }
             else if (typeId == Configuration.DailyCare_DeceasedNoteType.ID)
             {
+                DailyCareLogger.Log("UpdateResidentStatusFromProgressNote — setting Deceased");
                 resident.SetProperty(Configuration.Resident_DeceasedDeparted, MFDataType.MFDatatypeLookup, Configuration.DeceasedListItem.ID);
                 resident.SetProperty(Configuration.Resident_DateDeceased, MFDataType.MFDatatypeDate, DateTime.Now);
                 resident.SetProperty(Configuration.Active, MFDataType.MFDatatypeBoolean, false);
@@ -471,6 +536,7 @@ namespace IHFM.VAF
             }
             else if (typeId == Configuration.DailyCare_DischargedNoteType.ID)
             {
+                DailyCareLogger.Log("UpdateResidentStatusFromProgressNote — setting Discharged");
                 resident.SetProperty(Configuration.Resident_DeceasedDeparted, MFDataType.MFDatatypeLookup, Configuration.DischargedListItem.ID);
                 resident.SetProperty(Configuration.Resident_DateDeceased, MFDataType.MFDatatypeDate, DateTime.Now);
                 resident.SetProperty(Configuration.Active, MFDataType.MFDatatypeBoolean, false);
@@ -478,16 +544,21 @@ namespace IHFM.VAF
             }
             else if (typeId == Configuration.DailyCare_HospitalNoteType.ID)
             {
+                DailyCareLogger.Log("UpdateResidentStatusFromProgressNote — setting Hospital");
                 resident.SetProperty(Configuration.Resident_DeceasedDeparted, MFDataType.MFDatatypeLookup, Configuration.HospitalListItem.ID);
                 resident.SetProperty(Configuration.Resident_DateDeceased, MFDataType.MFDatatypeDate, DateTime.Now);
                 resident.SaveProperties();
             }
             else if (typeId == Configuration.DailyCare_TempDischargeNoteType.ID)
             {
+                DailyCareLogger.Log("UpdateResidentStatusFromProgressNote — setting TempDischarge");
                 resident.SetProperty(Configuration.Resident_DeceasedDeparted, MFDataType.MFDatatypeLookup, Configuration.TempDischargeListItem.ID);
                 resident.SetProperty(Configuration.Resident_DateDeceased, MFDataType.MFDatatypeDate, DateTime.Now);
                 resident.SaveProperties();
             }
+
+            sw.Stop();
+            DailyCareLogger.Log($"UpdateResidentStatusFromProgressNote END — elapsed={sw.ElapsedMilliseconds}ms");
         }
 
         public void ExportProgressNote(Vault vault, ObjVerEx note)
