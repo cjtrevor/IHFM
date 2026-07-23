@@ -25,8 +25,13 @@ namespace IHFM.VAF
                 
                 if (change.PropertyDef == Configuration.CurrentRoom.ID && change.ChangeType == PropertyValueChangeType.Modified && env.ObjVerEx.HasValue(Configuration.CurrentRoom))
                 {
-                    ObjVerEx oldRoom = new ObjVerEx(env.Vault, change.OldValue.TypedValue.GetValueAsLookup());
-                    SetRoomVacancy(oldRoom, env.Vault, true); //SetRoomVacancy old room vacant
+                    var oldRoomLookup = change.OldValue.TypedValue.GetValueAsLookup();
+                    if (oldRoomLookup != null)
+                    {
+                        ObjVerEx oldRoom = new ObjVerEx(env.Vault, oldRoomLookup);
+                        SetRoomVacancy(oldRoom, env.Vault, true);
+                    }
+                    
 
                     SetRoomNotVacant(env.ObjVerEx, env.Vault);
                     UpdateRoomTariffOnRoomChange(env);
