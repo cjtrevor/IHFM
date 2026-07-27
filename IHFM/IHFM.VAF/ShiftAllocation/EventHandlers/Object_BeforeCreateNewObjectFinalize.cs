@@ -19,33 +19,9 @@ namespace IHFM.VAF
             var server_Start_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StartDateTime).TypedValue.GetValueAsTimestamp();
             var local_Start_DateTime = server_Start_Timestamp.ToLocalDateTime();
 
-            //Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
-            //ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
-
-            //CarePlanSearchService searchService = new CarePlanSearchService(env.Vault, Configuration);
-            //ObjVerEx careplan = searchService.GetResidentCarePlanExisting(residentLookup.Item);
-
-            //List<ObjVer> objVers = new List<ObjVer>();
-
-            //if (careplan != null)
-            //{
-            //    objVers.AddRange(GetTBCSItemsByResident(careplan, Configuration.DailyADLLookup));
-            //    objVers.AddRange(GetTBCSItemsByResident(careplan, GetADLAliasForDayOfWeek(local_Start_DateTime)));
-            //}
+            
 
             int totalTimeInMinutes = 60;
-
-            //foreach (ObjVer item in objVers)
-            //{
-            //    var objVerEx = new ObjVerEx(env.Vault, item);
-
-            //    var timeBasedCareItemLookup = objVerEx.GetProperty(Configuration.TBCS_TimeBasedCareItem).TypedValue.GetValueAsLookup();
-            //    ObjVer timeBasedCareItem = timeBasedCareItemLookup.GetAsObjVer();
-            //    var timeBasedCareItemVerEx = new ObjVerEx(env.Vault, timeBasedCareItem);
-
-            //    Int32.TryParse(timeBasedCareItemVerEx.GetPropertyText(Configuration.AverageTime), out int time);
-            //    totalTimeInMinutes += time;
-            //}
 
             var local_End_DateTime = local_Start_DateTime.AddMinutes(totalTimeInMinutes);
             var server_End_Timestamp = local_End_DateTime.ToUtcTimestamp();
@@ -99,6 +75,17 @@ namespace IHFM.VAF
                 string fullMessage = "Cannot create shift allocation - scheduling conflicts detected:\n\n" + string.Join("\n", conflictMessages) + "\n";
                 throw new Exception(fullMessage);
             }
+
+            SiteStockUpdateService siteStockUpdateService = new SiteStockUpdateService(env.Vault, Configuration);
+            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
+            ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
+            var siteIdFromResident = resident.GetLookupID(Configuration.BaseSiteID);
+
+            UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item1HBC, Configuration.ShiftAllocation_Qty1HBC);
+            UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item2HBC, Configuration.ShiftAllocation_Qty2HBC);
+            UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item3HBC, Configuration.ShiftAllocation_Qty3HBC);
+            UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item4HBC, Configuration.ShiftAllocation_Qty4HBC);
+            UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item5HBC, Configuration.ShiftAllocation_Qty5HBC);
 
             env.ObjVerEx.SetProperty(Configuration.ShiftAllocation_EndDateTime, MFDataType.MFDatatypeTimestamp, server_End_Timestamp);
             env.ObjVerEx.SaveProperties();
@@ -334,5 +321,18 @@ namespace IHFM.VAF
                     return Configuration.SundayADLLookup;
             }
         }
+
+        private void UpdateSiteStockForShiftAllocation(EventHandlerEnvironment env, int siteIdFromResident, SiteStockUpdateService siteStockUpdateService, MFIdentifier itemAlias, MFIdentifier quantityAlias)
+        {
+            int itemStockId = env.ObjVerEx.GetLookupID(itemAlias);
+            if (itemStockId > -1)
+            {
+                Lookup itemLookup = env.ObjVerEx.GetProperty(itemAlias).TypedValue.GetValueAsLookup();
+                string itemName = env.ObjVerEx.GetPropertyText(itemAlias);
+                double itemQuantity = env.ObjVerEx.GetPropertyAsDouble(quantityAlias) ?? 0;
+                siteStockUpdateService.UpdateSiteStock(siteIdFromResident, itemStockId, -itemQuantity, itemName, true);
+            }
+        }
+
     }
 }

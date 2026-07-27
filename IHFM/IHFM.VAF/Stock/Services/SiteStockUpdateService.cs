@@ -14,7 +14,7 @@ namespace IHFM.VAF
             _configuration = configuration;
         }
 
-        public void UpdateSiteStock(int siteID, int stockID, double quantity, string itemName)
+        public void UpdateSiteStock(int siteID, int stockID, double quantity, string itemName, bool negativeOverride = false)
         {
             ObjVerEx siteStockObjVer = FindSiteStock(siteID, stockID);
 
@@ -26,14 +26,14 @@ namespace IHFM.VAF
 
             if (siteStockObjVer == null)
             {
-                if (quantity < 0)
+                if (quantity < 0 && !negativeOverride)
                     throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - 0");
 
                 CreateNewSiteStockObject(siteID,stockID,quantity);
                 return;
             }
 
-            UpdateStockOnHand(quantity, siteStockObjVer,itemName);
+            UpdateStockOnHand(quantity, siteStockObjVer,itemName, negativeOverride);
             siteStockObjVer.SaveProperties();
         }
 
@@ -54,14 +54,14 @@ namespace IHFM.VAF
             return convertedQuantity;
         }
 
-        private void UpdateStockOnHand(double quantity, ObjVerEx siteStockObjVer, string itemName)
+        private void UpdateStockOnHand(double quantity, ObjVerEx siteStockObjVer, string itemName, bool negativeOverride = false)
         {
 
             double currentStock = siteStockObjVer.GetProperty(_configuration.StockOnHand).GetValue<double>();
 
             double updatedStock = currentStock + quantity;
 
-            if (updatedStock < 0)
+            if (updatedStock < 0 && !negativeOverride)
                 throw new Exception($"Insufficient stock of {itemName}. You cannot issue more stock than what is on hand. Current stock - {currentStock}");
 
             siteStockObjVer.SetProperty(_configuration.StockOnHand, MFDataType.MFDatatypeFloating, updatedStock);

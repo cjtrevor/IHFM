@@ -17,6 +17,29 @@ namespace IHFM.VAF
         public MFIdentifier ShiftAllocation_Resident = "MFiles.Property.ResidentHbc";
 
         [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_Item1HBC = "MFiles.Property.Item1hbc";
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_Item2HBC = "MFiles.Property.Item2hbc";
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_Item3HBC = "MFiles.Property.Item3hbc";
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_Item4HBC = "MFiles.Property.Item4hbc";
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_Item5HBC = "MFiles.Property.Item5hbc";
+
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_Qty1HBC = "MFiles.Property.Qty1Hbc";
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_Qty2HBC = "MFiles.Property.Qty2Hbc";
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_Qty3HBC = "MFiles.Property.Qty3Hbc";
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_Qty4HBC = "MFiles.Property.Qty4Hbc";
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_Qty5HBC = "MFiles.Property.Qty5Hbc";
+
+
+        [MFPropertyDef]
         public MFIdentifier ShiftAllocation_StartDateTime = "MFiles.Property.StartDateTime";
 
         [MFPropertyDef]
