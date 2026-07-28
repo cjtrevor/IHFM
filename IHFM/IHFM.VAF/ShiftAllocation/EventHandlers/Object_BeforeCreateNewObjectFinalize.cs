@@ -147,6 +147,31 @@ namespace IHFM.VAF
                     string subject = $"Shift Allocation - {residentName}";
                     string location = ""; // Get location from resident or site????
 
+                    string item1Name = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_Item1HBC);
+                    string item2Name = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_Item2HBC);
+                    string item3Name = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_Item3HBC);
+                    string item4Name = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_Item4HBC);
+                    string item5Name = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_Item5HBC);
+
+                    var items = new List<string>();
+
+                    if (!string.IsNullOrWhiteSpace(item1Name))
+                        items.Add($"{item1Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty1HBC) ?? 0}");
+
+                    if (!string.IsNullOrWhiteSpace(item2Name))
+                        items.Add($"{item2Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty2HBC) ?? 0}");
+
+                    if (!string.IsNullOrWhiteSpace(item3Name))
+                        items.Add($"{item3Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty3HBC) ?? 0}");
+
+                    if (!string.IsNullOrWhiteSpace(item4Name))
+                        items.Add($"{item4Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty4HBC) ?? 0}");
+
+                    if (!string.IsNullOrWhiteSpace(item5Name))
+                        items.Add($"{item5Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty5HBC) ?? 0}");
+
+                    string itemsList = string.Join(Environment.NewLine, items);
+
                     string body = $"You have been assigned to a shift\n\n" +
                                  $"Resident: {residentName}\n" +
                                  $"Address: {residentAddress}\n" +
@@ -154,6 +179,7 @@ namespace IHFM.VAF
                                  $"Date: {local_Start_DateTime.ToString("dddd, dd MMMM yyyy")}\n" +
                                  $"Time: {local_Start_DateTime.ToString("HH:mm")} - {local_End_DateTime.ToString("HH:mm")}\n" +
                                  $"Duration: {totalTimeInMinutes} minutes\n\n" +
+                                 $"{itemsList}\n\n" +
                                  $"Please confirm your attendance.";
 
                     var emailFreq = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_RecurrenceFrequency).TypedValue.GetValueAsLookup();
@@ -273,7 +299,6 @@ namespace IHFM.VAF
             int itemStockId = env.ObjVerEx.GetLookupID(itemAlias);
             if (itemStockId > -1)
             {
-                Lookup itemLookup = env.ObjVerEx.GetProperty(itemAlias).TypedValue.GetValueAsLookup();
                 string itemName = env.ObjVerEx.GetPropertyText(itemAlias);
                 double itemQuantity = env.ObjVerEx.GetPropertyAsDouble(quantityAlias) ?? 0;
                 siteStockUpdateService.UpdateSiteStock(siteIdFromResident, itemStockId, -itemQuantity, itemName, true);
