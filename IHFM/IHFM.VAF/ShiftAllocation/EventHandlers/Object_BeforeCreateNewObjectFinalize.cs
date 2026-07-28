@@ -16,18 +16,15 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.ShiftAllocation")]
         public void BeforeCreateNewShiftAllocation(EventHandlerEnvironment env)
         {
+            int totalTimeInMinutes = 60;
+
             var server_Start_Timestamp = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StartDateTime).TypedValue.GetValueAsTimestamp();
             var local_Start_DateTime = server_Start_Timestamp.ToLocalDateTime();
-
-            
-
-            int totalTimeInMinutes = 60;
 
             var local_End_DateTime = local_Start_DateTime.AddMinutes(totalTimeInMinutes);
             var server_End_Timestamp = local_End_DateTime.ToUtcTimestamp();
 
             Lookups staffAttendingLookups = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_StaffAttending).TypedValue.GetValueAsLookups();
-
 
             List<string> conflictMessages = new List<string>();
 
@@ -76,16 +73,20 @@ namespace IHFM.VAF
                 throw new Exception(fullMessage);
             }
 
-            SiteStockUpdateService siteStockUpdateService = new SiteStockUpdateService(env.Vault, Configuration);
-            Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
-            ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
-            var siteIdFromResident = resident.GetLookupID(Configuration.BaseSiteID);
+            var ReserveTimeslot = env.ObjVerEx.GetPropertyAsBoolean(Configuration.ShiftAllocation_ReserveTimeslot) ?? false;
+            if (ReserveTimeslot)
+            {
+                SiteStockUpdateService siteStockUpdateService = new SiteStockUpdateService(env.Vault, Configuration);
+                Lookup residentLookup = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_Resident).TypedValue.GetValueAsLookup();
+                ObjVerEx resident = new ObjVerEx(env.Vault, residentLookup);
+                var siteIdFromResident = resident.GetLookupID(Configuration.BaseSiteID);
 
-            UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item1HBC, Configuration.ShiftAllocation_Qty1HBC);
-            UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item2HBC, Configuration.ShiftAllocation_Qty2HBC);
-            UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item3HBC, Configuration.ShiftAllocation_Qty3HBC);
-            UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item4HBC, Configuration.ShiftAllocation_Qty4HBC);
-            UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item5HBC, Configuration.ShiftAllocation_Qty5HBC);
+                UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item1HBC, Configuration.ShiftAllocation_Qty1HBC);
+                UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item2HBC, Configuration.ShiftAllocation_Qty2HBC);
+                UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item3HBC, Configuration.ShiftAllocation_Qty3HBC);
+                UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item4HBC, Configuration.ShiftAllocation_Qty4HBC);
+                UpdateSiteStockForShiftAllocation(env, siteIdFromResident, siteStockUpdateService, Configuration.ShiftAllocation_Item5HBC, Configuration.ShiftAllocation_Qty5HBC);
+            }
 
             env.ObjVerEx.SetProperty(Configuration.ShiftAllocation_EndDateTime, MFDataType.MFDatatypeTimestamp, server_End_Timestamp);
             env.ObjVerEx.SaveProperties();
@@ -125,61 +126,6 @@ namespace IHFM.VAF
 
                         if (staffCalendarCategory != null)
                             calendarCategories.Add(staffCalendarCategory.DisplayValue);
-
-                        //switch(staffCalendarCategory?.ItemGUID)
-                        //{
-                        //    case Configuration.CalendarCategory_DuduzileGUID:
-                        //        calendarCategories.Add("Duduzile");
-                        //        break;
-                        //    case Configuration.CalendarCategory_GavinGUID:
-                        //        calendarCategories.Add("Gavin");
-                        //        break;
-                        //    case Configuration.CalendarCategory_BevGUID:
-                        //        calendarCategories.Add("Bev");
-                        //        break;
-                        //    case Configuration.CalendarCategory_DaylaGUID:
-                        //        calendarCategories.Add("Dayla");
-                        //        break;
-                        //    case Configuration.CalendarCategory_GeoffreyGUID:
-                        //        calendarCategories.Add("Geoffrey");
-                        //        break;
-                        //    case Configuration.CalendarCategory_GeorgeSubGUID:
-                        //        calendarCategories.Add("George - Sub");
-                        //        break;
-                        //    case Configuration.CalendarCategory_IlanaGUID:
-                        //        calendarCategories.Add("Ilana");
-                        //        break;
-                        //    case Configuration.CalendarCategory_JarredGUID:
-                        //        calendarCategories.Add("Jarred");
-                        //        break;
-                        //    case Configuration.CalendarCategory_JolandeGUID:
-                        //        calendarCategories.Add("Jolande");
-                        //        break;
-                        //    case Configuration.CalendarCategory_KatGUID:
-                        //        calendarCategories.Add("Kat");
-                        //        break;
-                        //    case Configuration.CalendarCategory_LizzieGUID:
-                        //        calendarCategories.Add("Lizzie");
-                        //        break;
-                        //    case Configuration.CalendarCategory_MandyGUID:
-                        //        calendarCategories.Add("Mandy");
-                        //        break;
-                        //    case Configuration.CalendarCategory_MellisaGUID:
-                        //        calendarCategories.Add("Mellisa");
-                        //        break;
-                        //    case Configuration.CalendarCategory_SharleneGUID:
-                        //        calendarCategories.Add("Sharlene");
-                        //        break;
-                        //    case Configuration.CalendarCategory_TrustGUID:
-                        //        calendarCategories.Add("Trust");
-                        //        break;
-                        //    case Configuration.CalendarCategory_CancellationGUID:
-                        //        calendarCategories.Add("Cancellation");
-                        //        break;
-                        //    case Configuration.CalendarCategory_PurpleCategoryGUID:
-                        //        calendarCategories.Add("Purple category");
-                        //        break;
-                        //}
                     }
 
                     staffMembers += $"{staffLookup.DisplayValue}\n";

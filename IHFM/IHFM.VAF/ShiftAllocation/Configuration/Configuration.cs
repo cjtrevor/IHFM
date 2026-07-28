@@ -38,6 +38,8 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier ShiftAllocation_Qty5HBC = "MFiles.Property.Qty5Hbc";
 
+        [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_ReserveTimeslot = "MFiles.Property.ReserveTimeslot";
 
         [MFPropertyDef]
         public MFIdentifier ShiftAllocation_StartDateTime = "MFiles.Property.StartDateTime";
