@@ -19,7 +19,7 @@ namespace IHFM.VAF
 
 			int currentYearPart = IdNumberParser.GetCurrentYearPart();
 
-			if (yearPart > currentYearPart)
+            if (yearPart > (currentYearPart - 15))
 			{
 				DateTime birthDate = new DateTime(1900 + yearPart, monthPart, dayPart);
 				return ((DateTime.Now - birthDate).TotalDays / 365).ToString("N0");
