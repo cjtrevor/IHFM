@@ -141,10 +141,11 @@ namespace IHFM.VAF
                     EmailService emailService = new EmailService(Configuration);
 
                     var residentObjVer = new ObjVerEx(env.Vault, residentLookup);
+                    var siteIdFromResident = residentObjVer.GetLookupID(Configuration.BaseSiteID);
 
-                    string residentName = residentLookup.DisplayValue;
-                    string residentAddress = residentObjVer.GetPropertyText(Configuration.Resident_HomeAddress);
-                    string subject = $"Shift Allocation - {residentName}";
+                    string residentName = siteIdFromResident == 30 ? $"{residentObjVer.GetPropertyText(Configuration.Resident_FirstName)} {residentObjVer.GetPropertyText(Configuration.Resident_Surname)}" : residentLookup.DisplayValue;
+                    string residentAddress = residentObjVer.GetPropertyText(Configuration.Resident_HomeAddress);                    
+                    string subject = $"SA - {residentName}";
                     string location = ""; // Get location from resident or site????
 
                     string item1Name = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_Item1HBC);
@@ -152,23 +153,24 @@ namespace IHFM.VAF
                     string item3Name = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_Item3HBC);
                     string item4Name = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_Item4HBC);
                     string item5Name = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_Item5HBC);
+                    string typeOfVisit = env.ObjVerEx.GetPropertyText(Configuration.ShiftAllocation_TypeOfVisit);
 
                     var items = new List<string>();
 
                     if (!string.IsNullOrWhiteSpace(item1Name))
-                        items.Add($"{item1Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty1HBC) ?? 0}");
+                        items.Add($"{item1Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty1HBC) ?? 0}\n");
 
                     if (!string.IsNullOrWhiteSpace(item2Name))
-                        items.Add($"{item2Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty2HBC) ?? 0}");
+                        items.Add($"{item2Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty2HBC) ?? 0}\n");
 
                     if (!string.IsNullOrWhiteSpace(item3Name))
-                        items.Add($"{item3Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty3HBC) ?? 0}");
+                        items.Add($"{item3Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty3HBC) ?? 0}\n");
 
                     if (!string.IsNullOrWhiteSpace(item4Name))
-                        items.Add($"{item4Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty4HBC) ?? 0}");
+                        items.Add($"{item4Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty4HBC) ?? 0}\n");
 
                     if (!string.IsNullOrWhiteSpace(item5Name))
-                        items.Add($"{item5Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty5HBC) ?? 0}");
+                        items.Add($"{item5Name} x {env.ObjVerEx.GetPropertyAsDouble(Configuration.ShiftAllocation_Qty5HBC) ?? 0}\n");
 
                     string itemsList = string.Join(Environment.NewLine, items);
 
@@ -176,10 +178,12 @@ namespace IHFM.VAF
                                  $"Resident: {residentName}\n" +
                                  $"Address: {residentAddress}\n" +
                                  $"\nStaff Assigned:\n{staffMembers}\n" +
+                                 $"\nType of Visit: {typeOfVisit}\n" +
                                  $"Date: {local_Start_DateTime.ToString("dddd, dd MMMM yyyy")}\n" +
                                  $"Time: {local_Start_DateTime.ToString("HH:mm")} - {local_End_DateTime.ToString("HH:mm")}\n" +
-                                 $"Duration: {totalTimeInMinutes} minutes\n\n" +
-                                 $"{itemsList}\n\n" +
+                                 $"Duration: {totalTimeInMinutes} minutes\n\n\n" +
+                                 $"Please remember to take the following:\n" +
+                                 $"{itemsList}\n\n\n" +
                                  $"Please confirm your attendance.";
 
                     var emailFreq = env.ObjVerEx.GetProperty(Configuration.ShiftAllocation_RecurrenceFrequency).TypedValue.GetValueAsLookup();

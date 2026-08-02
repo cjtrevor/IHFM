@@ -13,9 +13,7 @@ namespace IHFM.VAF
         public MFIdentifier MDDAuto_MDDObjectId = "OT.Medsdosagedispense";
 
         [MFPropertyDef]
-        public MFIdentifier MDDAuto_Resident = "MFiles.Property.Resident";
-        [MFPropertyDef]
-        public MFIdentifier MDDAuto_AutoMedsOnScript = "MFiles.Property.AutoMedsOnScript";
+        public MFIdentifier MDDAuto_Resident = "MFiles.Property.Resident";        
         [MFPropertyDef]
         public MFIdentifier MDDAuto_MedsOnScript = "Mfiles.Property.MedsOnScript";
         [MFPropertyDef]

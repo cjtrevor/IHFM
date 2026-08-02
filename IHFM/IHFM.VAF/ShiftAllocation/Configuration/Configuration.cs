@@ -66,6 +66,9 @@ namespace IHFM.VAF
         public MFIdentifier ShiftAllocation_RecurrenceEndDate = "MFiles.Property.RecurrenceEndDate";
 
         [MFPropertyDef]
+        public MFIdentifier ShiftAllocation_TypeOfVisit = "MFiles.Property.TypeOfVisit";
+
+        [MFPropertyDef]
         public MFIdentifier ShiftAllocation_CalendarCategory = "MFiles.Property.CalendarCategory";
 
         public const string CalendarCategory_DuduzileGUID = "{1A45FF1F-3D9E-4E0C-AE14-21F0209DD4FD}";
