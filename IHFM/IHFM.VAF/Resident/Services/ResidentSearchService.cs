@@ -36,6 +36,7 @@ namespace IHFM.VAF
             mFSearchBuilder.ObjType(_configuration.ResidentObject);
             mFSearchBuilder.Property(_configuration.DobDay, MFDataType.MFDatatypeText, currentDay);
             mFSearchBuilder.Property(_configuration.DobMonth, MFDataType.MFDatatypeText, CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(currentMonth));
+            mFSearchBuilder.PropertyEmpty(_configuration.Resident_DateDeceased);
             mFSearchBuilder.Deleted(false);
             return mFSearchBuilder.FindEx();
         }
