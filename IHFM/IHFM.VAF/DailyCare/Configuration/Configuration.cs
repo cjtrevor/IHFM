@@ -51,6 +51,12 @@ namespace IHFM.VAF
         public MFIdentifier TBCS_CompletedCare = "MFiles.Property.CompletedCare";
 
         [MFPropertyDef]
+        public MFIdentifier CombinedCare_IntakeAndOutput = "MFiles.Property.IntakeAndOutput";
+        [MFPropertyDef]
+        public MFIdentifier CombinedCare_IncontineceCare = "MFiles.Property.IncontineceCare";
+
+
+        [MFPropertyDef]
         public MFIdentifier TBCS_0000_0100Care = "MFiles.Property.00000100Care";
         [MFPropertyDef]
         public MFIdentifier TBCS_0100_0200Care = "MFiles.Property.01000200Care";

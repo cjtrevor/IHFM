@@ -1,5 +1,6 @@
 ﻿using MFiles.VAF.Common;
 using MFiles.VAF.Configuration;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,22 @@ namespace IHFM.VAF
             env.ObjVerEx.SaveProperties();
         }
 
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.CombinedCareRecord")]
+        public void BeforeCreateNewCombinedCare(EventHandlerEnvironment env)
+        {
+            if (env.ObjVerEx.GetPropertyAsBoolean(Configuration.CombinedCare_IntakeAndOutput))
+            {
+                InputOutputService inputOutputService = new InputOutputService(env.Vault, Configuration);
+                inputOutputService.UpdateInputOutputForShift(env.ObjVerEx);
+            }
+
+            if (env.ObjVerEx.GetPropertyAsBoolean(Configuration.CombinedCare_IncontineceCare))
+            {
+                DailyCareService dailyCareService = new DailyCareService(env.Vault, Configuration);
+                dailyCareService.UpdateNappyStock(env.ObjVerEx);
+            }
+        }
+
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.DailyCareCopy")]
         public void BeforeCreateNewDailyCareV2(EventHandlerEnvironment env)
         {
@@ -40,7 +57,7 @@ namespace IHFM.VAF
             SetScheduledTimeSlots(env);
             env.ObjVerEx.SaveProperties();
 
-            SetCarePlanNotes(env);          
+            SetCarePlanNotes(env);
         }
 
         private void SetScheduledTimeSlots(EventHandlerEnvironment env)
@@ -77,16 +94,16 @@ namespace IHFM.VAF
             ObjVerEx siteConfig = siteSearchService.GetSiteConfig(resident.GetLookupID(Configuration.Resident_Site));
 
             Lookups items = env.ObjVerEx.GetProperty(Configuration.TBCS_TimeBasedCareScheduleDropdown).TypedValue.GetValueAsLookups();
-            foreach(Lookup item in items)
-            { 
+            foreach (Lookup item in items)
+            {
                 ObjVerEx careItem = new ObjVerEx(env.Vault, item);
 
-                if(careItem.HasProperty(Configuration.TBCS_Frequency) && careItem.HasValue(Configuration.TBCS_Frequency) 
+                if (careItem.HasProperty(Configuration.TBCS_Frequency) && careItem.HasValue(Configuration.TBCS_Frequency)
                     && !(careItem.GetLookupID(Configuration.TBCS_Frequency) == Configuration.Frequency_SpecificTimes.ID))
                 {
                     int frequencyId = careItem.GetLookupID(Configuration.TBCS_Frequency);
 
-                    if(frequencyId == Configuration.Frequency_Hourly.ID)
+                    if (frequencyId == Configuration.Frequency_Hourly.ID)
                     {
                         slot_01.Add(item.GetAsObjVer());
                         slot_12.Add(item.GetAsObjVer());
@@ -130,14 +147,14 @@ namespace IHFM.VAF
                     }
                     else if (frequencyId == Configuration.Frequency_3Hourly.ID)
                     {
-                       slot_01.Add(item.GetAsObjVer());
-                       slot_34.Add(item.GetAsObjVer());
-                       slot_67.Add(item.GetAsObjVer());
-                       slot_910.Add(item.GetAsObjVer());
-                       slot_1213.Add(item.GetAsObjVer());
-                       slot_1516.Add(item.GetAsObjVer());
-                       slot_1819.Add(item.GetAsObjVer());
-                       slot_2122.Add(item.GetAsObjVer());
+                        slot_01.Add(item.GetAsObjVer());
+                        slot_34.Add(item.GetAsObjVer());
+                        slot_67.Add(item.GetAsObjVer());
+                        slot_910.Add(item.GetAsObjVer());
+                        slot_1213.Add(item.GetAsObjVer());
+                        slot_1516.Add(item.GetAsObjVer());
+                        slot_1819.Add(item.GetAsObjVer());
+                        slot_2122.Add(item.GetAsObjVer());
                     }
                     else if (frequencyId == Configuration.Frequency_4Hourly.ID)
                     {
@@ -169,20 +186,20 @@ namespace IHFM.VAF
                     {
                         int SCDayOfWeek = siteConfig.HasValue(Configuration.SiteConfig_SCDayOfWeek) ? siteConfig.GetProperty(Configuration.SiteConfig_SCDayOfWeek).GetValue<int>() : 1;
 
-                        if((int)DateTime.Now.DayOfWeek == SCDayOfWeek)
+                        if ((int)DateTime.Now.DayOfWeek == SCDayOfWeek)
                             slot_89.Add(item.GetAsObjVer());
                     }
                     else if (frequencyId == Configuration.Frequency_Monthly.ID)
                     {
                         int SCDayOfMonth = siteConfig.HasValue(Configuration.SiteConfig_SCDayOfMonth) ? siteConfig.GetProperty(Configuration.SiteConfig_SCDayOfMonth).GetValue<int>() : 1;
-                        if(DateTime.Now.Day == SCDayOfMonth)
+                        if (DateTime.Now.Day == SCDayOfMonth)
                             slot_89.Add(item.GetAsObjVer());
                     }
                 }
                 else
                 {
                     //Specific times logic to be used
-                    foreach(Lookup time in careItem.GetLookups(Configuration.TBCS_TbcScheduledTimes))
+                    foreach (Lookup time in careItem.GetLookups(Configuration.TBCS_TbcScheduledTimes))
                     {
                         if (time.Item == Configuration.ScheduledCareTime_0000.ID)
                         {
@@ -208,7 +225,7 @@ namespace IHFM.VAF
                         {
                             slot_56.Add(item.GetAsObjVer());
                         }
-                        else if(time.Item == Configuration.ScheduledCareTime_0600.ID)
+                        else if (time.Item == Configuration.ScheduledCareTime_0600.ID)
                         {
                             slot_67.Add(item.GetAsObjVer());
                         }
@@ -283,76 +300,100 @@ namespace IHFM.VAF
                     }
                 }
             }
-            slot_01.ForEach(x => {
+            slot_01.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0000_0100Care, x);
             });
-            slot_12.ForEach(x => {
+            slot_12.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0100_0200Care, x);
             });
-            slot_23.ForEach(x => {
+            slot_23.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0200_0300Care, x);
             });
-            slot_34.ForEach(x => {
+            slot_34.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0300_0400Care, x);
             });
-            slot_45.ForEach(x => {
+            slot_45.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0400_0500Care, x);
             });
-            slot_56.ForEach(x => {
+            slot_56.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0500_0600Care, x);
             });
-            slot_67.ForEach(x => {
+            slot_67.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0600_0700Care, x);
             });
-            slot_78.ForEach(x => {
+            slot_78.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0700_0800Care, x);
             });
-            slot_89.ForEach(x => {
+            slot_89.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0800_0900Care, x);
             });
-            slot_910.ForEach(x => {
+            slot_910.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_0900_1000Care, x);
             });
-            slot_1011.ForEach(x => {
+            slot_1011.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1000_1100Care, x);
             });
-            slot_1112.ForEach(x => {
+            slot_1112.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1100_1200Care, x);
             });
-            slot_1213.ForEach(x => {
+            slot_1213.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1200_1300Care, x);
             });
-            slot_1314.ForEach(x => {
+            slot_1314.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1300_1400Care, x);
             });
-            slot_1415.ForEach(x => {
+            slot_1415.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1400_1500Care, x);
             });
-            slot_1516.ForEach(x => {
+            slot_1516.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1500_1600Care, x);
             });
-            slot_1617.ForEach(x => {
+            slot_1617.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1600_1700Care, x);
             });
-            slot_1718.ForEach(x => {
+            slot_1718.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1700_1800Care, x);
             });
-            slot_1819.ForEach(x => {
+            slot_1819.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1800_1900Care, x);
             });
-            slot_1920.ForEach(x => {
+            slot_1920.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_1900_2000Care, x);
             });
-            slot_2021.ForEach(x => {
+            slot_2021.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_2000_2100Care, x);
             });
-            slot_2122.ForEach(x => {
+            slot_2122.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_2100_2200Care, x);
             });
-            slot_2223.ForEach(x => {
+            slot_2223.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_2200_2300Care, x);
             });
-            slot_2300.ForEach(x => {
+            slot_2300.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_2300_0000Care, x);
             });
         }
@@ -386,16 +427,17 @@ namespace IHFM.VAF
 
             List<ObjVer> TBCADL = residentPropertyService.GetResidentTBCSForDay(residentLookup, useCarePlan);
 
-            TBCADL.ForEach(x => {
+            TBCADL.ForEach(x =>
+            {
                 env.ObjVerEx.AddLookup(Configuration.TBCS_TimeBasedCareScheduleDropdown, x);
             });
 
-            
+
         }
 
         private void RunExports(ObjVerEx dailyCare)
         {
-            if(dailyCare.GetLookupID(Configuration.DailyCare_NoteType) == Configuration.DailyCare_AdmissionNoteType.ID)
+            if (dailyCare.GetLookupID(Configuration.DailyCare_NoteType) == Configuration.DailyCare_AdmissionNoteType.ID)
             {
                 ExportQMRAdmission(dailyCare);
             }
@@ -412,7 +454,7 @@ namespace IHFM.VAF
             DailyCareSearchService searchService = new DailyCareSearchService(env.Vault, Configuration);
             ObjVerEx dailyCare = searchService.GetDailyCareByResidentAndShift(residentId, shift, classToCheck);
 
-            if(dailyCare != null)
+            if (dailyCare != null)
             {
                 return true;
             }
@@ -440,7 +482,7 @@ namespace IHFM.VAF
                 Configuration.DailyCare_TempDischargeNoteType.ID
             };
 
-            if(residentUpdateTypes.Contains(env.ObjVerEx.GetLookupID(Configuration.DailyCare_NoteType)))
+            if (residentUpdateTypes.Contains(env.ObjVerEx.GetLookupID(Configuration.DailyCare_NoteType)))
             {
                 UpdateResidentStatusFromProgressNote(env.Vault, env.ObjVerEx);
             }
