@@ -30,13 +30,13 @@ namespace IHFM.VAF
         [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCreateNewObjectFinalize, Class = "MFiles.Class.CombinedCareRecord")]
         public void BeforeCreateNewCombinedCare(EventHandlerEnvironment env)
         {
-            if (env.ObjVerEx.GetPropertyAsBoolean(Configuration.CombinedCare_IntakeAndOutput))
+            if (env.ObjVerEx.GetPropertyAsBoolean(Configuration.CombinedCare_IntakeAndOutput) ?? false)
             {
                 InputOutputService inputOutputService = new InputOutputService(env.Vault, Configuration);
                 inputOutputService.UpdateInputOutputForShift(env.ObjVerEx);
             }
 
-            if (env.ObjVerEx.GetPropertyAsBoolean(Configuration.CombinedCare_IncontineceCare))
+            if (env.ObjVerEx.GetPropertyAsBoolean(Configuration.CombinedCare_IncontineceCare) ?? false)
             {
                 DailyCareService dailyCareService = new DailyCareService(env.Vault, Configuration);
                 dailyCareService.UpdateNappyStock(env.ObjVerEx);
