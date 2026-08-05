@@ -99,6 +99,7 @@
     <Compile Include="DailyCare\EventHandlers\Object_AfterCreateNewObjectFinalize.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCheckInChanges.cs" />
     <Compile Include="DailyCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
+    <Compile Include="DailyCare\Services\DailyCareService.cs" />
     <Compile Include="DailyCare\Services\DailyCareSearchService.cs" />
     <Compile Include="DQ98\AutomaticValues\CalculatedValues.cs" />
     <Compile Include="DQ98\Configuration\Configuration.cs" />
