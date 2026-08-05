@@ -53,7 +53,7 @@ namespace IHFM.VAF
         [MFPropertyDef]
         public MFIdentifier CombinedCare_IntakeAndOutput = "MFiles.Property.IntakeAndOutput";
         [MFPropertyDef]
-        public MFIdentifier CombinedCare_IncontineceCare = "MFiles.Property.IncontineceCare";
+        public MFIdentifier CombinedCare_IncontineceCare = "MFiles.Property.IncontinenceCare";
 
 
         [MFPropertyDef]
