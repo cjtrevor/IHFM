@@ -30,6 +30,13 @@ namespace IHFM.VAF
 
                     resident.SetProperty(configuration.Resident_DurationOfStayInFrailcare, MFDataType.MFDatatypeInteger, days_FrailCare);
                 }
+                else if (resident.HasValue(configuration.Resident_DateAdmittedToFacility))
+                {
+                    DateTime admissionDate_Facility_Fallback = DateTime.Parse(resident.GetProperty(configuration.Resident_DateAdmittedToFacility).GetValueAsLocalizedText());
+                    var days_FrailCare_Fallback = (now - admissionDate_Facility_Fallback).Days;
+
+                    resident.SetProperty(configuration.Resident_DurationOfStayInFrailcare, MFDataType.MFDatatypeInteger, days_FrailCare_Fallback);
+                }
 
                 if (resident.HasValue(configuration.Resident_DateAdmittedToFacility))
                 {

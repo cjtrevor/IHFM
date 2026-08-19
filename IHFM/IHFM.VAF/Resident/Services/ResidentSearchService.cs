@@ -50,12 +50,16 @@ namespace IHFM.VAF
             mFSearchBuilderEmpty.Property(_configuration.Base_BatchProcessingConfiguration, batchValue);
             mFSearchBuilderEmpty.PropertyEmpty(_configuration.Resident_DurationsLastUpdated);
             mFSearchBuilderEmpty.PropertyEmpty(_configuration.Resident_DateDeceased);
+            mFSearchBuilderEmpty.Property(_configuration.Resident_DeceasedDeparted, _configuration.DeceasedListItem.ID, MFConditionType.MFConditionTypeNotEqual);
+            mFSearchBuilderEmpty.Property(_configuration.Resident_DeceasedDeparted, _configuration.DischargedListItem.ID, MFConditionType.MFConditionTypeNotEqual);
             mFSearchBuilderEmpty.Deleted(false);
 
             MFSearchBuilder mFSearchBuilder = new MFSearchBuilder(_vault);
             mFSearchBuilder.ObjType(_configuration.ResidentObject);
             mFSearchBuilder.Property(_configuration.Base_BatchProcessingConfiguration, batchValue);
             mFSearchBuilder.PropertyEmpty(_configuration.Resident_DateDeceased);
+            mFSearchBuilder.Property(_configuration.Resident_DeceasedDeparted, _configuration.DeceasedListItem.ID, MFConditionType.MFConditionTypeNotEqual);
+            mFSearchBuilder.Property(_configuration.Resident_DeceasedDeparted, _configuration.DischargedListItem.ID, MFConditionType.MFConditionTypeNotEqual);
             mFSearchBuilder.Date(_configuration.Resident_DurationsLastUpdated, durationLastUpdatedDate, MFConditionType.MFConditionTypeLessThanOrEqual);
             mFSearchBuilder.Deleted(false);
 
