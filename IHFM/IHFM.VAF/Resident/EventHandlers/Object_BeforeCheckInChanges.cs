@@ -56,6 +56,7 @@ namespace IHFM.VAF
                     ObjVerEx newSiteObj = new ObjVerEx(env.Vault, newSiteLookup);
                     var newSiteId = newSiteObj.GetLookupID(Configuration.BaseSiteID);
 
+                    env.ObjVerEx.SetLookup(Configuration.BaseSiteID, newSiteId);
 
                     //int newSiteId = change.NewValue.TypedValue.GetValueAsLookup().Item;
 

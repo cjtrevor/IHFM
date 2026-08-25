@@ -250,7 +250,11 @@ namespace IHFM.VAF
         [MFValueListItem(ValueList = "MFiles.Valuelist.ScheduleFrequency")]
         public MFIdentifier Frequency_Monthly = "{239936C2-65D6-4BA1-92A8-D6FB694C0072}";
 
-        
+
+
+        public MFIdentifier WoundCareAuto_Woundcarevalues = "MFiles.Property.Woundcarevalues";
+        public MFIdentifier WoundCareAuto_AutoWoundcare = "MFiles.Property.AutoWoundcare";
+        public MFIdentifier WoundCareAuto_Timeslot = "MFiles.Property.Timeslot";
     }
 
 
