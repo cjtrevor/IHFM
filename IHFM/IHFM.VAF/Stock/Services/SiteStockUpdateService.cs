@@ -34,7 +34,7 @@ namespace IHFM.VAF
                 return;
             }
 
-            UpdateStockOnHand(quantity, siteStockObjVer, itemName, stockTypeId);
+            UpdateStockOnHand(quantity, siteStockObjVer, itemName, stockTypeId, negativeOverride);
             siteStockObjVer.SaveProperties();
         }
 
