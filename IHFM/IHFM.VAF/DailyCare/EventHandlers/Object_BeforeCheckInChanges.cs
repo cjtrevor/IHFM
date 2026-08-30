@@ -1,4 +1,5 @@
 ﻿using MFiles.VAF.Common;
+using MFiles.VAF.Extensions;
 using MFilesAPI;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,32 @@ namespace IHFM.VAF
         public void BeforeChcekInDailyCare(EventHandlerEnvironment env)
         {
             LogCompletedCare(env.ObjVerEx);
+        }
+
+
+        //TEMPORARY
+        [EventHandler(MFEventHandlerType.MFEventHandlerBeforeCheckInChanges, Class = "MFiles.Class.CombinedCareRecord")]
+        public void BeforeChcekInCombinedCare(EventHandlerEnvironment env)
+        {
+            var tempClassUpdate = env.ObjVerEx.GetPropertyAsBoolean(Configuration.CombinedCare_TemporaryClassUpdate) ?? false;
+            var dateCreated = env.ObjVerEx.GetPropertyAsDateTime((int)MFBuiltInPropertyDef.MFBuiltInPropertyDefCreated);
+
+            if (dateCreated < DateTime.Parse("2026-08-05") && !tempClassUpdate)
+            {
+                if (env.ObjVerEx.GetPropertyAsBoolean(Configuration.CombinedCare_IntakeAndOutput) ?? false)
+                {
+                    InputOutputService inputOutputService = new InputOutputService(env.Vault, Configuration);
+                    inputOutputService.UpdateInputOutputForShift(env.ObjVerEx);
+                }
+
+                if (env.ObjVerEx.GetPropertyAsBoolean(Configuration.CombinedCare_IncontineceCare) ?? false)
+                {
+                    DailyCareService dailyCareService = new DailyCareService(env.Vault, Configuration);
+                    dailyCareService.UpdateNappyStock(env.ObjVerEx);
+                }
+
+                env.ObjVerEx.SaveProperty(Configuration.CombinedCare_TemporaryClassUpdate, MFDataType.MFDatatypeBoolean, true);
+            }
         }
 
         private void LogCompletedCare(ObjVerEx dailyCare)

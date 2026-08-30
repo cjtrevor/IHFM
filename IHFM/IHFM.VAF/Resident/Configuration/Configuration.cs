@@ -12,8 +12,11 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier DiscountPercentage = "MFiles.Property.DiscountPercent";
 
+        public MFIdentifier SurchargePercentage = "MFiles.Property.Subcharge";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier DiscountRandValue = "Mfiles.Property.DiscountRandValue";
+        
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier RoomTariff = "MFiles.Property.RoomTariff";

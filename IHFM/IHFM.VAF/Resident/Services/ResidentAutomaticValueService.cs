@@ -32,6 +32,9 @@ namespace IHFM.VAF
             double discountRandValue = objVerEx.HasValue(_configuration.DiscountRandValue) ?
                                             objVerEx.GetProperty(_configuration.DiscountRandValue).GetValue<double>() :
                                             0 ;
+            double surchargePercentage = objVerEx.HasValue(_configuration.SurchargePercentage) ?
+                                            objVerEx.GetProperty(_configuration.SurchargePercentage).GetValue<double>() :
+                                            0;
 
             //if (discountPercentage > 0 && discountRandValue > 0)
             //{
@@ -44,6 +47,9 @@ namespace IHFM.VAF
                 amount = tariff - discountRandValue;
             else
                 amount = tariff;
+
+            if (surchargePercentage > 0)
+                amount = amount * ( (100 + surchargePercentage) / 100 );
 
             return amount;
         }
