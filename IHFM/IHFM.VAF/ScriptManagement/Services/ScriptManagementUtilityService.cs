@@ -17,31 +17,71 @@ namespace IHFM.VAF
         }
         public MFIdentifier GetScheduledTimeToCheck(DateTime current)
         {
+            DateTime start0200 = DateTime.Today + new TimeSpan(1, 0, 0);
+            DateTime end0200 = DateTime.Today + new TimeSpan(3, 0, 0);
+
             DateTime start0600 = DateTime.Today + new TimeSpan(5, 0, 0);
             DateTime end0600 = DateTime.Today + new TimeSpan(7, 0, 0);
 
-            DateTime start0900 = DateTime.Today + new TimeSpan(7, 0, 0);
-            DateTime end0900 = DateTime.Today + new TimeSpan(10, 0, 0);
+            DateTime start0800 = DateTime.Today + new TimeSpan(7, 0, 0);
+            DateTime end0800 = DateTime.Today + new TimeSpan(8, 30, 0);
 
-            DateTime start1200 = DateTime.Today + new TimeSpan(11, 0, 0);
-            DateTime end1200 = DateTime.Today + new TimeSpan(14, 0, 0);
+            DateTime start0900 = DateTime.Today + new TimeSpan(8, 30, 0);
+            DateTime end0900 = DateTime.Today + new TimeSpan(9, 30, 0);
+
+            DateTime start1000 = DateTime.Today + new TimeSpan(9, 30, 0);
+            DateTime end1000 = DateTime.Today + new TimeSpan(11, 30, 0);
+
+            DateTime start1200 = DateTime.Today + new TimeSpan(11, 30, 0);
+            DateTime end1200 = DateTime.Today + new TimeSpan(13, 30, 0);
+
+            DateTime start1400 = DateTime.Today + new TimeSpan(13, 30, 0);
+            DateTime end1400 = DateTime.Today + new TimeSpan(15, 0, 0);
+
+            DateTime start1600 = DateTime.Today + new TimeSpan(15, 0, 0);
+            DateTime end1600 = DateTime.Today + new TimeSpan(16, 30, 0);
 
             DateTime start1700 = DateTime.Today + new TimeSpan(16, 30, 0);
-            DateTime end1700 = DateTime.Today + new TimeSpan(18, 30, 0);
+            DateTime end1700 = DateTime.Today + new TimeSpan(18, 0, 0);
 
-            DateTime start2000 = DateTime.Today + new TimeSpan(20, 0, 0);
-            DateTime end2000 = DateTime.Today + new TimeSpan(22, 0, 0);
+            DateTime start1800 = DateTime.Today + new TimeSpan(18, 00, 0);
+            DateTime end1800 = DateTime.Today + new TimeSpan(19, 30, 0);
 
-            if (current > start0600 && current < end0600)
+            DateTime start2000 = DateTime.Today + new TimeSpan(19, 30, 0);
+            DateTime end2000 = DateTime.Today + new TimeSpan(21, 30, 0);
+
+            DateTime start2200 = DateTime.Today + new TimeSpan(21, 30, 0);
+            DateTime end2200 = DateTime.Today + new TimeSpan(23, 0, 0);
+
+            DateTime start0000 = DateTime.Today + new TimeSpan(23, 00, 0);
+            DateTime end0000 = DateTime.Today + new TimeSpan(1, 0, 0);
+
+            if (current > start0200 && current < end0200)
+                return configuration.GiveMeds0200;
+            else if (current > start0600 && current < end0600)
                 return configuration.GiveMeds0600;
+            else if (current > start0800 && current < end0800)
+                return configuration.GiveMeds0800;
             else if (current > start0900 && current < end0900)
                 return configuration.GiveMeds0900;
+            else if (current > start1000 && current < end1000)
+                return configuration.GiveMeds1000;
             else if (current > start1200 && current < end1200)
                 return configuration.GiveMeds1200;
+            else if (current > start1400 && current < end1400)
+                return configuration.GiveMeds1400;
+            else if (current > start1600 && current < end1600)
+                return configuration.GiveMeds1600;
             else if (current > start1700 && current < end1700)
                 return configuration.GiveMeds1700;
+            else if (current > start1800 && current < end1800)
+                return configuration.GiveMeds1800;
             else if (current > start2000 && current < end2000)
                 return configuration.GiveMeds2000;
+            else if (current > start2200 && current < end2200)
+                return configuration.GiveMeds2200;
+            else if (current > start0000 && current < end0000)
+                return configuration.GiveMeds0000;
 
             return null;
         }

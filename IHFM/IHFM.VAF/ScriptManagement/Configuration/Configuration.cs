@@ -15,20 +15,44 @@ namespace IHFM.VAF
         [MFPropertyDef(Required = true)]
         public MFIdentifier MedsOnScript = "Mfiles.Property.MedsOnScript";
 
+        [MFPropertyDef]
+        public MFIdentifier GiveMeds0200 = "Mfiles.Property.0200";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier GiveMeds0600 = "Mfiles.Property.0600?";
+
+        [MFPropertyDef]
+        public MFIdentifier GiveMeds0800 = "Mfiles.Property.0800";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier GiveMeds0900 = "Mfiles.Property.0900?";
 
+        [MFPropertyDef]
+        public MFIdentifier GiveMeds1000 = "Mfiles.Property.1000";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier GiveMeds1200 = "Mfiles.Property.1200?";
+
+        [MFPropertyDef]
+        public MFIdentifier GiveMeds1400 = "Mfiles.Property.1400";
+
+        [MFPropertyDef]
+        public MFIdentifier GiveMeds1600 = "Mfiles.Property.1600";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier GiveMeds1700 = "Mfiles.Property.1700?";
 
+        [MFPropertyDef]
+        public MFIdentifier GiveMeds1800 = "Mfiles.Property.1800";
+
         [MFPropertyDef(Required = true)]
         public MFIdentifier GiveMeds2000 = "Mfiles.Property.2000?";
+
+        [MFPropertyDef]
+        public MFIdentifier GiveMeds2200 = "Mfiles.Property.2200";
+
+        [MFPropertyDef]
+        public MFIdentifier GiveMeds0000 = "Mfiles.Property.0000";
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier ScriptManagementStartDate = "MFiles.Property.ScriptManagementStartDate";
