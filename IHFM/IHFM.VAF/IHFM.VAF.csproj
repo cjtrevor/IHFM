@@ -188,6 +188,8 @@
     <Compile Include="Stock\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />
     <Compile Include="IncontinenceSupplies\Services\NappyUsageService.cs" />
     <Compile Include="Stock\Services\SiteStockUpdateService.cs" />
+    <Compile Include="TimeBasedCareSchedule\AutomaticValues\CalculatedValues.cs" />
+    <Compile Include="TimeBasedCareSchedule\Configuration\Configuration.cs" />
     <Compile Include="TimeBasedCare\Configuration\Configuration.cs" />
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCheckInChanges.cs" />
     <Compile Include="TimeBasedCare\EventHandlers\Object_BeforeCreateNewObjectFinalize.cs" />

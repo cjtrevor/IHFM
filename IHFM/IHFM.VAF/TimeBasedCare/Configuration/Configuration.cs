@@ -85,5 +85,9 @@ namespace IHFM.VAF
 
         [MFPropertyDef(Required = true)]
         public MFIdentifier AverageCost = "MFiles.Property.AverageCost";
+
+
+        [MFValueListItem(ValueList = "VL.Tbctype")]
+        public MFIdentifier TBCType_CostedADL = "{1284CE66-9007-4209-B0DC-EB925C2643E8}";
     }
 }
